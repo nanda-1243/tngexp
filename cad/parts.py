@@ -106,7 +106,7 @@ def mp101():
         if lb.startswith('C'): d = 'Ø20 H7 THRU; CBORE Ø33 × 8.5 BOTTOM'
         elif lb.startswith('R'): d = 'M5 THRU (rail screws)'
         elif lb.startswith('M'): d = 'Ø9 THRU (bench mounting, M8)'
-        elif lb == 'PL': d = 'Ø10 × 8 deep (pilot clearance)'
+        elif lb == 'PL': d = 'Ø12 × 8 deep (pilot clearance, Rev E)'
         else: d = 'Ø4 × 90° spot, 1.5 deep (detent)'
         rows.append((lb, f['x'], f['z'], d))
     hole_table(sh, 238, 18, rows)
