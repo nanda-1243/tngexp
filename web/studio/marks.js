@@ -44,7 +44,7 @@
   function halo(ctx, h, g, c, amt){
     amt = amt == null ? 1 : amt;
     if(light(h, c)) h.shadow(ctx, 0.75 * g.k * amt, 'rgba(0,0,0,' + (0.55 * Math.min(1, amt)).toFixed(2) + ')', 0, 0.12 * g.k * amt);
-    else h.shadow(ctx, 0.9 * g.k * amt, 'rgba(255,255,255,' + (0.85 * Math.min(1, amt)).toFixed(2) + ')', 0, 0);
+    else h.shadow(ctx, 0.45 * g.k * amt, 'rgba(255,255,255,' + (0.95 * Math.min(1, amt)).toFixed(2) + ')', 0, 0);
   }
 
   // ---------- text ----------
@@ -125,8 +125,8 @@
     const D = 2 * g.safeR;
     if(pos === 'mc') return { w: D * 0.88, h: D * Math.min(0.75, 1.5 * tall) };
     if(c) return { w: D * 0.76, h: D * tall * 0.62 };
-    if(m) return { w: D * side * 0.6, h: D * tall * 0.75 };
-    return { w: D * side * 0.62, h: D * tall * 0.55 };
+    if(m) return { w: D * side * 0.68, h: D * tall * 0.85 };
+    return { w: D * side * 0.75, h: D * tall * 0.68 };
   }
   // box = { w, h, draw(c) } drawn centred on the origin: scaled to fit lim and the safe area, placed at pos and drawn
   function put(ctx, g, h, pos, box, lim, pad){
@@ -323,13 +323,13 @@
   MS.register({ id: 'signature.monogram', cat: 'signature', name: 'Monogram badge', pos: 'br',
     draw(ctx, g, p, h, o){
       const t = clean(o.text); if(!t) return; const ini = initials(t, 3); if(!ini.chars.length) return;
-      const pos = gridPos(o), lim = room(g, pos, 0.5, 0.42), C = hexOf(ctx, o.color, '#ffffff'), D = 15 * g.k * scaleOf(o), r = D / 2;
-      let ls = (ini.chars.length === 1 ? 0.52 : ini.chars.length === 2 ? 0.42 : 0.33) * D;
+      const pos = gridPos(o), lim = room(g, pos, 0.5, 0.42), C = hexOf(ctx, o.color, '#ffffff'), D = 16 * g.k * scaleOf(o), r = D / 2;
+      let ls = (ini.chars.length === 1 ? 0.58 : ini.chars.length === 2 ? 0.5 : 0.37) * D;
       const parts = () => { const out = []; ini.chars.forEach((ch, i) => {
         if(i && ini.amp) out.push({ L: line(ctx, '&', h.font(ls * 0.72, 'Playfair Display', 400, 'italic')), amp: true });
         out.push({ L: line(ctx, ch, h.font(ls, 'Cormorant Garamond', 700)) }); }); return out; };
       let P = parts(), gp = () => 0.06 * ls, tw = () => P.reduce((s, q) => s + q.L.w, 0) + gp() * (P.length - 1);
-      if(tw() > 0.64 * D){ ls *= 0.64 * D / tw(); P = parts(); }
+      if(tw() > 0.68 * D){ ls *= 0.68 * D / tw(); P = parts(); }
       const capA = Math.max(...P.filter(q => !q.amp).map(q => q.L.a));
       put(ctx, g, h, pos, { w: D, h: D, draw(c){
         c.fillStyle = light(h, C) ? 'rgba(0,0,0,.34)' : 'rgba(255,255,255,.62)'; h.shadow(c, 0.9 * g.k, 'rgba(0,0,0,.25)', 0, 0.2 * g.k);
@@ -713,7 +713,7 @@
     draw(ctx, g, p, h, o){
       const t = clean(o.text).toUpperCase(); if(!t) return;
       const pos = gridPos(o), lim = room(g, pos, 0.7, 0.5), C = hexOf(ctx, o.color, '#ffffff'), al = alignOf(pos);
-      const maxW = Math.min(lim.w, (g.round ? 2 * g.safeR : g.safeW) * 0.62), F = flow(ctx, h, t, maxW, 9 * g.k * scaleOf(o), 'Bebas Neue', 400, null, 3, 0.02);
+      const maxW = Math.min(lim.w, (g.round ? 2 * g.safeR : g.safeW) * 0.5), F = flow(ctx, h, t, maxW, 9 * g.k * scaleOf(o), 'Bebas Neue', 400, null, 3, 0.02);
       const base = F.lines.map(s => line(ctx, s, h.font(F.size, 'Bebas Neue'), 0.02 * F.size)), bw = Math.max(...base.map(L => L.w));
       const Ls = base.map((L, i) => { const s = F.size * Math.min(1.5, bw / Math.max(0.01, L.w)); return line(ctx, F.lines[i], h.font(s, 'Bebas Neue'), 0.02 * s); });
       const gap = 0.14 * F.size, W = Math.max(...Ls.map(L => L.w)), H = Ls.reduce((s, L) => s + L.h, 0) + gap * (Ls.length - 1);

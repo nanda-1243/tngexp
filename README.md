@@ -17,11 +17,13 @@ Interactive build pack (3D model, how the magnet is formed, force chart, dimensi
 | Print packs in [`release/RevD/`](release/RevD/) | Every part as its own file for 3D printing, all eight kits included: `MagPress-M4_RevD_print-STL_half-scale.zip` (fits a 256 mm bed), `…_print-STL_full-size.zip` and `…_print-OBJ_full-size.zip`. Folders by group; the number to print is in each file name. |
 | [`models/`](models/) | 3D models of every part, made and bought (STEP, STL, OBJ), the placed assembly (STEP, GLB, OBJ) and the interference check behind Rev C.1 and Rev D. Printing notes in [`models/README.md`](models/README.md). |
 | [`web/magpress-m4.html`](web/magpress-m4.html) | The build-pack page (single file; three.js from a CDN). |
+| [`web/magnet-studio.html`](web/magnet-studio.html) | **Magnet Studio**: lays your photos out for printing. Pick a size, add photos, choose an outline, pattern, signature, date, brand mark or caption (or one of 34 ready-made looks), and save an A4 or Letter print sheet at true size with cut lines (PDF or 300 dpi PNG). Open it in a browser; the style libraries are in [`web/studio/`](web/studio/). |
+| [`print-templates/`](print-templates/README.md) | Blank print templates (A4 and Letter PDF) and SVG design guides for every size, for designing in other apps. |
 | [`cad/`](cad/) | Python source that generates every drawing and DXF (`build.py`), plus the PDF renderer (`render.js`) and cover images. |
 | [`calc/`](calc/) | `engineering_calcs.py`, the calculations behind every number in the design, and its output `results.txt`. |
 | [`docs/design-notes.md`](docs/design-notes.md) | Architecture, key numbers, height stack, die system and revision history. |
-| [`docs/research/`](docs/research/) | Research: [sources](docs/research/sources.md), [failure review and FMEA](docs/research/failure-review.md), and the [stepped-die study](docs/research/stepped-die-study.md). |
-| [`web/tools/`](web/tools/) | Page smoke test and the cover-image renderer. |
+| [`docs/research/`](docs/research/) | Research: [sources](docs/research/sources.md), [failure review and FMEA](docs/research/failure-review.md), the [stepped-die study](docs/research/stepped-die-study.md), and the [independent review of Rev D](docs/research/design-review-revD.md) with the fixes proposed for Rev E. |
+| [`web/tools/`](web/tools/) | Page smoke test, cover-image renderer, studio style gallery (`studio_gallery.js`) and template generator (`make_templates.js`). |
 
 ## Rebuild
 
