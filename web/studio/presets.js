@@ -19,7 +19,7 @@
     colors: { ink: '#1b1b1b', accent: '#c2410c', paper: '#ffffff' } });
 
   // ---------- wedding / anniversary / save the date ----------
-  reg('wedding-names', 'Wedding names', { photo: true, frame: 'frame.ornate', pattern: null,
+  reg('wedding-names', 'Wedding names', { photo: true, frame: 'frame.double', pattern: null,
     colors: { ink: '#4a3a2e', accent: '#c9a227', paper: '#fffaf3' },
     signature: { style: 'signature.elegant', pos: 'bc', color: W },
     date: { style: 'date.serif', pos: 'tc', color: W, size: 0.85 } });
@@ -28,11 +28,11 @@
     signature: { style: 'signature.script', pos: 'bc', color: W } });
   reg('anniversary-hearts', 'Anniversary hearts', { photo: true, frame: 'frame.hearts', pattern: null,
     colors: { ink: '#4a1c2c', accent: '#c2185b', paper: '#fff5f7' },
-    caption: { style: 'caption.script', pos: 'tc', text: 'Happy Anniversary' },
+    caption: { style: 'caption.script', pos: 'tc', text: 'Happy Anniversary', size: 0.75 },
     date: { style: 'date.ribbon', pos: 'bc' } });
   reg('save-the-date', 'Save the date (marble)', { photo: false, frame: 'frame.double', pattern: 'pattern.marble',
     colors: { ink: '#2f2a24', accent: '#b8932f', paper: '#fbfaf6' },
-    caption: { style: 'caption.title', pos: 'tc', text: 'Save the Date' },
+    caption: { style: 'caption.title', pos: 'tc', text: 'Save the Date', size: 0.85 },
     signature: { style: 'signature.elegant', pos: 'mc', color: '#2f2a24' },
     date: { style: 'date.serif', pos: 'bc', color: '#8a6d1f' } });
   reg('save-the-date-photo', 'Save the date photo', { photo: true, frame: 'frame.inner-rounded', pattern: null,
@@ -50,14 +50,14 @@
     signature: { style: 'signature.marker', pos: 'bc', color: '#e0457b' } });
   reg('new-arrival', 'New arrival', { photo: true, frame: 'frame.polaroid', pattern: null,
     colors: { ink: '#34506b', accent: '#8ec5e8', paper: '#ffffff' },
-    caption: { style: 'caption.script', pos: 'bc', text: 'Welcome, little one' } });
+    caption: { style: 'caption.script', pos: 'bc', text: 'Welcome Baby', size: 0.9 } });
   reg('baby-birth-date', 'Baby birth date', { photo: true, frame: 'frame.dots', pattern: null,
     colors: { ink: '#5b4b6b', accent: '#f4b6c2', paper: '#fff9fb' },
     signature: { style: 'signature.handwritten', pos: 'bc', color: W },
     date: { style: 'date.minimal', pos: 'tc', color: W } });
   reg('kids-name', 'Kid\'s name', { photo: false, frame: 'frame.ring', pattern: 'pattern.stars',
     colors: { ink: '#264653', accent: '#f4a300', paper: '#fff8e7' },
-    caption: { style: 'caption.bold', pos: 'mc', text: 'AARAV' } });
+    caption: { style: 'caption.bold', pos: 'mc', text: 'AARAV', size: 1.8 } });
 
   // ---------- travel / camera / film ----------
   reg('travel-postcard', 'Travel postcard', { photo: true, frame: 'frame.stamp', pattern: null,
@@ -87,11 +87,10 @@
     caption: { style: 'caption.banner', pos: 'mc', text: 'Happy Pongal' } });
   reg('christmas-wreath', 'Christmas wreath', { photo: true, frame: 'frame.wreath', pattern: null,
     colors: { ink: '#1e4d2b', accent: '#b3202a', paper: '#fffaf0' },
-    caption: { style: 'caption.script', pos: 'bc', text: 'Merry Christmas', color: W } });
-  reg('christmas-stars', 'Christmas stars', { photo: false, frame: 'frame.stitch', pattern: 'pattern.stars',
+    caption: { style: 'caption.script', pos: 'bc', text: 'Merry Christmas', color: W, size: 0.7 } });
+  reg('christmas-stars', 'Christmas stars', { photo: false, frame: 'frame.dots', pattern: 'pattern.stars',
     colors: { ink: '#fff8ec', accent: '#e9c46a', paper: '#1e4d2b' },
-    caption: { style: 'caption.title', pos: 'mc', text: 'Merry Christmas', color: '#fff8ec' },
-    date: { style: 'date.minimal', pos: 'bc', color: '#e9c46a' } });
+    caption: { style: 'caption.title', pos: 'mc', text: 'Merry Christmas', color: '#fff8ec' } });
   reg('neon-party', 'Neon party', { photo: true, frame: 'frame.neon', pattern: null,
     colors: { ink: '#ffffff', accent: '#ff3fa4', paper: '#160a2b' },
     caption: { style: 'caption.bold', pos: 'tc', text: 'Let\'s Party', color: W } });
@@ -106,15 +105,15 @@
     signature: { style: 'signature.handwritten', pos: 'bc', color: W } });
   reg('pet-paws', 'Paw prints', { photo: false, frame: 'frame.keyline', pattern: 'pattern.paws',
     colors: { ink: '#3d405b', accent: '#e07a5f', paper: '#fdf3e7' },
-    caption: { style: 'caption.bold', pos: 'mc', text: 'Woof!' },
+    caption: { style: 'caption.bold', pos: 'mc', text: 'Woof!', size: 1.4 },
     signature: { style: 'signature.marker', pos: 'bc', color: '#c4573e' } });
   reg('thank-you', 'Thank you', { photo: false, frame: null, pattern: 'pattern.floral',
     colors: { ink: '#5d4037', accent: '#e5989b', paper: '#fffaf7' },
     caption: { style: 'caption.script', pos: 'mc', text: 'Thank You' },
     brand: { style: 'brand.wordmark', pos: 'bc' } });
-  reg('quote', 'Quote', { photo: false, frame: 'frame.keyline', pattern: 'pattern.gradient',
+  reg('quote', 'Quote', { photo: false, frame: 'frame.ornate', pattern: 'pattern.gradient',
     colors: { ink: '#23395b', accent: '#7aa6c2', paper: '#ffffff' },
-    caption: { style: 'caption.quote', pos: 'mc', text: 'Collect moments, not things' } });
+    caption: { style: 'caption.quote', pos: 'mc', text: 'Collect moments, not things', size: 1.6 } });
 
   // ---------- brand / business ----------
   reg('brand-promo', 'Brand promo', { photo: true, frame: 'frame.keyline', pattern: null,
@@ -136,8 +135,8 @@
     date: { style: 'date.calendar', pos: 'br' } });
   reg('business-card', 'Business card', { photo: false, frame: 'frame.double', pattern: null,
     colors: { ink: '#292524', accent: '#b45309', paper: '#f7f4ee' },
-    brand: { style: 'brand.wordmark', pos: 'mc' },
-    caption: { style: 'caption.title', pos: 'bc', text: 'www.yourshop.in', size: 0.7 } });
+    brand: { style: 'brand.wordmark', pos: 'mc', size: 1.9 },
+    caption: { style: 'caption.title', pos: 'bc', text: 'www.yourshop.in', size: 0.5 } });
   reg('brand-seal', 'Brand seal', { photo: false, frame: 'frame.ring', pattern: 'pattern.terrazzo',
     colors: { ink: '#1f2a2e', accent: '#d9825b', paper: '#faf6f0' },
     brand: { style: 'brand.seal', pos: 'mc' } });
