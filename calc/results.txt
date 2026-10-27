@@ -23,15 +23,16 @@ Station pilot (tip 84 below the ram, table top at 30, ram bottom at 134 open): e
 ================================================================================================
 2. FORCE NEEDED PER SIZE (ESTIMATE)
 ================================================================================================
-Basis: 7 N per mm of shell edge (scaled from the round-badge figures in US 4,696,086) x 2.2 for the final crimp.
-5050  edge 193 mm  peak 2.97 kN  hand force at the end of the stroke 96 N
-6363  edge 247 mm  peak 3.81 kN  hand force at the end of the stroke 122 N
-5380  edge 259 mm  peak 3.99 kN  hand force at the end of the stroke 128 N
-6590  edge 303 mm  peak 4.67 kN  hand force at the end of the stroke 150 N
-D44  edge 138 mm  peak 2.13 kN  hand force at the end of the stroke 68 N
-D50  edge 157 mm  peak 2.42 kN  hand force at the end of the stroke 78 N
-D56  edge 176 mm  peak 2.71 kN  hand force at the end of the stroke 87 N
-D58  edge 182 mm  peak 2.81 kN  hand force at the end of the stroke 90 N
+Basis: 7 N per mm of shell edge (scaled from the round-badge figures in US 4,696,086) x 2.2 for the final crimp. Prove it on the prototype.
+Hand force at the stop = (crimp + 1.62 kN of springs) / (0.84 x MA 34.6). Rev E corners R1 (sharp-cornered magnets).
+5050  edge 198 mm  crimp 3.05 kN  hand force at the stop 161 N
+6363  edge 252 mm  crimp 3.89 kN  hand force at the stop 190 N
+5380  edge 264 mm  crimp 4.07 kN  hand force at the stop 196 N
+6590  edge 308 mm  crimp 4.75 kN  hand force at the stop 219 N
+D44  edge 138 mm  crimp 2.13 kN  hand force at the stop 129 N
+D50  edge 157 mm  crimp 2.42 kN  hand force at the stop 139 N
+D56  edge 176 mm  crimp 2.71 kN  hand force at the stop 149 N
+D58  edge 182 mm  crimp 2.81 kN  hand force at the stop 152 N
 
 ================================================================================================
 3. HANDLE: REV A SCREWED BAR vs REV B/C ONE-PIECE LEVER
@@ -52,13 +53,18 @@ Crown at  8 kN: 96 MPa, 0.13 mm
 Crown at 16 kN: 192 MPa, 0.27 mm
 Crown at the slot-wall reliefs (Rev C.1),  8 kN: 106 MPa
 Crown at the slot-wall reliefs (Rev C.1), 16 kN: 212 MPa
+Crown 80 wide at the cheek-bolt line,  6.4 kN: I 22021 mm4, 171 MPa (bottom) / 149 MPa (top)
+Crown 80 wide at the cheek-bolt line, 16.0 kN: I 22021 mm4, 426 MPa (bottom) / 373 MPa (top)
+Crown 120 wide at the cheek-bolt line,  6.4 kN: I 74328 mm4, 48 MPa (bottom) / 46 MPa (top)
+Crown 120 wide at the cheek-bolt line, 16.0 kN: I 74328 mm4, 121 MPa (bottom) / 116 MPa (top)
+Rev E crown: 120 wide (C45 N, Re about 305-340 MPa).
 Base 12 mm:  5 kN 55 MPa 0.16 mm;  15 kN 164 MPa 0.48 mm;  16 kN 175 MPa 0.51 mm
 Base 15 mm:  5 kN 35 MPa 0.08 mm;  15 kN 105 MPa 0.24 mm;  16 kN 112 MPa 0.26 mm
 
 ================================================================================================
 5. MASSES (estimate, kg)
 ================================================================================================
-Frame                     26.1   (base plate 15 mm 17.54, rails + keepers 1.80, stop blocks, stop pin, knobs, plunger 0.30, die table (6061) 1.65, columns 1.42, crown 3.31, column nuts + washers 0.09)
+Frame                     28.1   (base plate 15 mm 17.54, rails + keepers 1.80, stop blocks, stop pin, knobs, plunger 0.30, die table (6061) 1.65, columns 1.42, crown 5.27, column nuts + washers 0.09)
 Ram assembly               5.1   (ram 4.33, ram bushings 0.21, clevis 0.09, die holder 0.16, return rods + nuts 0.27, station pilot 0.03)
 Drive                      3.1   (pivot cheeks 0.55, handle lever 1.82, grip (TPR) 0.05, toggle links 0.17, pins O, A, B 0.19, spacers 0.04, return springs 0.24)
 Universal die, upper       2.2   (upper die body 144 x 116 x 10 1.30, shank + shim + pins 0.05, upper carrier 0.89)
@@ -67,7 +73,7 @@ Size kit 5050               3.12   (plug 0.29, upper ring 0.66, pickup ring A 0.
 Size kit 6363               3.22   (plug 0.46, upper ring 0.49, pickup ring A 0.53, pickup pedestal 0.68, crimp ring B 0.53, crimp anvil 0.54)
 Size kit 5380               3.24   (plug 0.49, upper ring 0.47, pickup ring A 0.50, pickup pedestal 0.71, crimp ring B 0.50, crimp anvil 0.56)
 Size kit 6590               3.35   (plug 0.67, upper ring 0.29, pickup ring A 0.31, pickup pedestal 0.99, crimp ring B 0.31, crimp anvil 0.78)
-Press with the heaviest kit fitted   45.2 kg
+Press with the heaviest kit fitted   47.2 kg
 Die steel for all four sizes: Rev C 20.5 kg (universal die + 4 kits)  vs  Rev B 35.0 kg (4 complete sets)
 Size kit D44                3.05   (plug 0.18, upper ring 0.77, pickup ring A 0.82, pickup pedestal 0.25, crimp ring B 0.82, crimp anvil 0.20)
 Size kit D50                3.08   (plug 0.23, upper ring 0.72, pickup ring A 0.77, pickup pedestal 0.33, crimp ring B 0.77, crimp anvil 0.26)

@@ -12,7 +12,7 @@ os.makedirs(os.path.join(OUT, 'svg'), exist_ok=True)
 
 Q.mp001()
 for fn in (P.mp101, P.mp102, P.mp103, P.mp104, P.mp105, P.mp106, P.mp107, P.mp108, P.mp109, P.mp110, P.mp111,
-           P.mp112, P.mp113, P.mp114, P.mp116, P.mp117, P.mp118, P.mp119, P.mp120,
+           P.mp112, P.mp113, P.mp114, P.mp116, P.mp117, P.mp118, P.mp119, P.mp120, P.mp121,
            Q.mp201, Q.mp202, Q.mp203, Q.mp204, Q.mp205, Q.mp206, Q.mp207, Q.mp208, Q.mp209, Q.mp210, Q.mp211, Q.mp212, Q.mp223, Q.mp224, Q.mp226, Q.mp227, Q.mp228, Q.mp229):
     fn()
 listing = [[s.no, s.title, s.qty, str(i + 2)] for i, s in enumerate(P.SHEETS)]
@@ -30,9 +30,9 @@ html = ('<!doctype html><html><head><meta charset="utf-8"><style>@page{size:420m
         'html,body{margin:0;padding:0}.pg{width:420mm;height:297mm;page-break-after:always;overflow:hidden}'
         '.pg:last-child{page-break-after:auto}</style></head><body>' + ''.join('<div class="pg">%s</div>' % p for p in pages) + '</body></html>')
 open(os.path.join(OUT, 'set.html'), 'w').write(html)
-zp = os.path.join(OUT, 'MagPress-M4_DXF_RevD.zip')
+zp = os.path.join(OUT, 'MagPress-M4_DXF_RevE.zip')
 with zipfile.ZipFile(zp, 'w', zipfile.ZIP_DEFLATED) as z:
-    readme = ('MagPress M4 Rev D - DXF profiles (R12, mm, 1:1).\n'
+    readme = ('MagPress M4 Rev E - DXF profiles (R12, mm, 1:1).\n'
               'Layers: OUTLINE (cut), HOLES (through holes, true size), TAP_DRILL (tap drill size - tap after cutting),\n'
               'COUNTERBORE (c\'bore diameter - machine to depth per drawing), POCKET (blind pocket outline), SPOT.\n'
               'Plan views: X right, front of the press at the bottom (crown/ram: front to the right).\n'

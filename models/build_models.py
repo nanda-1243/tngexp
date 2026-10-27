@@ -218,7 +218,7 @@ def solve_psi():
 PSI = solve_psi()
 A_Y, A_Z = lever_pt(A_U, A_W, PSI)
 LINK_ANG = math.degrees(math.atan2(A_Z - B_Z, -A_Y))
-Y_REST = P2.lever_rest_height()   # lever underside over the front column at the 3 deg stop
+Y_REST = P2.lever_rest_height(3.0, 62.0)   # Rev E: lever underside over the handle-stop post (crown, Z +62) at the 3 deg stop
 
 
 # =====================================================================================
@@ -253,7 +253,7 @@ def mp103(csk, plain, yh):
     s = box(460, 20, 4)
     tools = []
     for x in csk:
-        tools += [cyl(5.5, 4 + 2 * E, x, yh, -E), cone(5.5, 10.4 + 2 * E, 2.45 + E, x, yh, 4 - 2.45)]
+        tools += [cyl(5.5, 4 + 2 * E, x, yh, -E), cone(5.5, 11.5 + 2 * E, 3.0 + E, x, yh, 4 - 3.0)]
     tools += [cyl(5.5, 4 + 2 * E, x, yh, -E) for x in plain]
     return cut_all(s, tools)
 
@@ -276,12 +276,18 @@ def mp106():
 
 
 def mp107():
-    s = stepped([(20, 6.5), (25, 158), (20, 25), (16, 16)])
-    return cut_all(s, [cyl(10, 15 + E, z0=-E), cyl(10, 15 + E, z0=205.5 - 15)])
+    s = stepped([(20, 6.2), (25, 158), (20, 24.5), (16, 20)])
+    return cut_all(s, [cyl(10, 15 + E, z0=-E)])
 
 
 def mp108():
-    return plate(DR.rrect(0, 0, 80, 250, 0), 25, P.crown_feats())
+    return plate(DR.rrect(0, 0, 120, 250, 0), 25, P.crown_feats())
+
+
+def mp121():
+    """handle-stop post: M10 stud into the crown (z < 0), Ø20 body, M10 x 1 x 12 hole in the top"""
+    s = cyl(10, 12, z0=-12).fuse(cyl(20, 14))
+    return cut_all(s, [cyl(10, 12 + E, z0=14 - 12)])
 
 
 def mp109():
@@ -307,7 +313,7 @@ def mp110():
 
 def mp111():
     s = stepped([(50, 11), (24, 4)])
-    tools = [cyl(16, 15 + 2 * E, z0=-E), cyl(4, 6 + E, 0, -20, -E), cyl(5, 25 - 7.5, 7.5, 0, 5.5, axis=(1, 0, 0))]
+    tools = [cyl(16, 15 + 2 * E, z0=-E), cyl(4, 6 + E, 0, -20, -E), cyl(5, 25 - 7.5, 7.5, 0, 7.0, axis=(1, 0, 0))]
     for a in (45, 135, 225, 315):
         x, y = 20 * math.cos(math.radians(a)), 20 * math.sin(math.radians(a))
         tools += [cyl(5.5, 11 + 2 * E, x, y, -E), cyl(9, 3.8 + E, x, y, -E)]
@@ -353,11 +359,11 @@ def mp118():
 
 
 def mp119():
-    return tube(24, 16.2, 10)
+    return tube(24, 16.2, 9.75)
 
 
 def mp120():
-    return revolve([(0, 0), (1.7, 0), (4, 4), (4, 84), (3, 84), (3, 96), (0, 96)])
+    return revolve([(0, 0), (1.7, 0), (5, 5.7), (5, 88), (3, 88), (3, 98), (0, 98)])
 
 
 # =====================================================================================
@@ -365,12 +371,12 @@ def mp120():
 # =====================================================================================
 def mp201():
     o, T, fs = P2.body()
-    return plate(o, T, fs, [cyl(6, 52 + E, P2.PIN_X, -58 - E, 4, axis=(0, 1, 0))])
+    return plate(o, T, fs, [cyl(6, P2.PIN_X1 - P2.PIN_X0 + E, P2.PIN_X0 - E, -P2.PIN_Z, 4, axis=(1, 0, 0))])
 
 
 def mp202():
-    s = stepped([(10, 9), (16, 15)])
-    groove = revolve([(6.5, 15.5), (8 + E, 15.5 - 1.5 - E), (8 + E, 15.5 + 1.5 + E)])
+    s = stepped([(10, 4), (12, 6), (16, 15)])
+    groove = revolve([(6.5, 16.5), (8 + E, 16.5 - 1.5 - E), (8 + E, 16.5 + 1.5 + E)])
     return cut_all(s, [groove])
 
 
@@ -405,9 +411,9 @@ def mp204(X, Z):
     o, T, fs = P2.ring(X, Z, 'U')
     extra = []
     for x in (-X / 4, X / 4):
-        extra.append(cyl(4, 81 + 2, x, -40.5 - 1, 3.5, axis=(0, 1, 0)))           # N: M4 radial, both long faces
+        extra.append(cyl(3, 81 + 2, x, -40.5 - 1, 1.8, axis=(0, 1, 0)))           # N: M3 radial, both long faces
     for sx in (-1, 1):
-        extra.append(cone(6 + 2 * E, 3, 1.5 + E, sx * (53 + E), 0, 7, axis=(-sx, 0, 0)))   # M: thumb-screw dimples
+        extra.append(cyl(3.6, 3.5 + E, sx * (53 + E), 0, 7, axis=(-sx, 0, 0)))    # M: dog-point holes
     return plate(o, T, fs, extra)
 
 
@@ -422,20 +428,24 @@ def mp207(X, Z):
 
 
 def mp208(X, Z):
+    """Rev E flat-fold anvil: block to the edge top, floor round the platform, cove R0.7 at the edge (cad/parts2.ANV)"""
     o, T, fs = P2.anvil(X, Z)
-    s = rr(X + 0.3, Z + 0.3, 4.15, 16)
-    plat = cq.Solid.makeLoft([wire(DR.rrect(0, 0, X - 4.0, Z - 4.0, 2.2), 16), wire(DR.rrect(0, 0, X - 4.5, Z - 4.5, 2.5), 17)], True)
-    s = s.fuse(plat).clean()
-    path = wire(DR.rrect(0, 0, X - 2.0, Z - 2.0, 3.0), 16)
-    start = V(-(X - 2.0) / 2 + 3.0, -(Z - 2.0) / 2, 16)
-    ring_ = cq.Solid.sweep(cq.Wire.makeCircle(1.0, start, V(1, 0, 0)), [], path, transitionMode='round')
-    return cut_all(s.cut(ring_), feat_tools(T, fs))
+    a = P2.ANV
+    bw, bz, ci = X + a['block'], Z + a['block'], 2 * a['cove']
+    s = rr(bw, bz, a['r'], a['top'])
+    top = rr(bw - ci, bz - ci, 0.5, a['top'] - a['floor'] + E).translate(V(0, 0, a['floor']))
+    path = wire(DR.rrect(0, 0, bw - ci, bz - ci, 0.5), a['top'])
+    start = V(-(bw - ci) / 2 + 0.5, -(bz - ci) / 2, a['top'])
+    cove = cq.Solid.sweep(cq.Wire.makeCircle(a['cove'], start, V(1, 0, 0)), [], path, transitionMode='round')
+    plat = rr(X - a['plat_in'], Z - a['plat_in'], 0.5, a['platform'] - a['floor']).translate(V(0, 0, a['floor']))
+    s = s.cut(top).cut(cove).fuse(plat).clean()
+    return cut_all(s, feat_tools(T, fs))
 
 
 def mp209(X, Z):
     o, T, fs = P2.ring(X, Z, 'B')
-    cx, cz = X + 0.45, Z + 0.45
-    lead = cq.Solid.makeLoft([wire(DR.rrect(0, 0, cx, cz, 4.2), 15 - 1.2), wire(DR.rrect(0, 0, cx + 1.38, cz + 1.38, 4.2 + 0.69), 15 + E)], True)
+    cx, cz, r = X + 0.45, Z + 0.45, P2.FACE_R + 0.2
+    lead = cq.Solid.makeLoft([wire(DR.rrect(0, 0, cx, cz, r), 15 - 1.2), wire(DR.rrect(0, 0, cx + 1.38, cz + 1.38, r + 0.69), 15 + E)], True)
     return plate(o, T, fs, [lead])
 
 
@@ -450,8 +460,8 @@ def mp223(D):
 
 def mp224(D):
     o, T, fs = P2.ring_r(D, 'U')
-    extra = [cyl(4, 81 + 2, x, -40.5 - 1, 3.5, axis=(0, 1, 0)) for x in (-D / 4, D / 4)]
-    extra += [cone(6 + 2 * E, 3, 1.5 + E, sx * (53 + E), 0, 7, axis=(-sx, 0, 0)) for sx in (-1, 1)]
+    extra = [cyl(3, 81 + 2, x, -40.5 - 1, 1.8, axis=(0, 1, 0)) for x in (-D / 4, D / 4)]
+    extra += [cyl(3.6, 3.5 + E, sx * (53 + E), 0, 7, axis=(-sx, 0, 0)) for sx in (-1, 1)]
     return plate(o, T, fs, extra)
 
 
@@ -467,10 +477,12 @@ def mp227(D):
 
 def mp228(D):
     o, T, fs = P2.anvil_r(D)
-    s = cyl(D + 0.3, 16)
-    plat = cq.Solid.makeLoft([cq.Wire.makeCircle((D - 4.0) / 2, V(0, 0, 16), V(0, 0, 1)), cq.Wire.makeCircle((D - 4.5) / 2, V(0, 0, 17), V(0, 0, 1))], True)
-    s = s.fuse(plat).clean()
-    return cut_all(s.cut(cq.Solid.makeTorus((D - 2.0) / 2, 1.0, V(0, 0, 16), V(0, 0, 1))), feat_tools(T, fs))
+    a = P2.ANV
+    bw = D + a['block']
+    s = cyl(bw, a['top']).cut(cyl(bw - 2 * a['cove'], a['top'] - a['floor'] + E, z0=a['floor']))
+    s = s.cut(cq.Solid.makeTorus(bw / 2 - a['cove'], a['cove'], V(0, 0, a['top']), V(0, 0, 1)))
+    s = s.fuse(cyl(D - a['plat_in'], a['platform'] - a['floor'], z0=a['floor'])).clean()
+    return cut_all(s, feat_tools(T, fs))
 
 
 def mp229(D):
@@ -528,18 +540,20 @@ def dowel(d, L):
     return cyl(d, L)
 
 
-def ball_lock_pin():
-    """tip at z = 0; the locking balls are shown retracted."""
-    return cyl(6, 55).fuse(cyl(13, 10, z0=55)).fuse(cyl(5, 2, z0=65))
+def detent_pin():
+    """Rev E quick-release detent pin Ø6, usable length 64: tip at z = 0, collar and ring handle beyond z = 64."""
+    return cyl(6, 64).fuse(cyl(12, 4, z0=64)).fuse(tube(22, 16, 3, z0=68))
 
 
 def plunger():
-    return cyl(4, 7).fuse(cq.Solid.makeSphere(1.0, V(0, 0, 0)))
+    """M3 ball plunger: ball centre at z = 0."""
+    return cyl(3, 6).fuse(cq.Solid.makeSphere(0.75, V(0, 0, 0)))
 
 
 def thumb_screw():
-    head = cut_all(cyl(12, 6, z0=20.5), [cyl(1.6, 6 + 2 * E, 6 * math.cos(math.radians(a)), 6 * math.sin(math.radians(a)), 20.5 - E) for a in range(0, 360, 30)])
-    return set_screw(5, 20.5).fuse(head)
+    """dog-point thumb screw: Ø3.5 x 3 dog, M5 x 19, knurled head."""
+    head = cut_all(cyl(12, 6, z0=22), [cyl(1.6, 6 + 2 * E, 6 * math.cos(math.radians(a)), 6 * math.sin(math.radians(a)), 22 - E) for a in range(0, 360, 30)])
+    return cyl(3.4, 3).fuse(cyl(5, 19, z0=3)).fuse(head)
 
 
 def bumper():
@@ -585,7 +599,7 @@ def build():
     part('MP-104', 'Station stop block', 'make', 'Frame', mp104(), 'oxide', [at(-101, 76.5, 34.05), at(101, 76.5, 34.05)])
     part('MP-105', 'Die table (slide)', 'make', 'Die table', mp105(), 'gold', [at(SX, 0, 18)])
     part('MP-106', 'Die table stop pin', 'make', 'Die table', mp106(), 'oxide', [at(SX, 66, 24)])
-    part('MP-107', 'Column', 'make', 'Frame', mp107(), 'chrome', [at(0, -105, 11.5), at(0, 105, 11.5)])
+    part('MP-107', 'Column', 'make', 'Frame', mp107(), 'chrome', [at(0, -105, 11.8), at(0, 105, 11.8)])
     part('MP-108', 'Crown', 'make', 'Frame', mp108(), 'oxide', [at(0, 0, 176)])
     part('MP-109', 'Ram', 'make', 'Press drive', mp109(), 'oxide', [at(0, 0, 134)])
     part('MP-110', 'Clevis', 'make', 'Press drive', mp110(), 'oxide', [at(0, 0, 162)])
@@ -595,12 +609,13 @@ def build():
     part('MP-113', 'Handle lever (one piece)', 'make', 'Press drive', mp113(), 'oxide', [Tr(*lever_pose, at=(0, 0, OY))])
     link_pose = SIDE_PLATE + (('x', -LINK_ANG),)
     part('MP-114', 'Toggle link', 'make', 'Press drive', mp114(), 'oxide', [Tr(*link_pose, at=(x, 0, B_Z)) for x in (-14, 14)])
-    part('MP-116', 'Pin A / pin B (toggle)', 'make', 'Press drive', pin(40, 12, 11.5, 17.5), 'steel',
-         [Tr(*ALONG_X, at=(-20, A_Y, A_Z)), Tr(*ALONG_X, at=(-20, 0, B_Z))])
+    part('MP-116', 'Pin A / pin B (toggle)', 'make', 'Press drive', pin(39, 12, 11.5, 17.5), 'steel',
+         [Tr(*ALONG_X, at=(-19.5, A_Y, A_Z)), Tr(*ALONG_X, at=(-19.5, 0, B_Z))])
     part('MP-117', 'Pin O (handle pivot)', 'make', 'Press drive', pin(78, 16, 15.2, 36), 'steel', [Tr(*ALONG_X, at=(-39, 0, OY))])
     part('MP-118', 'Return rod', 'make', 'Press drive', mp118(), 'zinc', [at(30, -60, 149), at(-30, 60, 149)])
-    part('MP-119', 'Pivot spacer', 'make', 'Press drive', mp119(), 'bronze', [Tr(*ALONG_X, at=(10, 0, OY)), Tr(*ALONG_X, at=(-20, 0, OY))])
+    part('MP-119', 'Pivot spacer', 'make', 'Press drive', mp119(), 'bronze', [Tr(*ALONG_X, at=(10.1, 0, OY)), Tr(*ALONG_X, at=(-19.85, 0, OY))])
     part('MP-120', 'Station pilot', 'make', 'Press drive', mp120(), 'chrome', [at(0, 65, 50)])
+    part('MP-121', 'Handle-stop post', 'make', 'Frame', mp121(), 'oxide', [at(0, -62, 201)])
 
     # ---------------- universal die ----------------
     part('MP-201', 'Upper die body (universal)', 'make', 'Universal die', mp201(), 'carrier', [at(0, 0, 112)])
@@ -609,7 +624,7 @@ def build():
     part('MP-210', 'Upper carrier (universal)', 'make', 'Universal die', mp210(), 'carrier', [at(0, 0, 92)])
     part('MP-211-A', 'Lower carrier A (universal, pickup)', 'make', 'Universal die', mp211('A'), 'carrier', [at(STA, 0, 48)])
     part('MP-211-B', 'Lower carrier B (universal, crimp)', 'make', 'Universal die', mp211('B'), 'carrier', [at(STB, 0, 48)])
-    part('MP-212', 'Plug stud (size kit, same for every size)', 'make', 'Size kit', mp212(), 'oxide', [at(-18, -14, 104)])
+    part('MP-212', 'Plug stud (size kit, same for every size)', 'make', 'Size kit', mp212(), 'oxide', [at(P2.STUD[0], -P2.STUD[1], 104)])
 
     # ---------------- size kits (all four; kit 6363 is placed in the assembly) ----------------
     for code, X, Z in P.SIZES:
@@ -634,9 +649,9 @@ def build():
 
     # ---------------- bought parts: frame and drive ----------------
     part('BUY-01', 'Rubber pad Ø24 × 3', 'buy', 'Frame', cyl(24, 3), 'rubber',
-         [at(x, y, 0) for (x, y) in ((-200, -80), (200, -80), (-200, 80), (200, 80), (0, -300))], spec='NBR, adhesive')
+         [at(x, y, 0) for (x, y) in ((-200, -80), (200, -80), (-200, 80), (200, 80), (-60, -300), (60, -300))], spec='NBR, adhesive; 6 per press (Rev E: two under the tongue)')
     rail_pts = [(x, -82) for x in P.RAIL_F] + [(x, 82) for x in (-215, -160, -40, 40, 160, 215)]
-    part('BUY-02', 'Countersunk screw M5 × 20 ISO 10642', 'buy', 'Frame', csk_screw(5, 20, 10.4, 3), 'oxide', [at(x, y, 34.05) for (x, y) in rail_pts])
+    part('BUY-02', 'Countersunk screw M5 × 30 ISO 10642', 'buy', 'Frame', csk_screw(5, 30, 11.2, 3), 'oxide', [at(x, y, 33.9) for (x, y) in rail_pts])
     part('BUY-03', 'Cap screw M5 × 35 ISO 4762 (stop blocks)', 'buy', 'Frame', cap_screw(5, 35, 8.5, 5, 4), 'oxide',
          [at(x, 82, 44.55) for x in (-110, -92, 92, 110)])
     stop_nut_x = 116.0
@@ -649,8 +664,8 @@ def build():
     part('BUY-07', 'Column clamp washer Ø32 × 2.5, hardened', 'buy', 'Frame', tube(32, 10.5, 2.5), 'oxide', [at(0, y, 9) for y in (-105, 105)])
     part('BUY-08', 'Nord-Lock washer M16', 'buy', 'Frame', tube(25.4, 17, 3.4), 'steel', [at(0, y, 201) for y in (-105, 105)])
     part('BUY-09', 'Column nut M16 × 1.5', 'buy', 'Frame', nut(24, 13, 16), 'steel', [at(0, y, 204.4) for y in (-105, 105)])
-    part('BUY-10', 'Handle stop screw M10 × 1 × 12, nylon patch (set screw)', 'buy', 'Frame', adj_stop_screw(), 'steel', [at(0, -105, Y_REST - 4 - 12)])
-    part('BUY-12', 'Handle stop cap, urethane Ø16 × 4', 'buy', 'Frame', cyl(16, 4), 'ure', [at(0, -105, Y_REST - 4)])
+    part('BUY-10', 'Handle stop screw M10 × 1 × 12, nylon patch (set screw)', 'buy', 'Frame', adj_stop_screw(), 'steel', [at(0, -62, Y_REST - 4 - 12)])
+    part('BUY-12', 'Handle stop cap, urethane Ø16 × 4', 'buy', 'Frame', cyl(16, 4), 'ure', [at(0, -62, Y_REST - 4)])
     part('BUY-13', 'Flanged bronze bushing 25 × 32 × 33 (ram)', 'buy', 'Press drive', bushing(25, 32, 30, (40, 3)), 'bronze',
          [at(0, y, 134) for y in (-105, 105)], spec='self-lubricating, graphite plugs')
     part('BUY-14', 'PTFE-composite bushing 16 × 18 × 15 (cheeks)', 'buy', 'Press drive', bushing(16, 18, 15), 'ptfe',
@@ -667,6 +682,8 @@ def build():
     part('BUY-20', 'Return spring Ø3.5 wire, OD 31.5 (shown installed, 109.5)', 'buy', 'Press drive', helix_spring(31.5, 3.5, 109.5, 18.4), 'wire',
          [at(30, -60, 201), at(-30, 60, 201)], spec='music wire, free length 128, about 16.4 active coils')
     part('BUY-21', 'Washer Ø32 × 3 (return rod)', 'buy', 'Press drive', tube(32, 10.5, 3), 'zinc', [at(30, -60, 310.5), at(-30, 60, 310.5)])
+    part('BUY-49', 'Spring guide sleeve POM Ø24 × Ø10.5 × 60 (return rod)', 'buy', 'Press drive', tube(24, 10.5, 60), 'ptfe',
+         [at(30, -60, 201), at(-30, 60, 201)], spec='Rev E: centres the return spring on its rod and stops it buckling')
     part('BUY-22', 'Nylock nut M10', 'buy', 'Press drive', nut(17, 10, 10), 'zinc', [at(30, -60, 313.5), at(-30, 60, 313.5)])
     part('BUY-23', 'Urethane bumper Ø16 × 12, M6 stud', 'buy', 'Press drive', bumper(), 'ure', [at(-30, -60, 164), at(30, 60, 164)])
     part('BUY-24', 'Cap screw M8 × 30 ISO 4762 (cheeks)', 'buy', 'Press drive', cap_screw(8, 30, 13, 8, 6), 'oxide',
@@ -679,7 +696,7 @@ def build():
     part('BUY-28', 'Low-head cap screw M5 × 16 DIN 7984 (die holder)', 'buy', 'Press drive', cap_screw(5, 16, 8.5, 3.5, 3), 'oxide',
          [Tr(*DOWN, at=(20 * math.cos(math.radians(a)), 20 * math.sin(math.radians(a)), 126.8)) for a in (45, 135, 225, 315)])
     part('BUY-29', 'Lock screw M5 × 10 ISO 4027, cone point (die holder)', 'buy', 'Press drive', set_screw(5, 10, socket=2.5), 'oxide',
-         [Tr(*ALONG_X, at=(7.0, 0, 128.5))])
+         [Tr(*ALONG_X, at=(7.0, 0, 130.0))])
     part('BUY-30', 'Grip, red TPR Ø32 × 120', 'buy', 'Press drive', grip(), 'red', [grip_place()])
 
     # ---------------- bought parts: die table ----------------
@@ -700,12 +717,12 @@ def build():
          [at(cx + x, y, 52) for cx in (STA, STB) for (x, y) in ret])
     keys = [(STA + x, -z, 52) for (x, z) in P2.KEY['A']] + [(STB + x, -z, 52) for (x, z) in P2.KEY['B']] + [(x, -z, 92) for (x, z) in P2.KEY['U']]
     part('BUY-37', 'Key pin Ø4 × 14', 'buy', 'Universal die', dowel(4, 14), 'steel', [at(*k) for k in keys])
-    part('BUY-38', 'Thumb screw M5, knurled, cone point (upper ring)', 'buy', 'Universal die', thumb_screw(), 'knob',
-         [Tr(*ALONG_X, at=(51.5, 0, 99)), Tr(*ALONG_MX, at=(-51.5, 0, 99))])
-    part('BUY-39', 'Ball-lock pin Ø6, push button, grip 55', 'buy', 'Universal die', ball_lock_pin(), 'stain',
-         [Tr(*TO_FRONT, at=(P2.PIN_X, -6, 116))])
-    part('BUY-40', 'Countersunk screw M5 × 16 ISO 10642 (station bases)', 'buy', 'Universal die', csk_screw(5, 16, 10.4, 3), 'oxide',
-         [Tr(*DOWN, at=(cx + x, -z, 18)) for cx in (STA, STB) for (x, z) in P2.BASE_FIX])
+    part('BUY-38', 'Thumb screw M5, knurled, dog point Ø3.5 × 3 (upper ring)', 'buy', 'Universal die', thumb_screw(), 'knob',
+         [Tr(*ALONG_X, at=(50.0, 0, 99)), Tr(*ALONG_MX, at=(-50.0, 0, 99))])
+    part('BUY-39', 'Quick-release detent pin Ø6, usable length 64, ring handle', 'buy', 'Universal die', detent_pin(), 'stain',
+         [Tr(*ALONG_MX, at=(P2.PIN_X1 - 1, -P2.PIN_Z, 116))])
+    part('BUY-40', 'Countersunk screw M5 × 20 ISO 10642 (station bases)', 'buy', 'Universal die', csk_screw(5, 20, 11.2, 3), 'oxide',
+         [Tr(*DOWN, at=(cx + x, -z, 18.15)) for cx in (STA, STB) for (x, z) in P2.BASE_FIX])
     part('BUY-41', 'Dowel pin Ø6 × 12 (station bases)', 'buy', 'Universal die', dowel(6, 12), 'steel',
          [at(cx + x, -z, 24) for cx in (STA, STB) for (x, z) in P2.BASE_DOWEL])
     part('BUY-42', 'Orientation pin Ø4 × 10', 'buy', 'Universal die', dowel(4, 10), 'steel', [at(0, -20, 116)])
@@ -713,9 +730,9 @@ def build():
     part('BUY-44', 'Puller, M5 T-handle (loose tool)', 'buy', 'Universal die', puller(), 'knob', [])
 
     # ---------------- bought parts: size kit ----------------
-    part('BUY-45', 'Spring plunger M4, nylon tip (upper ring)', 'buy', 'Size kit', plunger(), 'stain',
-         [Tr(*(TO_BACK if sy > 0 else TO_FRONT), at=(x, sy * (31.925 + 1.0 - 0.25), 95.5)) for x in (-63.5 / 4, 63.5 / 4) for sy in (-1, 1)],
-         spec='4 per kit; ball protrudes 0.2-0.3 into the opening')
+    part('BUY-45', 'Ball plunger M3 (upper ring)', 'buy', 'Size kit', plunger(), 'stain',
+         [Tr(*(TO_BACK if sy > 0 else TO_FRONT), at=(x, sy * (31.925 + 0.75 - 0.25), 93.8)) for x in (-63.5 / 4, 63.5 / 4) for sy in (-1, 1)],
+         spec='4 per kit; ball protrudes 0.2-0.3 into the opening, 1.8 above the ring bottom')
     part('BUY-46', 'Dowel pin Ø5 × 14 (plug)', 'buy', 'Size kit', dowel(5, 14), 'steel', [at(x, -z, 104) for (x, z) in P2.PLUG_DOWEL])
     part('BUY-47', 'Dowel pin Ø12 × 15 (pedestal and anvil spigot)', 'buy', 'Size kit', dowel(12, 15), 'steel', [at(STA, 0, 33), at(STB, 0, 33)])
     part('BUY-48', 'Pin Ø4 × 10 (pedestal and anvil anti-rotation)', 'buy', 'Size kit', dowel(4, 10), 'steel', [at(STA, -20, 36), at(STB, -20, 36)])
@@ -887,16 +904,16 @@ def main():
     for x in (-Dm / 4, Dm / 4):
         for sy in (-1, 1):
             k += 1
-            fit('BUY-45', Tr(*(TO_BACK if sy > 0 else TO_FRONT), at=(x, sy * (yb + 1.0 - 0.25), 95.5)), k)
+            fit('BUY-45', Tr(*(TO_BACK if sy > 0 else TO_FRONT), at=(x, sy * (yb + 0.75 - 0.25), 93.8)), k)
     hits_round = overlaps(rnd, skip=lambda a, b: False)
     with open(os.path.join(OUT, 'assembly', 'interference.txt'), 'w') as f:
-        f.write('Interference check, MagPress M4 Rev D assembly (station B under the ram, kit %s)\n' % KIT_SHOWN)
+        f.write('Interference check, MagPress M4 Rev E assembly (station B under the ram, kit %s)\n' % KIT_SHOWN)
         f.write('%d placed parts. Overlaps above 1 mm^3 (touching faces and press fits at the same nominal size are not overlaps).\n' % len(inst))
         f.write('Through the stroke, die parts against die parts are not checked: the spring-loaded rings telescope by design. '
                 'Return springs are not checked (they compress).\n')
         for title, hits in [('Handle up, %.1f deg (as placed in the assembly files)' % PSI, hits_open)] + \
                 [('Handle at %.0f deg%s (ram %.1f mm down)' % (psi, ', on the stop' if psi == POSES[-1] else '', drop), hs) for (psi, drop, hs) in moving] + \
-                [('Rev D: round kit %s fitted instead of kit %s, with its dowels on the inner pattern D2, stud in K2 and plungers, handle up' % (rk, KIT_SHOWN), hits_round)]:
+                [('Round kit %s fitted instead of kit %s, with its dowels on the inner pattern D2, stud in K2 and plungers, handle up' % (rk, KIT_SHOWN), hits_round)]:
             f.write('\n%s:\n' % title)
             for a_, b_, v in sorted(hits, key=lambda h: -h[2]):
                 f.write('  %-14s x %-14s %10.1f mm^3\n' % (a_, b_, v))

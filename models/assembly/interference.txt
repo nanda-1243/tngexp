@@ -1,5 +1,5 @@
-Interference check, MagPress M4 Rev D assembly (station B under the ram, kit 6363)
-186 placed parts. Overlaps above 1 mm^3 (touching faces and press fits at the same nominal size are not overlaps).
+Interference check, MagPress M4 Rev E assembly (station B under the ram, kit 6363)
+190 placed parts. Overlaps above 1 mm^3 (touching faces and press fits at the same nominal size are not overlaps).
 Through the stroke, die parts against die parts are not checked: the spring-loaded rings telescope by design. Return springs are not checked (they compress).
 
 Handle up, 64.9 deg (as placed in the assembly files):
@@ -20,7 +20,7 @@ Handle at 10 deg (ram 37.2 mm down):
 Handle at 3 deg, on the stop (ram 38.9 mm down):
   none
 
-Rev D: round kit D58 fitted instead of kit 6363, with its dowels on the inner pattern D2, stud in K2 and plungers, handle up:
+Round kit D58 fitted instead of kit 6363, with its dowels on the inner pattern D2, stud in K2 and plungers, handle up:
   none
 
 Parts reaching below the bench (Z < 0):

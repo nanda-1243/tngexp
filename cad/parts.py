@@ -68,7 +68,7 @@ def base_feats():
         f.append(feat(x, z, 'hole', d=9, thru=True, label='M%d' % n)); n += 1
     f.append(feat(-80, 45, 'spot', d=4, depth=1.5, label='D1'))
     f.append(feat(80, 45, 'spot', d=4, depth=1.5, label='D2'))
-    f.append(feat(0, -65, 'hole', d=10, depth=8, side='top', label='PL'))
+    f.append(feat(0, -65, 'hole', d=12, depth=8, side='top', label='PL'))
     return f
 
 
@@ -80,7 +80,7 @@ def mp101():
                     'Face both sides to 15.0 ±0.1. Flatness 0.05 over the slide area X ±230 × Z ±75, Ra 1.6.',
                     'C1/C2 Ø20 H7 at 210.00 ±0.01: same datum and program as crown MP-108 and ram MP-109. CBORE Ø33 × 8.5 from the BOTTOM (Rev C.1, was 4.5): the M10 × 16 DIN 7984 clamp screw and Ø32 × 2.5 washer sit flush with the underside.',
                     'M1–M6: Ø9 THRU bench-mounting holes (M8). Underside: five 3 mm adhesive rubber pads Ø24 at (±200, ±80) and (0, 300).',
-                    'PL: Ø10 × 8 deep clearance for the station pilot MP-120. D1/D2: Ø4 × 90° spots, 1.5 deep (table detents).',
+                    'PL: Ø12 × 8 deep clearance for the station pilot MP-120. D1/D2: Ø4 × 90° spots, 1.5 deep (table detents).',
                     'Hole positions from datum O (midpoint of C1–C2). X to the right; Z toward the front (tongue).'] + GEN)
     v = View(sh, 125, 80, 2.5)
     v.segs(base_outline())
@@ -157,7 +157,7 @@ def mp103():
     sh = new('MP-103', 'KEEPER STRIP (GIB)', scale='1:2', qty='2 (1 × -F, 1 × -B)',
              material='C45 bright flat 20 × 4', finish='Black oxide',
              notes=['Sits on top of the guide rail and overlaps the die table edge by 5 mm (inner edge).',
-                    'Countersunk holes: Ø5.5 THRU, 90° countersink to Ø10.4 (for M5 ISO 10642), from top.',
+                    'Countersunk holes: Ø5.5 THRU, 90° countersink to Ø11.5 (M5 ISO 10642, head Ø11.2), from top; heads 0.15 below the surface. Rev E: Ø10.4 left the heads 0.4 proud. Screws M5 × 30 (Rev E, was × 20) for full thread in the base.',
                     'Variant -B: four plain Ø5.5 holes at X ±92 and ±110 for the stop-block screws (no countersink).',
                     'Hole line 12.0 from the inner edge. Hole X positions measured from the strip centre.'] + GEN)
     for (var, csk, plain, oy) in [('-F (front)', RAIL_F, [], 60), ('-B (back)', [-215, -160, -40, 40, 160, 215], [-110, -92, 92, 110], 150)]:
@@ -185,7 +185,7 @@ def mp104():
     sh = new('MP-104', 'STATION STOP BLOCK', scale='2:1', qty='2',
              material='C45 bright 30 × 16 flat', finish='Black oxide',
              notes=['Bolted through keeper MP-103-B and rail MP-102-B into the base with 2 × M5 × 35 ISO 4762 + threadlocker.',
-                    'Stop screw: M6 × 0.75 × 40 hex screw + thin lock nut (bought; Rev C.1, 25 could not reach through the block). Coarse stop only: the pilot MP-120 sets the exact station position.',
+                    'Stop screw: M6 × 0.75 × 40 hex screw + thin lock nut (bought). Coarse stop only: the pilot MP-120 sets the exact station position. Rev E: set each stop 0.3 PAST its station, so the pilot always pulls the table back, never forward against the stop.',
                     'The 7 mm overhang (Z 20–27) sits above the die table; the table stop pin MP-106 hits the screw tip.',
                     'Z measured from the back face (the face over the keeper).'] + GEN)
     v = View(sh, 90, 50, 0.5)
@@ -241,13 +241,13 @@ def table_feats():
     n = 1
     for cx in (-80, 80):
         for (x, z) in ((-35, -35), (35, -35), (-35, 35), (35, 35)):
-            f.append(feat(cx + x, z, 'hole', d=5.5, thru=True, csk=10.4, side='bot', label='F%d' % n)); n += 1
+            f.append(feat(cx + x, z, 'hole', d=5.5, thru=True, csk=11.5, side='bot', label='F%d' % n)); n += 1
     n = 1
     for cx in (-80, 80):
         for x in (-45, 45):
-            f.append(feat(cx + x, 0, 'hole', d=6, depth=10, label='G%d' % n, ldy=4)); n += 1
+            f.append(feat(cx + x, 0, 'hole', d=6, thru=True, label='G%d' % n, ldy=4)); n += 1
     f += [feat(0, -66, 'tap', m='M4', depth=8, label='S'), feat(0, 45, 'tap', m='M6', thru=True, label='BP'),
-          feat(-80, -65, 'hole', d=8, thru=True, label='PA', ldy=4), feat(80, -65, 'hole', d=8, thru=True, label='PB', ldy=4),
+          feat(-80, -65, 'hole', d=10, thru=True, label='PA', ldy=4), feat(80, -65, 'hole', d=10, thru=True, label='PB', ldy=4),
           feat(-163, 0, 'tap', m='M5', depth=8, label='K1'), feat(163, 0, 'tap', m='M5', depth=8, label='K2')]
     return f
 
@@ -257,8 +257,8 @@ def mp105():
              material='EN AW-6061-T6 plate 15 mm, faced to 12.00',
              finish='Hard anodise 25 µm, gold, PTFE-sealed',
              notes=['Thickness 12.00 ±0.01 and flat within 0.03 after anodising. Guide rails MP-102 are 12.05.',
-                    'PA/PB Ø8 H8 THRU take the station pilot MP-120, ±0.02 to the base dowel holes G. Rev C: the station bases MP-205 are fixed for good (F, G); no thumb screws.',
-                    'F1–F8: Ø5.5 THRU, 90° countersink Ø10.4 from the BOTTOM (M5 × 16 ISO 10642, flush). G1–G4: Ø6 H7 × 10 (base dowels).',
+                    'PA/PB Ø10 H8 THRU take the station pilot MP-120 (Rev E: Ø10, was Ø8), ±0.02 to the base dowel holes G. The station bases MP-205 are fixed for good (F, G).',
+                    'F1–F8: Ø5.5 THRU, 90° countersink Ø11.5 from the BOTTOM (M5 × 20 ISO 10642, 0.15 below flush). G1–G4: Ø6 H7 THRU, drilled and reamed in place with the station base aligned (base dowels).',
                     'S: M4 × 8 (stop pin MP-106). BP: M6 THRU (ball plunger). K1/K2: M5 × 8 in the top face (Ø14 push knobs; Rev C.1, the Rev C Ø24 end-face knobs reached below the table into the base).',
                     'Hole positions from the table centre. Station centres at X = −80 (A) and +80 (B), Z = 0.',
                     'Long edges: 0.5 × 45° chamfer only (they run against the rails).'] + GEN)
@@ -277,12 +277,12 @@ def mp105():
     rows = []
     for f in fs:
         lb = f['label']
-        if lb.startswith('F'): d = 'Ø5.5 THRU, CSK Ø10.4 × 90° BOTTOM (base screw)'
+        if lb.startswith('F'): d = 'Ø5.5 THRU, CSK Ø11.5 × 90° BOTTOM (base screw)'
         elif lb.startswith('G'): d = 'Ø6 H7 × 10 deep (base dowel)'
         elif lb == 'S': d = 'M4 × 8 deep (stop pin MP-106)'
         elif lb == 'BP': d = 'M6 THRU (ball plunger)'
         elif lb.startswith('K'): d = 'M5 × 8 deep (push knob Ø14, top face)'
-        else: d = 'Ø8 H8 THRU (station pilot), ±0.02'
+        else: d = 'Ø10 H8 THRU (station pilot), ±0.02'
         rows.append((lb, f['x'], f['z'], d))
     hole_table(sh, 238, 18, rows)
     v.section_mark(-178, 65, 178, 65, 'A', flip=False)
@@ -332,26 +332,24 @@ def mp107():
              material='100Cr6 (52100 / GCr15) Ø30 bar',
              finish='Ø25 section: induction harden 58–62 HRC, hard chrome 8–12 µm, ground to h6, Ra 0.2',
              notes=['Ø25 h6 length 158.00 ±0.02; the two columns matched within 0.01 (sets crown parallelism).',
-                    'Rev C.1: bottom spigot Ø20 p6 × 6.5 (was 10.5), so the base counterbore can be 8.5 deep. Clamp from below: M10 × 16 DIN 7984 + hardened washer Ø32 × 2.5, 40 N·m; head flush with the base underside.',
-                    'Ø20 h6 top spigot passes through the crown (Ø20 H7). Nut M16 × 1.5 + Nord-Lock washer on top, 100 N·m.',
-                    'Rev B: top end M10 × 1 × 15 (both columns). Front column takes the adjustable handle stop: M10 × 1 × 12 set screw with nylon patch + urethane cap (Rev C.1: no jam nut, it had no room).',
+                    'Bottom spigot Ø20 p6 × 6.2 in the 6.5 bore below the base counterbore: the clamp washer bears on the base, not on the spigot end (Rev E, was 6.5). Clamp from below: M10 × 16 DIN 7984 + hardened washer Ø32 × 2.5, 40 N·m; head flush with the base underside.',
+                    'Ø20 h6 top section 24.5 long passes through the 25 crown (Ø20 H7), so the nut clamps the crown, not the column (Rev E, was 25). Nut M16 × 1.5 + Nord-Lock washer on top, 100 N·m; thread 20 long (was 16).',
+                    'Rev E: no tapped hole in the top end (it left a 2 mm wall under the nut thread). The handle stop is on a post on the crown, MP-121.',
                     'Shoulders square to the axis within 0.01. Run-out of all diameters 0.01 to the Ø25 axis.',
                     'Chamfers: ends 1 × 45°; steps 0.5 × 45°. Thread undercut DIN 76-A at the M16 thread end.'] + GEN)
-    segs = [{'l': 6.5, 'd': 20}, {'l': 158, 'd': 25}, {'l': 25, 'd': 20}, {'l': 16, 'd': 16, 'thread': 'M16x1.5'}]
+    segs = [{'l': 6.2, 'd': 20}, {'l': 158, 'd': 25}, {'l': 24.5, 'd': 20}, {'l': 20, 'd': 16, 'thread': 'M16x1.5'}]
     v, pos, Ltot = turned(sh, 95, 90, 1.0, segs)
     tapped_end(v, 0, 'M10', 15, +1)
-    tapped_end(v, Ltot, 'M10x1', 15, -1)
     v.vdim(-10, 3.25, 10, 3.25, 3.25, text='Ø20 p6')
     v.vdim(-12.5, 80, 12.5, 80, 80, text='Ø25 h6')
     v.vdim(-10, 177, 10, 177, 177, text='Ø20 h6')
     v.leader(197, 8, 12, -16, 'M16 × 1.5 – 6g')
-    v.hdim(0, -10, 6.5, -10, -22, text='6.5')
-    v.hdim(6.5, -12.5, 164.5, -12.5, -22, text='158 ±0.02')
-    v.hdim(164.5, -10, 189.5, -10, -22, text='25')
-    v.hdim(189.5, -8, 205.5, -8, -22, text='16')
-    v.hdim(0, -10, 205.5, -8, -32, text='205.5')
+    v.hdim(0, -10, 6.2, -10, -22, text='6.2')
+    v.hdim(6.2, -12.5, 164.2, -12.5, -22, text='158 ±0.02')
+    v.hdim(164.2, -10, 188.7, -10, -22, text='24.5')
+    v.hdim(188.7, -8, 208.7, -8, -22, text='20')
+    v.hdim(0, -10, 208.7, -8, -32, text='208.7')
     v.leader(4, 0, -14, 22, 'M10 × 15 deep\n(drill Ø8.5 × 19)')
-    v.leader(196, 0, 12, 24, 'M10 × 1 × 15 deep\n(drill Ø9 × 19)')
     v.text(100, 0, 'SIDE VIEW', 3.4, dy=48, weight='bold')
 
 
@@ -372,8 +370,24 @@ def pin_sheet(no, title, Ltot, faces, qty, d=12.0, gd=11.5, ring='DIN 471 – 12
     v.text(Ltot / 2, 0, 'SIDE VIEW', 3.4, dy=48, weight='bold')
 
 
-def mp116(): pin_sheet('MP-116', 'PIN A / PIN B (TOGGLE)', 40, 17.5, '2')
+def mp116(): pin_sheet('MP-116', 'PIN A / PIN B (TOGGLE)', 39, 17.5, '2')   # Rev E: 39 (was 40): pin A's ends cleared the cheeks by 0
 def mp117(): pin_sheet('MP-117', 'PIN O (HANDLE PIVOT)', 78, 36.0, '1', d=16.0, gd=15.2, ring='DIN 471 – 16')
+
+
+def mp121():
+    sh = new('MP-121', 'HANDLE-STOP POST', scale='2:1', qty='1',
+             material='C45 Ø20 bar (or 17 a/f hex)', finish='Black oxide',
+             notes=['Rev E: replaces the handle stop in the front column top (its tapped hole weakened the column nut thread).',
+                    'Screws into the crown MP-108, hole T (M10 × 15, Z +62) with Loctite 243, 25 N·m on the 17 a/f flats.',
+                    'Top: M10 × 1 × 12 thread for the adjustable stop (M10 × 1 × 12 set screw with nylon patch + urethane cap Ø16 × 4). Set the screw so the lever rests 3° above horizontal: cap top ≈ 220.5 above the bench (screw ≈ 1.5 proud).'] + GEN)
+    v, pos, Ltot = turned(sh, 110, 110, 0.5, [{'l': 12, 'd': 10, 'thread': 'M10'}, {'l': 14, 'd': 20}])
+    tapped_end(v, Ltot, 'M10x1', 12, -1)
+    v.hdim(0, -5, 12, -5, -14, text='12')
+    v.hdim(12, -10, 26, -10, -16, text='14')
+    v.vdim(-10, 32, 10, 32, 32, text='Ø20, flats 17 a/f')
+    v.leader(6, 5, -6, -14, 'M10 – 6g')
+    v.leader(22, 0, 12, 24, 'M10 × 1 × 12 deep (stop screw)')
+    v.text(13, 0, 'SIDE VIEW', 3.4, dy=34, weight='bold')
 
 
 def mp118():
@@ -382,7 +396,8 @@ def mp118():
              notes=['Bottom thread screws into the ram MP-109 (M10 × 15) with Loctite 243.',
                     'Return spring: music wire Ø3.5 (EN 10270-1 DH), OD 31.5, free length 128, ≈ 16.4 active coils, ends closed and ground, shot-peened.',
                     'Rate ≈ 4.25 N/mm. Installed 109.5 at handle-up (≈ 80 N); 70.6 at handle-down (≈ 245 N, τ ≈ 480 MPa). Solid length ≤ 64.5.',
-                    'Top: Ø32 × 3 washer and M10 nylock nut. The two springs together must lift the handle from the fully-down position.'] + GEN)
+                    'Top: Ø32 × 3 washer and M10 nylock nut. The two springs together must lift the handle from the fully-down position.',
+                    'Rev E: two flats 8 a/f, 6 long, just above the bottom thread (to tighten the rod). A POM guide sleeve Ø24 × Ø10.5 × 60 (BUY-49) on each rod centres the spring and stops it buckling.'] + GEN)
     v, pos, Ltot = turned(sh, 110, 110, 1.0, [{'l': 15, 'd': 10, 'thread': 'M10'}, {'l': 131, 'd': 10}, {'l': 30, 'd': 10, 'thread': 'M10'}])
     v.hdim(0, -5, 15, -5, -16, text='15')
     v.hdim(146, -5, 176, -5, -16, text='30')
@@ -396,12 +411,13 @@ def mp118():
 def mp119():
     sh = new('MP-119', 'PIVOT SPACER', scale='4:1', qty='2',
              material='CuSn8 bronze tube Ø26 × Ø14, or bar', finish='None',
-             notes=['Rev B: bore Ø16.2 for the Ø16 pin O. Fits between the handle lever and each pivot cheek.', 'Faces parallel within 0.02.'] + GEN)
+             notes=['Bore Ø16.2 for the Ø16 pin O. Fits between the handle lever and each pivot cheek.',
+                    'Rev E: 9.75 (was 10): lever 20 + 2 spacers = 39.5 between cheeks 40 apart, so the lever has 0.2–0.6 end float.', 'Faces parallel within 0.02.'] + GEN)
     v = View(sh, 120, 110, 0.25)
-    v.rect(0, -12, 10, -8.1, 'sec'); v.rect(0, 8.1, 10, 12, 'sec')
-    v.line(0, -8.1, 10, -8.1); v.line(0, 8.1, 10, 8.1)
+    v.rect(0, -12, 9.75, -8.1, 'sec'); v.rect(0, 8.1, 9.75, 12, 'sec')
+    v.line(0, -8.1, 9.75, -8.1); v.line(0, 8.1, 9.75, 8.1)
     v.cl_h(-3, 13, 0)
-    v.hdim(0, 12, 10, 12, 17, text='10 ±0.05')
+    v.hdim(0, 12, 9.75, 12, 17, text='9.75 −0.05/−0.10')
     v.vdim(-12, -3, 12, -3, -10, text='Ø24')
     v.vdim(-8.1, 13, 8.1, 13, 18, text='Ø16.2 H9')
     v.text(5, -12, 'SECTION', 3.4, dy=30, weight='bold')
@@ -409,19 +425,21 @@ def mp119():
 
 def mp120():
     sh = new('MP-120', 'STATION PILOT', scale='2:1', qty='1',
-             material='100Cr6 (GCr15) Ø10 bar', finish='Harden 58–62 HRC, grind Ø8 h6, Ra 0.4',
-             notes=['NEW in Rev B. Screwed into the ram underside (MP-109, hole PL) with Loctite 243; tip 84 below the ram.',
+             material='42CrMo4 Ø12 bar, QT 28–32 HRC', finish='Grind Ø10 g6, Ra 0.4; tip nitrided or hard chrome',
+             notes=['Rev E: Ø10 in tough 42CrMo4 (was Ø8 hardened 100Cr6): if the table is held off station it bends, it does not snap. The Ø10 g6 body locates in the ram (Ø10 H7 × 4); the M6 thread only clamps.',
+                    'Screwed into the ram underside (MP-109, hole PL) with Loctite 243 until the shoulder seats; tip 84 below the ram.',
                     'Enters the die table hole PA or PB 6 mm before the dies touch. If the table is more than about 2 mm off a station, the tip lands on the table and stops the stroke with the dies still 6 mm apart.',
                     'Within ±2 mm, the 30° tip pulls the table onto the exact station (±0.02).',
                     'Tip: 30° half-angle cone, 4 long, tip radius R0.5, polished.'] + GEN)
-    v, pos, Ltot = turned(sh, 110, 110, 0.5, [{'l': 12, 'd': 6, 'thread': 'M6'}, {'l': 80, 'd': 8}])
-    v.line(92, 4, 96, 1.7); v.line(92, -4, 96, -1.7); v.line(96, -1.7, 96, 1.7)
-    v.hdim(0, -3, 12, -3, -12, text='12')
-    v.hdim(12, -4, 96, -1.7, -12, text='84')
-    v.hdim(92, 4, 96, 1.7, 10, text='4')
-    v.vdim(-4, 50, 4, 50, 50, text='Ø8 h6')
+    v, pos, Ltot = turned(sh, 110, 110, 0.5, [{'l': 10, 'd': 6, 'thread': 'M6'}, {'l': 84, 'd': 10}])
+    v.line(94, 5, 98, 1.7); v.line(94, -5, 98, -1.7); v.line(98, -1.7, 98, 1.7)
+    v.hdim(0, -3, 10, -3, -12, text='10')
+    v.hdim(10, -5, 14, -5, -20, text='4 in ram')
+    v.hdim(14, -5, 98, -1.7, -12, text='84')
+    v.hdim(94, 5, 98, 1.7, 10, text='4')
+    v.vdim(-5, 50, 5, 50, 50, text='Ø10 g6')
     v.leader(6, 3, -6, -14, 'M6 – 6g')
-    v.leader(94, -2.85, 8, 14, '30° cone, tip R0.5')
+    v.leader(96, -3.35, 8, 14, '30° cone, tip R0.5')
     v.text(48, 0, 'SIDE VIEW', 3.4, dy=34, weight='bold')
 
 
@@ -441,7 +459,8 @@ def zx(feats):
 def crown_feats():
     f = [feat(0, -105, 'hole', d=20, thru=True, label='C1'), feat(0, 105, 'hole', d=20, thru=True, label='C2'),
          feat(0, 13, 'rr', w=38, h=66, r=5, thru=True, label='SLOT'),
-         feat(30, 60, 'hole', d=11, thru=True, label='R1'), feat(-30, -60, 'hole', d=11, thru=True, label='R2')]
+         feat(30, 60, 'hole', d=11, thru=True, label='R1'), feat(-30, -60, 'hole', d=11, thru=True, label='R2'),
+         feat(0, 62, 'tap', m='M10', depth=15, side='top', label='T')]
     n = 1
     for x in (-28, 28):
         for z in (-17, 17):
@@ -454,9 +473,10 @@ def crown_feats():
 
 def mp108():
     sh = new('MP-108', 'CROWN', scale='1:1', qty='1',
-             material='C45 flat 80 × 30, faced to 25', finish='Black oxide',
+             material='C45 flat 120 × 30, faced to 25', finish='Black oxide',
              notes=['C1/C2 Ø20 H7 at 210.00 ±0.01: same datum and program as base MP-101 and ram MP-109.',
-                    'Rev B: return-rod holes R1/R2 moved to X = ±30. Design load raised to 16 kN: 192 MPa (C45 N, Re ≈ 340), 0.27 mm.',
+                    'Rev E: 120 wide (was 80). At the cheek-bolt line the slot, bolt holes and reliefs left the 80 crown at 373–426 MPa at 16 kN; 120 wide takes it to about 120 MPa and carries the whole return-spring seat.',
+                    'T: M10 × 15 from the TOP at Z +62 for the handle-stop post MP-121 (Rev E: the stop moved off the column top).',
                     'K1–K4: Ø9 THRU, CBORE Ø14 × 8.5 from the BOTTOM (M8 × 30 ISO 4762 + Nord-Lock into the cheeks MP-112).',
                     'P1/P2: Ø6 H7 × 8 from the top (cheek dowels). Slot 38 × 66, R5, THRU (links pass through).',
                     'Rev C.1: reliefs in the slot walls, all to X ±21, R1.5. N1/N2 from the BOTTOM, Z −7 to +7, 5 deep: ends of pin B, handle up. N3/N4 from the TOP, Z −2 to +37, 13 deep: ends of pin A, handle down. 212 MPa at 16 kN at the centre section.',
@@ -464,13 +484,14 @@ def mp108():
     fs = crown_feats()
     fz = zx(fs)
     v = View(sh, 150, 75, 1.0)
-    v.segs(rrect(0, 0, 250, 80, 0))
+    v.segs(rrect(0, 0, 250, 120, 0))
     draw_plan_features(v, fz)
     v.cl_h(-130, 130, 0)
     sh.text(292, 124, 'PLAN (TOP)  — FRONT →', 3.4, 'start', weight='bold')
-    v.hdim(-125, 40, 125, 40, 52)
-    v.vdim(40, 125, -40, 125, 135)
-    v.hdim(-105, 0, 105, 0, -48, text='210 ±0.01')
+    v.hdim(-125, 60, 125, 60, 72)
+    v.vdim(60, 125, -60, 125, 135)
+    v.hdim(-105, 0, 105, 0, -68, text='210 ±0.01')
+    lead_to(v, 62, 0, 290, 18, 'T: M10 × 15 (top), handle-stop post', r=5)
     v.hdim(-20, -19, 46, -19, -56, text='66')
     v.hdim(0, 0, 13, 0, -62, text='13')
     v.vdim(19, -20, -19, -20, -32, text='38')
@@ -494,7 +515,7 @@ def mp108():
     v.section_mark(-132, 28, 132, 28, 'B', flip=False)
     vs2.text(0, 0, 'SECTION B–B (X = +28)', 3.4, dy=10, weight='bold')
     vs2.vdim(0, -17, 8.5, -17, -40, text='8.5')
-    dx = DXF(); dx.segs(rrect(0, 0, 250, 80, 0)); feats_dxf(dx, fz); DXFS['MP-108_crown.dxf'] = dx
+    dx = DXF(); dx.segs(rrect(0, 0, 250, 120, 0)); feats_dxf(dx, fz); DXFS['MP-108_crown.dxf'] = dx
 
 
 def ram_feats():
@@ -508,7 +529,7 @@ def ram_feats():
     f += [feat(0, -12, 'tap', m='M5', depth=10, side='top', label='V1'), feat(0, 12, 'tap', m='M5', depth=10, side='top', label='V2'),
           feat(30, 60, 'tap', m='M10', depth=15, side='top', label='R1'), feat(-30, -60, 'tap', m='M10', depth=15, side='top', label='R2'),
           feat(-30, 60, 'tap', m='M6', depth=10, side='top', label='U1'), feat(30, -60, 'tap', m='M6', depth=10, side='top', label='U2'),
-          feat(0, -65, 'tap', m='M6', depth=12, side='bot', label='PL')]
+          feat(0, -65, 'tap', m='M6', depth=14, side='bot', label='PL'), feat(0, -65, 'hole', d=10, depth=4, side='bot', label='PL')]
     return f
 
 
@@ -518,7 +539,9 @@ def mp109():
              notes=['Rev B: width 80 (was 70) to carry the return rods at X = ±30 with full thread walls.',
                     'B1/B2 Ø32 H7 at 210.00 ±0.01 for flanged self-lubricating bronze bushings ID 25 / OD 32 / L 33; same program as MP-101/MP-108.',
                     'Top: clevis pocket 20.02 × 32.02 × 2.0 (R2) with V1/V2 M5 × 10; R1/R2 M10 × 15 (return rods); U1/U2 M6 × 10 (urethane bumpers).',
-                    'Bottom: H Ø24 H7 × 4.2 (die-holder spigot); S1–S4 M5 × 10 on PCD 40 at 45°; Rev B: PL M6 × 12 for the station pilot MP-120.',
+                    'Bottom: H Ø24 H7 × 4.2 (die-holder spigot); S1–S4 M5 × 10 on PCD 40 at 45°; PL Ø10 H7 × 4 + M6 × 14 for the station pilot MP-120 (Rev E: the pilot locates on its Ø10 body, not its thread).',
+                    'V1/V2: M5 thread 10 deep BELOW the pocket floor (Rev E: the section showed 8; the M5 × 25 clevis screws need 8.5).',
+                    'Rev E: after pressing in the bushings, ream the BACK bushing (B2) to Ø25.15: one column guides the ram, the other only stops it turning, so the columns bowing 0.05 under load cannot pinch it.',
                     'Rev C.1: L1/L2 link-clearance pockets on the top, X ±10 to ±19, 15 long, 3 deep, R2, open into the clevis pocket. The R12 link ends dip 2 mm below the ram top.',
                     'Top and bottom faces parallel 0.02. Plan drawn with the front of the press to the right; hidden features are on the bottom.'] + GEN)
     fs = ram_feats()
@@ -590,14 +613,14 @@ def mp111():
              material='42CrMo4 Ø55 bar, QT 28–32 HRC', finish='Black oxide',
              notes=['Spigot Ø24 h6 locates in the ram (Ø24 H7). 4 × M5 × 16 DIN 7984 low-head screws from below + threadlocker.',
                     'Bore Ø16 H7 takes the upper-die shank MP-202. Bottom face (die seat) square to the bore within 0.01, flat 0.01.',
-                    'Lock screw: M5 × 10 ISO 4027 cone-point set screw with nylon patch; seats in the shank V-groove. Check at every die change.',
+                    'Lock screw: M5 × 10 ISO 4027 cone-point set screw with nylon patch; seats in the shank V-groove. Rev E: 7.0 above the die seat (was 5.5), above the groove centre for any shim pack, so it always pulls the shank up. Check at every die change.',
                     'Orientation hole Ø4 H8 × 6 deep in the bottom face at 20 mm radius, on the Z axis toward the FRONT.'] + GEN)
     v = View(sh, 110, 120, 0.5)
     v.rect(-25, 0, -12, 11, 'sec'); v.rect(12, 0, 25, 11, 'sec'); v.rect(-12, 11, -8, 15, 'sec'); v.rect(8, 11, 12, 15, 'sec')
     v.rect(-8, 0, 8, 15, 'ko')
     v.line(-8, 0, -8, 15); v.line(8, 0, 8, 15)
     v.line(-25, 0, -8, 0); v.line(8, 0, 25, 0)
-    v.line(8, 5.5 - 2.5, 25, 5.5 - 2.5, 'thin'); v.line(8, 5.5 + 2.5, 25, 5.5 + 2.5, 'thin')
+    v.line(8, 7.0 - 2.5, 25, 7.0 - 2.5, 'thin'); v.line(8, 7.0 + 2.5, 25, 7.0 + 2.5, 'thin')
     v.cl_v(-4, 19, 0)
     v.text(0, 0, 'SECTION THROUGH X AXIS', 3.2, dy=26, weight='bold')
     v.hdim(-25, 11, 25, 11, 24, text='Ø50')
@@ -605,8 +628,8 @@ def mp111():
     v.hdim(-8, 0, 8, 0, -7, text='Ø16 H7')
     v.vdim(0, -25, 11, -25, -32, text='11')
     v.vdim(11, -12, 15, -12, -32, text='4')
-    v.vdim(0, 25, 5.5, 25, 32, text='5.5')
-    v.leader(20, 5.5, 18, -18, 'M5 radial (lock screw)')
+    v.vdim(0, 25, 7.0, 25, 32, text='7')
+    v.leader(20, 7.0, 18, -18, 'M5 radial (lock screw)')
     vb = View(sh, 280, 120, 0.5)
     vb.circle(0, 0, 25); vb.circle(0, 0, 8); vb.cmark(0, 0, 25)
     for a in (45, 135, 225, 315):

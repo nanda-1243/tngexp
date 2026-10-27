@@ -84,17 +84,23 @@ for t in (0, 10, 20, 26, 30, 35.5, 38, STROKE):
 # ----------------------------------------------------------------------------------------------
 section('2. FORCE NEEDED PER SIZE (ESTIMATE)')
 SIZES = [('5050', 50, 50), ('6363', 63.5, 63.5), ('5380', 80, 53), ('6590', 90, 65)]
-print('Basis: 7 N per mm of shell edge (scaled from the round-badge figures in US 4,696,086) x 2.2 for the final crimp.')
+print('Basis: 7 N per mm of shell edge (scaled from the round-badge figures in US 4,696,086) x 2.2 for the final crimp. Prove it on the prototype.')
+# Rev E (independent review): at the stop the toggle also pushes against the upper die springs (carrier retracted 4.9 of 6: about
+# 1.13 kN) and the two return springs (2 x 245 N), and the pin friction makes the efficiency about 0.84, not 0.9.
+F_SPRINGS, ETA_END = 1130 + 2 * 245, 0.84
+print('Hand force at the stop = (crimp + %.2f kN of springs) / (%.2f x MA %.1f). Rev E corners R1 (sharp-cornered magnets).' % (F_SPRINGS / 1000, ETA_END, MA(PHI_END, L_REV_BC)))
+def hand_end(peak):
+    return (peak + F_SPRINGS) / (ETA_END * MA(PHI_END, L_REV_BC))
 for cd, X, Z in SIZES:
-    r = 4.0
+    r = 1.0
     perim = 2 * (X + Z) - 8 * r + 2 * math.pi * r
     peak = 2.2 * 7 * perim
-    print('%s  edge %.0f mm  peak %.2f kN  hand force at the end of the stroke %.0f N' % (cd, perim, peak / 1000, peak / (ETA * MA(PHI_END, L_REV_BC))))
+    print('%s  edge %.0f mm  crimp %.2f kN  hand force at the stop %.0f N' % (cd, perim, peak / 1000, hand_end(peak)))
 ROUND = [('D44', 44), ('D50', 50), ('D56', 56), ('D58', 58)]     # Rev D round kits
 for cd, Dm in ROUND:
     perim = math.pi * Dm
     peak = 2.2 * 7 * perim
-    print('%s  edge %.0f mm  peak %.2f kN  hand force at the end of the stroke %.0f N' % (cd, perim, peak / 1000, peak / (ETA * MA(PHI_END, L_REV_BC))))
+    print('%s  edge %.0f mm  crimp %.2f kN  hand force at the stop %.0f N' % (cd, perim, peak / 1000, hand_end(peak)))
 
 # ----------------------------------------------------------------------------------------------
 # 3. Handle joint
@@ -132,6 +138,21 @@ I_rel = sum(w * (b - a) ** 3 / 12 + ar * (c - yc) ** 2 for (w, a, b, ar, c) in A
 Z_rel = I_rel / max(yc, 25 - yc)
 for F in (8000, 16000):
     print('Crown at the slot-wall reliefs (Rev C.1), %2d kN: %.0f MPa' % (F / 1000, F * span / 4 / Z_rel))
+# Rev E (independent review): the critical section is the cheek-bolt line (Z = +-17): slot 38, two Ø9 holes with Ø14 x 8.5
+# counterbores from below, and the pin-A reliefs (slot 42 wide over the top 13 mm). The cheeks lift the crown there; the moment
+# is F/2 x (105 - 17) from each column.
+def crown_bolt_line(width):
+    lay = [(width - 38 - 28, 0, 8.5), (width - 38 - 18, 8.5, 12), (width - 42 - 18, 12, 25)]
+    al = [(w, a, b, w * (b - a), (a + b) / 2) for (w, a, b) in lay]
+    yc_ = sum(ar * c for (_, _, _, ar, c) in al) / sum(ar for (_, _, _, ar, _) in al)
+    I_ = sum(w * (b - a) ** 3 / 12 + ar * (c - yc_) ** 2 for (w, a, b, ar, c) in al)
+    return I_, I_ / yc_, I_ / (25 - yc_)
+for width in (80, 120):
+    I_, Zb, Zt = crown_bolt_line(width)
+    for F in (6400, 16000):
+        M = F / 2 * (105 - 17)
+        print('Crown %d wide at the cheek-bolt line, %4.1f kN: I %.0f mm4, %.0f MPa (bottom) / %.0f MPa (top)' % (width, F / 1000, I_, M / Zb, M / Zt))
+print('Rev E crown: 120 wide (C45 N, Re about 305-340 MPa).')
 for t in (12, 15):
     I_b, Z_b = 200 * t ** 3 / 12, 200 * t ** 2 / 6   # 200 mm effective width between the columns
     out = []
@@ -173,7 +194,7 @@ frame = {
     'stop blocks, stop pin, knobs, plunger': 2 * 30 * 27 * 16 * STEEL + 0.10,
     'die table (6061)': (340 * 150 - 2 * circ(8)) * 12 * AL,
     'columns': 2 * (circ(20) * 6.5 + circ(25) * 158 + circ(20) * 25 + circ(16) * 16) * STEEL,
-    'crown': (80 * 250 - 38 * 66 - 2 * circ(20)) * 25 * STEEL,
+    'crown': (120 * 250 - 38 * 66 - 2 * circ(20)) * 25 * STEEL,
     'column nuts + washers': 2 * 0.045,
 }
 ram = {
