@@ -1,0 +1,576 @@
+<title>MagPress Magnet Studio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: three working columns, controls | the magnet you are editing | the print sheet; stacks on a phone. */
+:root{
+  --bg:#ECEEEF; --panel:#FFFFFF; --sunk:#E3E6E8; --stage:#DCE0E3; --ink:#15181B; --ink2:#434B53; --muted:#69727B; --line:#D1D6DA;
+  --accent:#8A6510; --accent-ink:#FFFFFF; --accent-soft:#F4E9C9; --cut:#C0306F; --guide:#1E6EDC; --ok:#2F7A44; --warn:#B4232A;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#111315; --panel:#181B1E; --sunk:#202428; --stage:#1A1E22; --ink:#ECEEF0; --ink2:#B7BEC5; --muted:#8B949C; --line:#2C3136;
+  --accent:#D8B24C; --accent-ink:#1A1405; --accent-soft:#3A3014; --cut:#E8789B; --guide:#6AA8FF; --ok:#5BB774; --warn:#E5534B; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#111315; --panel:#181B1E; --sunk:#202428; --stage:#1A1E22; --ink:#ECEEF0; --ink2:#B7BEC5; --muted:#8B949C; --line:#2C3136;
+  --accent:#D8B24C; --accent-ink:#1A1405; --accent-soft:#3A3014; --cut:#E8789B; --guide:#6AA8FF; --ok:#5BB774; --warn:#E5534B; color-scheme:dark; }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body)}
+.wrap{max-width:1500px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:.01em;margin:0;text-wrap:balance}
+h1{font-size:clamp(30px,4vw,44px);line-height:1}
+.eyebrow{font:500 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.lede{max-width:70ch;color:var(--ink2);margin:8px 0 0}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px;margin-bottom:18px}
+.app{display:grid;gap:16px;grid-template-columns:minmax(290px,350px) minmax(0,1fr) minmax(260px,360px);grid-template-areas:"ctrl mag sheet";align-items:start}
+@media (max-width:1180px){.app{grid-template-columns:minmax(280px,340px) minmax(0,1fr);grid-template-areas:"ctrl mag" "ctrl sheet"}}
+@media (max-width:760px){.app{grid-template-columns:minmax(0,1fr);grid-template-areas:"mag" "ctrl" "sheet"}}
+.ctrl{grid-area:ctrl;display:grid;gap:10px;min-width:0}
+.mag{grid-area:mag;min-width:0}
+.sheet{grid-area:sheet;min-width:0}
+@media (min-width:761px){.mag,.sheet{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}}
+.panel{background:var(--panel);border:1px solid var(--line);min-width:0}
+details.panel>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:10px 14px;font:600 18px var(--f-display)}
+details.panel>summary::-webkit-details-marker{display:none}
+details.panel>summary::after{content:"+";font:500 16px var(--f-mono);color:var(--muted)}
+details.panel[open]>summary::after{content:"–"}
+details.panel>summary .hint{font:400 12px var(--f-mono);color:var(--muted);margin-left:auto}
+.pbody{padding:2px 14px 14px;display:grid;gap:10px}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.lbl{font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+.chips button,.seg button,.btn{font:500 13px var(--f-mono);border:1px solid var(--line);background:var(--sunk);color:var(--ink);padding:6px 8px;min-height:34px;cursor:pointer}
+.chips button[aria-pressed="true"],.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chips button:hover,.seg button:hover,.btn:hover{border-color:var(--ink2)}
+.seg{display:inline-flex;gap:0}.seg button+button{border-left:0}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn:disabled,.seg button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--guide);outline-offset:2px}
+label.chk{display:flex;gap:8px;align-items:center;font-size:14px}
+input[type=text],input[type=date],input[type=number],select{font:14px var(--f-body);color:var(--ink);background:var(--sunk);border:1px solid var(--line);padding:6px 8px;min-height:34px;min-width:0}
+input[type=color]{width:38px;height:34px;border:1px solid var(--line);background:var(--sunk);padding:2px}
+input[type=range]{accent-color:var(--accent);width:100%}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px}
+.thumbs button{display:grid;gap:3px;padding:4px;border:1px solid var(--line);background:var(--sunk);color:var(--ink);cursor:pointer;text-align:center;min-width:0}
+.thumbs button[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:var(--accent-soft)}
+.thumbs canvas{width:100%;aspect-ratio:1;display:block}
+.thumbs span{font:11px/1.2 var(--f-mono);color:var(--ink2);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;min-height:2.4em}
+.drop{border:1.5px dashed var(--line);padding:12px;text-align:center;color:var(--ink2);font-size:14px;background:var(--sunk)}
+.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
+.photos .ph{position:relative;border:1px solid var(--line);background:var(--sunk);aspect-ratio:1;padding:0;cursor:pointer;overflow:hidden}
+.photos .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.photos .ph[aria-pressed="true"]{outline:2px solid var(--accent);outline-offset:-2px}
+.photos .ph .x{position:absolute;top:2px;right:2px;width:22px;height:22px;border:0;background:rgba(0,0,0,.6);color:#fff;font:600 13px/22px var(--f-mono);cursor:pointer;padding:0}
+.photos .ph .tag{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);color:#fff;font:10px/1.6 var(--f-mono);text-align:center}
+.mark{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:6px}
+.mark:first-child{border-top:0;padding-top:0}
+.mark[data-off="true"] .mopts{display:none}
+.mopts{display:grid;gap:6px}
+.stage{background:var(--stage);border:1px solid var(--line);padding:10px;display:grid;gap:8px}
+#magCanvas{width:100%;height:auto;display:block;touch-action:none;cursor:grab;background:var(--stage)}
+#magCanvas.drag{cursor:grabbing}
+#sheetCanvas{width:100%;height:auto;display:block;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.18)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font:12px var(--f-mono);color:var(--ink2)}
+.legend i{display:inline-block;width:18px;height:0;vertical-align:middle;margin-right:5px;border-top:2px dashed var(--guide)}
+.legend i.s{border-top:2px dotted var(--cut)}.legend i.e{border:0;height:10px;background:rgba(0,0,0,.28)}
+.facts{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 12px;font:13px var(--f-mono);margin:0}
+.facts dt{color:var(--muted)}.facts dd{margin:0;font-variant-numeric:tabular-nums}
+.small{font-size:13px;color:var(--ink2)}
+.tips{margin:0;padding-left:18px;font-size:13px;color:var(--ink2);display:grid;gap:3px}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 14px;font:13px var(--f-mono);z-index:20;max-width:calc(100% - 32px)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <span class="eyebrow">MagPress M4 · photo prints for the press</span>
+      <h1>Magnet Studio</h1>
+      <p class="lede">Lay out photos for the press. Pick a size, add your photos, choose an outline and any signature, date, brand or caption, then save a print sheet at true size with the cut lines on it.</p>
+    </div>
+    <div class="row">
+      <button class="btn primary" id="savePdf" type="button">Save print sheet (PDF)</button>
+      <button class="btn" id="savePng" type="button">PNG, 300 dpi</button>
+    </div>
+  </header>
+
+  <div class="app">
+    <!-- ================= controls ================= -->
+    <div class="ctrl">
+      <details class="panel" open>
+        <summary>Size and sheet <span class="hint" id="sheetHint"></span></summary>
+        <div class="pbody">
+          <div class="chips" id="sizeChips" role="group" aria-label="Magnet size"></div>
+          <div class="row">
+            <div class="seg" role="group" aria-label="Orientation"><button type="button" id="oPortrait" aria-pressed="true">Portrait</button><button type="button" id="oLandscape" aria-pressed="false">Landscape</button></div>
+            <div class="seg" role="group" aria-label="Paper"><button type="button" data-paper="A4" aria-pressed="true">A4</button><button type="button" data-paper="Letter" aria-pressed="false">Letter</button></div>
+          </div>
+          <div class="row">
+            <label class="chk"><input type="checkbox" id="cutLines" checked> Cut lines</label>
+            <label class="chk"><input type="checkbox" id="guides" checked> Guides on screen</label>
+          </div>
+          <div class="row"><label class="small" for="margin">Printer margin, mm</label><input type="number" id="margin" min="0" max="15" step="0.5" value="5" style="width:72px"></div>
+        </div>
+      </details>
+
+      <details class="panel" open>
+        <summary>Photos <span class="hint" id="photoHint"></span></summary>
+        <div class="pbody">
+          <label class="drop" id="drop" for="photoInput">Drop photos here or <u>choose files</u><input class="sr" type="file" id="photoInput" accept="image/*" multiple></label>
+          <div class="photos" id="photoList"></div>
+          <div class="seg" role="group" aria-label="How photos fill the sheet"><button type="button" data-fill="each" aria-pressed="true">A different photo per magnet</button><button type="button" data-fill="same" aria-pressed="false">Same photo on all</button></div>
+          <p class="small" id="photoHelp">Click a magnet on the sheet to select it, then click a photo to put it there. Drag the big preview to move the photo; use the slider or the scroll wheel to zoom.</p>
+        </div>
+      </details>
+
+      <details class="panel" open>
+        <summary>Ready-made looks <span class="hint" id="presetHint"></span></summary>
+        <div class="pbody"><div class="thumbs" id="presetThumbs"></div></div>
+      </details>
+
+      <details class="panel" open>
+        <summary>Outline <span class="hint" id="frameHint"></span></summary>
+        <div class="pbody"><div class="thumbs" id="frameThumbs"></div></div>
+      </details>
+
+      <details class="panel">
+        <summary>Background pattern <span class="hint" id="patHint"></span></summary>
+        <div class="pbody">
+          <label class="chk"><input type="checkbox" id="usePattern"> Use a pattern instead of a photo (text-only magnets)</label>
+          <div class="thumbs" id="patThumbs"></div>
+          <button class="btn" id="shuffle" type="button">Shuffle the random bits</button>
+        </div>
+      </details>
+
+      <details class="panel" open>
+        <summary>Colours</summary>
+        <div class="pbody">
+          <div class="row">
+            <label class="chk"><input type="color" id="cAccent" value="#c2410c"> Accent</label>
+            <label class="chk"><input type="color" id="cInk" value="#1f1f1f"> Dark text</label>
+            <label class="chk"><input type="color" id="cPaper" value="#ffffff"> Border</label>
+          </div>
+        </div>
+      </details>
+
+      <details class="panel" open>
+        <summary>Text</summary>
+        <div class="pbody" id="markPanel"></div>
+      </details>
+
+      <details class="panel">
+        <summary>Templates and printing</summary>
+        <div class="pbody">
+          <div class="row">
+            <button class="btn" id="saveBlank" type="button">Blank template (PDF)</button>
+            <button class="btn" id="saveSvg" type="button">Design guide (SVG)</button>
+          </div>
+          <p class="small">Use the blank template or the SVG guide to design in another app (Canva, Inkscape, Photoshop): put the photo over the whole cut area and keep text inside the dotted line.</p>
+          <ul class="tips">
+            <li>Print at 100 % (“Actual size”), never “Fit to page”. The bar at the foot of the sheet must measure 50 mm.</li>
+            <li>Use 90–120 g/m² matte inkjet paper. Photo paper and card are too thick to fold round the edge.</li>
+            <li>Let inkjet prints dry for 10 minutes before pressing.</li>
+            <li>Cut on the grey line: a circle punch for round sizes; a trimmer and a 6 mm corner rounder for the others.</li>
+            <li>The shaded band on the big preview folds over the rim: keep faces and text inside the dotted line.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+
+    <!-- ================= the magnet ================= -->
+    <section class="mag" aria-label="Selected magnet">
+      <div class="stage">
+        <div class="row" style="justify-content:space-between"><h2 id="magTitle">Magnet 1</h2><span class="eyebrow" id="magSize"></span></div>
+        <canvas id="magCanvas" width="600" height="600" aria-label="The selected magnet at large scale; drag to move the photo"></canvas>
+        <div class="legend"><span><i></i>face edge</span><span><i class="s"></i>keep text inside</span><span><i class="e"></i>folds over the rim</span></div>
+        <div class="row" style="flex-wrap:nowrap"><label class="lbl" for="zoom">Zoom</label><input type="range" id="zoom" min="1" max="4" step="0.01" value="1"></div>
+        <div class="row"><button class="btn" id="rotate" type="button">Rotate 90°</button><button class="btn" id="resetCrop" type="button">Reset photo</button></div>
+      </div>
+    </section>
+
+    <!-- ================= the sheet ================= -->
+    <section class="sheet" aria-label="Print sheet">
+      <div class="stage">
+        <div class="row" style="justify-content:space-between"><h2>Print sheet</h2><span class="eyebrow" id="sheetInfo"></span></div>
+        <canvas id="sheetCanvas" width="420" height="594" aria-label="The print sheet; click a magnet to select it"></canvas>
+        <dl class="facts" id="facts"></dl>
+      </div>
+    </section>
+  </div>
+</div>
+<div id="toast" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="studio/core.js"></script>
+<script src="studio/frames.js"></script>
+<script src="studio/marks.js"></script>
+<script src="studio/patterns.js"></script>
+<script src="studio/presets.js"></script>
+<script>
+(function(){
+'use strict';
+const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
+const MS = window.MS, H = MS.h;
+const PAPERS = { A4: [210, 297], Letter: [215.9, 279.4] }, GAP = 1.5, PXMM = 300 / 25.4;
+const MARKS = ['signature', 'date', 'brand', 'caption'];
+const MARK_NAME = { signature: 'Signature', date: 'Date', brand: 'Brand', caption: 'Caption' };
+const POS_NAME = { tl: 'Top left', tc: 'Top centre', tr: 'Top right', ml: 'Middle left', mc: 'Centre', mr: 'Middle right', bl: 'Bottom left', bc: 'Bottom centre', br: 'Bottom right', 'arc-top': 'Along the top edge (round)', 'arc-bottom': 'Along the bottom edge (round)' };
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const p2 = n => String(n).padStart(2, '0');
+const FORMATS = [
+  ['d-mon', '27 Oct 2026', d => d.getDate() + ' ' + MON[d.getMonth()] + ' ' + d.getFullYear()],
+  ['d-month', '27 October 2026', d => d.getDate() + ' ' + MONTH[d.getMonth()] + ' ' + d.getFullYear()],
+  ['dots', '27.10.2026', d => p2(d.getDate()) + '.' + p2(d.getMonth() + 1) + '.' + d.getFullYear()],
+  ['slash', '27/10/2026', d => p2(d.getDate()) + '/' + p2(d.getMonth() + 1) + '/' + d.getFullYear()],
+  ['iso', '2026-10-27', d => d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate())],
+  ['us', 'Oct 27, 2026', d => MON[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear()],
+  ['month', 'October 2026', d => MONTH[d.getMonth()] + ' ' + d.getFullYear()],
+  ['year', '2026', d => String(d.getFullYear())]];
+const today = new Date();
+
+// ---------- state ----------
+const S = {
+  size: 's63', land: false, paper: 'A4', margin: 5, cutLines: true, guides: true,
+  photos: [], fill: 'each', assign: {}, sel: 0, cur: 0,
+  preset: null, frame: null, pattern: null, usePattern: false, seed: 7,
+  colors: { accent: '#c2410c', ink: '#1f1f1f', paper: '#ffffff' }, logo: null,
+  marks: {
+    signature: { on: true, style: null, pos: 'br', text: 'Anu & Ravi', color: '#ffffff', size: 1 },
+    date: { on: true, style: null, pos: 'bl', date: today, fmt: 'd-mon', color: '#ffffff', size: 1 },
+    brand: { on: false, style: null, pos: 'tc', text: 'MagPress', color: '#ffffff', size: 1 },
+    caption: { on: false, style: null, pos: 'tc', text: 'Summer 2026', color: '#ffffff', size: 1 }
+  }
+};
+const sizeOf = id => MS.SIZES.find(z => z.id === id);
+const geom = () => MS.geom(sizeOf(S.size), S.land);
+const fmtDate = m => (FORMATS.find(f => f[0] === m.fmt) || FORMATS[0])[2](m.date);
+
+// photos: { img, name, crops: { '<size>|<orientation>': {zoom, dx, dy, rot} } }
+const cropKey = () => S.size + (S.land ? 'L' : 'P');
+function cropOf(ph){ const k = cropKey(); return ph.crops[k] || (ph.crops[k] = { zoom: 1, dx: 0, dy: 0, rot: 0 }); }
+function photoIndex(i){ const n = S.photos.length; if(!n) return -1; if(S.fill === 'same') return Math.min(S.cur, n - 1); const a = S.assign[i]; return a != null && a < n ? a : i % n; }
+
+// ---------- sheet layout (mm) ----------
+function layout(){
+  const g = geom(), [pw, ph] = PAPERS[S.paper], m = Math.max(0, +S.margin || 0), cw = g.cutW, ch = g.cutH;
+  const cols = Math.max(1, Math.floor((pw - 2 * m + GAP) / (cw + GAP))), rows = Math.max(1, Math.floor((ph - 2 * m + GAP) / (ch + GAP)));
+  const gw = cols * cw + (cols - 1) * GAP, gh = rows * ch + (rows - 1) * GAP, x0 = (pw - gw) / 2, y0 = m;
+  const cells = []; for(let r = 0; r < rows; r++) for(let c = 0; c < cols; c++) cells.push({ x: x0 + c * (cw + GAP), y: y0 + r * (ch + GAP) });
+  // footer (label + 50 mm check bar): under the grid if there is room, else up the side margin, else in the bottom margin
+  const spare = ph - m - (y0 + gh);
+  const foot = spare >= 7 ? { v: false, x: x0, y: y0 + gh + 4, len: gw } : x0 >= 9 ? { v: true, x: pw - x0 / 2 - 1.2, y: y0 + gh, len: gh } : { v: false, x: x0, y: ph - Math.max(1.5, m * 0.45), len: gw, tight: true };
+  return { g, pw, ph, m, cols, rows, n: cells.length, cells, gw, gh, x0, y0, foot };
+}
+
+// ---------- one magnet's drawing state ----------
+function marksState(){
+  return MARKS.filter(k => S.marks[k].on && S.marks[k].style).map(k => { const m = S.marks[k];
+    return { cat: k, style: m.style, pos: m.pos, color: m.color, size: m.size, text: k === 'date' ? fmtDate(m) : m.text, date: m.date }; });
+}
+function cellState(i, extra){
+  const k = S.usePattern ? -1 : photoIndex(i), ph = k >= 0 ? S.photos[k] : null;
+  return Object.assign({ photo: ph ? Object.assign({ img: ph.img }, cropOf(ph)) : null, pattern: ph ? null : S.pattern, frame: S.frame,
+    marks: marksState(), colors: S.colors, seed: S.seed, logo: S.logo }, extra || {});
+}
+
+// ---------- rendering ----------
+let raf = 0, thumbsDirty = true;
+function schedule(thumbs){ if(thumbs) thumbsDirty = true; if(!raf) raf = requestAnimationFrame(() => { raf = 0; renderMag(); renderSheet(); if(thumbsDirty){ thumbsDirty = false; renderThumbs(); } updateInfo(); }); }
+
+const mag = $('#magCanvas'), sheet = $('#sheetCanvas');
+let magK = 1;
+function renderMag(){
+  const L = layout(), g = L.g; if(S.sel >= L.n) S.sel = 0;
+  const dpr = Math.min(2, window.devicePixelRatio || 1), w = Math.max(200, mag.clientWidth || 600), pad = 7;
+  const k = w / (Math.max(g.cutW, g.cutH) + 2 * pad), hgt = (g.cutH + 2 * pad) * k;
+  mag.width = Math.round(w * dpr); mag.height = Math.round(hgt * dpr); mag.style.height = hgt + 'px'; magK = k;
+  const c = mag.getContext('2d'); c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, mag.width, mag.height);
+  c.setTransform(k * dpr, 0, 0, k * dpr, mag.width / 2, mag.height / 2);
+  MS.renderCell(c, g, cellState(S.sel, { guides: false, cutLine: true }));
+  if(S.guides){ c.save(); const P = new Path2D(); P.addPath(H.cut(g)); P.addPath(H.face(g)); c.clip(P, 'evenodd'); c.fillStyle = 'rgba(0,0,0,.22)'; c.fillRect(-g.cutW, -g.cutH, 2 * g.cutW, 2 * g.cutH);
+    c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = 0.25; c.beginPath(); for(let t = -g.cutW - g.cutH; t < g.cutW + g.cutH; t += 1.6){ c.moveTo(t, -g.cutH); c.lineTo(t + 2 * g.cutH, g.cutH); } c.stroke(); c.restore();
+    c.save(); c.lineWidth = 0.3; c.setLineDash([1.4, 0.9]); c.strokeStyle = cssVar('--guide'); c.stroke(H.face(g)); c.setLineDash([0.45, 0.65]); c.strokeStyle = cssVar('--cut'); c.stroke(H.safe(g)); c.restore(); }
+  $('#magTitle').textContent = 'Magnet ' + (S.sel + 1) + ' of ' + L.n;
+  $('#magSize').textContent = g.label + (g.round ? '' : g.W !== g.H ? (S.land ? ' · landscape' : ' · portrait') : '');
+  const k2 = S.usePattern ? -1 : photoIndex(S.sel); $('#zoom').value = k2 >= 0 ? cropOf(S.photos[k2]).zoom : 1;
+  $('#zoom').disabled = $('#rotate').disabled = $('#resetCrop').disabled = k2 < 0;
+}
+let sheetK = 1;
+function renderSheet(){
+  const L = layout(), dpr = Math.min(2, window.devicePixelRatio || 1), w = Math.max(200, sheet.clientWidth || 420), k = w / L.pw, hgt = L.ph * k;
+  sheet.width = Math.round(w * dpr); sheet.height = Math.round(hgt * dpr); sheet.style.height = hgt + 'px'; sheetK = k;
+  const c = sheet.getContext('2d'); c.setTransform(dpr, 0, 0, dpr, 0, 0); c.fillStyle = '#ffffff'; c.fillRect(0, 0, w, hgt);
+  drawSheet(c, L, k, false);
+  const sc = L.cells[S.sel]; if(sc){ c.setTransform(dpr, 0, 0, dpr, 0, 0); c.lineWidth = 2; c.strokeStyle = cssVar('--accent'); c.strokeRect(sc.x * k - 2, sc.y * k - 2, L.g.cutW * k + 4, L.g.cutH * k + 4); }
+}
+// draws every magnet, the cut lines and the footer; k = px per mm (already including any dpr in the base transform)
+function drawSheet(c, L, k, forPrint){
+  const base = c.getTransform(), g = L.g;
+  L.cells.forEach((cell, i) => { c.setTransform(base); c.translate((cell.x + g.cutW / 2) * k, (cell.y + g.cutH / 2) * k); c.scale(k, k);
+    MS.renderCell(c, g, cellState(i, { guides: false, cutLine: false }));
+    if(S.cutLines){ c.lineWidth = 0.2; c.strokeStyle = '#8a8f96'; c.stroke(H.cut(g)); } });
+  c.setTransform(base); c.scale(k, k); footer(c, L);
+  c.setTransform(base);
+}
+const FOOT_TEXT = L => 'MagPress M4 · ' + L.g.label + ' · ' + L.n + ' per sheet · print at 100 % (actual size)';
+function footer(c, L){
+  const F = L.foot; c.save(); c.translate(F.x, F.y); if(F.v) c.rotate(-Math.PI / 2);
+  c.fillStyle = '#5b6168'; c.font = '500 2.1px "IBM Plex Mono", monospace'; c.textBaseline = 'middle'; c.fillText(FOOT_TEXT(L), 0, 0);
+  const bx = F.len - 50; c.strokeStyle = '#5b6168'; c.lineWidth = 0.25; c.beginPath(); c.moveTo(bx, 0); c.lineTo(bx + 50, 0);
+  for(let t = 0; t <= 50; t += 10){ const e = t % 50 ? 0.8 : 1.4; c.moveTo(bx + t, -e); c.lineTo(bx + t, e); } c.stroke();
+  c.textAlign = 'right'; c.fillText('50 mm', bx - 1.5, 0); c.restore();
+}
+function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim() || '#888'; }
+
+// ---------- thumbnails (presets, outlines, patterns) ----------
+function thumbState(st){
+  const ph = S.photos[photoIndex(S.sel)] || null, photo = ph ? Object.assign({ img: ph.img }, cropOf(ph)) : { img: MS.samplePhoto(), zoom: 1 };
+  if(st.cat === 'pattern') return { photo: null, pattern: st.id, colors: S.colors, seed: S.seed, marks: [] };
+  if(st.cat === 'frame') return { photo, frame: st.id, colors: S.colors, seed: S.seed, marks: [] };
+  const t = st.set || {}, s = { photo: t.photo === false ? null : photo, pattern: t.pattern || null, frame: t.frame || null, colors: Object.assign({}, S.colors, t.colors || {}), seed: S.seed, marks: [] };
+  MARKS.forEach(k => { if(t[k]) s.marks.push({ cat: k, style: t[k].style, pos: t[k].pos, color: t[k].color || (t.photo === false ? s.colors.ink : '#ffffff'), size: t[k].size || 1,
+    text: k === 'date' ? fmtDate(S.marks.date) : (t[k].text || S.marks[k].text), date: S.marks.date.date }); });
+  return s;
+}
+let thumbJob = 0;
+function renderThumbs(){
+  const job = ++thumbJob, g = geom(), list = $$('.thumbs canvas[data-id]'), dpr = Math.min(2, window.devicePixelRatio || 1);
+  let i = 0;
+  (function step(){ if(job !== thumbJob) return; const t0 = performance.now();
+    while(i < list.length && performance.now() - t0 < 12){ const cv = list[i++], st = MS.styles[cv.dataset.id]; if(!st && cv.dataset.id !== 'none') continue;
+      const w = Math.max(60, cv.clientWidth || 80), px = Math.round(w * dpr); cv.width = cv.height = px; const c = cv.getContext('2d');
+      const k = px / (Math.max(g.cutW, g.cutH) + 2); c.setTransform(k, 0, 0, k, px / 2, px / 2);
+      MS.renderCell(c, g, st ? thumbState(st) : thumbState({ cat: 'frame', id: null })); }
+    if(i < list.length) requestAnimationFrame(step); })();
+}
+function thumbGrid(el, items, current, onPick){
+  el.innerHTML = '';
+  items.forEach(it => { const b = document.createElement('button'); b.type = 'button'; b.dataset.id = it.id; b.setAttribute('aria-pressed', String(it.id === current));
+    const cv = document.createElement('canvas'); cv.dataset.id = it.id; const sp = document.createElement('span'); sp.textContent = it.name;
+    b.append(cv, sp); b.title = it.name; b.addEventListener('click', () => onPick(it.id === 'none' ? null : it.id)); el.appendChild(b); });
+}
+function pressed(el, id){ $$('#' + el.id + ' > button').forEach(b => b.setAttribute('aria-pressed', String((b.dataset.id === 'none' ? null : b.dataset.id) === id))); }
+
+// ---------- controls ----------
+function buildControls(){
+  const chips = $('#sizeChips'); chips.innerHTML = '';
+  MS.SIZES.forEach(z => { const b = document.createElement('button'); b.type = 'button'; b.textContent = z.label; b.dataset.size = z.id; b.setAttribute('aria-pressed', String(z.id === S.size));
+    b.addEventListener('click', () => { S.size = z.id; syncControls(); schedule(true); }); chips.appendChild(b); });
+  $('#oPortrait').addEventListener('click', () => { S.land = false; syncControls(); schedule(true); });
+  $('#oLandscape').addEventListener('click', () => { S.land = true; syncControls(); schedule(true); });
+  $$('[data-paper]').forEach(b => b.addEventListener('click', () => { S.paper = b.dataset.paper; syncControls(); schedule(); }));
+  $('#cutLines').addEventListener('change', e => { S.cutLines = e.target.checked; schedule(); });
+  $('#guides').addEventListener('change', e => { S.guides = e.target.checked; schedule(); });
+  $('#margin').addEventListener('input', e => { S.margin = Math.min(15, Math.max(0, +e.target.value || 0)); schedule(); });
+  $$('[data-fill]').forEach(b => b.addEventListener('click', () => { S.fill = b.dataset.fill; if(S.fill === 'same') S.cur = Math.max(0, photoIndex(S.sel)); syncControls(); schedule(true); }));
+  $('#usePattern').addEventListener('change', e => { S.usePattern = e.target.checked; if(S.usePattern && !S.pattern){ const p = MS.list('pattern')[0]; S.pattern = p ? p.id : null; } syncControls(); schedule(true); });
+  $('#shuffle').addEventListener('click', () => { S.seed = 1 + Math.floor(Math.random() * 99999); schedule(true); });
+  [['#cAccent', 'accent'], ['#cInk', 'ink'], ['#cPaper', 'paper']].forEach(([id, k]) => $(id).addEventListener('input', e => { S.colors[k] = e.target.value; schedule(true); }));
+  thumbGrid($('#presetThumbs'), MS.list('preset').map(p => ({ id: p.id, name: p.name })), S.preset, id => { applyPreset(id); });
+  thumbGrid($('#frameThumbs'), [{ id: 'none', name: 'No outline' }].concat(MS.list('frame').map(p => ({ id: p.id, name: p.name }))), S.frame, id => { S.frame = id; S.preset = null; syncControls(); schedule(); });
+  thumbGrid($('#patThumbs'), MS.list('pattern').map(p => ({ id: p.id, name: p.name })), S.pattern, id => { S.pattern = id; S.usePattern = true; S.preset = null; syncControls(); schedule(true); });
+  buildMarks();
+}
+function opt(sel, items, cur){ sel.innerHTML = ''; items.forEach(([v, t]) => { const o = document.createElement('option'); o.value = v; o.textContent = t; if(v === cur) o.selected = true; sel.appendChild(o); }); }
+function buildMarks(){
+  const panel = $('#markPanel'); panel.innerHTML = '';
+  MARKS.forEach(k => { const m = S.marks[k], styles = MS.list(k), box = document.createElement('div'); box.className = 'mark'; box.dataset.mark = k;
+    box.innerHTML = '<label class="chk"><input type="checkbox" id="on-' + k + '"> <b>' + MARK_NAME[k] + '</b></label><div class="mopts">'
+      + (k === 'date' ? '<div class="grid2"><input type="date" id="tx-date" aria-label="Date"><select id="fmt-date" aria-label="Date format"></select></div>'
+        : '<input type="text" id="tx-' + k + '" aria-label="' + MARK_NAME[k] + ' text" maxlength="60">')
+      + (k === 'brand' ? '<label class="small" for="logo">Logo (optional, PNG with a transparent background works best) <input type="file" id="logo" accept="image/*"></label>' : '')
+      + '<div class="grid2"><select id="st-' + k + '" aria-label="' + MARK_NAME[k] + ' style"></select><select id="pos-' + k + '" aria-label="' + MARK_NAME[k] + ' position"></select></div>'
+      + '<div class="row" style="flex-wrap:nowrap"><input type="color" id="col-' + k + '" aria-label="' + MARK_NAME[k] + ' colour"><label class="lbl" for="sz-' + k + '">Size</label><input type="range" id="sz-' + k + '" min="0.6" max="1.6" step="0.05"></div></div>';
+    panel.appendChild(box);
+    if(!styles.length){ box.querySelector('.chk').insertAdjacentHTML('beforeend', ' <span class="small">(no styles loaded)</span>'); }
+    const on = $('#on-' + k); on.addEventListener('change', () => { m.on = on.checked; if(m.on && !m.style && styles[0]) m.style = styles[0].id; S.preset = null; syncControls(); schedule(); });
+    if(k === 'date'){ const d = $('#tx-date'); d.addEventListener('input', () => { const v = d.value.split('-').map(Number); if(v.length === 3 && v[0]) { m.date = new Date(v[0], v[1] - 1, v[2]); schedule(); } });
+      const f = $('#fmt-date'); opt(f, FORMATS.map(x => [x[0], x[1]]), m.fmt); f.addEventListener('change', () => { m.fmt = f.value; schedule(true); }); }
+    else { const t = $('#tx-' + k); t.addEventListener('input', () => { m.text = t.value; m.user = true; schedule(k !== 'caption'); }); }
+    if(k === 'brand') $('#logo').addEventListener('change', e => { const f = e.target.files[0]; if(!f) return; loadImage(f).then(img => { S.logo = img; m.on = true; const lg = MS.styles['brand.logo']; if(lg) m.style = lg.id; syncControls(); schedule(true); }); });
+    const st = $('#st-' + k); opt(st, styles.map(s => [s.id, s.name]), m.style); st.addEventListener('change', () => { m.style = st.value; const d = MS.styles[m.style]; if(d && d.pos) m.pos = d.pos; S.preset = null; syncControls(); schedule(); });
+    const ps = $('#pos-' + k); opt(ps, MS.POS.map(p => [p, POS_NAME[p]]), m.pos); ps.addEventListener('change', () => { m.pos = ps.value; schedule(); });
+    $('#col-' + k).addEventListener('input', e => { m.color = e.target.value; schedule(); });
+    $('#sz-' + k).addEventListener('input', e => { m.size = +e.target.value; schedule(); });
+  });
+}
+function syncControls(){
+  $$('#sizeChips button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.size === S.size)));
+  const z = sizeOf(S.size), canTurn = z.shape === 'rect' && z.W !== z.H;
+  $('#oPortrait').disabled = $('#oLandscape').disabled = !canTurn;
+  $('#oPortrait').setAttribute('aria-pressed', String(!S.land || !canTurn)); $('#oLandscape').setAttribute('aria-pressed', String(S.land && canTurn));
+  if(!canTurn) S.land = false;
+  $$('[data-paper]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.paper === S.paper)));
+  $$('[data-fill]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.fill === S.fill)));
+  $('#usePattern').checked = S.usePattern;
+  $('#cAccent').value = S.colors.accent; $('#cInk').value = S.colors.ink; $('#cPaper').value = S.colors.paper;
+  pressed($('#presetThumbs'), S.preset); pressed($('#frameThumbs'), S.frame); pressed($('#patThumbs'), S.usePattern ? S.pattern : null);
+  const name = id => (id && MS.styles[id] ? MS.styles[id].name : 'none');
+  $('#presetHint').textContent = S.preset ? name(S.preset) : 'custom'; $('#frameHint').textContent = name(S.frame); $('#patHint').textContent = S.usePattern ? name(S.pattern) : 'off';
+  MARKS.forEach(k => { const m = S.marks[k], box = $('[data-mark="' + k + '"]'); if(!box) return; box.dataset.off = String(!m.on);
+    $('#on-' + k).checked = m.on; if(k === 'date'){ const d = m.date; $('#tx-date').value = d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()); $('#fmt-date').value = m.fmt; }
+    else if(document.activeElement !== $('#tx-' + k)) $('#tx-' + k).value = m.text;
+    if(m.style) $('#st-' + k).value = m.style; $('#pos-' + k).value = m.pos; $('#col-' + k).value = m.color; $('#sz-' + k).value = m.size; });
+  renderPhotos();
+}
+function updateInfo(){
+  const L = layout(), g = L.g;
+  $('#sheetInfo').textContent = L.n + ' per ' + S.paper;
+  $('#sheetHint').textContent = g.label + ' · ' + L.n + '/' + S.paper;
+  $('#photoHint').textContent = S.photos.length ? S.photos.length + (S.photos.length === 1 ? ' photo' : ' photos') : 'none yet';
+  const f = $('#facts'), row = (a, b) => '<dt>' + a + '</dt><dd>' + b + '</dd>', pair = (w, h) => g.round ? 'Ø' + w : w + ' × ' + h;
+  f.innerHTML = row('Face', pair(g.W, g.H) + ' mm') + row('Paper cut', pair(g.cutW, g.cutH) + ' mm' + (g.round ? '' : ', R6 corners')) + row('Keep text in', pair(g.safeW, g.safeH) + ' mm')
+    + row('Layout', L.cols + ' × ' + L.rows + ' on ' + S.paper + ', ' + GAP + ' mm apart') + row('Print', 'at 100 %; check the 50 mm bar');
+}
+
+// ---------- photos ----------
+function loadImage(file){ return new Promise((res, rej) => { const url = URL.createObjectURL(file), img = new Image(); img.onload = () => res(img); img.onerror = () => rej(new Error('That file is not an image this browser can open.')); img.src = url; }); }
+async function addFiles(files){
+  const list = Array.from(files).filter(f => /^image\//.test(f.type)); if(!list.length){ toast('Choose image files: JPEG, PNG, HEIC is not supported by most browsers.'); return; }
+  if(S.photos.length === 1 && S.photos[0].sample) S.photos = [];
+  for(const f of list){ try{ const img = await loadImage(f); S.photos.push({ img, name: f.name, crops: {} }); }catch(e){ toast(e.message); } }
+  S.usePattern = false; syncControls(); schedule(true); toast(list.length + (list.length === 1 ? ' photo added' : ' photos added'));
+}
+function renderPhotos(){
+  const el = $('#photoList'); el.innerHTML = ''; const selIdx = photoIndex(S.sel);
+  S.photos.forEach((ph, k) => { const b = document.createElement('div'); b.className = 'ph'; b.setAttribute('role', 'button'); b.tabIndex = 0; b.setAttribute('aria-pressed', String(k === selIdx && !S.usePattern));
+    b.setAttribute('aria-label', 'Use ' + ph.name + ' for the selected magnet');
+    const im = document.createElement('img'); im.alt = ''; im.src = ph.img.src || (ph.img.toDataURL ? ph.img.toDataURL('image/jpeg', 0.7) : ''); b.appendChild(im);
+    if(ph.sample){ const t = document.createElement('span'); t.className = 'tag'; t.textContent = 'sample'; b.appendChild(t); }
+    const x = document.createElement('button'); x.className = 'x'; x.type = 'button'; x.textContent = '×'; x.setAttribute('aria-label', 'Remove ' + ph.name);
+    x.addEventListener('click', e => { e.stopPropagation(); S.photos.splice(k, 1); Object.keys(S.assign).forEach(c => { if(S.assign[c] === k) delete S.assign[c]; else if(S.assign[c] > k) S.assign[c]--; }); S.cur = 0; syncControls(); schedule(true); });
+    b.appendChild(x);
+    const pick = () => { if(S.fill === 'same') S.cur = k; else S.assign[S.sel] = k; S.usePattern = false; syncControls(); schedule(true); };
+    b.addEventListener('click', pick); b.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pick(); } });
+    el.appendChild(b); });
+}
+const drop = $('#drop');
+$('#photoInput').addEventListener('change', e => { addFiles(e.target.files); e.target.value = ''; });
+['dragenter', 'dragover'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => { if(e.dataTransfer && e.dataTransfer.files.length) addFiles(e.dataTransfer.files); });
+document.addEventListener('paste', e => { const fs = Array.from((e.clipboardData && e.clipboardData.files) || []); if(fs.length) addFiles(fs); });
+
+// ---------- selecting, moving and zooming the photo ----------
+sheet.addEventListener('click', e => { const L = layout(), r = sheet.getBoundingClientRect(), x = (e.clientX - r.left) / sheetK, y = (e.clientY - r.top) / sheetK;
+  const i = L.cells.findIndex(c => x >= c.x && x <= c.x + L.g.cutW && y >= c.y && y <= c.y + L.g.cutH); if(i >= 0){ S.sel = i; if(S.fill === 'same') {} syncControls(); schedule(); } });
+function curCrop(){ const k = S.usePattern ? -1 : photoIndex(S.sel); return k >= 0 ? cropOf(S.photos[k]) : null; }
+let dragging = null;
+mag.addEventListener('pointerdown', e => { const cr = curCrop(); if(!cr) return; dragging = { x: e.clientX, y: e.clientY, dx: cr.dx, dy: cr.dy }; mag.setPointerCapture(e.pointerId); mag.classList.add('drag'); });
+mag.addEventListener('pointermove', e => { if(!dragging) return; const cr = curCrop(); if(!cr) return; cr.dx = dragging.dx + (e.clientX - dragging.x) / magK; cr.dy = dragging.dy + (e.clientY - dragging.y) / magK; schedule(); });
+['pointerup', 'pointercancel'].forEach(t => mag.addEventListener(t, () => { if(dragging){ dragging = null; mag.classList.remove('drag'); schedule(true); } }));
+mag.addEventListener('wheel', e => { const cr = curCrop(); if(!cr) return; e.preventDefault(); cr.zoom = Math.min(4, Math.max(1, cr.zoom * Math.exp(-e.deltaY * 0.0015))); schedule(); }, { passive: false });
+$('#zoom').addEventListener('input', e => { const cr = curCrop(); if(cr){ cr.zoom = +e.target.value; schedule(); } });
+$('#rotate').addEventListener('click', () => { const cr = curCrop(); if(cr){ cr.rot = (cr.rot + 90) % 360; schedule(true); } });
+$('#resetCrop').addEventListener('click', () => { const cr = curCrop(); if(cr){ Object.assign(cr, { zoom: 1, dx: 0, dy: 0, rot: 0 }); schedule(true); } });
+
+// ---------- presets ----------
+function applyPreset(id){
+  const st = MS.styles[id]; if(!st) return; const t = st.set || {};
+  S.preset = id; S.frame = t.frame || null; if(t.pattern) S.pattern = t.pattern; S.usePattern = t.photo === false;
+  if(t.colors) Object.assign(S.colors, t.colors);
+  MARKS.forEach(k => { const m = S.marks[k], d = t[k];
+    if(!d){ m.on = false; return; }
+    m.on = true; m.style = d.style; m.pos = d.pos || (MS.styles[d.style] && MS.styles[d.style].pos) || m.pos; m.size = d.size || 1;
+    m.color = d.color || (S.usePattern ? S.colors.ink : '#ffffff');
+    if(d.text && (k === 'caption' || !m.user)) m.text = d.text; });
+  syncControls(); schedule(true);
+}
+
+// ---------- saving files ----------
+const dlReady = window.claude && typeof window.claude.use === 'function' ? window.claude.use('downloads').catch(() => null) : Promise.resolve(null);
+async function saveFile(name, blob){
+  const dl = await dlReady;
+  if(dl){ try{ await dl.save({ filename: name, data: blob }); toast('Saved ' + name); }
+    catch(e){ const c = e && e.code; toast(c === 'declined' ? 'Not saved.' : c === 'rate_limited' ? 'A save is already waiting for your answer.' : 'Saving is not available in this view.'); } return; }
+  if(window.claude){ toast('Saving is not available in this view. Open web/magnet-studio.html from the repository to save files.'); return; }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 5000); toast('Saved ' + name);
+}
+const fileBase = () => 'magnets_' + geom().label.replace('Ø', 'D').replace(/[^0-9A-Za-z.]+/g, 'x').replace(/x+$/, '') + (S.land ? '_landscape' : '') + '_' + S.paper;
+const busy = (on, msg) => { $$('#savePdf, #savePng, #saveBlank').forEach(b => b.disabled = on); if(on && msg) toast(msg); };
+function jsPDFctor(){ if(!window.jspdf || !window.jspdf.jsPDF) throw new Error('The PDF library did not load. Check the internet connection and reload.'); return window.jspdf.jsPDF; }
+function pdfOutline(doc, g, cx, cy, inset, dash){
+  doc.setLineDashPattern(dash || [], 0);
+  if(g.round){ doc.circle(cx, cy, g.cutW / 2 - inset, 'S'); return; }
+  const w = g.cutW - 2 * inset, h = g.cutH - 2 * inset, r = inset >= 6 ? (inset === 6 ? g.r : 1) : g.cutR;
+  doc.roundedRect(cx - w / 2, cy - h / 2, w, h, r, r, 'S');
+}
+function pdfFooter(doc, L, blank){
+  const F = L.foot, P = (u, w) => F.v ? [F.x + w, F.y - u] : [F.x + u, F.y + w], ang = F.v ? { angle: 90 } : {};
+  const txt = (t, u, w, right) => { if(right){ doc.setFontSize(6.5); u -= doc.getTextWidth(t); } const q = P(u, w); doc.text(t, q[0], q[1], ang); };
+  doc.setLineDashPattern([], 0); doc.setTextColor(91, 97, 104); doc.setFont('helvetica', 'normal'); doc.setFontSize(6.5);
+  txt(FOOT_TEXT(L), 0, 0.8);
+  const bx = F.len - 50, ln = (u1, w1, u2, w2) => { const a = P(u1, w1), b = P(u2, w2); doc.line(a[0], a[1], b[0], b[1]); };
+  doc.setDrawColor(91, 97, 104); doc.setLineWidth(0.25); ln(bx, 0, bx + 50, 0);
+  for(let t = 0; t <= 50; t += 10){ const e = t % 50 ? 0.8 : 1.4; ln(bx + t, -e, bx + t, e); }
+  txt('50 mm', bx - 1.5, 0.8, true);
+  if(blank){ const legend = 'grey: cut line · blue dashed: face edge · pink dotted: keep text inside · let the photo fill the whole cut area';
+    if(F.tight){ doc.text(legend, L.x0, Math.max(2.5, L.y0 - 1.4)); } else txt(legend, 0, 3.6); }
+}
+async function buildPDF(blank){
+  const JsPDF = jsPDFctor(), L = layout(), g = L.g, doc = new JsPDF({ unit: 'mm', format: [L.pw, L.ph], orientation: 'portrait', compress: true });
+  const cv = document.createElement('canvas'), W = Math.round(g.cutW * PXMM), Hh = Math.round(g.cutH * PXMM); cv.width = W; cv.height = Hh;
+  const c = cv.getContext('2d'), seen = {};
+  for(let i = 0; i < L.n; i++){
+    const cell = L.cells[i], cx = cell.x + g.cutW / 2, cy = cell.y + g.cutH / 2;
+    if(!blank){
+      const key = S.fill === 'same' || S.usePattern || !S.photos.length ? 'all' : 'p' + photoIndex(i);
+      if(!seen[key]){ c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = '#ffffff'; c.fillRect(0, 0, W, Hh); c.setTransform(PXMM, 0, 0, PXMM, W / 2, Hh / 2);
+        MS.renderCell(c, g, cellState(i, { guides: false, cutLine: false })); seen[key] = cv.toDataURL('image/jpeg', 0.93); }
+      doc.addImage(seen[key], 'JPEG', cell.x, cell.y, g.cutW, g.cutH, key, 'NONE');
+      if(i % 3 === 2) await new Promise(r => setTimeout(r, 0));
+    }
+    if(S.cutLines || blank){ doc.setDrawColor(138, 143, 150); doc.setLineWidth(0.2); pdfOutline(doc, g, cx, cy, 0); }
+    if(blank){ doc.setLineWidth(0.2); doc.setDrawColor(30, 110, 220); pdfOutline(doc, g, cx, cy, 6, [1.2, 0.8]); doc.setDrawColor(192, 48, 111); pdfOutline(doc, g, cx, cy, 9, [0.4, 0.6]); }
+  }
+  pdfFooter(doc, L, blank);
+  return doc;
+}
+$('#savePdf').addEventListener('click', async () => { busy(true, 'Making the PDF…'); try{ const d = await buildPDF(false); await saveFile(fileBase() + '.pdf', d.output('blob')); }catch(e){ toast(e.message); } busy(false); });
+$('#saveBlank').addEventListener('click', async () => { busy(true); try{ const d = await buildPDF(true); await saveFile('template_' + fileBase().replace('magnets_', '') + '.pdf', d.output('blob')); }catch(e){ toast(e.message); } busy(false); });
+$('#savePng').addEventListener('click', async () => {
+  busy(true, 'Making the PNG…');
+  try{ const L = layout(), cv = document.createElement('canvas'); cv.width = Math.round(L.pw * PXMM); cv.height = Math.round(L.ph * PXMM);
+    const c = cv.getContext('2d'); c.fillStyle = '#ffffff'; c.fillRect(0, 0, cv.width, cv.height); drawSheet(c, L, PXMM, true);
+    const blob = await new Promise(r => cv.toBlob(r, 'image/png')); await saveFile(fileBase() + '_300dpi.png', blob); }
+  catch(e){ toast(e.message); } busy(false);
+});
+function guideSVG(){
+  const g = geom(), w = g.cutW, h = g.cutH, f = n => +n.toFixed(3);
+  const shape = (inset, attrs) => g.round ? '<circle cx="' + f(w / 2) + '" cy="' + f(h / 2) + '" r="' + f(w / 2 - inset) + '" ' + attrs + '/>'
+    : '<rect x="' + f(inset) + '" y="' + f(inset) + '" width="' + f(w - 2 * inset) + '" height="' + f(h - 2 * inset) + '" rx="' + (inset === 0 ? g.cutR : inset === 6 ? g.r : 1) + '" ' + attrs + '/>';
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="' + f(w) + 'mm" height="' + f(h) + 'mm" viewBox="0 0 ' + f(w) + ' ' + f(h) + '">\n'
+    + '<title>MagPress M4 ' + g.label + ' design guide: cut ' + (g.round ? 'Ø' + w : w + ' × ' + h) + ' mm</title>\n'
+    + '<g id="cut-line">' + shape(0, 'fill="none" stroke="#8a8f96" stroke-width="0.2"') + '</g>\n'
+    + '<g id="face-edge">' + shape(6, 'fill="none" stroke="#1e6edc" stroke-width="0.2" stroke-dasharray="1.2 0.8"') + '</g>\n'
+    + '<g id="keep-text-inside">' + shape(9, 'fill="none" stroke="#c0306f" stroke-width="0.2" stroke-dasharray="0.4 0.6"') + '</g>\n</svg>\n';
+}
+$('#saveSvg').addEventListener('click', () => saveFile('guide_' + fileBase().replace('magnets_', '').replace(/_(A4|Letter)$/, '') + '.svg', new Blob([guideSVG()], { type: 'image/svg+xml' })));
+
+// ---------- misc ----------
+let toastT = 0;
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 3200); }
+window.addEventListener('resize', () => schedule(true));
+new MutationObserver(() => schedule()).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+// start: the sample photo and a simple default look, so the page opens working
+S.photos.push({ img: MS.samplePhoto(), name: 'Sample photo', crops: {}, sample: true });
+const first = (cat, pref) => (MS.styles[pref] ? pref : (MS.list(cat)[0] || {}).id || null);
+S.frame = first('frame', 'frame.keyline');
+S.marks.signature.style = first('signature', 'signature.script');
+S.marks.date.style = first('date', 'date.minimal');
+S.marks.brand.style = first('brand', 'brand.wordmark');
+S.marks.caption.style = first('caption', 'caption.title');
+S.pattern = first('pattern', 'pattern.dots');
+buildControls(); syncControls(); schedule(true);
+MS.loadFonts(8000).then(() => schedule(true));
+window.MSApp = { S, layout, buildPDF, guideSVG, applyPreset, setSize: (id, land, paper) => { S.size = id; S.land = !!land; if(paper) S.paper = paper; syncControls(); } };
+})();
+</script>

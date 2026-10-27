@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="68mm" height="68mm" viewBox="0 0 68 68">
+<title>MagPress M4 Ø56 design guide: cut Ø68 mm</title>
+<g id="cut-line"><circle cx="34" cy="34" r="34" fill="none" stroke="#8a8f96" stroke-width="0.2"/></g>
+<g id="face-edge"><circle cx="34" cy="34" r="28" fill="none" stroke="#1e6edc" stroke-width="0.2" stroke-dasharray="1.2 0.8"/></g>
+<g id="keep-text-inside"><circle cx="34" cy="34" r="25" fill="none" stroke="#c0306f" stroke-width="0.2" stroke-dasharray="0.4 0.6"/></g>
+</svg>
