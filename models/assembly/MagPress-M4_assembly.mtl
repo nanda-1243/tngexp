@@ -1,0 +1,108 @@
+newmtl m_111111
+Kd 0.070 0.070 0.070
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_141414
+Kd 0.080 0.080 0.080
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_23262b
+Kd 0.140 0.150 0.170
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_2d5bd1
+Kd 0.180 0.360 0.820
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_2d9e4c
+Kd 0.180 0.620 0.300
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_33353a
+Kd 0.200 0.210 0.230
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_4c515b
+Kd 0.300 0.320 0.360
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_8e99a5
+Kd 0.560 0.600 0.650
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_93775b
+Kd 0.580 0.470 0.360
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_9ea0aa
+Kd 0.620 0.630 0.670
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_a8adb5
+Kd 0.660 0.680 0.710
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_bc8442
+Kd 0.740 0.520 0.260
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_c6c9bc
+Kd 0.780 0.790 0.740
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_cc1919
+Kd 0.800 0.100 0.100
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_ccced1
+Kd 0.800 0.810 0.820
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_dbaf51
+Kd 0.860 0.690 0.320
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_dbe0e8
+Kd 0.860 0.880 0.910
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+
+newmtl m_ea9e1e
+Kd 0.920 0.620 0.120
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ns 40
+

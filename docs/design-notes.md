@@ -70,5 +70,6 @@ These are start values to prove on a 7075 aluminium prototype kit before cutting
 2. Grip fit of the upper ring (shell + 0.35) and the plunger protrusion (0.2–0.3).
 3. Die-spring forces against the real pickup and crimp forces (load cell on station B).
 4. A 16 kN proof load and a 10,000-stroke endurance run (build pack, section 10).
+5. Six fit problems found by the 3D model's interference check (links against the ram, pin B in the crown slot, push knobs, column clamp screws, handle stop, stop screw length). See [`models/README.md`](../models/README.md#design-problems-found-by-the-3d-check-rev-c). They are not yet fixed in the drawings.
 
 The calculations are hand calculations. A mechanical engineer should review them before production.

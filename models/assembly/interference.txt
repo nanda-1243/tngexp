@@ -1,0 +1,15 @@
+Interference check, MagPress M4 Rev C assembly (handle up, station B under the ram, kit 6363)
+187 placed parts. Overlaps above 1 mm^3 (touching faces and press fits at the same nominal size are not overlaps):
+
+  MP-101_1       x BUY-32_1           1653.8 mm^3
+  MP-107_1       x BUY-06_1            471.2 mm^3
+  MP-107_2       x BUY-06_2            471.2 mm^3
+  BUY-11_1       x BUY-12_1            256.5 mm^3
+  MP-107_1       x BUY-10_1            133.0 mm^3
+  MP-109_1       x MP-114_2            126.0 mm^3
+  MP-109_1       x MP-114_1            126.0 mm^3
+  MP-108_1       x MP-116_2             66.0 mm^3
+
+Parts reaching below the bench (Z < 0):
+  BUY-06_1       lowest point Z = -6.53
+  BUY-06_2       lowest point Z = -6.53
