@@ -23,18 +23,22 @@
     {id:'c50', label:'Ø50',         shape:'round', W:50,   H:50},
     {id:'c56', label:'Ø56',         shape:'round', W:56,   H:56},
     {id:'c58', label:'Ø58',         shape:'round', W:58,   H:58}];
-  // square and rectangular magnets have sharp corners (R1 at the face, like commercial photo magnets) and square-cut paper
-  const BLEED = 6, SAFE_IN = 3, R_FACE = 1, R_CUT = 0;
+  // Rev E (flat-fold crimp): the paper reaches `bleed` = the shell depth beyond the face edge (4.5 by default) and ends with the
+  // tin. Beyond FOLD (1.7) it lies on the back as a flat border, so text printed there is read on the back of the magnet.
+  // Square and rectangular magnets have sharp corners (R1 at the face); their paper corners are clipped at 45° on the line
+  // |x| + |y| = W/2 + H/2 + FOLD, which gives the mitred corners on the back.
+  const DEPTH = 4.5, FOLD = 1.7, SAFE_IN = 3, R_FACE = 1;
   const POS = ['tl', 'tc', 'tr', 'ml', 'mc', 'mr', 'bl', 'bc', 'br', 'arc-top', 'arc-bottom'];
+  const BACK_POS = ['back-bottom', 'back-top', 'back-left', 'back-right', 'back-around'];   // as seen on the back
 
-  // geometry of one magnet; rectangles are portrait unless landscape is set
-  function geom(size, landscape){
+  // geometry of one magnet; rectangles are portrait unless landscape is set; depth = shell depth (sets the bleed)
+  function geom(size, landscape, depth){
     let W = size.W, H = size.H;
     if(size.shape === 'rect' && W !== H && !!landscape === (W < H)){ const t = W; W = H; H = t; }
-    const round = size.shape === 'round';
+    const round = size.shape === 'round', B = depth || DEPTH;
     return { id: size.id, label: size.label, shape: size.shape, round, W, H,
       r: round ? W / 2 : R_FACE,                       // face corner radius (round: the radius)
-      bleed: BLEED, cutW: W + 2 * BLEED, cutH: H + 2 * BLEED, cutR: round ? W / 2 + BLEED : R_CUT,
+      bleed: B, fold: FOLD, cutW: W + 2 * B, cutH: H + 2 * B, cutR: round ? W / 2 + B : 0,
       safeW: W - 2 * SAFE_IN, safeH: H - 2 * SAFE_IN, safeR: round ? W / 2 - SAFE_IN : 0,
       min: Math.min(W, H), max: Math.max(W, H), k: Math.min(W, H) / 63.5 };   // k: size factor, 1 at 63.5
   }
@@ -50,7 +54,15 @@
   // face outline offset inward by `inset` mm (negative = outward, into the bleed)
   const face = (g, inset) => { inset = inset || 0; return shapePath(g.W - 2 * inset, g.H - 2 * inset, g.round ? 0 : Math.max(0, g.r - inset), g.round); };
   const safe = g => shapePath(g.safeW, g.safeH, g.round ? 0 : g.safeR, g.round);
-  const cut = g => shapePath(g.cutW, g.cutH, g.cutR, g.round);
+  // paper outline: a circle, or a rectangle with its corners clipped at 45° (see FOLD above)
+  function cut(g){
+    if(g.round) return shapePath(g.cutW, g.cutH, 0, true);
+    const a = g.cutW / 2, b = g.cutH / 2, s = g.W / 2 + g.H / 2 + g.fold, P = new Path2D();
+    P.moveTo(s - b, -b); P.lineTo(a, a - s); P.lineTo(a, s - a); P.lineTo(s - b, b); P.lineTo(b - s, b); P.lineTo(-a, s - a);
+    P.lineTo(-a, a - s); P.lineTo(b - s, -b); P.closePath(); return P;
+  }
+  // the band that folds onto the back: between the fold line and the paper edge
+  const backBand = g => { const P = new Path2D(); P.addPath(cut(g)); P.addPath(face(g, -g.fold)); return P; };
 
   // points spaced about `step` mm apart along the face outline offset inward by `inset`:
   // fn(x, y, tangentAngle, i, n). The outline runs clockwise on screen from the top centre.
@@ -172,6 +184,82 @@
     const w = side ? ih : iw, hh = side ? iw : ih, k = Math.max(g.cutW / w, g.cutH / hh) * (ph.zoom || 1);
     ctx.translate(ph.dx || 0, ph.dy || 0); ctx.rotate(rot * Math.PI / 180); ctx.drawImage(img, -iw * k / 2, -ih * k / 2, iw * k, ih * k);
   }
+  // ---------- text on the back border ----------
+  // The border on the back is narrow (about 2.8 mm with a 4.5 mm shell), so each kind of mark uses one plain face there.
+  const BACK_FONT = { brand: ['Montserrat', 700, true, 0.14], date: ['Montserrat', 600, false, 0.06], signature: ['Dancing Script', 700, false, 0], caption: ['Montserrat', 600, false, 0.05] };
+  const isBack = pos => typeof pos === 'string' && pos.indexOf('back-') === 0;
+  const ratio = (a, b) => { const x = lum(a) + 0.05, y = lum(b) + 0.05; return Math.max(x, y) / Math.min(x, y); };
+  const BAND = (s, p) => s.backBorder === 'accent' ? p.accent : s.backBorder === 'dark' ? '#23262a' : s.backBorder === 'paper' ? p.paper : '#ffffff';
+  // Each back position as drawn on the print (view = false) and as seen on the back (view = true). Folding a top or bottom
+  // strip and turning the magnet over turns it 180°; a left or right strip comes back unturned on the other side, so the
+  // print's right strip is the back's left edge. Text reads upright on the back; the side edges read along the edge.
+  const RECT_BACK = { 'back-bottom': [[0, 1, Math.PI], [0, 1, 0]], 'back-top': [[0, -1, Math.PI], [0, -1, 0]],
+    'back-left': [[1, 0, -Math.PI / 2], [-1, 0, -Math.PI / 2]], 'back-right': [[-1, 0, Math.PI / 2], [1, 0, Math.PI / 2]] };
+  const ROUND_BACK = { 'back-bottom': [[Math.PI / 2, 'top'], [Math.PI / 2, 'bottom']], 'back-top': [[-Math.PI / 2, 'bottom'], [-Math.PI / 2, 'top']],
+    'back-left': [[0, 'bottom'], [Math.PI, 'top']], 'back-right': [[Math.PI, 'bottom'], [0, 'top']] };
+  function backText(ctx, g, m, color, view){
+    const f = BACK_FONT[m.cat] || BACK_FONT.caption, txt = f[2] ? m.text.toUpperCase() : m.text;
+    const d1 = g.fold + 0.3, d2 = g.bleed - 0.25, hb = d2 - d1, dm = (d1 + d2) / 2, t = view ? dm - g.fold : dm;
+    if(hb <= 0.6 || !txt) return;
+    const size0 = Math.min(hb * 0.78, 3) * Math.min(1.3, m.size || 1), sp = f[3];
+    const list = m.pos === 'back-around' ? ['back-bottom', 'back-top', 'back-left', 'back-right'] : [m.pos];
+    if(g.round){
+      const R = view ? g.W / 2 - t : g.W / 2 + t;
+      if(m.pos === 'back-around'){ const unit = txt + '  ·  '; ctx.font = font(size0, f[0], f[1]);
+        const n = Math.max(1, Math.floor(2 * Math.PI * R * 0.94 / (ctx.measureText(unit).width * (1 + sp))));
+        arcText(ctx, unit.repeat(n).trim(), R, view ? -Math.PI / 2 : Math.PI / 2, { size: size0, family: f[0], weight: f[1], spacing: sp, color, side: view ? 'top' : 'bottom' }); return; }
+      list.forEach(k => { const [at, side] = ROUND_BACK[k][view ? 1 : 0];
+        ctx.font = font(size0, f[0], f[1]); const w = ctx.measureText(txt).width * (1 + sp), maxW = Math.PI * R * 0.55;
+        arcText(ctx, txt, R, at, { size: w > maxW ? size0 * maxW / w : size0, family: f[0], weight: f[1], spacing: sp, color, side }); });
+      return;
+    }
+    list.forEach(k => { const [sx, sy, rot] = RECT_BACK[k][view ? 1 : 0], along = sy ? g.W : g.H, x = sx * (g.W / 2 + (view ? -t : t)), y = sy * (g.H / 2 + (view ? -t : t));
+      const maxW = along - 2 * (d2 - g.fold) - 1.5, size = fit(ctx, txt, maxW, size0, f[0], f[1], 'normal', size0 * 0.3, sp);
+      ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.fillStyle = color; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      if('letterSpacing' in ctx) ctx.letterSpacing = (sp * size).toFixed(3) + 'px';
+      ctx.fillText(txt, 0, 0); ctx.restore(); });
+  }
+  const backMarks = s => (s.marks || []).filter(m => isBack(m.pos) && (m.text || m.cat === 'date'));
+  const textColor = (c, band) => c && ratio(c, band) >= 3 ? c : contrast(band);
+
+  // the back of the magnet as you see it after pressing: the folded border, the back plate and the magnet sheet
+  function renderBack(ctx, g, s){
+    const c = Object.assign({ ink: '#1f1f1f', accent: '#c2410c', paper: '#ffffff' }, s.colors || {}), p = { ink: c.ink, accent: c.accent, paper: c.paper };
+    const fw = g.bleed - g.fold, outer = face(g), inner = face(g, fw), back = backMarks(s), solid = back.length || (s.backBorder && s.backBorder !== 'photo');
+    ctx.save(); ctx.clip(outer);
+    if(solid){ ctx.fillStyle = BAND(s, p); ctx.fill(outer); }
+    else {                                                     // the photo carries on round the edge: remap the print's border
+      const m = ctx.getTransform(), k = Math.hypot(m.a, m.b), cv = document.createElement('canvas'), pad = 2;
+      cv.width = Math.ceil((g.cutW + 2 * pad) * k); cv.height = Math.ceil((g.cutH + 2 * pad) * k);
+      const cc = cv.getContext('2d'); cc.setTransform(k, 0, 0, k, cv.width / 2, cv.height / 2); renderCell(cc, g, Object.assign({}, s, { guides: false, cutLine: false }));
+      const img = (a, b, cdx, dd, e, f2) => { ctx.save(); ctx.transform(a, b, cdx, dd, e, f2); ctx.drawImage(cv, -cv.width / 2 / k, -cv.height / 2 / k, cv.width / k, cv.height / k); ctx.restore(); };
+      if(!g.round){
+        const strip = (pts, fn) => { ctx.save(); const P = new Path2D(); P.moveTo(pts[0][0], pts[0][1]); pts.slice(1).forEach(q => P.lineTo(q[0], q[1])); P.closePath(); ctx.clip(P); fn(); ctx.restore(); };
+        const a = g.W / 2, b = g.H / 2, ai = a - fw, bi = b - fw;
+        strip([[-a, b], [a, b], [ai, bi], [-ai, bi]], () => img(-1, 0, 0, -1, 0, g.H + g.fold));          // bottom
+        strip([[-a, -b], [a, -b], [ai, -bi], [-ai, -bi]], () => img(-1, 0, 0, -1, 0, -(g.H + g.fold)));   // top
+        strip([[-a, -b], [-ai, -bi], [-ai, bi], [-a, b]], () => img(1, 0, 0, 1, -(g.W + g.fold), 0));      // left, from the print's right
+        strip([[a, -b], [ai, -bi], [ai, bi], [a, b]], () => img(1, 0, 0, 1, g.W + g.fold, 0));             // right, from the print's left
+      } else {
+        const R = g.W / 2, n = 120, rp = R + g.fold + fw / 2, rv = R - fw / 2;
+        for(let i = 0; i < n; i++){ const tv = 2 * Math.PI * i / n, tp = Math.PI - tv, d = Math.PI / n * 1.08;
+          ctx.save(); const P = new Path2D(); P.arc(0, 0, R, tv - d, tv + d); P.arc(0, 0, R - fw, tv + d, tv - d, true); P.closePath(); ctx.clip(P);
+          const Tp = [-Math.sin(tp), Math.cos(tp)], Np = [Math.cos(tp), Math.sin(tp)], Tv = [-Math.sin(tv), Math.cos(tv)], Nv = [Math.cos(tv), Math.sin(tv)];
+          // print basis (Tp, Np) goes to (-Tv, -Nv): angle mirrored, radius turned inside out
+          const A = [-Tv[0] * Tp[0] - Nv[0] * Np[0], -Tv[1] * Tp[0] - Nv[1] * Np[0], -Tv[0] * Tp[1] - Nv[0] * Np[1], -Tv[1] * Tp[1] - Nv[1] * Np[1]];
+          const cp = [rp * Np[0], rp * Np[1]], cvv = [rv * Nv[0], rv * Nv[1]];
+          img(A[0], A[1], A[2], A[3], cvv[0] - (A[0] * cp[0] + A[2] * cp[1]), cvv[1] - (A[1] * cp[0] + A[3] * cp[1])); ctx.restore(); }
+      }
+    }
+    // back plate and magnet sheet inside the border
+    ctx.fillStyle = '#3a3e44'; ctx.fill(inner); ctx.fillStyle = '#4a3b2c'; ctx.fill(face(g, fw + 1.2));
+    ctx.restore();
+    ctx.save(); ctx.lineWidth = 0.15; ctx.strokeStyle = 'rgba(0,0,0,.45)'; ctx.stroke(inner);
+    if(!g.round){ const a = g.W / 2, b = g.H / 2; ctx.beginPath(); [[1, 1], [1, -1], [-1, 1], [-1, -1]].forEach(([sx, sy]) => { ctx.moveTo(sx * a, sy * b); ctx.lineTo(sx * (a - fw), sy * (b - fw)); }); ctx.stroke(); }
+    ctx.lineWidth = 0.3; ctx.strokeStyle = 'rgba(0,0,0,.5)'; ctx.stroke(outer); ctx.restore();
+    const band = BAND(s, p); back.forEach(m => guarded(ctx, 'back text', () => backText(ctx, g, m, textColor(m.color, band), true)));
+  }
+
   function renderCell(ctx, g, s){
     const c = Object.assign({ ink: '#1f1f1f', accent: '#c2410c', paper: '#ffffff' }, s.colors || {});
     const p = { ink: c.ink, accent: c.accent, paper: c.paper, seed: s.seed || 7, logo: s.logo || null };
@@ -180,14 +268,20 @@
     if(s.pattern && styles[s.pattern]) guarded(ctx, s.pattern, () => styles[s.pattern].draw(ctx, g, p, H));
     if(s.photo && s.photo.img) guarded(ctx, 'photo', () => drawPhoto(ctx, g, s.photo));
     if(s.frame && styles[s.frame]) guarded(ctx, s.frame, () => styles[s.frame].draw(ctx, g, p, H));
-    (s.marks || []).forEach(m => { const st = styles[m.style]; if(!st || !(m.text || m.cat === 'brand' && p.logo || m.cat === 'date')) return;
+    (s.marks || []).forEach(m => { const st = styles[m.style]; if(isBack(m.pos) || !st || !(m.text || m.cat === 'brand' && p.logo || m.cat === 'date')) return;
       guarded(ctx, m.style, () => st.draw(ctx, g, p, H, { text: m.text || '', date: m.date || new Date(), pos: m.pos || st.pos || 'bc', color: m.color || p.ink, size: m.size || 1 })); });
+    const back = backMarks(s);
+    if(back.length || (s.backBorder && s.backBorder !== 'photo')){
+      const band = BAND(s, p); ctx.fillStyle = band; ctx.fill(backBand(g), 'evenodd');
+      back.forEach(m => guarded(ctx, 'back text', () => backText(ctx, g, m, textColor(m.color, band), false)));
+    }
     ctx.restore();
-    if(s.guides){ ctx.save(); ctx.lineWidth = 0.25; ctx.strokeStyle = 'rgba(30,110,220,.9)'; ctx.setLineDash([1.2, 0.8]); ctx.stroke(face(g));
+    if(s.guides){ ctx.save(); ctx.lineWidth = 0.25; ctx.strokeStyle = 'rgba(30,140,90,.9)'; ctx.setLineDash([1.6, 0.5, 0.3, 0.5]); ctx.stroke(face(g, -g.fold));
+      ctx.strokeStyle = 'rgba(30,110,220,.9)'; ctx.setLineDash([1.2, 0.8]); ctx.stroke(face(g));
       ctx.strokeStyle = 'rgba(220,40,120,.85)'; ctx.setLineDash([0.4, 0.6]); ctx.stroke(safe(g)); ctx.restore(); }
     if(s.cutLine){ ctx.save(); ctx.lineWidth = 0.2; ctx.strokeStyle = '#555'; ctx.stroke(CUT); ctx.restore(); }
   }
 
-  window.MS = { SIZES, POS, BLEED, SAFE_IN, geom, register, list, styles, errors, renderCell, samplePhoto, loadFonts, FONTS, FONT_CSS,
-    h: { face, safe, cut, shapePath, alongEdge, placeBox, font, fit, arcText, rgba, mix, lum, contrast, rng, star, heart, shadow, FONTS } };
+  window.MS = { SIZES, POS, BACK_POS, DEPTH, FOLD, SAFE_IN, geom, register, list, styles, errors, renderCell, renderBack, samplePhoto, loadFonts, FONTS, FONT_CSS,
+    h: { face, safe, cut, backBand, shapePath, alongEdge, placeBox, font, fit, arcText, rgba, mix, lum, contrast, rng, star, heart, shadow, FONTS } };
 })();

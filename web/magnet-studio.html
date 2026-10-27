@@ -76,7 +76,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
 #sheetCanvas{width:100%;height:auto;display:block;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.18)}
 .legend{display:flex;flex-wrap:wrap;gap:4px 14px;font:12px var(--f-mono);color:var(--ink2)}
 .legend i{display:inline-block;width:18px;height:0;vertical-align:middle;margin-right:5px;border-top:2px dashed var(--guide)}
-.legend i.s{border-top:2px dotted var(--cut)}.legend i.e{border:0;height:10px;background:rgba(0,0,0,.28)}
+.legend i.s{border-top:2px dotted var(--cut)}.legend i.e{border:0;height:10px;background:rgba(0,0,0,.28)}.legend i.f{border-top:2px dashed var(--ok)}
 .facts{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 12px;font:13px var(--f-mono);margin:0}
 .facts dt{color:var(--muted)}.facts dd{margin:0;font-variant-numeric:tabular-nums}
 .small{font-size:13px;color:var(--ink2)}
@@ -114,7 +114,9 @@ input[type=range]{accent-color:var(--accent);width:100%}
             <label class="chk"><input type="checkbox" id="cutLines" checked> Cut lines</label>
             <label class="chk"><input type="checkbox" id="guides" checked> Guides on screen</label>
           </div>
-          <div class="row"><label class="small" for="margin">Printer margin, mm</label><input type="number" id="margin" min="0" max="15" step="0.5" value="5" style="width:72px"></div>
+          <div class="row"><label class="small" for="margin">Printer margin, mm</label><input type="number" id="margin" min="0" max="15" step="0.5" value="5" style="width:72px">
+            <label class="small" for="depth">Shell depth, mm</label><select id="depth"><option value="4.5">4.5</option><option value="5">5.0</option><option value="5.5">5.5</option><option value="6">6.0</option><option value="6.5">6.5</option></select></div>
+          <p class="small">Shell depth sets how far the paper reaches past the face: it wraps over the edge and lies on the back as a border. Measure the shells you buy; 4.5 is the press design's nominal.</p>
         </div>
       </details>
 
@@ -155,6 +157,8 @@ input[type=range]{accent-color:var(--accent);width:100%}
             <label class="chk"><input type="color" id="cInk" value="#1f1f1f"> Dark text</label>
             <label class="chk"><input type="color" id="cPaper" value="#ffffff"> Border</label>
           </div>
+          <div class="row"><label class="small" for="backBorder">Border on the back of the magnet</label>
+            <select id="backBorder"><option value="photo">Photo carries on (white under text)</option><option value="white">White</option><option value="paper">Border colour</option><option value="accent">Accent colour</option><option value="dark">Dark</option></select></div>
         </div>
       </details>
 
@@ -175,8 +179,9 @@ input[type=range]{accent-color:var(--accent);width:100%}
             <li>Print at 100 % (“Actual size”), never “Fit to page”. The bar at the foot of the sheet must measure 50 mm.</li>
             <li>Use 90–120 g/m² matte inkjet paper. Photo paper and card are too thick to fold round the edge.</li>
             <li>Let inkjet prints dry for 10 minutes before pressing.</li>
-            <li>Cut on the grey line: a circle punch for round sizes, a trimmer or a rectangular punch for the others (square corners).</li>
-            <li>The shaded band on the big preview folds over the rim: keep faces and text inside the dotted line.</li>
+            <li>Cut on the grey line: a circle punch for round sizes; for the others a trimmer, then snip the four corners off along the short diagonal lines.</li>
+            <li>The shaded band on the big preview wraps round the edge; beyond the green line it lies on the back. Keep faces and front text inside the dotted line.</li>
+            <li>Text set to a “Back” position is printed in that border and reads upright on the back of the finished magnet. Check it with “Back, after pressing”.</li>
           </ul>
         </div>
       </details>
@@ -186,8 +191,10 @@ input[type=range]{accent-color:var(--accent);width:100%}
     <section class="mag" aria-label="Selected magnet">
       <div class="stage">
         <div class="row" style="justify-content:space-between"><h2 id="magTitle">Magnet 1</h2><span class="eyebrow" id="magSize"></span></div>
+        <div class="seg" role="group" aria-label="Side shown"><button type="button" data-side="front" aria-pressed="true">Front</button><button type="button" data-side="back" aria-pressed="false">Back, after pressing</button></div>
         <canvas id="magCanvas" width="600" height="600" aria-label="The selected magnet at large scale; drag to move the photo"></canvas>
-        <div class="legend"><span><i></i>face edge</span><span><i class="s"></i>keep text inside</span><span><i class="e"></i>folds over the rim</span></div>
+        <div class="legend" id="legendFront"><span><i></i>face edge</span><span><i class="s"></i>keep text inside</span><span><i class="f"></i>back border starts</span><span><i class="e"></i>wraps round the edge</span></div>
+        <p class="small" id="legendBack" hidden>The back after pressing, as you hold it: the paper border folded over the back plate, mitred at the corners. Stick the magnet sheet inside the border.</p>
         <div class="row" style="flex-wrap:nowrap"><label class="lbl" for="zoom">Zoom</label><input type="range" id="zoom" min="1" max="4" step="0.01" value="1"></div>
         <div class="row"><button class="btn" id="rotate" type="button">Rotate 90°</button><button class="btn" id="resetCrop" type="button">Reset photo</button></div>
       </div>
@@ -236,7 +243,7 @@ const today = new Date();
 
 // ---------- state ----------
 const S = {
-  size: 's63', land: false, paper: 'A4', margin: 5, cutLines: true, guides: true,
+  size: 's63', land: false, paper: 'A4', margin: 5, cutLines: true, guides: true, depth: MS.DEPTH, side: 'front', backBorder: 'photo',
   photos: [], fill: 'each', assign: {}, sel: 0, cur: 0,
   preset: null, frame: null, pattern: null, usePattern: false, seed: 7,
   colors: { accent: '#c2410c', ink: '#1f1f1f', paper: '#ffffff' }, logo: null,
@@ -248,7 +255,7 @@ const S = {
   }
 };
 const sizeOf = id => MS.SIZES.find(z => z.id === id);
-const geom = () => MS.geom(sizeOf(S.size), S.land);
+const geom = () => MS.geom(sizeOf(S.size), S.land, S.depth);
 const fmtDate = m => (FORMATS.find(f => f[0] === m.fmt) || FORMATS[0])[2](m.date);
 
 // photos: { img, name, crops: { '<size>|<orientation>': {zoom, dx, dy, rot} } }
@@ -276,7 +283,7 @@ function marksState(){
 function cellState(i, extra){
   const k = S.usePattern ? -1 : photoIndex(i), ph = k >= 0 ? S.photos[k] : null;
   return Object.assign({ photo: ph ? Object.assign({ img: ph.img }, cropOf(ph)) : null, pattern: ph ? null : S.pattern, frame: S.frame,
-    marks: marksState(), colors: S.colors, seed: S.seed, logo: S.logo }, extra || {});
+    marks: marksState(), colors: S.colors, seed: S.seed, logo: S.logo, backBorder: S.backBorder }, extra || {});
 }
 
 // ---------- rendering ----------
@@ -292,10 +299,13 @@ function renderMag(){
   mag.width = Math.round(w * dpr); mag.height = Math.round(hgt * dpr); mag.style.height = hgt + 'px'; magK = k;
   const c = mag.getContext('2d'); c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, mag.width, mag.height);
   c.setTransform(k * dpr, 0, 0, k * dpr, mag.width / 2, mag.height / 2);
-  MS.renderCell(c, g, cellState(S.sel, { guides: false, cutLine: true }));
-  if(S.guides){ c.save(); const P = new Path2D(); P.addPath(H.cut(g)); P.addPath(H.face(g)); c.clip(P, 'evenodd'); c.fillStyle = 'rgba(0,0,0,.22)'; c.fillRect(-g.cutW, -g.cutH, 2 * g.cutW, 2 * g.cutH);
+  if(S.side === 'back'){ MS.renderBack(c, g, cellState(S.sel)); }
+  else MS.renderCell(c, g, cellState(S.sel, { guides: false, cutLine: true }));
+  $('#legendFront').hidden = S.side === 'back'; $('#legendBack').hidden = S.side !== 'back';
+  if(S.guides && S.side !== 'back'){ c.save(); const P = new Path2D(); P.addPath(H.cut(g)); P.addPath(H.face(g)); c.clip(P, 'evenodd'); c.fillStyle = 'rgba(0,0,0,.22)'; c.fillRect(-g.cutW, -g.cutH, 2 * g.cutW, 2 * g.cutH);
     c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = 0.25; c.beginPath(); for(let t = -g.cutW - g.cutH; t < g.cutW + g.cutH; t += 1.6){ c.moveTo(t, -g.cutH); c.lineTo(t + 2 * g.cutH, g.cutH); } c.stroke(); c.restore();
-    c.save(); c.lineWidth = 0.3; c.setLineDash([1.4, 0.9]); c.strokeStyle = cssVar('--guide'); c.stroke(H.face(g)); c.setLineDash([0.45, 0.65]); c.strokeStyle = cssVar('--cut'); c.stroke(H.safe(g)); c.restore(); }
+    c.save(); c.lineWidth = 0.3; c.setLineDash([1.4, 0.9]); c.strokeStyle = cssVar('--guide'); c.stroke(H.face(g)); c.setLineDash([0.45, 0.65]); c.strokeStyle = cssVar('--cut'); c.stroke(H.safe(g));
+    c.setLineDash([1.6, 0.5, 0.3, 0.5]); c.strokeStyle = cssVar('--ok'); c.stroke(H.face(g, -g.fold)); c.restore(); }
   $('#magTitle').textContent = 'Magnet ' + (S.sel + 1) + ' of ' + L.n;
   $('#magSize').textContent = g.label + (g.round ? '' : g.W !== g.H ? (S.land ? ' · landscape' : ' · portrait') : '');
   const k2 = S.usePattern ? -1 : photoIndex(S.sel); $('#zoom').value = k2 >= 0 ? cropOf(S.photos[k2]).zoom : 1;
@@ -368,6 +378,9 @@ function buildControls(){
   $('#cutLines').addEventListener('change', e => { S.cutLines = e.target.checked; schedule(); });
   $('#guides').addEventListener('change', e => { S.guides = e.target.checked; schedule(); });
   $('#margin').addEventListener('input', e => { S.margin = Math.min(15, Math.max(0, +e.target.value || 0)); schedule(); });
+  $('#depth').addEventListener('change', e => { S.depth = +e.target.value; schedule(true); });
+  $('#backBorder').addEventListener('change', e => { S.backBorder = e.target.value; schedule(true); });
+  $$('[data-side]').forEach(b => b.addEventListener('click', () => { S.side = b.dataset.side; $$('[data-side]').forEach(o => o.setAttribute('aria-pressed', String(o === b))); schedule(); }));
   $$('[data-fill]').forEach(b => b.addEventListener('click', () => { S.fill = b.dataset.fill; if(S.fill === 'same') S.cur = Math.max(0, photoIndex(S.sel)); syncControls(); schedule(true); }));
   $('#usePattern').addEventListener('change', e => { S.usePattern = e.target.checked; if(S.usePattern && !S.pattern){ const p = MS.list('pattern')[0]; S.pattern = p ? p.id : null; } syncControls(); schedule(true); });
   $('#shuffle').addEventListener('click', () => { S.seed = 1 + Math.floor(Math.random() * 99999); schedule(true); });
@@ -376,6 +389,15 @@ function buildControls(){
   thumbGrid($('#frameThumbs'), [{ id: 'none', name: 'No outline' }].concat(MS.list('frame').map(p => ({ id: p.id, name: p.name }))), S.frame, id => { S.frame = id; S.preset = null; syncControls(); schedule(); });
   thumbGrid($('#patThumbs'), MS.list('pattern').map(p => ({ id: p.id, name: p.name })), S.pattern, id => { S.pattern = id; S.usePattern = true; S.preset = null; syncControls(); schedule(true); });
   buildMarks();
+}
+const isBackPos = p => String(p).indexOf('back-') === 0;
+const BACK_NAME = { 'back-bottom': 'Back: bottom edge', 'back-top': 'Back: top edge', 'back-left': 'Back: left edge', 'back-right': 'Back: right edge', 'back-around': 'Back: all round' };
+function posOptions(sel, cur){
+  sel.innerHTML = '';
+  [['On the photo', MS.POS.map(p => [p, POS_NAME[p]])], ['On the back (folded border)', MS.BACK_POS.map(p => [p, BACK_NAME[p]])]].forEach(([label, items]) => {
+    const og = document.createElement('optgroup'); og.label = label;
+    items.forEach(([v, t]) => { const o = document.createElement('option'); o.value = v; o.textContent = t; if(v === cur) o.selected = true; og.appendChild(o); });
+    sel.appendChild(og); });
 }
 function opt(sel, items, cur){ sel.innerHTML = ''; items.forEach(([v, t]) => { const o = document.createElement('option'); o.value = v; o.textContent = t; if(v === cur) o.selected = true; sel.appendChild(o); }); }
 function buildMarks(){
@@ -395,7 +417,9 @@ function buildMarks(){
     else { const t = $('#tx-' + k); t.addEventListener('input', () => { m.text = t.value; m.user = true; schedule(k !== 'caption'); }); }
     if(k === 'brand') $('#logo').addEventListener('change', e => { const f = e.target.files[0]; if(!f) return; loadImage(f).then(img => { S.logo = img; m.on = true; const lg = MS.styles['brand.logo']; if(lg) m.style = lg.id; syncControls(); schedule(true); }); });
     const st = $('#st-' + k); opt(st, styles.map(s => [s.id, s.name]), m.style); st.addEventListener('change', () => { m.style = st.value; const d = MS.styles[m.style]; if(d && d.pos) m.pos = d.pos; S.preset = null; syncControls(); schedule(); });
-    const ps = $('#pos-' + k); opt(ps, MS.POS.map(p => [p, POS_NAME[p]]), m.pos); ps.addEventListener('change', () => { m.pos = ps.value; schedule(); });
+    const ps = $('#pos-' + k); posOptions(ps, m.pos);
+    ps.addEventListener('change', () => { const was = m.pos; m.pos = ps.value; if(isBackPos(m.pos) && !isBackPos(was)) S.side = 'back';
+      $$('[data-side]').forEach(o => o.setAttribute('aria-pressed', String(o.dataset.side === S.side))); schedule(); });
     $('#col-' + k).addEventListener('input', e => { m.color = e.target.value; schedule(); });
     $('#sz-' + k).addEventListener('input', e => { m.size = +e.target.value; schedule(); });
   });
@@ -410,6 +434,8 @@ function syncControls(){
   $$('[data-fill]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.fill === S.fill)));
   $('#usePattern').checked = S.usePattern;
   $('#cAccent').value = S.colors.accent; $('#cInk').value = S.colors.ink; $('#cPaper').value = S.colors.paper;
+  $('#depth').value = String(S.depth); $('#backBorder').value = S.backBorder;
+  $$('[data-side]').forEach(o => o.setAttribute('aria-pressed', String(o.dataset.side === S.side)));
   pressed($('#presetThumbs'), S.preset); pressed($('#frameThumbs'), S.frame); pressed($('#patThumbs'), S.usePattern ? S.pattern : null);
   const name = id => (id && MS.styles[id] ? MS.styles[id].name : 'none');
   $('#presetHint').textContent = S.preset ? name(S.preset) : 'custom'; $('#frameHint').textContent = name(S.frame); $('#patHint').textContent = S.usePattern ? name(S.pattern) : 'off';
@@ -425,7 +451,7 @@ function updateInfo(){
   $('#sheetHint').textContent = g.label + ' · ' + L.n + '/' + S.paper;
   $('#photoHint').textContent = S.photos.length ? S.photos.length + (S.photos.length === 1 ? ' photo' : ' photos') : 'none yet';
   const f = $('#facts'), row = (a, b) => '<dt>' + a + '</dt><dd>' + b + '</dd>', pair = (w, h) => g.round ? 'Ø' + w : w + ' × ' + h;
-  f.innerHTML = row('Face', pair(g.W, g.H) + ' mm') + row('Paper cut', pair(g.cutW, g.cutH) + ' mm' + (g.round ? '' : ', square corners')) + row('Keep text in', pair(g.safeW, g.safeH) + ' mm')
+  f.innerHTML = row('Face', pair(g.W, g.H) + ' mm') + row('Paper cut', pair(g.cutW, g.cutH) + ' mm' + (g.round ? '' : ', corners clipped')) + row('Back border', '≈ ' + (g.bleed - g.fold).toFixed(1) + ' mm on the back') + row('Keep text in', pair(g.safeW, g.safeH) + ' mm')
     + row('Layout', L.cols + ' × ' + L.rows + ' on ' + S.paper + ', ' + GAP + ' mm apart') + row('Print', 'at 100 %; check the 50 mm bar');
 }
 
@@ -496,11 +522,19 @@ async function saveFile(name, blob){
 const fileBase = () => 'magnets_' + geom().label.replace('Ø', 'D').replace(/[^0-9A-Za-z.]+/g, 'x').replace(/x+$/, '') + (S.land ? '_landscape' : '') + '_' + S.paper;
 const busy = (on, msg) => { $$('#savePdf, #savePng, #saveBlank').forEach(b => b.disabled = on); if(on && msg) toast(msg); };
 function jsPDFctor(){ if(!window.jspdf || !window.jspdf.jsPDF) throw new Error('The PDF library did not load. Check the internet connection and reload.'); return window.jspdf.jsPDF; }
-function pdfOutline(doc, g, cx, cy, inset, dash){
-  doc.setLineDashPattern(dash || [], 0);
-  if(g.round){ doc.circle(cx, cy, g.cutW / 2 - inset, 'S'); return; }
-  const w = g.cutW - 2 * inset, h = g.cutH - 2 * inset, r = inset === 0 ? g.cutR : Math.max(0, g.r - (inset - 6));
-  doc.roundedRect(cx - w / 2, cy - h / 2, w, h, r, r, 'S');
+// the guide outlines, centred on (0, 0): cut (paper edge, corners clipped), fold (back border starts), face, safe (keep text in)
+function outline(g, which){
+  if(g.round) return { circle: which === 'cut' ? g.cutW / 2 : which === 'fold' ? g.W / 2 + g.fold : which === 'face' ? g.W / 2 : g.safeR };
+  if(which === 'cut'){ const a = g.cutW / 2, b = g.cutH / 2, s = g.W / 2 + g.H / 2 + g.fold;
+    return { poly: [[s - b, -b], [a, a - s], [a, s - a], [s - b, b], [b - s, b], [-a, s - a], [-a, a - s], [b - s, -b]] }; }
+  const w = which === 'fold' ? g.W + 2 * g.fold : which === 'face' ? g.W : g.safeW, h = which === 'fold' ? g.H + 2 * g.fold : which === 'face' ? g.H : g.safeH;
+  return { rect: [w, h, which === 'face' ? g.r : 0] };
+}
+function pdfOutline(doc, g, cx, cy, which, dash){
+  doc.setLineDashPattern(dash || [], 0); const o = outline(g, which);
+  if(o.circle) doc.circle(cx, cy, o.circle, 'S');
+  else if(o.rect){ const [w, h, r] = o.rect; if(r) doc.roundedRect(cx - w / 2, cy - h / 2, w, h, r, r, 'S'); else doc.rect(cx - w / 2, cy - h / 2, w, h, 'S'); }
+  else { const P = o.poly; doc.lines(P.slice(1).concat([P[0]]).map((q, i) => [q[0] - P[i][0], q[1] - P[i][1]]), cx + P[0][0], cy + P[0][1], [1, 1], 'S', true); }
 }
 function pdfFooter(doc, L, blank){
   const F = L.foot, P = (u, w) => F.v ? [F.x + w, F.y - u] : [F.x + u, F.y + w], ang = F.v ? { angle: 90 } : {};
@@ -511,7 +545,7 @@ function pdfFooter(doc, L, blank){
   doc.setDrawColor(91, 97, 104); doc.setLineWidth(0.25); ln(bx, 0, bx + 50, 0);
   for(let t = 0; t <= 50; t += 10){ const e = t % 50 ? 0.8 : 1.4; ln(bx + t, -e, bx + t, e); }
   txt('50 mm', bx - 1.5, 0.8, true);
-  if(blank){ const legend = 'grey: cut line · blue dashed: face edge · pink dotted: keep text inside · let the photo fill the whole cut area';
+  if(blank){ const legend = 'grey: cut line · green: back border starts (text beyond it shows on the back) · blue dashed: face edge · pink dotted: keep text inside';
     if(F.tight){ doc.text(legend, L.x0, Math.max(2.5, L.y0 - 1.4)); } else txt(legend, 0, 3.6); }
 }
 async function buildPDF(blank){
@@ -527,8 +561,9 @@ async function buildPDF(blank){
       doc.addImage(seen[key], 'JPEG', cell.x, cell.y, g.cutW, g.cutH, key, 'NONE');
       if(i % 3 === 2) await new Promise(r => setTimeout(r, 0));
     }
-    if(S.cutLines || blank){ doc.setDrawColor(138, 143, 150); doc.setLineWidth(0.2); pdfOutline(doc, g, cx, cy, 0); }
-    if(blank){ doc.setLineWidth(0.2); doc.setDrawColor(30, 110, 220); pdfOutline(doc, g, cx, cy, 6, [1.2, 0.8]); doc.setDrawColor(192, 48, 111); pdfOutline(doc, g, cx, cy, 9, [0.4, 0.6]); }
+    if(S.cutLines || blank){ doc.setDrawColor(138, 143, 150); doc.setLineWidth(0.2); pdfOutline(doc, g, cx, cy, 'cut'); }
+    if(blank){ doc.setLineWidth(0.2); doc.setDrawColor(47, 122, 68); pdfOutline(doc, g, cx, cy, 'fold', [1.6, 0.5, 0.3, 0.5]);
+      doc.setDrawColor(30, 110, 220); pdfOutline(doc, g, cx, cy, 'face', [1.2, 0.8]); doc.setDrawColor(192, 48, 111); pdfOutline(doc, g, cx, cy, 'safe', [0.4, 0.6]); }
   }
   pdfFooter(doc, L, blank);
   return doc;
@@ -544,13 +579,16 @@ $('#savePng').addEventListener('click', async () => {
 });
 function guideSVG(){
   const g = geom(), w = g.cutW, h = g.cutH, f = n => +n.toFixed(3);
-  const shape = (inset, attrs) => g.round ? '<circle cx="' + f(w / 2) + '" cy="' + f(h / 2) + '" r="' + f(w / 2 - inset) + '" ' + attrs + '/>'
-    : '<rect x="' + f(inset) + '" y="' + f(inset) + '" width="' + f(w - 2 * inset) + '" height="' + f(h - 2 * inset) + '" rx="' + (inset === 0 ? g.cutR : Math.max(0, g.r - (inset - 6))) + '" ' + attrs + '/>';
+  const shape = (which, attrs) => { const o = outline(g, which), cx = w / 2, cy = h / 2;
+    if(o.circle) return '<circle cx="' + f(cx) + '" cy="' + f(cy) + '" r="' + f(o.circle) + '" ' + attrs + '/>';
+    if(o.rect) return '<rect x="' + f(cx - o.rect[0] / 2) + '" y="' + f(cy - o.rect[1] / 2) + '" width="' + f(o.rect[0]) + '" height="' + f(o.rect[1]) + '" rx="' + o.rect[2] + '" ' + attrs + '/>';
+    return '<polygon points="' + o.poly.map(q => f(cx + q[0]) + ',' + f(cy + q[1])).join(' ') + '" ' + attrs + '/>'; };
   return '<svg xmlns="http://www.w3.org/2000/svg" width="' + f(w) + 'mm" height="' + f(h) + 'mm" viewBox="0 0 ' + f(w) + ' ' + f(h) + '">\n'
     + '<title>MagPress M4 ' + g.label + ' design guide: cut ' + (g.round ? 'Ø' + w : w + ' × ' + h) + ' mm</title>\n'
-    + '<g id="cut-line">' + shape(0, 'fill="none" stroke="#8a8f96" stroke-width="0.2"') + '</g>\n'
-    + '<g id="face-edge">' + shape(6, 'fill="none" stroke="#1e6edc" stroke-width="0.2" stroke-dasharray="1.2 0.8"') + '</g>\n'
-    + '<g id="keep-text-inside">' + shape(9, 'fill="none" stroke="#c0306f" stroke-width="0.2" stroke-dasharray="0.4 0.6"') + '</g>\n</svg>\n';
+    + '<g id="cut-line">' + shape('cut', 'fill="none" stroke="#8a8f96" stroke-width="0.2"') + '</g>\n'
+    + '<g id="back-border-starts">' + shape('fold', 'fill="none" stroke="#2f7a44" stroke-width="0.2" stroke-dasharray="1.6 0.5 0.3 0.5"') + '</g>\n'
+    + '<g id="face-edge">' + shape('face', 'fill="none" stroke="#1e6edc" stroke-width="0.2" stroke-dasharray="1.2 0.8"') + '</g>\n'
+    + '<g id="keep-text-inside">' + shape('safe', 'fill="none" stroke="#c0306f" stroke-width="0.2" stroke-dasharray="0.4 0.6"') + '</g>\n</svg>\n';
 }
 $('#saveSvg').addEventListener('click', () => saveFile('guide_' + fileBase().replace('magnets_', '').replace(/_(A4|Letter)$/, '') + '.svg', new Blob([guideSVG()], { type: 'image/svg+xml' })));
 

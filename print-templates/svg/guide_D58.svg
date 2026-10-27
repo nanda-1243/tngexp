@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="70mm" height="70mm" viewBox="0 0 70 70">
-<title>MagPress M4 Ø58 design guide: cut Ø70 mm</title>
-<g id="cut-line"><circle cx="35" cy="35" r="35" fill="none" stroke="#8a8f96" stroke-width="0.2"/></g>
-<g id="face-edge"><circle cx="35" cy="35" r="29" fill="none" stroke="#1e6edc" stroke-width="0.2" stroke-dasharray="1.2 0.8"/></g>
-<g id="keep-text-inside"><circle cx="35" cy="35" r="26" fill="none" stroke="#c0306f" stroke-width="0.2" stroke-dasharray="0.4 0.6"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" width="67mm" height="67mm" viewBox="0 0 67 67">
+<title>MagPress M4 Ø58 design guide: cut Ø67 mm</title>
+<g id="cut-line"><circle cx="33.5" cy="33.5" r="33.5" fill="none" stroke="#8a8f96" stroke-width="0.2"/></g>
+<g id="back-border-starts"><circle cx="33.5" cy="33.5" r="30.7" fill="none" stroke="#2f7a44" stroke-width="0.2" stroke-dasharray="1.6 0.5 0.3 0.5"/></g>
+<g id="face-edge"><circle cx="33.5" cy="33.5" r="29" fill="none" stroke="#1e6edc" stroke-width="0.2" stroke-dasharray="1.2 0.8"/></g>
+<g id="keep-text-inside"><circle cx="33.5" cy="33.5" r="26" fill="none" stroke="#c0306f" stroke-width="0.2" stroke-dasharray="0.4 0.6"/></g>
 </svg>
