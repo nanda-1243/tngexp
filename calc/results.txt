@@ -28,6 +28,10 @@ Basis: 7 N per mm of shell edge (scaled from the round-badge figures in US 4,696
 6363  edge 247 mm  peak 3.81 kN  hand force at the end of the stroke 122 N
 5380  edge 259 mm  peak 3.99 kN  hand force at the end of the stroke 128 N
 6590  edge 303 mm  peak 4.67 kN  hand force at the end of the stroke 150 N
+D44  edge 138 mm  peak 2.13 kN  hand force at the end of the stroke 68 N
+D50  edge 157 mm  peak 2.42 kN  hand force at the end of the stroke 78 N
+D56  edge 176 mm  peak 2.71 kN  hand force at the end of the stroke 87 N
+D58  edge 182 mm  peak 2.81 kN  hand force at the end of the stroke 90 N
 
 ================================================================================================
 3. HANDLE: REV A SCREWED BAR vs REV B/C ONE-PIECE LEVER
@@ -65,6 +69,11 @@ Size kit 5380               3.24   (plug 0.49, upper ring 0.47, pickup ring A 0.
 Size kit 6590               3.35   (plug 0.67, upper ring 0.29, pickup ring A 0.31, pickup pedestal 0.99, crimp ring B 0.31, crimp anvil 0.78)
 Press with the heaviest kit fitted   45.2 kg
 Die steel for all four sizes: Rev C 20.5 kg (universal die + 4 kits)  vs  Rev B 35.0 kg (4 complete sets)
+Size kit D44                3.05   (plug 0.18, upper ring 0.77, pickup ring A 0.82, pickup pedestal 0.25, crimp ring B 0.82, crimp anvil 0.20)
+Size kit D50                3.08   (plug 0.23, upper ring 0.72, pickup ring A 0.77, pickup pedestal 0.33, crimp ring B 0.77, crimp anvil 0.26)
+Size kit D56                3.12   (plug 0.28, upper ring 0.67, pickup ring A 0.71, pickup pedestal 0.41, crimp ring B 0.71, crimp anvil 0.33)
+Size kit D58                3.13   (plug 0.30, upper ring 0.65, pickup ring A 0.69, pickup pedestal 0.44, crimp ring B 0.69, crimp anvil 0.35)
+Rev D: die steel for all eight sizes 32.9 kg (universal die + 4 square/rectangular + 4 round kits)
 Lever: area 11582 mm2, mass 1.82 kg, CG at u 142, w -3.4 mm from pivot O
 
 ================================================================================================

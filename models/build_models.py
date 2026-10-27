@@ -1,4 +1,4 @@
-"""MagPress M4 Rev C.1: 3D models of every part, made and bought, as STEP, STL and OBJ, plus a placed assembly.
+"""MagPress M4 Rev D: 3D models of every part, made and bought, as STEP, STL and OBJ, plus a placed assembly.
 
 Run:  python models/build_models.py [outdir]      (needs cadquery and trimesh; outdir defaults to models/)
 
@@ -50,6 +50,9 @@ def edges_from_segs(segs, z=0.0):
             _, cx, cy, r, a0, a1 = s
             p = [V(cx + r * math.cos(math.radians(a)), cy + r * math.sin(math.radians(a)), z) for a in (a0, (a0 + a1) / 2.0, a1)]
             out.append(cq.Edge.makeThreePointArc(*p))
+        elif s[0] == 'C':
+            _, cx, cy, r = s
+            out.append(cq.Edge.makeCircle(r, V(cx, cy, z)))
     return out
 
 
@@ -439,6 +442,43 @@ def mp209(X, Z):
 # =====================================================================================
 # BOUGHT PARTS (catalogue shapes)
 # =====================================================================================
+# ---------------- Rev D: round size kits (turned plug, pedestal and anvil; round bores in the 106 x 81 rings) ----------------
+def mp223(D):
+    o, T, fs = P2.plug_r(D)
+    return plate(o, T, fs)
+
+
+def mp224(D):
+    o, T, fs = P2.ring_r(D, 'U')
+    extra = [cyl(4, 81 + 2, x, -40.5 - 1, 3.5, axis=(0, 1, 0)) for x in (-D / 4, D / 4)]
+    extra += [cone(6 + 2 * E, 3, 1.5 + E, sx * (53 + E), 0, 7, axis=(-sx, 0, 0)) for sx in (-1, 1)]
+    return plate(o, T, fs, extra)
+
+
+def mp226(D):
+    o, T, fs = P2.pick_ped_r(D)
+    return plate(o, T, fs)
+
+
+def mp227(D):
+    o, T, fs = P2.ring_r(D, 'A')
+    return plate(o, T, fs)
+
+
+def mp228(D):
+    o, T, fs = P2.anvil_r(D)
+    s = cyl(D + 0.3, 16)
+    plat = cq.Solid.makeLoft([cq.Wire.makeCircle((D - 4.0) / 2, V(0, 0, 16), V(0, 0, 1)), cq.Wire.makeCircle((D - 4.5) / 2, V(0, 0, 17), V(0, 0, 1))], True)
+    s = s.fuse(plat).clean()
+    return cut_all(s.cut(cq.Solid.makeTorus((D - 2.0) / 2, 1.0, V(0, 0, 16), V(0, 0, 1))), feat_tools(T, fs))
+
+
+def mp229(D):
+    o, T, fs = P2.ring_r(D, 'B')
+    c = D + 0.45
+    return plate(o, T, fs, [cone(c, c + 1.38 + 2 * E, 1.2 + E, 0, 0, 15 - 1.2)])
+
+
 def cap_screw(d, L, hd, hh, socket):
     """ISO 4762 style: underside of the head at z = 0, head up, shank down."""
     s = cyl(hd, hh).fuse(cyl(d, L, z0=-L))
@@ -582,6 +622,15 @@ def build():
         part('MP-207-%s' % code, 'Pickup ring A, kit %s' % lab, 'make', 'Size kit', mp207(X, Z), 'die', pl(at(STA, 0, 51)))
         part('MP-208-%s' % code, 'Crimp anvil, kit %s' % lab, 'make', 'Size kit', mp208(X, Z), 'die', pl(at(STB, 0, 40)))
         part('MP-209-%s' % code, 'Crimp ring B, kit %s' % lab, 'make', 'Size kit', mp209(X, Z), 'die', pl(at(STB, 0, 51)))
+
+    for code, Dm in P2.ROUND:
+        lab = P2.ROUND_LABEL[code]
+        part('MP-223-%s' % code, 'Plug, round kit %s' % lab, 'make', 'Size kit', mp223(Dm), 'die', [])
+        part('MP-224-%s' % code, 'Upper ring, round kit %s' % lab, 'make', 'Size kit', mp224(Dm), 'die', [])
+        part('MP-226-%s' % code, 'Pickup pedestal, round kit %s' % lab, 'make', 'Size kit', mp226(Dm), 'die', [])
+        part('MP-227-%s' % code, 'Pickup ring A, round kit %s' % lab, 'make', 'Size kit', mp227(Dm), 'die', [])
+        part('MP-228-%s' % code, 'Crimp anvil, round kit %s' % lab, 'make', 'Size kit', mp228(Dm), 'die', [])
+        part('MP-229-%s' % code, 'Crimp ring B, round kit %s' % lab, 'make', 'Size kit', mp229(Dm), 'die', [])
 
     # ---------------- bought parts: frame and drive ----------------
     part('BUY-01', 'Rubber pad Ø24 × 3', 'buy', 'Frame', cyl(24, 3), 'rubber',
@@ -821,13 +870,33 @@ def main():
         placed, drop = pose(inst, psi)
         moving.append((psi, drop, overlaps(placed, skip)))
     hits_closed = [h for (_, _, hs) in moving for h in hs]
+    # Rev D: a round kit (with its own dowels, stud and plungers) fitted instead of kit 6363, handle up
+    rk, Dm = 'D58', dict(P2.ROUND)['D58']
+    shapes = {p['id']: p['shape'] for p in PARTS}
+    sq = {'%s-%s' % (m, KIT_SHOWN) for m in ('MP-203', 'MP-204', 'MP-206', 'MP-207', 'MP-208', 'MP-209')} | {'BUY-45', 'BUY-46', 'BUY-48', 'MP-212'}
+    rnd = [(n, pid, s) for (n, pid, s) in open_pose if pid not in sq]
+    def fit(pid, f, k=1):
+        rnd.append(('%s_r%d' % (pid, k), pid, f(shapes[pid])))
+    for m, place in (('MP-223', at(0, 0, 97.5)), ('MP-224', at(0, 0, 92)), ('MP-226', at(STA, 0, 40)), ('MP-227', at(STA, 0, 51)),
+                     ('MP-228', at(STB, 0, 40)), ('MP-229', at(STB, 0, 51))):
+        fit('%s-%s' % (m, rk), place)
+    for k, (x, z) in enumerate(P2.PLUG_DOWEL_R, 1):
+        fit('BUY-46', at(x, -z, 104), k)
+    fit('MP-212', at(P2.STUD_R[0], -P2.STUD_R[1], 104))
+    yb, k = math.sqrt(((Dm + 0.35) / 2) ** 2 - (Dm / 4) ** 2), 0
+    for x in (-Dm / 4, Dm / 4):
+        for sy in (-1, 1):
+            k += 1
+            fit('BUY-45', Tr(*(TO_BACK if sy > 0 else TO_FRONT), at=(x, sy * (yb + 1.0 - 0.25), 95.5)), k)
+    hits_round = overlaps(rnd, skip=lambda a, b: False)
     with open(os.path.join(OUT, 'assembly', 'interference.txt'), 'w') as f:
-        f.write('Interference check, MagPress M4 Rev C.1 assembly (station B under the ram, kit %s)\n' % KIT_SHOWN)
+        f.write('Interference check, MagPress M4 Rev D assembly (station B under the ram, kit %s)\n' % KIT_SHOWN)
         f.write('%d placed parts. Overlaps above 1 mm^3 (touching faces and press fits at the same nominal size are not overlaps).\n' % len(inst))
         f.write('Through the stroke, die parts against die parts are not checked: the spring-loaded rings telescope by design. '
                 'Return springs are not checked (they compress).\n')
         for title, hits in [('Handle up, %.1f deg (as placed in the assembly files)' % PSI, hits_open)] + \
-                [('Handle at %.0f deg%s (ram %.1f mm down)' % (psi, ', on the stop' if psi == POSES[-1] else '', drop), hs) for (psi, drop, hs) in moving]:
+                [('Handle at %.0f deg%s (ram %.1f mm down)' % (psi, ', on the stop' if psi == POSES[-1] else '', drop), hs) for (psi, drop, hs) in moving] + \
+                [('Rev D: round kit %s fitted instead of kit %s, with its dowels on the inner pattern D2, stud in K2 and plungers, handle up' % (rk, KIT_SHOWN), hits_round)]:
             f.write('\n%s:\n' % title)
             for a_, b_, v in sorted(hits, key=lambda h: -h[2]):
                 f.write('  %-14s x %-14s %10.1f mm^3\n' % (a_, b_, v))
@@ -838,8 +907,8 @@ def main():
             f.write('  %-14s lowest point Z = %.2f\n' % (n, z))
         if not below:
             f.write('  none\n')
-    hits = hits_open + hits_closed
-    print('%d part files, %d placed instances, overlaps: %d handle up, %d through the stroke; %d below the bench' % (len(PARTS), len(inst), len(hits_open), len(hits_closed), len(below)))
+    print('%d part files, %d placed instances, overlaps: %d handle up, %d through the stroke, %d with round kit %s; %d below the bench'
+          % (len(PARTS), len(inst), len(hits_open), len(hits_closed), len(hits_round), rk, len(below)))
 
 
 if __name__ == '__main__':

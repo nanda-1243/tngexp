@@ -1,4 +1,4 @@
-# MagPress M4 — Assembly manual (Rev C.1)
+# MagPress M4 — Assembly manual (Rev D)
 
 How to build the MagPress M4 photo-magnet press from its parts, in 19 steps: frame and die table, ram and crown, toggle drive, universal die, a size kit, then set-up and tests. Every picture comes from the 3D model in [`models/`](../models/): the parts added in a step are in colour and pulled apart along the way they go in; parts already fitted are grey. Labels give the part number; the parts table under each picture gives the name, quantity and 3D file.
 
@@ -6,12 +6,14 @@ How to build the MagPress M4 photo-magnet press from its parts, in 19 steps: fra
 
 ## Before you start
 
-- **Parts.** Made parts (MP-xxx) are made to the drawing set in [`release/`](../release/); bought parts (BUY-xx) are in the BOM and in [`models/parts.csv`](../models/parts.csv). Lay every step's parts out and check them off before you start the step.
+- **Parts.** Made parts (MP-xxx) are made to the drawing set in [`release/RevD/`](../release/RevD/); bought parts (BUY-xx) are in the BOM and in [`models/parts.csv`](../models/parts.csv). Lay every step's parts out and check them off before you start the step.
 - **Directions.** Front is the operator side (the base tongue). Left and right are as seen from the front. Station A (pickup) is the left station on the die table, station B (crimp) the right. Pushing the table to the right puts station A under the ram.
 - **Bushings.** The pin bushings are PTFE-composite and run dry: no grease, never ream them after pressing. Press them with a stepped mandrel, never with a hammer.
 - **Lubrication.** Columns and the graphite-plugged ram bushings run dry: wipe them clean. Light oil on the rails only. No oil on the dies.
 - **Threadlocker.** Clean threads with solvent before Loctite. The torque table below lists every joint.
 - **Safety.** The press weighs about 45 kg: lift it with two people. The pinch points are between the dies and between the table and the stop blocks. Wear gloves when handling tinplate shells.
+
+> ✅ **Rev D.** Rev D adds four round size kits: Ø44, Ø50, Ø56 and Ø58 (drawings MP-223 to MP-229). They are prepared and fitted like the square kits in steps 17 and 18, with two differences: the round plug hangs on the inner holes of the die body (dowels in D2, stud in K2, the same ball-lock pin), and round pedestals and anvils have no Ø4 anti-rotation pin. The 3D check was repeated with round kit D58 fitted in place of kit 6363: nothing clashes.
 
 > ✅ **Rev C.1.** Every part in this manual was checked against every other in the 3D model at six handle angles, from fully up to on the stop: nothing clashes. Rev C.1 fixed the seven clashes found in Rev C with these changes (details in [`models/README.md`](../models/README.md)):
 
@@ -425,9 +427,9 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 **Tools:** Press, 3 mm hex key, depth gauge or feelers, torque wrench, Loctite 243 and 222
 
 1. Do this once per kit; every kit is prepared the same way. Kit 6363 is shown.
-2. Plug: press the two Ø5 × 14 dowels into the D holes on the top face, 5.5 mm proud. Screw the stud (MP-212) into the M6 hole, Loctite 243, 8 N·m.
+2. Plug: press the two Ø5 × 14 dowels into the D holes on the top face, 5.5 mm proud. Screw the stud (MP-212) into the M6 hole, Loctite 243, 8 N·m. A round plug (MP-223) is prepared the same way.
 3. Upper ring: screw the four M4 spring plungers into the side holes until each ball stands 0.2 to 0.3 mm into the opening. Lock with Loctite 222.
-4. Pickup pedestal and crimp anvil: press a Ø12 × 15 dowel into the underside hole C (7 mm proud) and a Ø4 × 10 pin into hole Q (4 mm proud).
+4. Pickup pedestal and crimp anvil: press a Ø12 × 15 dowel into the underside hole C (7 mm proud) and a Ø4 × 10 pin into hole Q (4 mm proud). Round kits (Rev D) have no hole Q and no Ø4 pin: a round pedestal or anvil can turn.
 5. Rings A and B need no preparation. Check every part carries the kit's size code (and U, A or B).
 
 > ✅ **Check.** Plug dowels and stud square to the face; plungers all the same protrusion.
@@ -448,10 +450,10 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 
 **Tools:** None
 
-1. With the handle up on its stop, offer the plug up to the die body: dowels into the D holes, stud into hole K. It only fits one way.
+1. With the handle up on its stop, offer the plug up to the die body: dowels into the D holes, stud into hole K. It only fits one way. A round plug (Rev D) goes on the inner holes instead: dowels into D2, stud into K2.
 2. Push the ball-lock pin in through the front of the body until it locks. It passes the stud's groove and holds the plug.
 3. Push the upper ring up into the upper carrier with its key slots on the key pins, and tighten the two thumb screws.
-4. Drop pickup ring A into carrier A, then the pickup pedestal through it, dowel into hole C and pin into hole Q.
+4. Drop pickup ring A into carrier A, then the pickup pedestal through it, dowel into hole C and pin into hole Q (round kits: dowel only).
 5. Drop crimp ring B into carrier B, then the crimp anvil the same way. The key pins stop a ring going into the wrong carrier.
 
 > ✅ **Check.** One slow dry stroke on each station: the upper ring enters both lower rings without touching.
@@ -494,9 +496,9 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 
 1. Rest the handle up on its stop and push the table to the right (station A under the ram).
 2. Upper: hold the upper ring, loosen its two thumb screws and lower it out. Press the button on the ball-lock pin, pull it out, and lower the plug off its dowels.
-3. Fit the new plug (it only fits one way) and push the pin home. Push the new upper ring up so its key slots meet the pins, and tighten the thumb screws.
+3. Fit the new plug (it only fits one way: square plugs on the outer holes D and K, round plugs on the inner holes D2 and K2) and push the pin home. Push the new upper ring up so its key slots meet the pins, and tighten the thumb screws.
 4. Lower: screw the M5 T-handle puller into each pedestal or anvil and lift it out, then lift the ring out by its opening. Drop in the new ring A and pickup pedestal on the left, and ring B and crimp anvil on the right.
-5. One slow dry stroke on each station, then two test magnets. Check the corners and the crimp before running a batch.
+5. One slow dry stroke on each station, then two test magnets. Check the corners (or, on a round magnet, the whole edge) and the crimp before running a batch.
 
 ## Maintenance
 

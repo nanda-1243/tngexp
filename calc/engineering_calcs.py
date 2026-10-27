@@ -90,6 +90,11 @@ for cd, X, Z in SIZES:
     perim = 2 * (X + Z) - 8 * r + 2 * math.pi * r
     peak = 2.2 * 7 * perim
     print('%s  edge %.0f mm  peak %.2f kN  hand force at the end of the stroke %.0f N' % (cd, perim, peak / 1000, peak / (ETA * MA(PHI_END, L_REV_BC))))
+ROUND = [('D44', 44), ('D50', 50), ('D56', 56), ('D58', 58)]     # Rev D round kits
+for cd, Dm in ROUND:
+    perim = math.pi * Dm
+    peak = 2.2 * 7 * perim
+    print('%s  edge %.0f mm  peak %.2f kN  hand force at the end of the stroke %.0f N' % (cd, perim, peak / 1000, peak / (ETA * MA(PHI_END, L_REV_BC))))
 
 # ----------------------------------------------------------------------------------------------
 # 3. Handle joint
@@ -212,6 +217,20 @@ def kit(X, Z):
     }
 
 
+def kit_round(Dm):
+    """Rev D round size kit, kg (turned plug, pedestal and anvil; rings with a round bore)."""
+    disc = lambda d: math.pi * d * d / 4
+    ring_r = lambda d, T: (rr_area(106, 81, 6) - disc(d)) * T * STEEL
+    return {
+        'plug': disc(Dm + 0.3) * 14.5 * STEEL,
+        'upper ring': ring_r(Dm + 0.35, 14),
+        'pickup ring A': ring_r(Dm + 0.6, 15),
+        'pickup pedestal': disc(Dm - 0.5) * 21.8 * STEEL,
+        'crimp ring B': ring_r(Dm + 0.45, 15),
+        'crimp anvil': (disc(Dm + 0.3) * 16 + disc(Dm - 4.5)) * STEEL,
+    }
+
+
 def revb_set(X, Z):
     """Rev B complete die set for one size (for comparison)."""
     fr = lambda ox, oz, T: (rr_area(126, 100, 3) - rr_area(ox, oz, 4.2)) * T * STEEL
@@ -235,6 +254,11 @@ print('Press with the heaviest kit fitted   %.1f kg' % (total + heaviest))
 print('Die steel for all four sizes: Rev C %.1f kg (universal die + 4 kits)  vs  Rev B %.1f kg (4 complete sets)'
       % (sum(die_upper.values()) + sum(die_lower.values()) + sum(sum(k.values()) for k in kits.values()),
          sum(revb_set(X, Z) for cd, X, Z in SIZES)))
+rkits = {cd: kit_round(Dm) for cd, Dm in ROUND}
+for cd in rkits:
+    print('Size kit %s %19.2f   (%s)' % (cd, sum(rkits[cd].values()), ', '.join('%s %.2f' % (k, v) for k, v in rkits[cd].items())))
+print('Rev D: die steel for all eight sizes %.1f kg (universal die + 4 square/rectangular + 4 round kits)'
+      % (sum(die_upper.values()) + sum(die_lower.values()) + sum(sum(k.values()) for k in kits.values()) + sum(sum(k.values()) for k in rkits.values())))
 print('Lever: area %.0f mm2, mass %.2f kg, CG at u %.0f, w %.1f mm from pivot O' % (A_lev_net, m_lever, u_cg, w_cg))
 
 # ----------------------------------------------------------------------------------------------

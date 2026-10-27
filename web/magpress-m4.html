@@ -101,6 +101,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
 /* tables */
 .tbl{overflow-x:auto;border:1px solid var(--line);background:var(--panel)}
+.tcap{font:500 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px}
 table{border-collapse:collapse;width:100%;font-size:13.5px}
 th,td{padding:8px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
 th{font-family:var(--f-mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--sunk);white-space:nowrap}
@@ -228,19 +229,19 @@ ol.stages li[aria-current="step"] .k{color:var(--accent)}
   <div class="tb-main">
     <span class="eyebrow">Design pack · manual photo-magnet press</span>
     <h1>MagPress M4</h1>
-    <p class="lede">A hand-lever toggle press with a sliding two-station die table. It makes square and rectangular photo fridge magnets in two strokes. One universal die stays on the press, and each of the four sizes is a small hardened size kit that changes by hand in about a minute. This page has the 3D model, the force analysis, die and frame dimensions, a parts list, the manufacturing route, assembly steps, test plan and a failure review (section 11) that drove the Rev B changes.</p>
+    <p class="lede">A hand-lever toggle press with a sliding two-station die table. It makes square, rectangular and round photo fridge magnets in two strokes. One universal die stays on the press, and each of the eight sizes is a small hardened size kit that changes by hand in about a minute. This page has the 3D model, the force analysis, die and frame dimensions, a parts list, the manufacturing route, assembly steps, test plan and a failure review (section 11) that drove the Rev B changes.</p>
   </div>
   <div class="tb-cells">
-    <div><span class="eyebrow">Sizes</span><b>50×50 · 63.5×63.5<br>53×80 · 65×90</b></div>
+    <div><span class="eyebrow">Sizes</span><b>50×50 · 63.5×63.5<br>53×80 · 65×90<br>Ø44 · Ø50 · Ø56 · Ø58</b></div>
     <div><span class="eyebrow">Units</span><b>mm, N, kN</b></div>
     <div><span class="eyebrow">Drive</span><b>Toggle, MA 6.6 → 35</b></div>
     <div><span class="eyebrow">Die force</span><b>6.2 kN @ 200 N hand</b></div>
-    <div><span class="eyebrow">Revision</span><b>C.1 · 2026-10-27</b></div>
-    <div><span class="eyebrow">Status</span><b>Final (C.1), prototype first</b></div>
+    <div><span class="eyebrow">Revision</span><b>D · 2026-10-27</b></div>
+    <div><span class="eyebrow">Status</span><b>Final (D), prototype first</b></div>
   </div>
 </header>
 
-<div class="note revb"><b>Rev C.1, 2026-10-27 · production release.</b> A 3D model of every part, checked part against part at six handle angles, found seven clashes in Rev C. All seven are fixed: link clearance pockets in the ram, reliefs in the crown for the ends of pins A and B, push knobs on top of the die table, a flush column clamp, a handle stop without a jam nut, and a longer stop screw. <b>Rev C:</b> one universal die now stays on the press, and each magnet size is a six-part hardened size kit that you change by hand in about a minute (<a href="#s-dies">section 05</a>). Rev C also adds a crimp anvil with a roll channel and re-rates the die springs to their ISO 10243 limits. Rev B, from the failure review in <a href="#s-fail">section 11</a>, brought the one-piece lever, Ø16 pivot pin, dry bushings, stronger return springs, station pilot, stiffer base and 16 kN design load.</div>
+<div class="note revb"><b>Rev D, 2026-10-27 · production release.</b> Four round size kits, Ø44, Ø50, Ø56 and Ø58, on the same press and universal die. The round plug hangs on a second, inner dowel pattern in the upper die body (MP-201) and takes the same ball-lock pin; the round kit parts are turned or bored, and need no anti-rotation pins. Drawings MP-223 to MP-229. Nothing else changes. <b>Rev C.1 (previous release):</b> a 3D model of every part, checked part against part at six handle angles, found seven clashes in Rev C. All seven are fixed: link clearance pockets in the ram, reliefs in the crown for the ends of pins A and B, push knobs on top of the die table, a flush column clamp, a handle stop without a jam nut, and a longer stop screw. <b>Rev C:</b> one universal die now stays on the press, and each magnet size is a six-part hardened size kit that you change by hand in about a minute (<a href="#s-dies">section 05</a>). Rev C also adds a crimp anvil with a roll channel and re-rates the die springs to their ISO 10243 limits. Rev B, from the failure review in <a href="#s-fail">section 11</a>, brought the one-piece lever, Ø16 pivot pin, dry bushings, stronger return springs, station pilot, stiffer base and 16 kN design load.</div>
 
 <section aria-labelledby="s-model">
   <div class="sec-head"><span class="no">01</span><h2 id="s-model">3D model</h2><span class="muted small">Drag to orbit · scroll or pinch to zoom · click a part to inspect it</span></div>
@@ -356,7 +357,7 @@ ol.stages li[aria-current="step"] .k{color:var(--accent)}
       </svg>
       <div>
         <span class="eyebrow">At the corners</span>
-        <p class="small">Along the straight edges the photo and film fold down cleanly. At a corner they have to shrink from an arc at 10 mm radius (6 mm out from the R4 face corner) to the 4 mm arc of the skirt, so the excess, about 60%, gathers into fine pleats on the skirt and inside the rolled edge, out of sight. Round R4 corners keep the pleats small, and the film recess in ring A centres the photo so they come out even. If the corners wrinkle onto the face, the photo paper is too thick: use 90–120 g/m² paper, not card or photo paper.</p>
+        <p class="small">Along the straight edges the photo and film fold down cleanly. At a corner they have to shrink from an arc at 10 mm radius (6 mm out from the R4 face corner) to the 4 mm arc of the skirt, so the excess, about 60%, gathers into fine pleats on the skirt and inside the rolled edge, out of sight. Round R4 corners keep the pleats small, and the film recess in ring A centres the photo so they come out even. A round magnet (Rev D) has no corners: the spare paper spreads evenly round the whole edge, about 17% at Ø58 and 21% at Ø44, in fine even pleats. If the corners wrinkle onto the face, the photo paper is too thick: use 90–120 g/m² paper, not card or photo paper.</p>
       </div>
     </div>
   </div>
@@ -373,7 +374,7 @@ ol.stages li[aria-current="step"] .k{color:var(--accent)}
         <li><b>H-frame with two columns:</b> it is symmetric, so the ram can't tilt under load the way a C-frame does.</li>
         <li><b>Slide, not turntable:</b> it is simpler to make. Stop blocks set each station, and a hardened pilot pin on the ram locks the table on station before the dies meet (Rev B).</li>
         <li><b>Grip lands over the base tongue:</b> the press can't tip toward you at the end of the stroke.</li>
-        <li><b>One die, many sizes (Rev C):</b> the springs, carriers and die body stay on the press. Only six small hardened parts change per size, and a new size up to 90 × 65 is just a new kit.</li>
+        <li><b>One die, many sizes (Rev C, round in Rev D):</b> the springs, carriers and die body stay on the press. Only six small hardened parts change per size, and a new size up to 90 × 65, or up to about Ø65 round, is just a new kit.</li>
         <li><b>Keyed size rings:</b> each lower carrier has its own key pins, so a pickup ring can't go into the crimp station or the other way round.</li>
         <li><b>One-piece lever, dry bushings (Rev B):</b> there is no threaded handle joint to strip, and no greased pins to dry out or collect shell chips.</li>
       </ul>
@@ -397,7 +398,7 @@ ol.stages li[aria-current="step"] .k{color:var(--accent)}
       <tr><td>Height</td><td class="num">≈ 325 to the rod tops, ≈ 586 handle up</td><td>Grip end 380 mm from the pivot</td></tr>
       <tr><td>Mass (estimate)</td><td class="num">≈ 45 kg</td><td>17.5 kg of it is the 15 mm steel base; the universal die and one kit add about 11 kg. Bolt it to the bench through the six Ø9 holes</td></tr>
       <tr><td>Size change</td><td class="num">≈ 1 min, no tools</td><td>Swap the size kit: upper ring (2 thumb screws), plug (1 ball-lock pin), 2 lower rings and 2 pedestals (lift out). The universal die stays</td></tr>
-      <tr><td>Other sizes</td><td class="num">Up to 90 × 65</td><td>Any shape that fits the 106 × 81 kit rings: add a size kit, nothing else changes</td></tr>
+      <tr><td>Other sizes</td><td class="num">Up to 90 × 65, or ≈ Ø65</td><td>Any shape that fits the 106 × 81 kit rings: add a size kit, nothing else changes. Round plugs use the inner dowel pattern (Rev D)</td></tr>
       <tr><td>Handle return</td><td class="num">80 N → 245 N per spring</td><td>Two return springs. They lift the handle and ram from fully down, with at least 30% margin at every handle angle</td></tr>
       <tr><td>Pivots</td><td class="num">Dry bushings</td><td>PTFE-composite bushings at O, A and B; hardened pins O Ø16, A and B Ø12; no grease</td></tr>
       <tr><td>Output (estimate)</td><td class="num">2–4 magnets/min</td><td>Practised operator. Measure on the prototype</td></tr>
@@ -416,13 +417,13 @@ ol.stages li[aria-current="step"] .k{color:var(--accent)}
 </section>
 
 <section aria-labelledby="s-dies">
-  <div class="sec-head"><span class="no">05</span><h2 id="s-dies">One die, four size kits</h2></div>
-  <p>Rev C splits the die into two groups. The <b>universal die</b> is made once and stays on the press: the upper die body, the spring-loaded upper carrier, two lower carriers, two station bases and all the springs. A <b>size kit</b> holds only the six hardened parts that touch the shell: the plug, the upper ring, the pickup ring and pedestal, and the crimp ring and anvil. Every kit ring has the same 106 × 81 outside, so one carrier pocket takes every size, and only the openings change.</p>
+  <div class="sec-head"><span class="no">05</span><h2 id="s-dies">One die, eight size kits</h2></div>
+  <p>Rev C splits the die into two groups. The <b>universal die</b> is made once and stays on the press: the upper die body, the spring-loaded upper carrier, two lower carriers, two station bases and all the springs. A <b>size kit</b> holds only the six hardened parts that touch the shell: the plug, the upper ring, the pickup ring and pedestal, and the crimp ring and anvil. Every kit ring has the same 106 × 81 outside, so one carrier pocket takes every size, and only the openings change. Rev D adds four round kits (Ø44, Ø50, Ø56, Ø58): the rings get a round bore, the plug, pedestal and anvil are turned, and the round plug hangs on a second, inner dowel pattern in the die body, as the square plug's dowels sit outside a Ø44 plug.</p>
   <div class="two">
     <div class="card">
       <span class="eyebrow">How a size change works (about a minute, no tools)</span>
       <ul class="small" style="margin:0;padding-left:18px">
-        <li><b>Upper:</b> loosen two thumb screws and the upper ring drops out from below. Pull the ball-lock pin and the plug comes off its two dowels. The new plug only fits one way.</li>
+        <li><b>Upper:</b> loosen two thumb screws and the upper ring drops out from below. Pull the ball-lock pin and the plug comes off its two dowels. The new plug only fits one way: square plugs on the outer dowel holes, round plugs on the inner ones.</li>
         <li><b>Lower:</b> screw the T-handle puller into the pedestal or anvil and lift it out. Then lift the ring out by its opening. Drop in the new ring, then the new pedestal or anvil on its spigot.</li>
         <li><b>Keys:</b> pins in each carrier match slots in its rings. A pickup ring won't seat in the crimp carrier, and a lower ring won't fit the upper carrier.</li>
         <li><b>Depth:</b> every kit part is made to the same heights, so the shim pack set once on the press suits every size.</li>
@@ -491,7 +492,10 @@ ol.stages li[aria-current="step"] .k{color:var(--accent)}
       <text x="380" y="396" text-anchor="middle">Schematic section, not to scale. Letters match the table below.</text>
     </svg>
   </div>
+  <p class="tcap">Square and rectangular kits</p>
   <div class="tbl"><table id="dieTable"></table></div>
+  <p class="tcap">Round kits (Rev D)</p>
+  <div class="tbl"><table id="dieTableR"></table></div>
   <p class="small muted">Fits are starting values. Upper ring opening = shell + 0.35 mm, so it grips the wrapped shell by friction; the plug = shell + 0.30 mm and slides in it. The crimp ring opening = shell + 0.45 mm. Lap the upper ring on the first prototype kit until a wrapped shell lifts out of station A reliably and pushes out cleanly at station B. The upper ring has a 0.6 × 20° lead-in and four nylon-tip spring plungers that stop the wrapped shell dropping out while the table slides.</p>
 
   <h3>Why not one stepped die for every size?</h3>
@@ -526,12 +530,13 @@ ol.stages li[aria-current="step"] .k{color:var(--accent)}
   </div>
   <h3>Consumables per size</h3>
   <div class="tbl"><table id="consTable"></table></div>
+  <div class="tbl" style="margin-top:10px"><table id="consTableR"></table></div>
 </section>
 
 <section aria-labelledby="s-frame">
   <div class="sec-head"><span class="no">06</span><h2 id="s-frame">Frame and drive parts</h2></div>
-  <p>One frame serves all four die sets. Base, crown and ram carry the column holes at 210.00 mm pitch. Machine all three with the same program and datum scheme, or line-bore them together, so the ram slides freely once the column nuts are torqued.</p>
-  <p><b>Machine-shop drawings:</b> Rev C.1 drawing set MP-000 to MP-212 (33 A3 sheets, PDF) with DXF profiles for cutting and wire-EDM. The die sheets are split into universal parts (made once per press) and size-kit parts (tabulated for the four sizes). Where this page and the drawings differ, the drawings govern.</p>
+  <p>One frame serves all eight size kits. Base, crown and ram carry the column holes at 210.00 mm pitch. Machine all three with the same program and datum scheme, or line-bore them together, so the ram slides freely once the column nuts are torqued.</p>
+  <p><b>Machine-shop drawings:</b> Rev D drawing set MP-000 to MP-229 (39 A3 sheets, PDF) with DXF profiles for cutting and wire-EDM. The die sheets are split into universal parts (made once per press) and size-kit parts: MP-203 to MP-212 tabulated for the four square and rectangular sizes, MP-223 to MP-229 for the four round sizes. Where this page and the drawings differ, the drawings govern.</p>
   <div class="tbl"><table id="frameTable"></table></div>
 </section>
 
@@ -550,7 +555,7 @@ ol.stages li[aria-current="step"] .k{color:var(--accent)}
     </div>
     <div class="card">
       <span class="eyebrow">Make or buy</span>
-      <p class="small">Make the frame, drive and dies; they are simple prismatic parts that any 3-axis CNC shop and wire-EDM shop can handle. Buy everything that is a catalogue item: bushings, die springs, pins, fasteners, ball plungers, thumb screws, grip and feet. Buy consumables (shells, film, backs, magnet sheet) from a magnet-supplies vendor in the four sizes.</p>
+      <p class="small">Make the frame, drive and dies; they are simple prismatic parts that any 3-axis CNC shop and wire-EDM shop can handle. Buy everything that is a catalogue item: bushings, die springs, pins, fasteners, ball plungers, thumb screws, grip and feet. Buy consumables (shells, film, backs, magnet sheet) from a magnet-supplies vendor in the sizes you make.</p>
     </div>
   </div>
 </section>
@@ -758,18 +763,25 @@ window.MP = (function(){
     {id:'s50', label:'50 × 50', code:'5050', W:50, H:50},
     {id:'s63', label:'63.5 × 63.5', code:'6363', W:63.5, H:63.5},
     {id:'r53', label:'53 × 80', code:'5380', W:53, H:80},
-    {id:'r65', label:'65 × 90', code:'6590', W:65, H:90}];
+    {id:'r65', label:'65 × 90', code:'6590', W:65, H:90},
+    {id:'c44', label:'Ø44', code:'D44', W:44, H:44, round:true},
+    {id:'c50', label:'Ø50', code:'D50', W:50, H:50, round:true},
+    {id:'c56', label:'Ø56', code:'D56', W:56, H:56, round:true},
+    {id:'c58', label:'Ø58', code:'D58', W:58, H:58, round:true}];
   function fitA4(w,h){ w+=1; h+=1; return Math.max(Math.floor(210/w)*Math.floor(297/h), Math.floor(210/h)*Math.floor(297/w)); }
   function dims(s){
-    var X = Math.max(s.W, s.H), Z = Math.min(s.W, s.H), r = 4, P = 2*(X+Z) - 8*r + 2*Math.PI*r, crimpPre = 7*P;
-    return { W:X, H:Z, X:X, Z:Z, r:r, P:P, crimpPre:crimpPre, peak:2.2*crimpPre, upSpr:0.29*crimpPre, pickSpr:100,
-      paper:[X+12,Z+12], safe:[X-6,Z-6], back:[X-1.4,Z-1.4], mag:[X-4,Z-4],
-      plug:[X+0.30,Z+0.30], upIn:[X+0.35,Z+0.35], upOut:[106,81], body:[144,116], anvil:[X+0.3,Z+0.3],
-      pickPed:[X-0.5,Z-0.5], pickIn:[X+0.6,Z+0.6], pickRec:[X+12.5,Z+12.5], lowOut:[106,81],
-      crimpPed:[X-4.5,Z-4.5], crimpIn:[X+0.45,Z+0.45], perA4: fitA4(X+12,Z+12) };
+    var rd = !!s.round, X = Math.max(s.W, s.H), Z = Math.min(s.W, s.H), r = rd ? X/2 : 4, P = 2*(X+Z) - 8*r + 2*Math.PI*r, crimpPre = 7*P;
+    function v(a, b){ var o = [a, b]; o.round = rd; return o; }   // round: one diameter, printed as Ø
+    return { round:rd, W:X, H:Z, X:X, Z:Z, r:r, P:P, crimpPre:crimpPre, peak:2.2*crimpPre, upSpr:0.29*crimpPre, pickSpr:100,
+      face:v(X,Z), paper:v(X+12,Z+12), safe:v(X-6,Z-6), back:v(X-1.4,Z-1.4), mag:v(X-4,Z-4),
+      plug:v(X+0.30,Z+0.30), upIn:v(X+0.35,Z+0.35), upOut:[106,81], body:[144,116], anvil:v(X+0.3,Z+0.3),
+      pickPed:v(X-0.5,Z-0.5), pickIn:v(X+0.6,Z+0.6), pickRec:v(X+12.5,Z+12.5), lowOut:[106,81],
+      crimpPed:v(X-4.5,Z-4.5), crimpIn:v(X+0.45,Z+0.45), perA4: fitA4(X+12,Z+12),
+      rr: function(k, w){ return rd ? w/2 : k; },   // corner radius of a kit part w wide: round parts are circles
+      mp: function(n){ return 'MP-' + (rd ? n + 20 : n); } };   // round kit drawings are MP-223 to MP-229
   }
   function f2(n){ return String(+n.toFixed(2)); }
-  function pair(a){ return f2(a[0]) + ' × ' + f2(a[1]); }
+  function pair(a){ return a.round ? 'Ø' + f2(a[0]) : f2(a[0]) + ' × ' + f2(a[1]); }
   function kN(n){ return (n/1000).toFixed(1) + ' kN'; }
   var STEPS = [
     {t:'Base and pads', s:'Stick five 3 mm rubber pads under the base, clear of the six bench-mounting holes. Put the base on a flat bench and check that it doesn\'t rock. For all-day use, bolt it down through the Ø9 holes.',
@@ -837,17 +849,17 @@ window.MP = (function(){
 
   // die dimension table
   var ROWS = [
-    ['A','Finished magnet face', function(d){return MP.pair([d.W,d.H]);}],
-    ['B','Shell blank (tinplate 0.22, depth 4.5, R4)', function(d){return MP.pair([d.W,d.H]);}],
-    ['C','Photo + film cut size (R6)', function(d){return MP.pair(d.paper);}],
+    ['A','Finished magnet face', function(d){return MP.pair(d.face);}],
+    ['B','Shell blank (tinplate 0.22, depth 4.5; R4 corners)', function(d){return MP.pair(d.face);}],
+    ['C','Photo + film cut size', function(d){return MP.pair(d.paper);}],
     ['D','Safe area for text and faces', function(d){return MP.pair(d.safe);}],
     ['E','Back plate (ABS/acrylic 1.2)', function(d){return MP.pair(d.back);}],
     ['F','Magnet sheet, stick on after', function(d){return MP.pair(d.mag);}],
-    ['G','Plug, R4.15, concave lip R1 (kit)', function(d){return MP.pair(d.plug);}],
+    ['G','Plug, concave lip R1; R4.15 corners (kit)', function(d){return MP.pair(d.plug);}],
     ['H','Upper ring opening, grip fit (kit)', function(d){return MP.pair(d.upIn);}],
     ['I','Plug recess in the upper ring', function(){return '5.5';}],
     ['J','Upper springs, 8 × blue (universal)', function(){return '0.68 → 1.3 kN';}],
-    ['K','Pickup pedestal, R3.75, h 21.8 (kit)', function(d){return MP.pair(d.pickPed);}],
+    ['K','Pickup pedestal, h 21.8; R3.75 corners (kit)', function(d){return MP.pair(d.pickPed);}],
     ['L','Pickup ring opening / film recess 0.6 deep (kit)', function(d){return MP.pair(d.pickIn)+' / '+MP.pair(d.pickRec);}],
     ['M','Lower springs, 4 × green per carrier (universal)', function(){return '75 → 380 N';}],
     ['N','Crimp anvil block / platform (kit)', function(d){return MP.pair(d.anvil)+' / '+MP.pair(d.crimpPed);}],
@@ -859,33 +871,37 @@ window.MP = (function(){
     ['—','Peak force needed (est.)', function(d){return MP.kN(d.peak);}],
     ['—','Prints per A4 sheet', function(d){return String(d.perA4);}]
   ];
-  function renderDieTable(){
-    var t = document.getElementById('dieTable'); t.innerHTML='';
+  function renderDieTable(){ dieTable('dieTable', false); dieTable('dieTableR', true); }
+  function dieTable(id, round){
+    var t = document.getElementById(id); t.innerHTML='';
+    var SZ = MP.SIZES.filter(function(s){ return !!s.round === round; });
     var thead=el('thead'), tr=el('tr'); tr.appendChild(el('th',null,'')); tr.appendChild(el('th',null,'Feature'));
-    MP.SIZES.forEach(function(s){ var th=el('th',{'class':'num'+(s===MP.cur?' hl':'')}); th.textContent=s.label; tr.appendChild(th); });
+    SZ.forEach(function(s){ var th=el('th',{'class':'num'+(s===MP.cur?' hl':'')}); th.textContent=s.label; tr.appendChild(th); });
     thead.appendChild(tr); t.appendChild(thead);
     var tb=el('tbody');
     ROWS.forEach(function(r){ var tr=el('tr'); var c0=el('td'); if(r[0]!=='—'){ var sp=el('span',{'class':'letter'}); sp.textContent=r[0]; c0.appendChild(sp);} tr.appendChild(c0);
-      var c1=el('td'); c1.textContent=r[1]; tr.appendChild(c1);
-      MP.SIZES.forEach(function(s){ var td=el('td',{'class':'num'+(s===MP.cur?' hl':'')}); td.textContent=r[2](MP.dims(s)); tr.appendChild(td); });
+      var c1=el('td'); c1.textContent=round ? r[1].replace(/; R[\d.]+ corners/, '') : r[1]; tr.appendChild(c1);
+      SZ.forEach(function(s){ var td=el('td',{'class':'num'+(s===MP.cur?' hl':'')}); td.textContent=r[2](MP.dims(s)); tr.appendChild(td); });
       tb.appendChild(tr); });
     t.appendChild(tb);
   }
-  function renderCons(){
-    var t=document.getElementById('consTable'); t.innerHTML='';
+  function renderCons(){ consTable('consTable', false); consTable('consTableR', true); }
+  function consTable(id, round){
+    var t=document.getElementById(id); t.innerHTML='';
+    var SZ = MP.SIZES.filter(function(s){ return !!s.round === round; });
     var rows=[
-      ['Tinplate shell','0.20–0.23 tinplate, drawn tray, clipped corners', function(d){return MP.pair([d.W,d.H])+' × 4.5';}],
+      ['Tinplate shell', round ? '0.20–0.23 tinplate, drawn round cup' : '0.20–0.23 tinplate, drawn tray, clipped corners', function(d){return MP.pair(d.face)+' × 4.5';}],
       ['Mylar film','0.075 PET, clear gloss', function(d){return MP.pair(d.paper);}],
       ['Photo paper','90–120 g/m² plain or inkjet matte, 300 dpi with bleed. Laser prints: 3 mm white border', function(d){return MP.pair(d.paper);}],
       ['Back plate','1.0–1.5 ABS or acrylic (or 0.8 grey board)', function(d){return MP.pair(d.back);}],
       ['Magnet sheet','0.8–1.0 flexible magnet, self-adhesive', function(d){return MP.pair(d.mag);}],
-      ['Cutting','Rectangular paper punch, or trimmer and corner rounder', function(d){return d.perA4+' per A4';}]
+      ['Cutting', round ? 'Circle paper punch' : 'Rectangular paper punch, or trimmer and corner rounder', function(d){return d.perA4+' per A4';}]
     ];
     var thead=el('thead'), tr=el('tr'); ['Part','Spec'].forEach(function(h){tr.appendChild(el('th',null,h));});
-    MP.SIZES.forEach(function(s){ var th=el('th',{'class':'num'+(s===MP.cur?' hl':'')}); th.textContent=s.label; tr.appendChild(th); });
+    SZ.forEach(function(s){ var th=el('th',{'class':'num'+(s===MP.cur?' hl':'')}); th.textContent=s.label; tr.appendChild(th); });
     thead.appendChild(tr); t.appendChild(thead); var tb=el('tbody');
     rows.forEach(function(r){ var tr=el('tr'); var a=el('td'); a.textContent=r[0]; var b=el('td'); b.textContent=r[1]; tr.appendChild(a); tr.appendChild(b);
-      MP.SIZES.forEach(function(s){ var td=el('td',{'class':'num'+(s===MP.cur?' hl':'')}); td.textContent=r[2](MP.dims(s)); tr.appendChild(td); }); tb.appendChild(tr); });
+      SZ.forEach(function(s){ var td=el('td',{'class':'num'+(s===MP.cur?' hl':'')}); td.textContent=r[2](MP.dims(s)); tr.appendChild(td); }); tb.appendChild(tr); });
     t.appendChild(tb);
   }
 
@@ -958,7 +974,7 @@ window.MP = (function(){
     ['Bought parts','Bench screws (optional)','6','Buy','M8 + washers'],
     ['Bought parts','Push knobs','2','Buy','Phenolic Ø14 × 18, M5 stud'],
     ['Bought parts','Grip','1','Buy','TPR Ø32 × 120, red'],
-    ['Universal die (× 1)','Upper die body + shank (MP-201/202)','1 + 1','Make','1.2312 prehardened; 42CrMo4'],
+    ['Universal die (× 1)','Upper die body + shank (MP-201/202)','1 + 1','Make','1.2312 prehardened, with a second (inner) plug pattern for the round kits; 42CrMo4'],
     ['Universal die (× 1)','Upper carrier, lower carriers A and B (MP-210/211)','1 + 2','Make','42CrMo4 QT, black oxide'],
     ['Universal die (× 1)','Station bases (MP-205)','2','Make','C45, black oxide'],
     ['Universal die (× 1)','Upper springs','8','Buy','ISO 10243 Ø10 × 32 blue'],
@@ -975,6 +991,12 @@ window.MP = (function(){
     ['Size kit (× 4)','Crimp ring B + anvil (MP-209/208)','1 + 1','Make','A2'],
     ['Size kit (× 4)','Kit dowels','2 + 2 + 2','Buy','Ø5 m6 × 14 (plug); Ø12 m6 × 15 and Ø4 m6 × 10 (pedestal, anvil)'],
     ['Size kit (× 4)','Kit case','1','Buy','Foam-lined box, laser-marked with the size'],
+    ['Round kit (× 4, Rev D)','Plug + stud (MP-223/212)','1 + 1','Make','A2, turned; hangs on the inner pattern D2/K2 of MP-201'],
+    ['Round kit (× 4, Rev D)','Upper ring, round (MP-224) + plungers','1 + 4','Make + buy','A2, bored and honed; M4 nylon-tip spring plungers'],
+    ['Round kit (× 4, Rev D)','Pickup ring A + pedestal, round (MP-227/226)','1 + 1','Make','A2; pedestal turned'],
+    ['Round kit (× 4, Rev D)','Crimp ring B + anvil, round (MP-229/228)','1 + 1','Make','A2; anvil turned, R1 roll channel all round'],
+    ['Round kit (× 4, Rev D)','Kit dowels','2 + 2','Buy','Ø5 m6 × 14 (plug); Ø12 m6 × 15 (pedestal, anvil); no Ø4 anti-rotation pins'],
+    ['Round kit (× 4, Rev D)','Kit case','1','Buy','Foam-lined box, laser-marked with the size'],
     ['Spares','Service kit','1','Buy','8 blue + 8 green die springs, 2 return springs, 1 set of PTFE-composite bushings, retaining rings, 4 plungers']
   ];
   MP.BOM = BOM;
@@ -1129,7 +1151,7 @@ const G = {
   rr(w,d,r,h,hole){ const s = rrPath(new THREE.Shape(), w, d, r); let hs='';
     if(hole){ const oz = hole.oz||0; s.holes.push(rrPath(new THREE.Path(), hole.w, hole.d, hole.r, -oz));
       const hr=Math.min(hole.r, hole.w/2-0.01, hole.d/2-0.01); hs = `translate([0,${f(-oz)}]) offset(r=${f(hr)}) square([${f(hole.w-2*hr)},${f(hole.d-2*hr)}],center=true);`; }
-    const g = new THREE.ExtrudeGeometry(s, {depth:h, bevelEnabled:false, curveSegments:8}); g.rotateX(-Math.PI/2); g.translate(0,-h/2,0);
+    const g = new THREE.ExtrudeGeometry(s, {depth:h, bevelEnabled:false, curveSegments:Math.min(24, Math.max(8, Math.round(Math.max(r, hole?hole.r:0)/1.5)))}); g.rotateX(-Math.PI/2); g.translate(0,-h/2,0);
     const rr = Math.min(r, w/2-0.01, d/2-0.01);
     const outer = `offset(r=${f(rr)}) square([${f(w-2*rr)},${f(d-2*rr)}],center=true);`;
     return {geo:g, scad:`translate([0,0,${f(-h/2)}]) linear_extrude(height=${f(h)}) ${hole?`difference(){${outer} ${hs}}`:outer}`}; },
@@ -1245,8 +1267,8 @@ function buildDies(){
   [-1,1].forEach(sg=>part(gUpFrame,'thumbU',G.cyl(5,12,'x',24),MAT.knob,[sg*78,99,0],{...LDie,step:9,ex:[0,120,0]}));
   SPU.forEach(sp=>part(gDieRam,'upSpring',G.spring(4,0.9,6,4),MAT.sprB,[sp[0],109,sp[1]],{...LDie,step:9,ex:[0,142,0],spring:'U'}));
   // size kit, upper
-  part(gDieRam,'upPlug',G.rr(W+0.3,H+0.3,4.15,14.5),MAT.die,[0,104.75,0],{...LDie,step:9,ex:[0,165,0]});
-  part(gUpFrame,'upRing',G.rr(106,81,6,14,{w:W+0.35,d:H+0.35,r:4.2}),MAT.dieF,[0,99,0],{...LDie,step:9,ex:[0,92,0]});
+  part(gDieRam,'upPlug',G.rr(W+0.3,H+0.3,D.rr(4.15,W+0.3),14.5),MAT.die,[0,104.75,0],{...LDie,step:9,ex:[0,165,0]});
+  part(gUpFrame,'upRing',G.rr(106,81,6,14,{w:W+0.35,d:H+0.35,r:D.rr(4.2,W+0.35)}),MAT.dieF,[0,99,0],{...LDie,step:9,ex:[0,92,0]});
   // universal lower die (slide group local)
   [[-80,'A',gFrameA],[80,'B',gFrameB]].forEach(([x,k,g])=>{
     part(gDieSlide,'stbase',G.box(150,10,120),MAT.steel,[x,35,0],{...LDie,step:8,ex:[0,140,0]});
@@ -1256,21 +1278,23 @@ function buildDies(){
     SPL.forEach(sp=>part(gDieSlide,'spr'+k,G.spring(5,1.1,8,4),MAT.sprG,[x+sp[0],44,sp[1]],{...LDie,step:8,ex:[0,185,0],spring:k}));
   });
   // size kit, lower
-  part(gFrameA,'ringA',G.rr(106,81,6,15,{w:W+0.6,d:H+0.6,r:4.3}),MAT.dieF,[-80,58.5,0],{...LDie,step:8,ex:[0,265,0]});
-  part(gDieSlide,'pedA',G.rr(W-0.5,H-0.5,3.75,21.8),MAT.die,[-80,50.9,0],{...LDie,step:8,ex:[0,310,0]});
-  part(gFrameB,'ringB',G.rr(106,81,6,15,{w:W+0.45,d:H+0.45,r:4.2}),MAT.dieF,[80,58.5,0],{...LDie,step:8,ex:[0,265,0]});
-  part(gDieSlide,'anvil',G.rr(W+0.3,H+0.3,4.15,16),MAT.die,[80,48,0],{...LDie,step:8,ex:[0,310,0]});
-  part(gDieSlide,'anvil',G.rr(W-4.5,H-4.5,2.5,1),MAT.die,[80,56.5,0],{...LDie,step:8,ex:[0,310,0]});
+  part(gFrameA,'ringA',G.rr(106,81,6,15,{w:W+0.6,d:H+0.6,r:D.rr(4.3,W+0.6)}),MAT.dieF,[-80,58.5,0],{...LDie,step:8,ex:[0,265,0]});
+  part(gDieSlide,'pedA',G.rr(W-0.5,H-0.5,D.rr(3.75,W-0.5),21.8),MAT.die,[-80,50.9,0],{...LDie,step:8,ex:[0,310,0]});
+  part(gFrameB,'ringB',G.rr(106,81,6,15,{w:W+0.45,d:H+0.45,r:D.rr(4.2,W+0.45)}),MAT.dieF,[80,58.5,0],{...LDie,step:8,ex:[0,265,0]});
+  part(gDieSlide,'anvil',G.rr(W+0.3,H+0.3,D.rr(4.15,W+0.3),16),MAT.die,[80,48,0],{...LDie,step:8,ex:[0,310,0]});
+  part(gDieSlide,'anvil',G.rr(W-4.5,H-4.5,D.rr(2.5,W-4.5),1),MAT.die,[80,56.5,0],{...LDie,step:8,ex:[0,310,0]});
   parts.forEach(p=>{ if(p.spring){ p.h0 = p.spring==='U'?6 : p.spring==='A'?8 : p.spring==='B'?8 : 109.5; } });
 
   // work parts
-  const shell = new THREE.Mesh(G.rr(W,H,4,4.5).geo, MAT.tin.clone()); shell.userData={id:'wShell'};
-  const face = new THREE.Mesh(new THREE.PlaneGeometry(W-0.6,H-0.6), new THREE.MeshStandardMaterial({map:PHOTO, roughness:0.22, metalness:0})); face.rotation.x=-Math.PI/2; face.position.y=2.27; face.visible=false; face.userData={id:'wShell'}; shell.add(face);
+  const shell = new THREE.Mesh(G.rr(W,H,D.rr(4,W),4.5).geo, MAT.tin.clone()); shell.userData={id:'wShell'};
+  const faceGeo = () => D.round ? new THREE.CircleGeometry((W-0.6)/2, 64) : new THREE.PlaneGeometry(W-0.6,H-0.6);
+  const face = new THREE.Mesh(faceGeo(), new THREE.MeshStandardMaterial({map:PHOTO, roughness:0.22, metalness:0})); face.rotation.x=-Math.PI/2; face.position.y=2.27; face.visible=false; face.userData={id:'wShell'}; shell.add(face);
   const lamMats = [MAT.uhmw.clone(),MAT.uhmw.clone(),new THREE.MeshStandardMaterial({map:PHOTO, roughness:0.2}),MAT.uhmw.clone(),MAT.uhmw.clone(),MAT.uhmw.clone()];
-  const lam = new THREE.Mesh(new THREE.BoxGeometry(W+12,0.3,H+12), lamMats); lam.userData={id:'wLam'};
-  const back = new THREE.Mesh(G.rr(D.back[0],D.back[1],3.3,1.2).geo, MAT.backP.clone()); back.userData={id:'wBack'};
-  const mag = new THREE.Group(); const mb = new THREE.Mesh(G.rr(W,H,4,4.5).geo, MAT.tin.clone()); mb.userData={id:'wMag'}; mag.add(mb);
-  const mf = new THREE.Mesh(new THREE.PlaneGeometry(W-0.6,H-0.6), new THREE.MeshStandardMaterial({map:PHOTO, roughness:0.18})); mf.rotation.x=-Math.PI/2; mf.position.y=2.27; mf.userData={id:'wMag'}; mag.add(mf);
+  const lam = D.round ? new THREE.Mesh(new THREE.CylinderGeometry((W+12)/2,(W+12)/2,0.3,72), [lamMats[0],lamMats[2],lamMats[3]])
+                      : new THREE.Mesh(new THREE.BoxGeometry(W+12,0.3,H+12), lamMats); lam.userData={id:'wLam'};
+  const back = new THREE.Mesh(G.rr(D.back[0],D.back[1],D.rr(3.3,D.back[0]),1.2).geo, MAT.backP.clone()); back.userData={id:'wBack'};
+  const mag = new THREE.Group(); const mb = new THREE.Mesh(G.rr(W,H,D.rr(4,W),4.5).geo, MAT.tin.clone()); mb.userData={id:'wMag'}; mag.add(mb);
+  const mf = new THREE.Mesh(faceGeo(), new THREE.MeshStandardMaterial({map:PHOTO, roughness:0.18})); mf.rotation.x=-Math.PI/2; mf.position.y=2.27; mf.userData={id:'wMag'}; mag.add(mf);
   Object.assign(work, {shell, face, lam, back, mag});
   pickables.push(shell, lam, back, mb, mf, face);
   resetWork();
@@ -1281,23 +1305,23 @@ function buildDies(){
 function dieInfo(id){
   const d = D, P = MP.pair;
   const T = {
-    upBody:{name:'Upper die body (universal)', layer:'Universal die · upper', qty:'1 per press', mat:'1.2312 prehardened 28–32 HRC (MP-201)', dims:'144 × 116 × 10; shank MP-202 screwed in', note:'Stays on the press for every size. The plug hangs on two dowels and a stud, held by one ball-lock pin.'},
+    upBody:{name:'Upper die body (universal)', layer:'Universal die · upper', qty:'1 per press', mat:'1.2312 prehardened 28–32 HRC (MP-201)', dims:'144 × 116 × 10; shank MP-202 screwed in', note:'Stays on the press for every size. The plug hangs on two dowels and a stud, held by one ball-lock pin. Rev D adds a second, inner dowel pattern for the round plugs, on the same ball-lock pin.'},
     shim:{name:'Depth shim pack', layer:'Universal die · upper', qty:'1 per press', mat:'Stainless shims 0.1 / 0.2 / 0.5', dims:'Ø40 with Ø16.5 and Ø4.2 holes', note:'Set once so the crimp finishes with the handle 5–10° above horizontal. Every kit is made to the same heights.'},
     ballpin:{name:'Ball-lock pin', layer:'Universal die · upper', qty:'1', mat:'Ø6 push-button ball-lock pin, stainless', dims:'Grip ≥ 55', note:'Press the button and pull it out to drop the plug; push it back in to hold the next plug.'},
     upCarrier:{name:'Upper carrier (universal)', layer:'Universal die · upper', qty:'1', mat:'42CrMo4 QT, black oxide (MP-210)', dims:'144 × 116 × 14; ring pocket 106.02 × 81.02; travel 5.5', note:'Spring-loaded sleeve that carries the upper ring. The plug guides it.'},
     thumbU:{name:'Ring thumb screw', layer:'Universal die · upper', qty:'2', mat:'M5 knurled, cone point', dims:'—', note:'Loosen both to drop the upper ring out from below.'},
     upSpring:{name:'Upper springs', layer:'Universal die · upper', qty:'8', mat:'ISO 10243 Ø10 × 32 blue (medium)', dims:'≈ 0.68 kN preload, ≈ 1.3 kN at full retraction', note:'Stronger than the lower springs, so the lower rings move first and the sleeve only retracts at the end.'},
-    upPlug:{name:'Plug (size kit)', layer:'Size kit · upper', qty:'1 per kit', mat:'A2 58–60 HRC (MP-203) + stud MP-212', dims:`${P(d.plug)}, R4.15, h 14.5; concave lip R1`, note:'Pushes the wrapped shell out of the upper ring and down over the back plate in stroke 2.'},
-    upRing:{name:'Upper ring (size kit)', layer:'Size kit · upper', qty:'1 per kit', mat:'A2 58–60 HRC, lapped (MP-204)', dims:`Opening ${P(d.upIn)} (grip fit); outside 106 × 81; h 14`, note:'Wraps the film over the shell in stroke 1 and holds the wrapped shell while the table slides (lead-in and 4 nylon-tip plungers).'},
+    upPlug:{name:'Plug (size kit)', layer:'Size kit · upper', qty:'1 per kit', mat:`A2 58–60 HRC (${d.mp(203)}) + stud MP-212`, dims:`${P(d.plug)}${d.round?'':', R4.15'}, h 14.5; concave lip R1`, note:'Pushes the wrapped shell out of the upper ring and down over the back plate in stroke 2.' + (d.round ? ' Round plugs hang on the inner dowel pattern of the die body (Rev D).' : '')},
+    upRing:{name:'Upper ring (size kit)', layer:'Size kit · upper', qty:'1 per kit', mat:`A2 58–60 HRC, lapped (${d.mp(204)})`, dims:`Opening ${P(d.upIn)} (grip fit); outside 106 × 81; h 14`, note:'Wraps the film over the shell in stroke 1 and holds the wrapped shell while the table slides (lead-in and 4 nylon-tip plungers).'},
     stbase:{name:'Station base (universal)', layer:'Universal die · lower', qty:'2', mat:'C45, black oxide (MP-205)', dims:'150 × 120 × 10, screwed and dowelled to the die table', note:'Never removed. Holds the pedestal or anvil spigot and the lower springs.'},
     carrierA:{name:'Lower carrier A (universal)', layer:'Universal die · lower A', qty:'1', mat:'42CrMo4 QT (MP-211 A)', dims:'144 × 116 × 18; pocket 106.02 × 81.02 on a 3 mm ledge; travel 8', note:'Green band. Its key pins only accept a pickup ring.'},
     carrierB:{name:'Lower carrier B (universal)', layer:'Universal die · lower B', qty:'1', mat:'42CrMo4 QT (MP-211 B)', dims:'144 × 116 × 18; pocket 106.02 × 81.02 on a 3 mm ledge; travel 8', note:'Red band. Its key pins only accept a crimp ring.'},
     sprA:{name:'Lower springs, station A', layer:'Universal die · lower', qty:'4', mat:'ISO 10243 Ø10 × 32 green (light)', dims:'≈ 75 N preload, ≈ 0.38 kN at the stop (31%)', note:'Light, so the film is not crushed before it wraps.'},
     sprB:{name:'Lower springs, station B', layer:'Universal die · lower', qty:'4', mat:'ISO 10243 Ø10 × 32 green (light)', dims:'≈ 75 N preload, ≈ 0.38 kN at the stop (31%)', note:'Light, so the crimp ring drops onto its stop early and guides the shell edge rigidly.'},
-    ringA:{name:'Pickup ring A (size kit)', layer:'Size kit · lower A', qty:'1 per kit', mat:'A2 58–60 HRC (MP-207)', dims:`Opening ${P(d.pickIn)}; film recess ${P(d.pickRec)} × 0.6; outside 106 × 81; h 15`, note:'Centres the photo and film, then drops 8 mm as the upper ring wraps the film round the shell.'},
-    pedA:{name:'Pickup pedestal (size kit)', layer:'Size kit · lower A', qty:'1 per kit', mat:'A2 58–60 HRC (MP-206)', dims:`${P(d.pickPed)}, R3.75, h 21.8; Ø12 spigot`, note:'The shell sits face-up over it. Lift it out with the M5 puller.'},
-    ringB:{name:'Crimp ring B (size kit)', layer:'Size kit · lower B', qty:'1 per kit', mat:'A2 58–60 HRC (MP-209)', dims:`Opening ${P(d.crimpIn)} with 1.2 × 30° lead-in; outside 106 × 81; h 15`, note:'Folds the film under the shell edge and guides the edge down onto the anvil.'},
-    anvil:{name:'Crimp anvil (size kit)', layer:'Size kit · lower B', qty:'1 per kit', mat:'A2 58–60 HRC (MP-208)', dims:`Block ${P(d.anvil)}; platform ${P(d.crimpPed)}; roll channel R1.0`, note:'The back plate sits on the platform. The roll channel turns the shell edge under the back: this is the crimp.'}
+    ringA:{name:'Pickup ring A (size kit)', layer:'Size kit · lower A', qty:'1 per kit', mat:`A2 58–60 HRC (${d.mp(207)})`, dims:`Opening ${P(d.pickIn)}; film recess ${P(d.pickRec)} × 0.6; outside 106 × 81; h 15`, note:'Centres the photo and film, then drops 8 mm as the upper ring wraps the film round the shell.'},
+    pedA:{name:'Pickup pedestal (size kit)', layer:'Size kit · lower A', qty:'1 per kit', mat:`A2 58–60 HRC (${d.mp(206)})`, dims:`${P(d.pickPed)}${d.round?'':', R3.75'}, h 21.8; Ø12 spigot`, note:'The shell sits face-up over it. Lift it out with the M5 puller.' + (d.round ? ' Turned; a round pedestal needs no anti-rotation pin.' : '')},
+    ringB:{name:'Crimp ring B (size kit)', layer:'Size kit · lower B', qty:'1 per kit', mat:`A2 58–60 HRC (${d.mp(209)})`, dims:`Opening ${P(d.crimpIn)} with 1.2 × 30° lead-in; outside 106 × 81; h 15`, note:'Folds the film under the shell edge and guides the edge down onto the anvil.'},
+    anvil:{name:'Crimp anvil (size kit)', layer:'Size kit · lower B', qty:'1 per kit', mat:`A2 58–60 HRC (${d.mp(208)})`, dims:`Block ${P(d.anvil)}; platform ${P(d.crimpPed)}; roll channel R1.0`, note:'The back plate sits on the platform. The roll channel turns the shell edge under the back: this is the crimp.'}
   };
   return T[id];
 }
@@ -1338,8 +1362,8 @@ Object.entries({
 }).forEach(([k,v])=>info(k,v));
 function getInfo(id){
   const di = dieInfo(id); if(di) return di; const i = INFO[id]; if(!i) return null;
-  if(id==='wShell') return {...i, dims:MP.pair([D.W,D.H])+' × 4.5'}; if(id==='wLam') return {...i, dims:MP.pair(D.paper)};
-  if(id==='wBack') return {...i, dims:MP.pair(D.back)}; if(id==='wMag') return {...i, dims:MP.pair([D.W,D.H])};
+  if(id==='wShell') return {...i, dims:MP.pair(D.face)+' × 4.5'}; if(id==='wLam') return {...i, dims:MP.pair(D.paper)};
+  if(id==='wBack') return {...i, dims:MP.pair(D.back)}; if(id==='wMag') return {...i, dims:MP.pair(D.face)};
   return i;
 }
 
@@ -1439,7 +1463,7 @@ function fillInspector(id){
   const inf = id ? getInfo(id) : null;
   if(inf){ lab.textContent = inf.layer; h.textContent = inf.name; row('Qty',inf.qty); row('Material',inf.mat); row('Size',inf.dims); row('Note',inf.note); }
   else { lab.textContent = 'Selected die set'; h.textContent = MP.cur.label+' mm'; const d = D;
-    row('Shell', MP.pair([d.W,d.H])+' × 4.5'); row('Photo cut', MP.pair(d.paper)); row('Upper ring', 'opening '+MP.pair(d.upIn)); row('Size kit', 'plug, upper ring, ring A + pedestal, ring B + anvil'); row('Peak force', '≈ '+MP.kN(d.peak)+' ('+MP.kN(MP.force(K.phiEnd))+' available)'); row('Tip', 'Click any part to see its material, size and notes.'); }
+    row('Shell', MP.pair(d.face)+' × 4.5'); row('Photo cut', MP.pair(d.paper)); row('Upper ring', 'opening '+MP.pair(d.upIn)); row('Size kit', 'plug, upper ring, ring A + pedestal, ring B + anvil'); row('Peak force', '≈ '+MP.kN(d.peak)+' ('+MP.kN(MP.force(K.phiEnd))+' available)'); row('Tip', 'Click any part to see its material, size and notes.'); }
   insp.appendChild(dl);
 }
 
@@ -1847,7 +1871,7 @@ const MATS = mg ? {
 
 function rrPath(a, b, r, half){
   const out = [], P = (x, y, nx, ny) => out.push([x, y, nx, ny]);
-  const arc = (cx, cy, a0, a1) => { for(let i = 0; i <= 10; i++){ const t = a0 + (a1 - a0) * i / 10; P(cx + r * Math.cos(t), cy + r * Math.sin(t), Math.cos(t), Math.sin(t)); } };
+  const n = r > 6 ? 24 : 10, arc = (cx, cy, a0, a1) => { for(let i = 0; i <= n; i++){ const t = a0 + (a1 - a0) * i / n; P(cx + r * Math.cos(t), cy + r * Math.sin(t), Math.cos(t), Math.sin(t)); } };
   P(0, -b, 0, -1); arc(a - r, -(b - r), -Math.PI / 2, 0); arc(a - r, b - r, 0, Math.PI / 2); P(0, b, 0, 1);
   if(!half){ arc(-(a - r), b - r, Math.PI / 2, Math.PI); arc(-(a - r), -(b - r), Math.PI, 1.5 * Math.PI); }
   return out;
@@ -1882,13 +1906,14 @@ function buildMagnet(){
   if(!mg) return;
   const D = MP.dims(MP.cur), X = D.W, Z = D.H, a = X / 2, b = Z / 2, half = mg.view === 'edge', zB = STATS.lo, uw = X + 12, uh = Z + 12;
   mg.group.traverse(o => { if(o.isMesh) o.geometry.dispose(); }); mg.group.clear();
-  const path = rrPath(a, b, 4, half), inner = rrShape(a - 1.5, b - 1.5, 2.5, half);
+  const rc = (r, h) => D.round ? h : r;   // round: corner radius = half the width, so the outline is a circle
+  const path = rrPath(a, b, rc(4, a), half), inner = rrShape(a - 1.5, b - 1.5, rc(2.5, a - 1.5), half);
   const add = (g, m) => { const mesh = new THREE.Mesh(g, m); mg.group.add(mesh); return mesh; };
   const zt = FINAL.ztop;
   add(slab(inner, zt - .2, .2, zB, uw, uh), MATS.tin);
   add(slab(inner, zt, .12, zB, uw, uh), MATS.paper);
-  add(slab(rrShape(a - 0.7, b - 0.7, 3.3, half), F.back0, F.back1 - F.back0, zB, uw, uh), MATS.back);
-  add(slab(rrShape(a - 2, b - 2, 2, half), F.mag0, F.magT, zB, uw, uh), MATS.mag);
+  add(slab(rrShape(a - 0.7, b - 0.7, rc(3.3, a - 0.7), half), F.back0, F.back1 - F.back0, zB, uw, uh), MATS.back);
+  add(slab(rrShape(a - 2, b - 2, rc(2, a - 2), half), F.mag0, F.magT, zB, uw, uh), MATS.mag);
   for(const k of ['tin', 'paper', 'film']){
     const poly = band(layerPath(LAY[k], FINAL, -1.5), LAY[k].w);
     add(sweep(poly, path, !half, zB, uw, uh), MATS[k]);
@@ -1897,7 +1922,7 @@ function buildMagnet(){
   add(slab(inner, zt + .12, .075, zB, uw, uh), MATS.film).renderOrder = 2;
   const lab = MP.cur.label;
   document.getElementById('mgSize').textContent = lab;
-  document.getElementById('mgFace').textContent = lab + ' mm, R4 corners';
+  document.getElementById('mgFace').textContent = lab + (D.round ? ' mm, round' : ' mm, R4 corners');
   document.getElementById('mgThick').textContent = f1(STATS.thick) + ' mm, with the magnet sheet inside the rolled edge';
   document.getElementById('mgPaper').textContent = MP.pair(D.paper) + ' mm cut size (6 mm bleed all round)';
   document.getElementById('mgSafe').textContent = MP.pair(D.safe) + ' mm: keep text and faces inside';
@@ -1917,10 +1942,10 @@ function drawPrint(D){
   const [px, pz] = D.paper, k = Math.min(104 / px, 66 / pz), cx = 60, cy = 38;
   const R = (w, h, r, st) => { const e = document.createElementNS(NS, 'rect'); e.setAttribute('x', cx - w * k / 2); e.setAttribute('y', cy - h * k / 2); e.setAttribute('width', w * k); e.setAttribute('height', h * k); e.setAttribute('rx', r * k); e.setAttribute('style', st); svg.appendChild(e); };
   const Tx = (x, y, txt, st) => { const e = document.createElementNS(NS, 'text'); e.setAttribute('x', x); e.setAttribute('y', y); e.setAttribute('text-anchor', 'middle'); if(st) e.setAttribute('style', st); e.textContent = txt; svg.appendChild(e); };
-  R(px, pz, 0, 'fill:var(--m-paper);fill-opacity:.12;stroke:var(--m-paper);stroke-width:.6;stroke-dasharray:2 1.2');
-  R(D.W, D.H, 4, 'fill:var(--panel);stroke:var(--ink);stroke-width:.7');
-  R(D.safe[0], D.safe[1], 1, 'fill:none;stroke:var(--muted);stroke-width:.45;stroke-dasharray:.8 .8');
-  Tx(cx, cy - 2, 'face ' + MP.pair([D.W, D.H]), 'fill:var(--ink)');
+  R(px, pz, D.round ? px / 2 : 0, 'fill:var(--m-paper);fill-opacity:.12;stroke:var(--m-paper);stroke-width:.6;stroke-dasharray:2 1.2');
+  R(D.W, D.H, D.rr(4, D.W), 'fill:var(--panel);stroke:var(--ink);stroke-width:.7');
+  R(D.safe[0], D.safe[1], D.rr(1, D.safe[0]), 'fill:none;stroke:var(--muted);stroke-width:.45;stroke-dasharray:.8 .8');
+  Tx(cx, cy - 2, 'face ' + MP.pair(D.face), 'fill:var(--ink)');
   Tx(cx, cy + 3, 'safe area ' + MP.pair(D.safe), '');
   Tx(cx, 80, 'paper ' + MP.pair(D.paper) + ' · 6 mm folds round the edge', 'fill:var(--m-paper)');
   Tx(cx, 86.5, 'print layout to scale, face up', '');

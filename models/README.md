@@ -1,6 +1,6 @@
-# MagPress M4 — 3D models (Rev C.1)
+# MagPress M4 — 3D models (Rev D)
 
-Every part of the press as its own 3D file: the 52 machined parts (including all four size kits) and the 47 bought parts from the BOM. They come in three formats, plus an assembly that shows how they fit together.
+Every part of the press as its own 3D file: the 76 machined parts (including all eight size kits, four square or rectangular and four round) and the 47 bought parts from the BOM, 123 files in all. They come in three formats, plus an assembly that shows how they fit together.
 
 ![Assembled](assembly/preview_assembled.png) ![Exploded](assembly/preview_exploded.png)
 
@@ -16,9 +16,9 @@ Every part of the press as its own 3D file: the 52 machined parts (including all
 | [`build_models.py`](build_models.py) | The script that makes all of the above from the drawing source in `cad/`. |
 | [`make_print_pack.py`](make_print_pack.py) | Zips the part files for printing into [`release/`](../release/): STL at half scale and full size, and OBJ at full size, in folders by group with the number to print in each file name. |
 
-**Names.** `MP-xxx` is the drawing number. Size-kit parts end in the size code: `5050` (50 × 50), `6363` (63.5 × 63.5), `5380` (53 × 80) and `6590` (65 × 90). `BUY-xx` is a bought part, named as in the BOM (BUY-11 was deleted in Rev C.1).
+**Names.** `MP-xxx` is the drawing number. Size-kit parts end in the size code: `5050` (50 × 50), `6363` (63.5 × 63.5), `5380` (53 × 80) and `6590` (65 × 90), and for the round kits (Rev D, MP-223 to MP-229) `D44`, `D50`, `D56` and `D58` (the diameter). `BUY-xx` is a bought part, named as in the BOM (BUY-11 was deleted in Rev C.1).
 
-**Assembly pose.** The handle is up, station B is under the ram and kit 6363 is fitted. Units are mm. X runs along the die table, Z points up from the bench and the front of the press faces −Y. The other three kits are separate part files and are not placed.
+**Assembly pose.** The handle is up, station B is under the ram and kit 6363 is fitted. Units are mm. X runs along the die table, Z points up from the bench and the front of the press faces −Y. The other seven kits are separate part files and are not placed.
 
 **Part files** sit in their own frame, ready to print: plates lie flat, and turned parts stand on one end.
 
@@ -40,7 +40,7 @@ Every part of the press as its own 3D file: the 52 machined parts (including all
 
 ## Interference check and the Rev C.1 fixes
 
-`build_models.py` checks every pair of placed parts for overlap, at the assembly pose (handle up) and at five more handle angles down to the 3° stop, with the ram, lever and links moved to match. It also checks that nothing reaches below the bench. The result is in [`assembly/interference.txt`](assembly/interference.txt): **no clashes**. Die parts are not checked against each other through the stroke, because the spring-loaded rings are meant to telescope.
+`build_models.py` checks every pair of placed parts for overlap, at the assembly pose (handle up) and at five more handle angles down to the 3° stop, with the ram, lever and links moved to match. It also checks that nothing reaches below the bench. The result is in [`assembly/interference.txt`](assembly/interference.txt): **no clashes**. Die parts are not checked against each other through the stroke, because the spring-loaded rings are meant to telescope. For Rev D the check is repeated with round kit D58 in place of kit 6363, its plug on the inner dowel pattern D2/K2: no clashes either.
 
 The first check, on Rev C, found seven clashes. Rev C.1 fixes all of them in the drawings, BOM, build pack and these models:
 

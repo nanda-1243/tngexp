@@ -1,7 +1,7 @@
 # How the MagPress M4 forms a magnet
 
 Stills from section 02 of the build pack (`web/magpress-m4.html`), where they are animated. The section runs through one edge of the dies at true size, about 25 times enlarged.
-The dimensions come from the die drawings MP-203 to MP-209. Remake these images with `node web/tools/forming_stills.js web/magpress-m4.html docs/forming`.
+The dimensions come from the die drawings MP-203 to MP-209; the round kits (MP-223 to MP-229) have the same section all round. Remake these images with `node web/tools/forming_stills.js web/magpress-m4.html docs/forming`.
 
 ## The finished magnet
 
@@ -76,3 +76,11 @@ The ram lifts and ring B springs back up round the finished magnet: photo and fi
 ## At the corners
 
 At a corner the photo and film shrink from an arc at 10 mm radius (6 mm out from the R4 face corner) to the 4 mm arc of the skirt. The excess, about 60%, gathers into fine pleats on the skirt and inside the rolled edge. If the corners wrinkle onto the face, the paper is too thick: use 90–120 g/m² paper.
+
+## Round magnets (Rev D)
+
+A round kit forms the magnet the same way, stroke for stroke: the section above is the same at every point of the edge. With no corners, the spare paper spreads evenly round the whole edge, about 17% at Ø58 and 21% at Ø44, in fine even pleats. Size Ø58 shown: photo cut Ø70.
+
+| Front | Edge, cut open |
+|---|---|
+| ![Round magnet, front](round_face.png) | ![Round magnet, edge cut open](round_edge.png) |

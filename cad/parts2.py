@@ -25,6 +25,12 @@ BASE_DOWEL = [(45, 0), (-45, 0)]
 PLUG_DOWEL = [(20, -10), (-20, -10)]
 STUD = (-18, 14)
 PIN_X = -11.2                              # ball-lock pin axis (along Z), 4 above the body bottom face
+# Rev D: round size kits and the inner plug pattern they hang on (the stud sits on the other side of the same ball-lock pin)
+ROUND = [('D44', 44.0), ('D50', 50.0), ('D56', 56.0), ('D58', 58.0)]
+ROUND_LABEL = {cd: 'Ø' + fmt(d) for (cd, d) in ROUND}
+SHOWN_R = ('D58', 58.0)
+PLUG_DOWEL_R = [(12, -8), (-12, -8)]
+STUD_R = (PIN_X + 6.8, 12)
 
 KIT_MAT = 'A2 / 1.2363 tool steel; 7075-T6 for the prototype kit; PM cold-work steel for high volume'
 KIT_FIN = 'Harden 58–60 HRC, temper ×2; wire-EDM + 2 skim cuts, then re-temper; forming edges Ra 0.2; thin dense chrome'
@@ -75,6 +81,8 @@ def body(X=None, Z=None):
     f = [feat(0, 0, 'tap', m='M10', thru=True, label='S')]
     f += [feat(x, z, 'hole', d=5, depth=6, side='bot', label='D') for (x, z) in PLUG_DOWEL]
     f.append(feat(STUD[0], STUD[1], 'hole', d=10.5, depth=8, side='bot', label='K'))
+    f += [feat(x, z, 'hole', d=5, depth=6, side='bot', label='D2') for (x, z) in PLUG_DOWEL_R]
+    f.append(feat(STUD_R[0], STUD_R[1], 'hole', d=10.5, depth=8, side='bot', label='K2'))
     f += [feat(x, z, 'tap', m='M5', thru=True, label='R') for (x, z) in RET]
     f += [feat(x, z, 'hole', d=10.5, depth=8, side='bot') for (x, z) in SPR_UP]
     f.append(feat(0, 20, 'hole', d=4, depth=6, side='top', label='O'))
@@ -141,8 +149,8 @@ def plan_and_sections(sh, outline, T, fs, callouts, sec_b=None, oy=82, sec_oy=(1
     v = View(sh, 100, oy, 1.0)
     v.segs(outline)
     draw_plan_features(v, fs)
-    xs = [p for g in outline if g[0] == 'L' for p in (g[1], g[3])]
-    ys = [p for g in outline if g[0] == 'L' for p in (g[2], g[4])]
+    xs = [p for g in outline if g[0] == 'L' for p in (g[1], g[3])] + [g[1] + k * g[3] for g in outline if g[0] == 'C' for k in (-1, 1)]
+    ys = [p for g in outline if g[0] == 'L' for p in (g[2], g[4])] + [g[2] + k * g[3] for g in outline if g[0] == 'C' for k in (-1, 1)]
     hx = extent or max(xs)
     hz = max(ys)
     v.cl_h(-hx - 5, hx + 5, 0); v.cl_v(hz + 5, -hz - 5, 0)
@@ -244,13 +252,16 @@ def mp201():
               outer_dims(CX, CZ, off=6) + [('h', -62.5, 62.5, -49.25, -CZ / 2 - 9, '125'), ('v', 49.25, -49.25, 62.5, CX / 2 + 26, '98.5'),
                                     ('l', 0, 0, 92, 10, 'S: M10 THRU (shank)', 4.25)],
               [['S', 'centre', 'M10 THRU (shank MP-202, Loctite 243)'],
-               ['D', '(±20, −10)', 'Ø5 H7 × 6 from the BOTTOM (plug dowels)'],
-               ['K', '(−18, +14)', 'Ø10.5 × 8 from the BOTTOM (plug stud MP-212)'],
+               ['D', '(±20, −10)', 'Ø5 H7 × 6 from the BOTTOM (square-kit plug dowels)'],
+               ['K', '(−18, +14)', 'Ø10.5 × 8 from the BOTTOM (plug stud MP-212, square kits)'],
+               ['D2', '(±12, −8)', 'Rev D: Ø5 H7 × 6 from the BOTTOM (round-kit plug dowels)'],
+               ['K2', '(−4.4, +12)', 'Rev D: Ø10.5 × 8 from the BOTTOM (round-kit plug stud)'],
                ['L', 'X −11.2, Z +58 → +6', 'Ø6 H8 along Z, 4 above the bottom face (ball-lock pin Ø6, grip ≥ 55)'],
                ['R', RET_T, 'M5 THRU (carrier shoulder screws ISO 7379 Ø6 × 10)'],
                ['P', SPU_T, 'Ø10.5 × 8 from the BOTTOM (8 upper springs)'],
                ['O', '(0, +20)', 'Ø4 H7 × 6 from the TOP (orientation pin Ø4 m6 × 10)']],
               ['Rev C: one body per press (144 × 116). The plug now hangs on dowels D and the stud K, held by a Ø6 ball-lock pin in hole L: no screws to change a size.',
+               'Rev D: inner pattern D2 + K2 for the round kits (Ø44 to Ø58 plugs are too small for D + K). K2 sits 6.8 the other side of the same pin axis as K, so one ball-lock pin holds either stud.',
                'Top face (seat against the holder through the shim pack) and bottom face parallel 0.01, flat 0.01. The shim pack sets the crimp depth once for all kits.',
                'Upper springs: 8 × ISO 10243 Ø10 × 32 blue in 26 mm cavities: 6 mm preload (≈ 0.68 kN total), ≈ 1.3 kN at full retraction (36%). Replace every 250,000 strokes.'],
               '1 per press', material='1.2312 (P20+S) prehardened 28–32 HRC', finish='Black oxide', sec_b=(49.25, 'Z = ±49.25'),
@@ -506,6 +517,201 @@ def mp212():
 
 
 # =====================================================================================
+# Rev D: round size kits (MP-223 to MP-229). Same heights and fits as the square kits; turned and bored.
+# =====================================================================================
+KIT_NOTES_R = ['Rev D round size-kit part: one per round size, tabulated below. Shown to scale for size D58 (Ø58).',
+               'Laser-mark on a side face: drawing no., size code and U / A / B where applicable (e.g. "MP-227 D58 A").']
+KIT_FIN_R = 'Turn/bore +0.2; harden 58–60 HRC, temper ×2; grind, hone bores Ra 0.2; thin dense chrome'
+
+
+def circ(d):
+    return [C(0, 0, d / 2.0)]
+
+
+def plug_r(D):
+    f = [feat(STUD_R[0], STUD_R[1], 'tap', m='M6', depth=10, side='top')]
+    f += [feat(x, z, 'hole', d=5, depth=8, side='top') for (x, z) in PLUG_DOWEL_R]
+    return circ(D + 0.3), 14.5, f
+
+
+def ring_r(D, which):
+    if which == 'U':
+        f, T = [feat(0, 0, 'hole', d=D + 0.35, thru=True)], 14
+    elif which == 'A':
+        f, T = [feat(0, 0, 'hole', d=D + 0.6, thru=True), feat(0, 0, 'hole', d=D + 12.5, depth=0.6, side='top')], 15
+    else:
+        f, T = [feat(0, 0, 'hole', d=D + 0.45, thru=True)], 15
+    return rr_notched(RX_, RZ_, 6, key_notches(which)), T, f
+
+
+def pick_ped_r(D):
+    return circ(D - 0.5), 21.8, [feat(0, 0, 'tap', m='M5', depth=6, side='top'), feat(0, 0, 'hole', d=12, depth=8.5, side='bot')]
+
+
+def anvil_r(D):
+    return circ(D + 0.3), 17, [feat(0, 0, 'tap', m='M5', depth=6, side='top'), feat(0, 0, 'hole', d=12, depth=8.5, side='bot')]
+
+
+def size_table_r(sh, x, y, letters):
+    cols = [('SIZE', 24, 'middle'), ('Ø', 15, 'end')] + [(l[0], 17.0, 'end') for l in letters]
+    rows = [[cd, fmt(D)] + [fmt(l[2](D)) for l in letters] for (cd, D) in ROUND]
+    sh.text(x, y - 2, 'DIMENSION TABLE (mm)', 3.0, weight='bold')
+    yend = sh.table(x, y, cols, rows, size=2.7, rh=5.2, bold_first_col=True)
+    yy = yend + 5
+    sh.text(x, yy, 'Size code = magnet face diameter: D44 = Ø44, D50 = Ø50, D56 = Ø56, D58 = Ø58.', 2.4)
+    yy += 4.5
+    for l in letters:
+        sh.text(x, yy, '%s = %s' % (l[0], l[1]), 2.6)
+        yy += 4.0
+    return yy
+
+
+def round_sheet(no, title, fn, letters, notes, callouts, feat_rows, extra=None, sec_b=None, dxfname=None, qty='1 per round kit (4)'):
+    sh = new(no, title, scale='1:1 (size D58)', qty=qty, material=KIT_MAT, finish=KIT_FIN_R, notes=KIT_NOTES_R + notes + GEN)
+    code, D = SHOWN_R
+    outline, T, fs = fn(D)
+    v, vs, vb = plan_and_sections(sh, outline, T, fs, callouts, sec_b)
+    if extra:
+        extra(sh, v, vs, vb)
+    yy = size_table_r(sh, 212, 24, letters)
+    if feat_rows:
+        feature_table(sh, 212, yy + 6, feat_rows)
+    if dxfname:
+        for (cd, d) in ROUND:
+            o, T_, f_ = fn(d)
+            dx = DXF(); dx.segs(o); feats_dxf(dx, f_)
+            DXFS['%s_%s_%s.dxf' % (no, dxfname, cd)] = dx
+    return sh
+
+
+def dia(D, extra_w=9, label='A'):
+    R = D / 2.0
+    return [('h', -R, R, 0, R + extra_w, label)]
+
+
+def mp223():
+    D = SHOWN_R[1]
+    def extra(sh, v, vs, vb):
+        vd = View(sh, 345, 195, 0.2)
+        pts = [(-6, 0), (-6, 6), (0, 6), (0, 1.0), (-0.3, 0.5), (-1.0, 0.25), (-1.5, 0.5), (-1.8, 0)]
+        vd.poly(pts, 'sec')
+        vd.text(-3, 0, 'DETAIL Y (5:1) working edge, as MP-203', 3.0, dy=12, weight='bold')
+        vd.leader(-1.0, 0.25, -30, -8, 'concave lip R1, 1.5 wide × 0.5 deep\nall round the bottom face')
+    round_sheet('MP-223', 'PLUG, ROUND (SIZE KIT)', plug_r,
+                [('A', 'D + 0.30  (plug diameter, ±0.01)', lambda d: d + 0.30)],
+                ['Turned part. Two Ø5 m6 × 14 dowels pressed in (5.5 protruding) locate it on the INNER pattern D2 of the die body MP-201; stud MP-212 in the M6 hole sits in K2 and takes the same ball-lock pin as the square kits.',
+                 'Diameter A: grind after hardening, ±0.01. Sliding fit in the upper ring (ring = plug + 0.05).',
+                 'Bottom (working) face flat 0.01, Ra 0.2, lip per Detail Y. Height 14.5 ±0.01 sets the 5.5 recess in the ring. No DXF: turned.'],
+                [('h', -(D + 0.3) / 2, (D + 0.3) / 2, 0, (D + 0.3) / 2 + 9, 'ØA')],
+                [['S', '(−4.4, +12)', 'M6 × 10 from the TOP (stud MP-212, Loctite 243)'],
+                 ['D', '(±12, −8)', 'Ø5 H7 × 8 from the TOP (dowels Ø5 m6 × 14)']], extra=extra)
+
+
+def mp224():
+    D = SHOWN_R[1]
+    def extra(sh, v, vs, vb):
+        for sx in (-1, 1):
+            for sz in (-1, 1):
+                u = sx * D / 4
+                w0 = sz * math.sqrt(((D + 0.35) / 2) ** 2 - u * u)
+                w1 = sz * RZ_ / 2
+                v.line(u - 2, w0, u - 2, w1, 'hid'); v.line(u + 2, w0, u + 2, w1, 'hid'); v.cl_v(w0, w1, u)
+            v.poly([(sx * RX_ / 2, -3), (sx * (RX_ / 2 - 3), 0), (sx * RX_ / 2, 3)], 'hid')
+        v.leader(D / 4, -RZ_ / 2, 30, 28, 'N: 4× M4 THRU from the long faces\n3.5 above the BOTTOM face, at X = ±E')
+        v.leader(RX_ / 2, 0, 30, 45, 'M: Ø6 × 90° cone dimple, both X ends,\n7 above the bottom face (thumb screws)')
+        vd = View(sh, 345, 190, 0.2)
+        vd.poly([(-8, 0), (-8, 8), (0, 8), (0, 1.65), (-0.6, 0)], 'sec')
+        vd.text(-4, 0, 'DETAIL P (5:1) bottom inner edge', 3.0, dy=18, weight='bold')
+        vd.leader(-0.3, 0.8, -30, 10, 'lead-in 0.6 × 20° all round, polished')
+    round_sheet('MP-224', 'UPPER RING, ROUND (SIZE KIT)', lambda d: ring_r(d, 'U'),
+                [('C', 'D + 0.35  (bore, +0.01/0)', lambda d: d + 0.35), ('E', 'D / 4  (plunger offset in X)', lambda d: d / 4)],
+                ['Outside 106 × 81 (−0.01/−0.02) for every size: fits the upper carrier MP-210 pocket. Key slots K (Ø4.2) take the carrier pins.',
+                 'Bore C: bore and hone after hardening, Ra 0.2. Bottom inner lead-in 0.6 × 20° (Detail P).',
+                 'Held by 2 cone-point thumb screws in dimples M. Four nylon-tip spring plungers N stand 0.2–0.3 into the bore; they meet it at about 30°, which is fine.'],
+                [('h', -RX_ / 2, RX_ / 2, RZ_ / 2, RZ_ / 2 + 9, fmt(RX_)), ('v', RZ_ / 2, -RZ_ / 2, RX_ / 2, RX_ / 2 + 16, fmt(RZ_)),
+                 ('h', -(D + .35) / 2, (D + .35) / 2, 0, -RZ_ / 2 - 17, 'ØC')],
+                [['K', '(0, ±40.5)', 'Key slot, half-round Ø4.2, full height, on both long faces'],
+                 ['M', '(±53, 0)', 'Ø6 × 90° cone dimple, 1.5 deep, 7 above the bottom face'],
+                 ['N', '(±E, long faces)', 'M4 THRU to the bore, 3.5 above the bottom face (spring plungers)']],
+                extra=extra, sec_b=(20, 'Z = ±20'), dxfname='upper_ring_round')
+
+
+def mp226():
+    D = SHOWN_R[1]
+    round_sheet('MP-226', 'PICKUP PEDESTAL, ROUND (SIZE KIT)', pick_ped_r,
+                [('A', 'D − 0.5  (±0.01)', lambda d: d - 0.5)],
+                ['The tinplate shell sits face-up over it. Top face flat 0.01, Ra 0.2; top edge R0.3. Height 21.8 ±0.02.',
+                 'Turned part. Press a Ø12 m6 × 15 dowel into C (7 protruding). No anti-rotation pin: a round pedestal can turn. Lift out with the M5 T-handle puller in hole H. No DXF: turned.'],
+                [('h', -(D - .5) / 2, (D - .5) / 2, 0, (D - .5) / 2 + 9, 'ØA')],
+                [['H', 'centre', 'M5 × 6 from the TOP (puller)'], ['C', 'centre', 'Ø12 H7 × 8.5 from the BOTTOM (spigot dowel)']])
+
+
+def mp227():
+    D = SHOWN_R[1]
+    round_sheet('MP-227', 'PICKUP RING A, ROUND (SIZE KIT)', lambda d: ring_r(d, 'A'),
+                [('C', 'D + 0.6  (bore)', lambda d: d + 0.6), ('G', 'D + 12.5  (film recess, 0.6 deep)', lambda d: d + 12.5)],
+                ['Outside 106 × 81 (−0.01/−0.02) for every size: drops into the lower carrier A pocket. Key slots KA fit only carrier A.',
+                 'Bore C THRU, top inner edge R0.5. Film recess ØG, 0.6 deep, Ra 0.8: it centres the photo and film.',
+                 'Lift out by hand through the bore once the pedestal is out. Faces parallel 0.01.'],
+                [('h', -RX_ / 2, RX_ / 2, RZ_ / 2, RZ_ / 2 + 9, fmt(RX_)), ('v', RZ_ / 2, -RZ_ / 2, RX_ / 2, RX_ / 2 + 16, fmt(RZ_)),
+                 ('h', -(D + .6) / 2, (D + .6) / 2, 0, -RZ_ / 2 - 17, 'ØC')],
+                [['KA', '(+53, −20), (−53, +20)', 'Key slot, half-round Ø4.2, full height, on the short faces']],
+                dxfname='pickup_ring_round')
+
+
+def mp228():
+    D = SHOWN_R[1]
+    sh = new('MP-228', 'CRIMP ANVIL, ROUND (SIZE KIT)', scale='1:1 / 10:1', qty='1 per round kit (4)', material=KIT_MAT, finish=KIT_FIN_R,
+             notes=KIT_NOTES_R + ['Rev D: turned. The R1.0 roll channel runs round the full circle (Detail R, as MP-208): it turns the shell edge inward under the back plate.',
+                                  'Block D + 0.3 slides in the crimp ring (D + 0.45) and guides it. Platform (D − 4.5) carries the back plate.',
+                                  'Channel profile is a start value: prove it on the 7075 prototype kit. Polish the channel Ra 0.2. Drop-in: Ø12 m6 × 15 dowel in C (7 protruding); no anti-rotation pin.'] + GEN)
+    o, T, fs = anvil_r(D)
+    v = View(sh, 100, 82, 1.0)
+    v.segs(o)
+    v.segs(circ(D - 4.5))
+    v.segs(circ(D), 'thin'); v.segs(circ(D - 4.0), 'thin')
+    draw_plan_features(v, fs)
+    v.cl_h(-D / 2 - 8, D / 2 + 8, 0); v.cl_v(D / 2 + 8, -D / 2 - 8, 0)
+    sh.text(15, 18, 'PLAN (TOP)', 3.2, weight='bold')
+    v.hdim(-(D + .3) / 2, 0, (D + .3) / 2, 0, (D + .3) / 2 + 9, text='ØA')
+    v.hdim(-(D - 4.5) / 2, 0, (D - 4.5) / 2, 0, -(D + .3) / 2 - 9, text='ØE')
+    v.leader((D - 2) / 2 * 0.7071, (D - 2) / 2 * 0.7071, 26, -20, 'roll channel all round (Detail R)')
+    v.section_mark(-D / 2 - 12, 0, D / 2 + 12, 0, 'A', flip=True)
+    vs = View(sh, 100, 175, 1.0)
+    hx, hp = (D + 0.3) / 2, (D - 4.5) / 2
+    chan = [(D / 2 - 1.0 + math.cos(math.radians(t)), 16 - math.sin(math.radians(t))) for t in range(0, 181, 15)]
+    prof = [(-hx, 0), (hx, 0), (hx, 16)] + chan + [(hp, 17), (-hp, 17)] + [(-x, y) for (x, y) in reversed(chan)] + [(-hx, 16)]
+    vs.poly(prof, 'sec')
+    vs.rect(-6, 0, 6, 8.5, 'ko'); vs.line(-6, 0, -6, 8.5, 'hid'); vs.line(6, 0, 6, 8.5, 'hid'); vs.line(-6, 8.5, 6, 8.5, 'hid')
+    vs.vdim(0, hx, 16, hx, hx + 9, text='16')
+    vs.vdim(0, -hx, 17, -hx, -hx - 9, text='17')
+    vs.text(0, 0, 'SECTION A–A', 3.2, dy=8.5, weight='bold')
+    vd = View(sh, 330, 168, 0.1)
+    vd.segs([L(-3.5, -4, 0.15, -4), L(0.15, -4, 0.15, 0), L(0.15, 0, 0.0, 0), A(-1.0, 0, 1.0, 180, 360), L(-2.0, 0, -2.25, 1.0), L(-2.25, 1.0, -3.5, 1.0)])
+    vd.text(-1.75, -4, 'DETAIL R (10:1) roll channel, as MP-208', 2.8, dy=11, weight='bold')
+    vd.leader(-1.0, -1.0, -18, 10, 'R1.0, centre 1.0 inside the shell line D/2,\nlevel with the rim (1.0 below the platform)')
+    yy = size_table_r(sh, 212, 24, [('A', 'D + 0.3  (block, ±0.01)', lambda d: d + 0.3), ('E', 'D − 4.5  (platform)', lambda d: d - 4.5)])
+    feature_table(sh, 212, yy + 6, [['H', 'centre', 'M5 × 6 from the TOP (puller)'], ['C', 'centre', 'Ø12 H7 × 8.5 from the BOTTOM (spigot dowel)']])
+
+
+def mp229():
+    D = SHOWN_R[1]
+    def extra(sh, v, vs, vb):
+        for sx in (-1, 1):
+            u = sx * (D + 0.45) / 2
+            vs.line(u, 15 - 1.2, u + sx * 0.69, 15)
+        vs.leader((D + 0.45) / 2 + 0.4, 14.6, 18, -10, '1.2 × 30° lead-in, all round, polished Ra 0.2')
+    round_sheet('MP-229', 'CRIMP RING B, ROUND (SIZE KIT)', lambda d: ring_r(d, 'B'),
+                [('C', 'D + 0.45  (bore, +0.01/0)', lambda d: d + 0.45)],
+                ['Outside 106 × 81 (−0.01/−0.02) for every size: drops into the lower carrier B pocket. Key slots KB fit only carrier B.',
+                 'Bore C THRU, honed Ra 0.2. Top lead-in 1.2 × 30° folds the film under the shell edge and guides the shell onto the anvil channel.'],
+                [('h', -RX_ / 2, RX_ / 2, RZ_ / 2, RZ_ / 2 + 9, fmt(RX_)), ('v', RZ_ / 2, -RZ_ / 2, RX_ / 2, RX_ / 2 + 16, fmt(RZ_)),
+                 ('h', -(D + .45) / 2, (D + .45) / 2, 0, -RZ_ / 2 - 17, 'ØC')],
+                [['KB', '(+53, +20), (−53, −20)', 'Key slot, half-round Ø4.2, full height, on the short faces']],
+                extra=extra, dxfname='crimp_ring_round')
+
+
+# =====================================================================================
 # MP-001 GENERAL ARRANGEMENT
 # =====================================================================================
 def lever_rest_height(psi=3.0, z=105.0):
@@ -531,7 +737,7 @@ def mp001():
                     'Toggle: crank O→A 40, link A→B 60, grip centre 320 from O (Rev A 290). Handle 65° → 3° above horizontal. Force gain 6.6 at the start, 34.6 at the end of the stroke.',
                     'Ram stroke 38.9. Dies meet after 26.0; working travel 12.9. Pickup stroke stops at 35.5. Station pilot MP-120 enters the table at 20.0, before the dies meet.',
                     'Open stop: 2 urethane bumpers on the ram top. Closed stop: adjustable M10 × 1 screw + urethane cap on the front column top, set so the lever rests at 3°.',
-                    'Rev B: one-piece lever (MP-115 deleted); pin O Ø16; dry bushings; return springs 80 / 245 N; station pilot; 15 mm base. Rev C: universal die + size kits (MP-201 to 212). Rev C.1: seven fit fixes from the 3D check (MP-101, 104, 105, 107, 108, 109).',
+                    'Rev B: one-piece lever (MP-115 deleted); pin O Ø16; dry bushings; return springs 80 / 245 N; station pilot; 15 mm base. Rev C: universal die + size kits (MP-201 to 212). Rev C.1: seven fit fixes from the 3D check (MP-101, 104, 105, 107, 108, 109). Rev D: round size kits Ø44 to Ø58 (MP-223 to 229), inner plug pattern on MP-201.',
                     'Balloons = drawing numbers (MP-xxx). Pins MP-116 at A and B, MP-117 at O; spacers MP-119 on pin O; stop blocks MP-104 behind the table.'])
     v = View(sh, 150, 214, 3.0)
     def box(z0, z1, y0, y1, c='vis'): v.rect(z0, y0, z1, y1, c)
@@ -636,17 +842,18 @@ def mp000(listing, img_b64=None, img2_b64=None):
                notes=['Units mm. First-angle projection (ISO 128-30); every view is also labelled by name.',
                       'General tolerances ISO 2768-mK unless stated. Fits ISO 286. Threads ISO metric coarse 6H/6g unless stated. Ra 3.2 unless stated.',
                       'Column bores in base MP-101, crown MP-108 and ram MP-109 at 210.00 ±0.01: same datum scheme and CNC program.',
-                      'Rev C die: universal parts (MP-201, 202, 205, 210, 211) are made once per press. Size-kit parts (MP-203, 204, 206 to 209, 212) are tabulated for 5050, 6363, 5380, 6590.',
+                      'Universal parts (MP-201, 202, 205, 210, 211) are made once per press. Square and rectangular kit parts (MP-203, 204, 206 to 209, 212) are tabulated for 5050, 6363, 5380, 6590; Rev D round kit parts (MP-223, 224, 226 to 229, with stud MP-212) for D44, D50, D56, D58.',
                       'DXF profiles are supplied for cutting and wire-EDM. If a DXF and a drawing disagree, the drawing governs. Bought parts are in the build pack BOM.',
-                      'Rev B: failure-mode review (lever, pin O, bushings, return springs, pilot, base, 16 kN). Rev C (2026-10-27): universal die + 6-part size kits changed by hand in about a minute; crimp anvil with roll channel; die springs re-rated to ISO 10243 limits. Rev C.1 (2026-10-27), production release: fit fixes from the 3D interference check: ram link pockets (MP-109), crown reliefs for pins A and B (MP-108), push knobs on the table top (MP-105), flush column clamp (MP-101, MP-107), handle stop without jam nut, stop screw M6 × 0.75 × 40 (MP-104).',
+                      'Rev B: failure-mode review (lever, pin O, bushings, return springs, pilot, base, 16 kN). Rev C (2026-10-27): universal die + 6-part size kits changed by hand in about a minute; crimp anvil with roll channel; die springs re-rated to ISO 10243 limits. Rev C.1 (2026-10-27): fit fixes from the 3D interference check: ram link pockets (MP-109), crown reliefs for pins A and B (MP-108), push knobs on the table top (MP-105), flush column clamp (MP-101, MP-107), handle stop without jam nut, stop screw M6 × 0.75 × 40 (MP-104). Rev D (2026-10-27), production release: four round size kits on the same universal die; MP-201 gains the inner plug pattern D2/K2.',
                       'Prove the die fits on a 7075 aluminium set before cutting tool steel.'])
     P.SHEETS.insert(0, sh)
     sh.text(20, 30, 'MagPress M4', 12, weight='bold')
-    sh.text(20, 40, 'Photo-magnet press · drawing set · Rev C.1 (release)', 4.2)
+    sh.text(20, 40, 'Photo-magnet press · drawing set · Rev D (release)', 4.2)
     sh.text(20, 47, 'One universal die + size kits: 50 × 50, 63.5 × 63.5, 53 × 80, 65 × 90 mm', 3.2)
+    sh.text(20, 52, 'Round kits (Rev D): Ø44, Ø50, Ø56, Ø58 mm', 3.2)
     cols = [('DRG NO.', 22, 'start'), ('TITLE', 70, 'start'), ('QTY', 36, 'start'), ('SHEET', 14, 'middle')]
-    sh.text(20, 58, 'DRAWING LIST', 3.2, weight='bold')
-    sh.table(20, 60, cols, listing, size=2.5, rh=4.85)
+    sh.text(20, 60, 'DRAWING LIST', 3.2, weight='bold')
+    sh.table(20, 62, cols, listing, size=2.4, rh=4.1)
     if img_b64:
         sh.add('<image x="178" y="18" width="111" height="200" preserveAspectRatio="xMidYMid meet" href="data:image/png;base64,%s"/>' % img_b64)
         sh.rect(178, 18, 111, 200, 'box')
@@ -654,5 +861,5 @@ def mp000(listing, img_b64=None, img2_b64=None):
         sh.add('<image x="293" y="18" width="111" height="200" preserveAspectRatio="xMidYMid meet" href="data:image/png;base64,%s"/>' % img2_b64)
         sh.rect(293, 18, 111, 200, 'box')
     if img_b64 or img2_b64:
-        sh.text(180, 224, 'Reference renderings (Rev C.1): assembled, handle up (left); exploded (right). Not for measurement.', 2.6, italic=True)
+        sh.text(180, 224, 'Reference renderings (Rev D): assembled, handle up (left); exploded (right). Not for measurement.', 2.6, italic=True)
     return sh

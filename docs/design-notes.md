@@ -1,6 +1,6 @@
-# MagPress M4 — design notes (Rev C.1, final)
+# MagPress M4 — design notes (Rev D, final)
 
-A manual toggle press with a sliding two-station die table. It makes square and rectangular photo fridge magnets in two strokes (pickup, then crimp) in four standard sizes: 50 × 50, 63.5 × 63.5, 53 × 80 and 65 × 90 mm. Calculated values below come from [`calc/engineering_calcs.py`](../calc/engineering_calcs.py) ([output](../calc/results.txt)).
+A manual toggle press with a sliding two-station die table. It makes photo fridge magnets in two strokes (pickup, then crimp) in eight sizes: square and rectangular 50 × 50, 63.5 × 63.5, 53 × 80 and 65 × 90 mm, and round Ø44, Ø50, Ø56 and Ø58 mm (Rev D). Calculated values below come from [`calc/engineering_calcs.py`](../calc/engineering_calcs.py) ([output](../calc/results.txt)).
 
 ## Architecture
 
@@ -11,6 +11,7 @@ A manual toggle press with a sliding two-station die table. It makes square and 
 | Sliding die table, two stations ±80 mm | Load parts outside the press; no fingers under the ram. Stop blocks set coarse position and the station pilot locks it. |
 | Grip lands over the base tongue | The press can't tip forward at the end of the stroke. |
 | One universal die + a size kit per size (Rev C) | Springs, carriers and body are made once; a size is six small hardened parts. See [stepped-die-study.md](research/stepped-die-study.md). |
+| Round kits on the same die (Rev D) | Same 106 × 81 rings with a round bore; turned plug, pedestal and anvil. The square plug's dowels sit outside a Ø44 plug, so round plugs hang on a second, inner pattern in MP-201. |
 
 ## Key numbers
 
@@ -41,11 +42,13 @@ A manual toggle press with a sliding two-station die table. It makes square and 
 | Crown | 176–201 |
 | Pivot O | 234.5 |
 
-## Die system (Rev C)
+## Die system (Rev C, round kits Rev D)
 
 **Universal die (once per press):** upper die body MP-201 + shank MP-202, upper carrier MP-210, lower carriers A and B MP-211, station bases MP-205. It also holds all the springs: 8 × ISO 10243 Ø10 × 32 blue in the upper die, and 4 × Ø10 × 32 green under each lower carrier.
 
 **Size kit (one per size):** plug MP-203 + stud MP-212, upper ring MP-204, pickup ring A MP-207, pickup pedestal MP-206, crimp ring B MP-209, crimp anvil MP-208. Rings are 106 × 81 outside for every size. Pockets are +0.01/0 and rings −0.01/−0.02. Key pins in each carrier stop a ring going into the wrong station.
+
+**Round kit (Rev D, one per round size):** plug MP-223 + stud MP-212, upper ring MP-224, pickup ring A MP-227, pickup pedestal MP-226, crimp ring B MP-229, crimp anvil MP-228, for Ø44, Ø50, Ø56 and Ø58. Same fits and heights as the square kits (plug D + 0.30, upper ring D + 0.35, ring A D + 0.6 with a D + 12.5 film recess, ring B D + 0.45, pedestal D − 0.5, anvil platform D − 4.5). The round plug's two Ø5 dowels go in the inner holes D2 at (±12, −8) and its stud in K2 at (−4.4, 12), on the same ball-lock pin line as K. Round pedestals and anvils need no Ø4 anti-rotation pin. Peak force 2.1–2.8 kN, so the hand force at the end of the stroke stays under 90 N. Largest round size that fits the rings: about Ø65.
 
 **Sequence.** Lower springs (75 → 380 N) are lighter than the upper springs (0.68 → 1.3 kN). At either station the lower ring is pushed down onto its stop first, and only then does the upper ring retract.
 - **Station A:** the upper ring wraps the film over the shell, then grips the wrapped shell.
@@ -62,6 +65,7 @@ A manual toggle press with a sliding two-station die table. It makes square and 
 | A | 2026-10-26 | First full design: toggle press, sliding table, four complete die sets; 30-sheet drawing set. |
 | B | 2026-10-27 | Failure review ([failure-review.md](research/failure-review.md)): one-piece lever (MP-115 deleted), pin O Ø16, dry PTFE-composite bushings, stronger return springs, station pilot MP-120, 15 mm base on pads, adjustable handle stop, A2 dies re-tempered after EDM, 16 kN design load. |
 | C | 2026-10-27 | Universal die + size kits (MP-201 to 212). Crimp anvil with roll channel (the Rev A/B flat pedestal could not roll the edge). Die springs re-rated to ISO 10243 limits (Rev B's red springs ran past the heavy-duty maximum). Final check: return springs lengthened to 128 mm free for ≥ 30% holding margin; mass estimate corrected to ≈ 45 kg. |
+| D | 2026-10-27 | Four round size kits, Ø44, Ø50, Ø56, Ø58 (MP-223 to MP-229, 39 sheets). Upper die body MP-201 gets the inner plug pattern D2/K2. Round-kit swap checked in 3D: no clashes. Rev C.1 release kept in `release/RevC1/`. |
 | C.1 | 2026-10-27 | Seven fit fixes from the 3D interference check ([models/README.md](../models/README.md#interference-check-and-the-rev-c1-fixes)): link pockets in the ram, slot-wall reliefs in the crown for pins A and B (crown 212 MPa at 16 kN), push knobs on the table top, flush column clamp (deeper base counterbore, shorter column spigot, low-head M10 × 16), handle stop without jam nut, stop screw M6 × 0.75 × 40. No heights or kinematics change. Build-pack operating steps: left and right corrected. |
 
 ## Open items for the prototype

@@ -1,6 +1,6 @@
 """Zip the individual part files for 3D printing: STL at full size and at half scale, and OBJ at full size.
 
-python3 models/make_print_pack.py        # reads models/stl, models/obj and models/parts.csv; writes the zips to release/
+python3 models/make_print_pack.py        # reads models/stl, models/obj and models/parts.csv; writes the zips to release/RevD/
 
 Each file sits in a folder for its group, with the number to print at the end of its name (…_x4.stl).
 """
@@ -11,9 +11,10 @@ import struct
 import zipfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-REL = os.path.join(HERE, '..', 'release')
-TAG = 'MagPress-M4_RevC1'
-SIZES = {'5050': '50 × 50', '6363': '63.5 × 63.5', '5380': '53 × 80', '6590': '65 × 90'}
+REL = os.path.join(HERE, '..', 'release', 'RevD')
+TAG = 'MagPress-M4_RevD'
+SIZES = {'5050': '50 × 50', '6363': '63.5 × 63.5', '5380': '53 × 80', '6590': '65 × 90',
+         'D44': 'Ø44', 'D50': 'Ø50', 'D56': 'Ø56', 'D58': 'Ø58'}
 FOLDERS = {'Frame': '01_frame', 'Die table': '02_die-table', 'Press drive': '03_press-drive', 'Universal die': '04_universal-die'}
 
 
@@ -51,14 +52,16 @@ def stl_size(data):
 def readme(scale, rows, fmt):
     pieces = sum(q for (_, _, q, _) in rows)
     big = [(name, dims) for (name, _, _, dims) in rows if max(dims[0], dims[1]) > 220 or dims[2] > 250]
-    lines = ['MagPress M4 Rev C.1 - every part as its own %s file, %s.' % (fmt, scale),
+    lines = ['MagPress M4 Rev D - every part as its own %s file, %s.' % (fmt, scale),
              '',
              'Folders: 01 frame, 02 die table, 03 press drive (ram, crown, lever, links, pins), 04 universal die,',
-             '05 hardware that comes with every size kit, 06-09 the four size kits (5050 = 50 x 50, 6363 = 63.5 x 63.5,',
-             '5380 = 53 x 80, 6590 = 65 x 90). Pick the kits you want; one kit is enough to see how everything fits.',
+             '05 hardware that comes with every size kit, 06-09 the square and rectangular kits (5050 = 50 x 50,',
+             '6363 = 63.5 x 63.5, 5380 = 53 x 80, 6590 = 65 x 90), 10-13 the round kits (D44 = diameter 44 ... D58 = diameter 58).',
+             'Round kits use the inner plug holes (D2, K2) in the upper die body and need no 4 mm pins (BUY-48).',
+             'Pick the kits you want; one kit is enough to see how everything fits.',
              '',
              'The number at the end of each file name is how many to print for one press (folder 05: per kit).',
-             'Files: %d. Pieces for one press with all four kits: %d.' % (len(rows), pieces + 3 * sum(q for (n, f, q, _) in rows if f.startswith('05'))),
+             'Files: %d. Pieces for one press with all eight kits: %d.' % (len(rows), pieces + 7 * sum(q for (n, f, q, _) in rows if f.startswith('05'))),
              '',
              'MP-xxx files are machined parts (drawing numbers). BUY-xx files are bought hardware (screws, pins, springs,',
              'bushings): print them for looks, or use real ones at full size and skip them.',
@@ -73,7 +76,7 @@ def readme(scale, rows, fmt):
     else:
         lines.append('Every part fits a 220 x 220 mm bed and 250 mm height at this scale, as laid out in its file.')
     lines += ['', 'Made by models/make_print_pack.py from models/stl and models/obj. 3D views of how the parts fit:',
-              'models/assembly/ and the assembly manual (release/MagPress-M4_Assembly-Manual_RevC1.pdf).', '']
+              'models/assembly/ and the assembly manual (release/RevD/MagPress-M4_Assembly-Manual_RevD.pdf).', '']
     return '\n'.join(lines)
 
 
