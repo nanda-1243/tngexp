@@ -515,10 +515,11 @@ def lever_rest_height(psi=3.0, z=105.0):
     best = None
     for i in range(len(prof)):
         (u0, w0), (u1, w1) = prof[i], prof[(i + 1) % len(prof)]
-        for t in [k / 20.0 for k in range(21)]:
+        n = max(20, int(math.hypot(u1 - u0, w1 - w0) / 0.1))
+        for t in [k / float(n) for k in range(n + 1)]:
             u, w = u0 + (u1 - u0) * t, w0 + (w1 - w0) * t
             zz, yy = u * c - w * s, 234.5 + u * s + w * c
-            if abs(zz - z) < 6 and w < 0:
+            if abs(zz - z) < 8 and w < 0:
                 best = yy if best is None else min(best, yy)
     return best
 
@@ -530,7 +531,7 @@ def mp001():
                     'Toggle: crank O→A 40, link A→B 60, grip centre 320 from O (Rev A 290). Handle 65° → 3° above horizontal. Force gain 6.6 at the start, 34.6 at the end of the stroke.',
                     'Ram stroke 38.9. Dies meet after 26.0; working travel 12.9. Pickup stroke stops at 35.5. Station pilot MP-120 enters the table at 20.0, before the dies meet.',
                     'Open stop: 2 urethane bumpers on the ram top. Closed stop: adjustable M10 × 1 screw + urethane cap on the front column top, set so the lever rests at 3°.',
-                    'Rev B: one-piece lever (MP-115 deleted); pin O Ø16; dry bushings; return springs 80 / 245 N; station pilot; 15 mm base. Rev C: universal die + size kits (MP-201 to 212).',
+                    'Rev B: one-piece lever (MP-115 deleted); pin O Ø16; dry bushings; return springs 80 / 245 N; station pilot; 15 mm base. Rev C: universal die + size kits (MP-201 to 212). Rev C.1: seven fit fixes from the 3D check (MP-101, 104, 105, 107, 108, 109).',
                     'Balloons = drawing numbers (MP-xxx). Pins MP-116 at A and B, MP-117 at O; spacers MP-119 on pin O; stop blocks MP-104 behind the table.'])
     v = View(sh, 150, 214, 3.0)
     def box(z0, z1, y0, y1, c='vis'): v.rect(z0, y0, z1, y1, c)
@@ -637,11 +638,11 @@ def mp000(listing, img_b64=None, img2_b64=None):
                       'Column bores in base MP-101, crown MP-108 and ram MP-109 at 210.00 ±0.01: same datum scheme and CNC program.',
                       'Rev C die: universal parts (MP-201, 202, 205, 210, 211) are made once per press. Size-kit parts (MP-203, 204, 206 to 209, 212) are tabulated for 5050, 6363, 5380, 6590.',
                       'DXF profiles are supplied for cutting and wire-EDM. If a DXF and a drawing disagree, the drawing governs. Bought parts are in the build pack BOM.',
-                      'Rev B: failure-mode review (lever, pin O, bushings, return springs, pilot, base, 16 kN). Rev C (2026-10-27), production release: universal die + 6-part size kits changed by hand in about a minute; crimp anvil with roll channel; die springs re-rated to ISO 10243 limits.',
+                      'Rev B: failure-mode review (lever, pin O, bushings, return springs, pilot, base, 16 kN). Rev C (2026-10-27): universal die + 6-part size kits changed by hand in about a minute; crimp anvil with roll channel; die springs re-rated to ISO 10243 limits. Rev C.1 (2026-10-27), production release: fit fixes from the 3D interference check: ram link pockets (MP-109), crown reliefs for pins A and B (MP-108), push knobs on the table top (MP-105), flush column clamp (MP-101, MP-107), handle stop without jam nut, stop screw M6 × 0.75 × 40 (MP-104).',
                       'Prove the die fits on a 7075 aluminium set before cutting tool steel.'])
     P.SHEETS.insert(0, sh)
     sh.text(20, 30, 'MagPress M4', 12, weight='bold')
-    sh.text(20, 40, 'Photo-magnet press · drawing set · Rev C (release)', 4.2)
+    sh.text(20, 40, 'Photo-magnet press · drawing set · Rev C.1 (release)', 4.2)
     sh.text(20, 47, 'One universal die + size kits: 50 × 50, 63.5 × 63.5, 53 × 80, 65 × 90 mm', 3.2)
     cols = [('DRG NO.', 22, 'start'), ('TITLE', 70, 'start'), ('QTY', 36, 'start'), ('SHEET', 14, 'middle')]
     sh.text(20, 58, 'DRAWING LIST', 3.2, weight='bold')
@@ -653,5 +654,5 @@ def mp000(listing, img_b64=None, img2_b64=None):
         sh.add('<image x="293" y="18" width="111" height="200" preserveAspectRatio="xMidYMid meet" href="data:image/png;base64,%s"/>' % img2_b64)
         sh.rect(293, 18, 111, 200, 'box')
     if img_b64 or img2_b64:
-        sh.text(180, 224, 'Reference renderings (Rev C): assembled, handle up (left); exploded (right). Not for measurement.', 2.6, italic=True)
+        sh.text(180, 224, 'Reference renderings (Rev C.1): assembled, handle up (left); exploded (right). Not for measurement.', 2.6, italic=True)
     return sh

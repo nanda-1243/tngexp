@@ -1,4 +1,4 @@
-"""MagPress M4 Rev C assembly manual: step images (from the 3D assembly), Markdown and PDF.
+"""MagPress M4 Rev C.1 assembly manual: step images (from the 3D assembly), Markdown and PDF.
 
 python3 docs/assembly/manual.py            # render images, write docs/assembly-manual.md and the PDF in release/
 python3 docs/assembly/manual.py --no-render  # text only (reuse the existing images)
@@ -20,7 +20,7 @@ ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
 GLB = os.path.join(ROOT, 'models', 'assembly', 'MagPress-M4_assembly.glb')
 IMG = os.path.join(HERE, 'img')
 MD_OUT = os.path.join(ROOT, 'docs', 'assembly-manual.md')
-PDF_OUT = os.path.join(ROOT, 'release', 'MagPress-M4_Assembly-Manual_RevC.pdf')
+PDF_OUT = os.path.join(ROOT, 'release', 'MagPress-M4_Assembly-Manual_RevC1.pdf')
 
 NAMES, FILES = {}, {}
 with open(os.path.join(ROOT, 'models', 'parts.csv')) as f:
@@ -67,22 +67,14 @@ UP = 'from below'
 # =====================================================================================
 # the steps
 # =====================================================================================
-FIT = {
-    1: ('Toggle links hit the ram top',
-        'Before fitting the clevis, mill two clearance pockets in the ram top, one each side of the clevis pocket: '
-        'X ±10 to ±19, Y ±14, 3 mm deep. The links\' R12 ends otherwise cut 2 mm into the ram.'),
-    2: ('Pin B is wider than the crown slot',
-        'Use a pin B 37.6 mm long (grooves unchanged), or widen the crown slot to 42 mm. With the 40 mm pin the ends hit the crown with the handle up.'),
-    3: ('Push knobs drag on the base',
-        'The Ø24 knobs reach 6 mm below the table. Fit Ø12 knobs (M6) on the end faces instead, or a handle on the table top.'),
-    4: ('Column clamp screws do not fit',
-        'M10 × 25 is longer than the 15 mm thread in the column, and its head hangs 6.5 mm below the base. '
-        'Use M10 × 16 DIN 7984 (low head) and 10 mm feet instead of the 3 mm pads.'),
-    5: ('No room for the handle-stop jam nut',
-        'Jam nut + cap need 9 mm; there are 7 mm. Use an M10 × 1 × 12 set screw with a nylon patch, no jam nut, and the urethane cap.'),
-    6: ('Stop screw too short',
-        'M6 × 0.75 × 25 cannot reach through the 30 mm block. Use M6 × 0.75 × 40.'),
-}
+CHANGES = [
+    ('Ram MP-109', 'Two link-clearance pockets on the top beside the clevis: the links\' R12 lower ends dipped 2 mm into the ram.', 6),
+    ('Crown MP-108', 'Reliefs in the slot walls for the ends of pin B (underside, handle up) and pin A (top, handle down).', 7),
+    ('Die table MP-105, push knobs', 'Ø14 knobs on the table top at each end, instead of Ø24 knobs on the end faces that reached into the base.', 3),
+    ('Base MP-101, column MP-107', 'Counterbore 8.5 deep and column spigot 6.5: the M10 × 16 low-head clamp screw and Ø32 × 2.5 washer sit flush underneath.', 2),
+    ('Handle stop', 'M10 × 1 × 12 set screw with a nylon patch and no jam nut: there was no room for the nut.', 12),
+    ('Stop screw', 'M6 × 0.75 × 40: the 25 mm screw could not reach through the stop block.', 5),
+]
 
 TABLE = ['MP-105', 'MP-205', 'BUY-40', 'BUY-41', 'BUY-32']
 RAM = ['MP-109', 'BUY-13', 'MP-110', ('BUY-16', 2), 'BUY-27', 'MP-111', 'BUY-28', 'BUY-29', 'MP-120', 'MP-118', 'BUY-23']
@@ -97,10 +89,10 @@ STEPS = [
     dict(part='A', title='Prepare the base plate', view=V_ISO, frame='all', install=True,
          add=[G((0, 0, 0), 'MP-101')],
          tools='Straightedge, feeler gauges, bore gauge, two wooden bearers about 50 mm high',
-         do=['Deburr and clean the plate. Check the counterbores C1/C2 are on the underside and the tongue is at the front.',
+         do=['Deburr and clean the plate. Check the counterbores C1/C2 (Ø33 × 8.5) are on the underside and the tongue is at the front.',
              'Check flatness of the slide area (X ±230 × Y ±75): 0.05 mm with a straightedge and feelers.',
              'Check the column holes C1/C2: Ø20 H7, 210.00 ±0.01 apart.',
-             'Put the plate on two wooden bearers for the rest of the build, so the screw heads underneath stay clear of the bench.'],
+             'Put the plate on two wooden bearers for the rest of the build, so you can reach the screws underneath.'],
          check='Flat within 0.05 mm under the die table; column holes to size and position.'),
     dict(part='A', title='Columns', view=(-0.6, -0.78, 0.15), frame='all', install=True,
          add=[G((0, 0, 150), 'MP-107'), G((0, 0, -50), 'BUY-07'), G((0, 0, -100), 'BUY-06')],
@@ -108,19 +100,17 @@ STEPS = [
          do=['Support the base on the press bed directly under the first hole.',
              'Press the column\'s Ø20 p6 spigot (the short end) into C1 from the top until the Ø25 shoulder seats on the plate. Press straight; a light oil film on the spigot helps.',
              'Repeat for the second column in C2.',
-             'From underneath, fit the Ø32 × 4 washer into each counterbore and pull the column down with the M10 clamp screw, Loctite 243, 40 N·m.'],
-         fit=4,
+             'From underneath, fit the hardened Ø32 × 2.5 washer into each counterbore and pull the column down with the M10 × 16 low-head clamp screw, Loctite 243, 40 N·m. The head ends flush with the base underside.'],
          check='Each column square to the base within 0.05 per 100 mm; centres 210.00 ±0.01 at the top.'),
     dict(part='A', title='Die table on the bench', view=(-0.5, -0.8, -0.2), frame='all',
          add=[G((0, 0, 0), 'MP-105'), G((0, 0, 25), 'BUY-41'), G((0, 0, 60), 'MP-205'), G((0, 0, -40), 'BUY-40'),
-              G((45, 0, 0), ('BUY-32', 1)), G((-45, 0, 0), ('BUY-32', 2))],
+              G((0, 0, 40), 'BUY-32')],
          tools='Soft-face mallet, 3 mm hex key, torque wrench',
          do=['The station bases go on now because their screws are under the table.',
              'Press two Ø6 × 12 dowels into each pair of G holes in the table top, 6 mm proud.',
              'Put a station base (MP-205) on each pair of dowels: base A over the left station, base B over the right. The Ø4 hole Q in each base goes to the front.',
              'From underneath, fit the eight M5 × 16 countersunk screws (F1 to F8) flush, 6 N·m.',
-             'Screw the two push knobs into the table end faces (K1, K2).'],
-         fit=3,
+             'Screw the two Ø14 push knobs into the M5 holes K1/K2 on the table top, one at each end.'],
          check='Screw heads flush or below the table underside; bases sit flat on the table.'),
     dict(part='A', title='Guide rails, keepers and the die table', view=V_ISO, frame='all', install=True,
          add=[G((0, 0, 0), *TABLE, row='Die table from step 3', label=('MP-105', 'Die table', 'from step 3')),
@@ -138,10 +128,9 @@ STEPS = [
          tools='4 mm hex key, 10 mm spanner, screwdriver, torque wrench, Loctite 243 and 222',
          do=['Put a stop block (MP-104) over each pair of plain holes in the back keeper, the overhang toward the table.',
              'Fit two M5 × 35 cap screws per block through keeper and rail into the base, Loctite 243, 6 N·m.',
-             'Screw a stop screw with its lock nut into each block from the outside, tip toward the centre. Leave the lock nuts loose: the stations are set in step 14.',
+             'Screw an M6 × 0.75 × 40 stop screw with its lock nut into each block from the outside, tip toward the centre. Leave the lock nuts loose: the stations are set in step 14.',
              'Screw the stop pin (MP-106) into hole S on the table top, Loctite 243, 2.5 N·m.',
              'Screw the ball plunger into hole BP from the top until it clicks into the detent spots at both stations. Lock it with Loctite 222.'],
-         fit=6,
          check='The table clicks at both stations and the stop pin meets a stop screw at each end.'),
     # ------------------------------------------------------------------ B
     dict(part='B', title='Ram sub-assembly', view=V_ISO, frame='all',
@@ -151,18 +140,18 @@ STEPS = [
          tools='Press and stepped mandrels (25/32 and 12/14 bushings), 3 and 4 mm hex keys, 17 mm spanner, torque wrench, Loctite 243',
          do=['Press the two flanged bronze bushings into the ram\'s Ø32 bores from the top, flange on the top face, flush with the underside.',
              'Press the 12 × 14 × 20 PTFE-composite bushing into the clevis bore, flush both sides. Never ream or grease these bushings.',
-             'Put the clevis in the 2 mm pocket on the ram top, bore running left to right. Fit two M5 × 25 cap screws, Loctite 243, 6 N·m.',
+             'Check the two link-clearance pockets L1/L2 beside the clevis pocket are clean and deburred: the links\' lower ends run in them. Put the clevis in the 2 mm pocket on the ram top, bore running left to right. Fit two M5 × 25 cap screws, Loctite 243, 6 N·m.',
              'Push the die holder\'s Ø24 spigot into the ram underside, its Ø4 orientation hole to the front. Fit four M5 × 16 low-head screws from below, Loctite 243, 6 N·m. Screw the M5 cone-point lock screw into the holder\'s side hole and back it off.',
              'Screw the station pilot into hole PL under the ram (back side), Loctite 243. The tip ends 84 mm below the ram.',
              'Screw the two return rods into R1/R2 on the ram top, Loctite 243, 20 N·m.',
              'Screw the two urethane bumpers into U1/U2 on the ram top, Loctite 243, hand tight.'],
-         fit=1,
          check='Clevis bore parallel to the ram underside within 0.02; pilot square to the ram.'),
     dict(part='B', title='Crown sub-assembly', view=(-0.6, -0.75, 0.2), frame='all',
          add=[G((0, 0, 0), 'MP-108'), G((0, 0, 30), 'BUY-26'), G((0, 0, 70), 'MP-112'), G((50, 0, 70), ('BUY-14', 1)), G((-50, 0, 70), ('BUY-14', 2)),
               G((0, 0, -35), 'BUY-25'), G((0, 0, -75), 'BUY-24')],
          tools='Ø18 H7 line reamer with pilot, press and 16/18 mandrel, 6 mm hex key, torque wrench',
-         do=['Press the two Ø6 × 16 dowels into P1/P2 on the crown top, 8 mm proud.',
+         do=['Deburr the four reliefs in the slot walls (N1/N2 underneath, N3/N4 on top): the ends of pins B and A pass through them.',
+             'Press the two Ø6 × 16 dowels into P1/P2 on the crown top, 8 mm proud.',
              'Put a pivot cheek on each dowel, the bore running left to right. Fix each with two M8 × 30 cap screws and Nord-Lock washers from below, 25 N·m.',
              'Line-ream both cheek bores together to Ø18 H7 in one pass.',
              'Press a 16 × 18 × 15 PTFE-composite bushing into each cheek, 0.5 mm in from each face. Do not ream the bushings afterwards.'],
@@ -201,18 +190,16 @@ STEPS = [
          tools='External retaining-ring pliers (Ø12)',
          do=['Put a link each side of the lever at the crank bore A, stamp marks out. Push pin A through and fit a DIN 471-12 ring at each end.',
              'With the ram still resting low, swing the links down either side of the clevis. Raise the ram until the bores line up and push pin B through link, clevis and link.',
-             'Fit a DIN 471-12 ring at each end of pin B. Pin B can only go in with the ram low: with the handle up it sits inside the crown slot.'],
-         fit=2,
+             'Fit a DIN 471-12 ring at each end of pin B. Pin B can only go in with the ram low: with the handle up its ends sit in the crown reliefs.'],
          check='Lifting the handle lifts the ram smoothly; nothing touches the crown or the ram top through the full stroke.'),
     dict(part='C', title='Return springs and handle stop', view=(0.85, -0.35, 0.4), frame='new', install=True, zoom=1.3,
          add=[G((0, 0, 40), 'BUY-20'), G((0, 0, 100), 'BUY-21'), G((0, 0, 120), 'BUY-22'),
-              G((0, 0, 40), 'BUY-10'), G((0, 0, 25), 'BUY-11'), G((0, 0, 55), 'BUY-12')],
+              G((0, 0, 30), 'BUY-10'), G((0, 0, 55), 'BUY-12')],
          tools='17 mm socket, 5 mm hex key, calipers, protractor or angle gauge',
          do=['Take the wooden block out. Drop a return spring over each return rod, then a Ø32 × 3 washer and an M10 nylock nut.',
              'Tighten each nut until the ram is pulled up against the bumpers and the spring measures 109.5 mm (about 80 N).',
-             'Screw the handle-stop screw into the top of the front column and put the urethane cap on it.',
-             'Pull the handle down onto the stop. Adjust the screw until the lever rests 3° above horizontal, then lock it.'],
-         fit=5,
+             'Screw the M10 × 1 × 12 handle-stop set screw (nylon patch) into the top of the front column and put the urethane cap on it.',
+             'Pull the handle down onto the stop. Adjust the screw until the lever rests 3° above horizontal; the nylon patch holds the setting.'],
          check='Handle swings 65° to 3° and springs back to the open stop from fully down, 20 times out of 20. Ram travel 38.9 ±0.3 mm.'),
     # ------------------------------------------------------------------ D
     dict(part='D', title='Lower dies', view=(-0.6, -0.55, 0.6), frame='new', install=True, zoom=1.2,
@@ -282,7 +269,7 @@ STEPS = [
     dict(part='F', title='Feet, set-up and first magnets', view=(-0.55, -0.8, 0.22), frame='all', install=True, zoom=0.75,
          add=[G((0, 0, -40), 'BUY-01')],
          tools='Calipers, 10 kN load cell and dummy block, hanging scale, marker',
-         do=['Stick the feet under the base, clear of the six bench holes: four at (±200, ±80) and one under the tongue. Use 10 mm feet if you applied fit fix 4.',
+         do=['Stick the feet under the base, clear of the six bench holes: four at (±200, ±80) and one under the tongue.',
              'Put the press on a flat bench (two people: it weighs about 45 kg). For all-day use bolt it down through the Ø9 holes.',
              'Set the depth: make a magnet, then add shims (0.1 / 0.2 / 0.5) until the crimp finishes with the handle about 5 to 10° above horizontal. Write the shim value on the frame label.',
              'Run the tests in the table below, then make two test magnets per kit and check the corners and the crimp.'],
@@ -295,7 +282,7 @@ PARTS_TITLE = {'A': 'Part A — Frame and die table', 'B': 'Part B — Ram and c
 TORQUE = [
     ('Rail and keeper screws', 'M5 × 20 ISO 10642', '6 N·m', '—'),
     ('Stop-block screws', 'M5 × 35 ISO 4762', '6 N·m', 'Loctite 243'),
-    ('Column clamp screws', 'M10 (see fit problem 4)', '40 N·m', 'Loctite 243'),
+    ('Column clamp screws', 'M10 × 16 DIN 7984', '40 N·m', 'Loctite 243'),
     ('Column nuts', 'M16 × 1.5 + Nord-Lock', '100 N·m, two passes', '—'),
     ('Clevis screws', 'M5 × 25 ISO 4762', '6 N·m', 'Loctite 243'),
     ('Die-holder screws', 'M5 × 16 DIN 7984', '6 N·m', 'Loctite 243'),
@@ -310,7 +297,8 @@ TORQUE = [
     ('Carrier shoulder screws', 'ISO 7379 Ø6', '8 N·m', '—'),
     ('Plug stud', 'M6', '8 N·m *', 'Loctite 243'),
     ('Table stop pin', 'M4', '2.5 N·m *', 'Loctite 243'),
-    ('Stop screws', 'M6 × 0.75 + lock nut', 'set, then lock', '—'),
+    ('Stop screws', 'M6 × 0.75 × 40 + lock nut', 'set, then lock', '—'),
+    ('Handle-stop screw', 'M10 × 1 × 12', 'set to the 3° rest', 'nylon patch'),
     ('Ball plunger, ring plungers', 'M6, M4', 'set, then lock', 'Loctite 222'),
     ('Ring thumb screws', 'M5', 'finger tight', '—'),
 ]
@@ -412,7 +400,7 @@ def doc_blocks():
     note = lambda kind, title, t: B.append(('note', kind, title, t))
     brk = lambda: B.append(('break',))
 
-    h(1, 'MagPress M4 — Assembly manual (Rev C)')
+    h(1, 'MagPress M4 — Assembly manual (Rev C.1)')
     p('How to build the MagPress M4 photo-magnet press from its parts, in 19 steps: frame and die table, ram and crown, toggle drive, universal die, a size kit, then set-up and tests. '
       'Every picture comes from the 3D model in [`models/`](../models/): the parts added in a step are in colour and pulled apart along the way they go in; parts already fitted are grey. '
       'Labels give the part number; the parts table under each picture gives the name, quantity and 3D file.')
@@ -424,10 +412,10 @@ def doc_blocks():
         '**Lubrication.** Columns and the graphite-plugged ram bushings run dry: wipe them clean. Light oil on the rails only. No oil on the dies.',
         '**Threadlocker.** Clean threads with solvent before Loctite. The torque table below lists every joint.',
         '**Safety.** The press weighs about 45 kg: lift it with two people. The pinch points are between the dies and between the table and the stop blocks. Wear gloves when handling tinplate shells.'])
-    note('warn', 'Rev C fit problems',
-         'The 3D check of the Rev C drawings found six parts that clash (see [`models/README.md`](../models/README.md#design-problems-found-by-the-3d-check-rev-c)). '
-         'Each one is flagged in the step where it bites, with the change to make. Make these changes before you build: the drawings are not yet updated.')
-    tbl(['#', 'Problem', 'Step'], [(str(k), FIT[k][0], str(next(s['no'] for s in STEPS if s.get('fit') == k))) for k in sorted(FIT)])
+    note('check', 'Rev C.1',
+         'Every part in this manual was checked against every other in the 3D model at six handle angles, from fully up to on the stop: nothing clashes. '
+         'Rev C.1 fixed the seven clashes found in Rev C with these changes (details in [`models/README.md`](../models/README.md)):')
+    tbl(['Part', 'Change', 'Step'], [(a_, b_, str(c_)) for (a_, b_, c_) in CHANGES])
     h(2, 'Tools and materials')
     ul(TOOLS)
     h(2, 'Torque and thread-locker table')
@@ -447,9 +435,6 @@ def doc_blocks():
             tbl(['Part', 'Name', 'Qty', '3D model'], rows)
         p('**Tools:** ' + s['tools'])
         ol(s['do'])
-        if s.get('fit'):
-            k = s['fit']
-            note('warn', 'Fit problem %d — %s' % (k, FIT[k][0]), FIT[k][1])
         note('check', 'Check', s['check'])
         if s['part'] == 'F':
             tbl(['Test', 'How', 'Pass'], TESTS)
@@ -549,7 +534,7 @@ const { chromium } = require('playwright');
   await p.goto('file://' + src, { waitUntil: 'load' });
   await p.pdf({ path: dst, format: 'A4', printBackground: true, displayHeaderFooter: true,
     headerTemplate: '<div></div>',
-    footerTemplate: '<div style="font-size:8px;width:100%;padding:0 13mm;color:#666;display:flex;justify-content:space-between"><span>MagPress M4 · Assembly manual · Rev C</span><span class="pageNumber"></span></div>',
+    footerTemplate: '<div style="font-size:8px;width:100%;padding:0 13mm;color:#666;display:flex;justify-content:space-between"><span>MagPress M4 · Assembly manual · Rev C.1</span><span class="pageNumber"></span></div>',
     margin: { top: '14mm', bottom: '16mm', left: '13mm', right: '13mm' } });
   await b.close();
 })();

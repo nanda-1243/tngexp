@@ -119,6 +119,14 @@ Z_cr = 42 * 25 ** 2 / 6
 for F in (8000, 16000):
     M = F * span / 4
     print('Crown at %2d kN: %.0f MPa, %.2f mm' % (F / 1000, M / Z_cr, F * span ** 3 / (48 * E * I_cr)))
+# Rev C.1: slot-wall reliefs take 2 mm off each flange at the centre section: bottom 5 mm (pin B) and top 13 mm (pin A)
+layers = [(38, 0, 5), (42, 5, 12), (38, 12, 25)]          # (net width, from, to) up from the crown underside
+A_l = [(w, a, b, w * (b - a), (a + b) / 2) for (w, a, b) in layers]
+yc = sum(ar * c for (_, _, _, ar, c) in A_l) / sum(ar for (_, _, _, ar, _) in A_l)
+I_rel = sum(w * (b - a) ** 3 / 12 + ar * (c - yc) ** 2 for (w, a, b, ar, c) in A_l)
+Z_rel = I_rel / max(yc, 25 - yc)
+for F in (8000, 16000):
+    print('Crown at the slot-wall reliefs (Rev C.1), %2d kN: %.0f MPa' % (F / 1000, F * span / 4 / Z_rel))
 for t in (12, 15):
     I_b, Z_b = 200 * t ** 3 / 12, 200 * t ** 2 / 6   # 200 mm effective width between the columns
     out = []
@@ -159,7 +167,7 @@ frame = {
     'rails + keepers': 2 * 460 * 14 * 12.05 * STEEL + 2 * 460 * 20 * 4 * STEEL,
     'stop blocks, stop pin, knobs, plunger': 2 * 30 * 27 * 16 * STEEL + 0.10,
     'die table (6061)': (340 * 150 - 2 * circ(8)) * 12 * AL,
-    'columns': 2 * (circ(20) * 10.5 + circ(25) * 158 + circ(20) * 25 + circ(16) * 16) * STEEL,
+    'columns': 2 * (circ(20) * 6.5 + circ(25) * 158 + circ(20) * 25 + circ(16) * 16) * STEEL,
     'crown': (80 * 250 - 38 * 66 - 2 * circ(20)) * 25 * STEEL,
     'column nuts + washers': 2 * 0.045,
 }

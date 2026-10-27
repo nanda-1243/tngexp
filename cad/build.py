@@ -30,9 +30,9 @@ html = ('<!doctype html><html><head><meta charset="utf-8"><style>@page{size:420m
         'html,body{margin:0;padding:0}.pg{width:420mm;height:297mm;page-break-after:always;overflow:hidden}'
         '.pg:last-child{page-break-after:auto}</style></head><body>' + ''.join('<div class="pg">%s</div>' % p for p in pages) + '</body></html>')
 open(os.path.join(OUT, 'set.html'), 'w').write(html)
-zp = os.path.join(OUT, 'MagPress-M4_DXF_RevC.zip')
+zp = os.path.join(OUT, 'MagPress-M4_DXF_RevC1.zip')
 with zipfile.ZipFile(zp, 'w', zipfile.ZIP_DEFLATED) as z:
-    readme = ('MagPress M4 Rev C - DXF profiles (R12, mm, 1:1).\n'
+    readme = ('MagPress M4 Rev C.1 - DXF profiles (R12, mm, 1:1).\n'
               'Layers: OUTLINE (cut), HOLES (through holes, true size), TAP_DRILL (tap drill size - tap after cutting),\n'
               'COUNTERBORE (c\'bore diameter - machine to depth per drawing), POCKET (blind pocket outline), SPOT.\n'
               'Plan views: X right, front of the press at the bottom (crown/ram: front to the right).\n'

@@ -1,4 +1,4 @@
-# MagPress M4 — Assembly manual (Rev C)
+# MagPress M4 — Assembly manual (Rev C.1)
 
 How to build the MagPress M4 photo-magnet press from its parts, in 19 steps: frame and die table, ram and crown, toggle drive, universal die, a size kit, then set-up and tests. Every picture comes from the 3D model in [`models/`](../models/): the parts added in a step are in colour and pulled apart along the way they go in; parts already fitted are grey. Labels give the part number; the parts table under each picture gives the name, quantity and 3D file.
 
@@ -13,16 +13,16 @@ How to build the MagPress M4 photo-magnet press from its parts, in 19 steps: fra
 - **Threadlocker.** Clean threads with solvent before Loctite. The torque table below lists every joint.
 - **Safety.** The press weighs about 45 kg: lift it with two people. The pinch points are between the dies and between the table and the stop blocks. Wear gloves when handling tinplate shells.
 
-> ⚠️ **Rev C fit problems.** The 3D check of the Rev C drawings found six parts that clash (see [`models/README.md`](../models/README.md#design-problems-found-by-the-3d-check-rev-c)). Each one is flagged in the step where it bites, with the change to make. Make these changes before you build: the drawings are not yet updated.
+> ✅ **Rev C.1.** Every part in this manual was checked against every other in the 3D model at six handle angles, from fully up to on the stop: nothing clashes. Rev C.1 fixed the seven clashes found in Rev C with these changes (details in [`models/README.md`](../models/README.md)):
 
-| # | Problem | Step |
+| Part | Change | Step |
 |---|---|---|
-| 1 | Toggle links hit the ram top | 6 |
-| 2 | Pin B is wider than the crown slot | 11 |
-| 3 | Push knobs drag on the base | 3 |
-| 4 | Column clamp screws do not fit | 2 |
-| 5 | No room for the handle-stop jam nut | 12 |
-| 6 | Stop screw too short | 5 |
+| Ram MP-109 | Two link-clearance pockets on the top beside the clevis: the links' R12 lower ends dipped 2 mm into the ram. | 6 |
+| Crown MP-108 | Reliefs in the slot walls for the ends of pin B (underside, handle up) and pin A (top, handle down). | 7 |
+| Die table MP-105, push knobs | Ø14 knobs on the table top at each end, instead of Ø24 knobs on the end faces that reached into the base. | 3 |
+| Base MP-101, column MP-107 | Counterbore 8.5 deep and column spigot 6.5: the M10 × 16 low-head clamp screw and Ø32 × 2.5 washer sit flush underneath. | 2 |
+| Handle stop | M10 × 1 × 12 set screw with a nylon patch and no jam nut: there was no room for the nut. | 12 |
+| Stop screw | M6 × 0.75 × 40: the 25 mm screw could not reach through the stop block. | 5 |
 
 ## Tools and materials
 
@@ -42,7 +42,7 @@ How to build the MagPress M4 photo-magnet press from its parts, in 19 steps: fra
 |---|---|---|---|
 | Rail and keeper screws | M5 × 20 ISO 10642 | 6 N·m | — |
 | Stop-block screws | M5 × 35 ISO 4762 | 6 N·m | Loctite 243 |
-| Column clamp screws | M10 (see fit problem 4) | 40 N·m | Loctite 243 |
+| Column clamp screws | M10 × 16 DIN 7984 | 40 N·m | Loctite 243 |
 | Column nuts | M16 × 1.5 + Nord-Lock | 100 N·m, two passes | — |
 | Clevis screws | M5 × 25 ISO 4762 | 6 N·m | Loctite 243 |
 | Die-holder screws | M5 × 16 DIN 7984 | 6 N·m | Loctite 243 |
@@ -57,7 +57,8 @@ How to build the MagPress M4 photo-magnet press from its parts, in 19 steps: fra
 | Carrier shoulder screws | ISO 7379 Ø6 | 8 N·m | — |
 | Plug stud | M6 | 8 N·m * | Loctite 243 |
 | Table stop pin | M4 | 2.5 N·m * | Loctite 243 |
-| Stop screws | M6 × 0.75 + lock nut | set, then lock | — |
+| Stop screws | M6 × 0.75 × 40 + lock nut | set, then lock | — |
+| Handle-stop screw | M10 × 1 × 12 | set to the 3° rest | nylon patch |
 | Ball plunger, ring plungers | M6, M4 | set, then lock | Loctite 222 |
 | Ring thumb screws | M5 | finger tight | — |
 
@@ -75,10 +76,10 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 
 **Tools:** Straightedge, feeler gauges, bore gauge, two wooden bearers about 50 mm high
 
-1. Deburr and clean the plate. Check the counterbores C1/C2 are on the underside and the tongue is at the front.
+1. Deburr and clean the plate. Check the counterbores C1/C2 (Ø33 × 8.5) are on the underside and the tongue is at the front.
 2. Check flatness of the slide area (X ±230 × Y ±75): 0.05 mm with a straightedge and feelers.
 3. Check the column holes C1/C2: Ø20 H7, 210.00 ±0.01 apart.
-4. Put the plate on two wooden bearers for the rest of the build, so the screw heads underneath stay clear of the bench.
+4. Put the plate on two wooden bearers for the rest of the build, so you can reach the screws underneath.
 
 > ✅ **Check.** Flat within 0.05 mm under the die table; column holes to size and position.
 
@@ -89,17 +90,15 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 | Part | Name | Qty | 3D model |
 |---|---|---|---|
 | MP-107 | Column | 2 | [STEP](../models/step/MP-107_column.step) · [STL](../models/stl/MP-107_column.stl) |
-| BUY-07 | Column clamp washer Ø32 × 4 | 2 | [STEP](../models/step/BUY-07_column-clamp-washer-d32-x-4.step) · [STL](../models/stl/BUY-07_column-clamp-washer-d32-x-4.stl) |
-| BUY-06 | Column clamp screw M10 × 25 ISO 4762 | 2 | [STEP](../models/step/BUY-06_column-clamp-screw-m10-x-25-iso-4762.step) · [STL](../models/stl/BUY-06_column-clamp-screw-m10-x-25-iso-4762.stl) |
+| BUY-07 | Column clamp washer Ø32 × 2.5, hardened | 2 | [STEP](../models/step/BUY-07_column-clamp-washer-d32-x-2-5-hardened.step) · [STL](../models/stl/BUY-07_column-clamp-washer-d32-x-2-5-hardened.stl) |
+| BUY-06 | Column clamp screw M10 × 16 DIN 7984 (low head) | 2 | [STEP](../models/step/BUY-06_column-clamp-screw-m10-x-16-din-7984-low-head.step) · [STL](../models/stl/BUY-06_column-clamp-screw-m10-x-16-din-7984-low-head.stl) |
 
 **Tools:** Arbor or hydraulic press (5 t), flat support block, square, dial indicator, torque wrench, 8 mm hex key, Loctite 243
 
 1. Support the base on the press bed directly under the first hole.
 2. Press the column's Ø20 p6 spigot (the short end) into C1 from the top until the Ø25 shoulder seats on the plate. Press straight; a light oil film on the spigot helps.
 3. Repeat for the second column in C2.
-4. From underneath, fit the Ø32 × 4 washer into each counterbore and pull the column down with the M10 clamp screw, Loctite 243, 40 N·m.
-
-> ⚠️ **Fit problem 4 — Column clamp screws do not fit.** M10 × 25 is longer than the 15 mm thread in the column, and its head hangs 6.5 mm below the base. Use M10 × 16 DIN 7984 (low head) and 10 mm feet instead of the 3 mm pads.
+4. From underneath, fit the hardened Ø32 × 2.5 washer into each counterbore and pull the column down with the M10 × 16 low-head clamp screw, Loctite 243, 40 N·m. The head ends flush with the base underside.
 
 > ✅ **Check.** Each column square to the base within 0.05 per 100 mm; centres 210.00 ±0.01 at the top.
 
@@ -113,7 +112,7 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 | BUY-41 | Dowel pin Ø6 × 12 (station bases) | 4 | [STEP](../models/step/BUY-41_dowel-pin-d6-x-12-station-bases.step) · [STL](../models/stl/BUY-41_dowel-pin-d6-x-12-station-bases.stl) |
 | MP-205 | Station base (universal) | 2 | [STEP](../models/step/MP-205_station-base-universal.step) · [STL](../models/stl/MP-205_station-base-universal.stl) |
 | BUY-40 | Countersunk screw M5 × 16 ISO 10642 (station bases) | 8 | [STEP](../models/step/BUY-40_countersunk-screw-m5-x-16-iso-10642-station-bases.step) · [STL](../models/stl/BUY-40_countersunk-screw-m5-x-16-iso-10642-station-bases.stl) |
-| BUY-32 | Push knob, phenolic Ø24, M6 | 2 | [STEP](../models/step/BUY-32_push-knob-phenolic-d24-m6.step) · [STL](../models/stl/BUY-32_push-knob-phenolic-d24-m6.stl) |
+| BUY-32 | Push knob, phenolic Ø14 × 18, M5 | 2 | [STEP](../models/step/BUY-32_push-knob-phenolic-d14-x-18-m5.step) · [STL](../models/stl/BUY-32_push-knob-phenolic-d14-x-18-m5.stl) |
 
 **Tools:** Soft-face mallet, 3 mm hex key, torque wrench
 
@@ -121,9 +120,7 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 2. Press two Ø6 × 12 dowels into each pair of G holes in the table top, 6 mm proud.
 3. Put a station base (MP-205) on each pair of dowels: base A over the left station, base B over the right. The Ø4 hole Q in each base goes to the front.
 4. From underneath, fit the eight M5 × 16 countersunk screws (F1 to F8) flush, 6 N·m.
-5. Screw the two push knobs into the table end faces (K1, K2).
-
-> ⚠️ **Fit problem 3 — Push knobs drag on the base.** The Ø24 knobs reach 6 mm below the table. Fit Ø12 knobs (M6) on the end faces instead, or a handle on the table top.
+5. Screw the two Ø14 push knobs into the M5 holes K1/K2 on the table top, one at each end.
 
 > ✅ **Check.** Screw heads flush or below the table underside; bases sit flat on the table.
 
@@ -167,11 +164,9 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 
 1. Put a stop block (MP-104) over each pair of plain holes in the back keeper, the overhang toward the table.
 2. Fit two M5 × 35 cap screws per block through keeper and rail into the base, Loctite 243, 6 N·m.
-3. Screw a stop screw with its lock nut into each block from the outside, tip toward the centre. Leave the lock nuts loose: the stations are set in step 14.
+3. Screw an M6 × 0.75 × 40 stop screw with its lock nut into each block from the outside, tip toward the centre. Leave the lock nuts loose: the stations are set in step 14.
 4. Screw the stop pin (MP-106) into hole S on the table top, Loctite 243, 2.5 N·m.
 5. Screw the ball plunger into hole BP from the top until it clicks into the detent spots at both stations. Lock it with Loctite 222.
-
-> ⚠️ **Fit problem 6 — Stop screw too short.** M6 × 0.75 × 25 cannot reach through the 30 mm block. Use M6 × 0.75 × 40.
 
 > ✅ **Check.** The table clicks at both stations and the stop pin meets a stop screw at each end.
 
@@ -199,13 +194,11 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 
 1. Press the two flanged bronze bushings into the ram's Ø32 bores from the top, flange on the top face, flush with the underside.
 2. Press the 12 × 14 × 20 PTFE-composite bushing into the clevis bore, flush both sides. Never ream or grease these bushings.
-3. Put the clevis in the 2 mm pocket on the ram top, bore running left to right. Fit two M5 × 25 cap screws, Loctite 243, 6 N·m.
+3. Check the two link-clearance pockets L1/L2 beside the clevis pocket are clean and deburred: the links' lower ends run in them. Put the clevis in the 2 mm pocket on the ram top, bore running left to right. Fit two M5 × 25 cap screws, Loctite 243, 6 N·m.
 4. Push the die holder's Ø24 spigot into the ram underside, its Ø4 orientation hole to the front. Fit four M5 × 16 low-head screws from below, Loctite 243, 6 N·m. Screw the M5 cone-point lock screw into the holder's side hole and back it off.
 5. Screw the station pilot into hole PL under the ram (back side), Loctite 243. The tip ends 84 mm below the ram.
 6. Screw the two return rods into R1/R2 on the ram top, Loctite 243, 20 N·m.
 7. Screw the two urethane bumpers into U1/U2 on the ram top, Loctite 243, hand tight.
-
-> ⚠️ **Fit problem 1 — Toggle links hit the ram top.** Before fitting the clevis, mill two clearance pockets in the ram top, one each side of the clevis pocket: X ±10 to ±19, Y ±14, 3 mm deep. The links' R12 ends otherwise cut 2 mm into the ram.
 
 > ✅ **Check.** Clevis bore parallel to the ram underside within 0.02; pilot square to the ram.
 
@@ -224,10 +217,11 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 
 **Tools:** Ø18 H7 line reamer with pilot, press and 16/18 mandrel, 6 mm hex key, torque wrench
 
-1. Press the two Ø6 × 16 dowels into P1/P2 on the crown top, 8 mm proud.
-2. Put a pivot cheek on each dowel, the bore running left to right. Fix each with two M8 × 30 cap screws and Nord-Lock washers from below, 25 N·m.
-3. Line-ream both cheek bores together to Ø18 H7 in one pass.
-4. Press a 16 × 18 × 15 PTFE-composite bushing into each cheek, 0.5 mm in from each face. Do not ream the bushings afterwards.
+1. Deburr the four reliefs in the slot walls (N1/N2 underneath, N3/N4 on top): the ends of pins B and A pass through them.
+2. Press the two Ø6 × 16 dowels into P1/P2 on the crown top, 8 mm proud.
+3. Put a pivot cheek on each dowel, the bore running left to right. Fix each with two M8 × 30 cap screws and Nord-Lock washers from below, 25 N·m.
+4. Line-ream both cheek bores together to Ø18 H7 in one pass.
+5. Press a 16 × 18 × 15 PTFE-composite bushing into each cheek, 0.5 mm in from each face. Do not ream the bushings afterwards.
 
 > ✅ **Check.** A Ø16 g6 test pin slides through both cheeks freely with no binding.
 
@@ -308,9 +302,7 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 
 1. Put a link each side of the lever at the crank bore A, stamp marks out. Push pin A through and fit a DIN 471-12 ring at each end.
 2. With the ram still resting low, swing the links down either side of the clevis. Raise the ram until the bores line up and push pin B through link, clevis and link.
-3. Fit a DIN 471-12 ring at each end of pin B. Pin B can only go in with the ram low: with the handle up it sits inside the crown slot.
-
-> ⚠️ **Fit problem 2 — Pin B is wider than the crown slot.** Use a pin B 37.6 mm long (grooves unchanged), or widen the crown slot to 42 mm. With the 40 mm pin the ends hit the crown with the handle up.
+3. Fit a DIN 471-12 ring at each end of pin B. Pin B can only go in with the ram low: with the handle up its ends sit in the crown reliefs.
 
 > ✅ **Check.** Lifting the handle lifts the ram smoothly; nothing touches the crown or the ram top through the full stroke.
 
@@ -323,18 +315,15 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 | BUY-20 | Return spring Ø3.5 wire, OD 31.5 (shown installed, 109.5) | 2 | [STEP](../models/step/BUY-20_return-spring-d3-5-wire-od-31-5-shown-installed-109-5.step) · [STL](../models/stl/BUY-20_return-spring-d3-5-wire-od-31-5-shown-installed-109-5.stl) |
 | BUY-21 | Washer Ø32 × 3 (return rod) | 2 | [STEP](../models/step/BUY-21_washer-d32-x-3-return-rod.step) · [STL](../models/stl/BUY-21_washer-d32-x-3-return-rod.stl) |
 | BUY-22 | Nylock nut M10 | 2 | [STEP](../models/step/BUY-22_nylock-nut-m10.step) · [STL](../models/stl/BUY-22_nylock-nut-m10.stl) |
-| BUY-10 | Handle stop screw M10 × 1 × 20 (set screw) | 1 | [STEP](../models/step/BUY-10_handle-stop-screw-m10-x-1-x-20-set-screw.step) · [STL](../models/stl/BUY-10_handle-stop-screw-m10-x-1-x-20-set-screw.stl) |
-| BUY-11 | Handle stop jam nut M10 × 1 | 1 | [STEP](../models/step/BUY-11_handle-stop-jam-nut-m10-x-1.step) · [STL](../models/stl/BUY-11_handle-stop-jam-nut-m10-x-1.stl) |
+| BUY-10 | Handle stop screw M10 × 1 × 12, nylon patch (set screw) | 1 | [STEP](../models/step/BUY-10_handle-stop-screw-m10-x-1-x-12-nylon-patch-set-screw.step) · [STL](../models/stl/BUY-10_handle-stop-screw-m10-x-1-x-12-nylon-patch-set-screw.stl) |
 | BUY-12 | Handle stop cap, urethane Ø16 × 4 | 1 | [STEP](../models/step/BUY-12_handle-stop-cap-urethane-d16-x-4.step) · [STL](../models/stl/BUY-12_handle-stop-cap-urethane-d16-x-4.stl) |
 
 **Tools:** 17 mm socket, 5 mm hex key, calipers, protractor or angle gauge
 
 1. Take the wooden block out. Drop a return spring over each return rod, then a Ø32 × 3 washer and an M10 nylock nut.
 2. Tighten each nut until the ram is pulled up against the bumpers and the spring measures 109.5 mm (about 80 N).
-3. Screw the handle-stop screw into the top of the front column and put the urethane cap on it.
-4. Pull the handle down onto the stop. Adjust the screw until the lever rests 3° above horizontal, then lock it.
-
-> ⚠️ **Fit problem 5 — No room for the handle-stop jam nut.** Jam nut + cap need 9 mm; there are 7 mm. Use an M10 × 1 × 12 set screw with a nylon patch, no jam nut, and the urethane cap.
+3. Screw the M10 × 1 × 12 handle-stop set screw (nylon patch) into the top of the front column and put the urethane cap on it.
+4. Pull the handle down onto the stop. Adjust the screw until the lever rests 3° above horizontal; the nylon patch holds the setting.
 
 > ✅ **Check.** Handle swings 65° to 3° and springs back to the open stop from fully down, 20 times out of 20. Ram travel 38.9 ±0.3 mm.
 
@@ -479,7 +468,7 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 
 **Tools:** Calipers, 10 kN load cell and dummy block, hanging scale, marker
 
-1. Stick the feet under the base, clear of the six bench holes: four at (±200, ±80) and one under the tongue. Use 10 mm feet if you applied fit fix 4.
+1. Stick the feet under the base, clear of the six bench holes: four at (±200, ±80) and one under the tongue.
 2. Put the press on a flat bench (two people: it weighs about 45 kg). For all-day use bolt it down through the Ø9 holes.
 3. Set the depth: make a magnet, then add shims (0.1 / 0.2 / 0.5) until the crimp finishes with the handle about 5 to 10° above horizontal. Write the shim value on the frame label.
 4. Run the tests in the table below, then make two test magnets per kit and check the corners and the crimp.

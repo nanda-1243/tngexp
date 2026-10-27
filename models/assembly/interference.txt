@@ -1,15 +1,24 @@
-Interference check, MagPress M4 Rev C assembly (handle up, station B under the ram, kit 6363)
-187 placed parts. Overlaps above 1 mm^3 (touching faces and press fits at the same nominal size are not overlaps):
+Interference check, MagPress M4 Rev C.1 assembly (station B under the ram, kit 6363)
+186 placed parts. Overlaps above 1 mm^3 (touching faces and press fits at the same nominal size are not overlaps).
+Through the stroke, die parts against die parts are not checked: the spring-loaded rings telescope by design. Return springs are not checked (they compress).
 
-  MP-101_1       x BUY-32_1           1653.8 mm^3
-  MP-107_1       x BUY-06_1            471.2 mm^3
-  MP-107_2       x BUY-06_2            471.2 mm^3
-  BUY-11_1       x BUY-12_1            256.5 mm^3
-  MP-107_1       x BUY-10_1            133.0 mm^3
-  MP-109_1       x MP-114_2            126.0 mm^3
-  MP-109_1       x MP-114_1            126.0 mm^3
-  MP-108_1       x MP-116_2             66.0 mm^3
+Handle up, 64.9 deg (as placed in the assembly files):
+  none
+
+Handle at 50 deg (ram 12.7 mm down):
+  none
+
+Handle at 35 deg (ram 24.4 mm down):
+  none
+
+Handle at 20 deg (ram 33.3 mm down):
+  none
+
+Handle at 10 deg (ram 37.2 mm down):
+  none
+
+Handle at 3 deg, on the stop (ram 38.9 mm down):
+  none
 
 Parts reaching below the bench (Z < 0):
-  BUY-06_1       lowest point Z = -6.53
-  BUY-06_2       lowest point Z = -6.53
+  none

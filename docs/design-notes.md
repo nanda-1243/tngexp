@@ -1,4 +1,4 @@
-# MagPress M4 — design notes (Rev C, final)
+# MagPress M4 — design notes (Rev C.1, final)
 
 A manual toggle press with a sliding two-station die table. It makes square and rectangular photo fridge magnets in two strokes (pickup, then crimp) in four standard sizes: 50 × 50, 63.5 × 63.5, 53 × 80 and 65 × 90 mm. Calculated values below come from [`calc/engineering_calcs.py`](../calc/engineering_calcs.py) ([output](../calc/results.txt)).
 
@@ -62,6 +62,7 @@ A manual toggle press with a sliding two-station die table. It makes square and 
 | A | 2026-10-26 | First full design: toggle press, sliding table, four complete die sets; 30-sheet drawing set. |
 | B | 2026-10-27 | Failure review ([failure-review.md](research/failure-review.md)): one-piece lever (MP-115 deleted), pin O Ø16, dry PTFE-composite bushings, stronger return springs, station pilot MP-120, 15 mm base on pads, adjustable handle stop, A2 dies re-tempered after EDM, 16 kN design load. |
 | C | 2026-10-27 | Universal die + size kits (MP-201 to 212). Crimp anvil with roll channel (the Rev A/B flat pedestal could not roll the edge). Die springs re-rated to ISO 10243 limits (Rev B's red springs ran past the heavy-duty maximum). Final check: return springs lengthened to 128 mm free for ≥ 30% holding margin; mass estimate corrected to ≈ 45 kg. |
+| C.1 | 2026-10-27 | Seven fit fixes from the 3D interference check ([models/README.md](../models/README.md#interference-check-and-the-rev-c1-fixes)): link pockets in the ram, slot-wall reliefs in the crown for pins A and B (crown 212 MPa at 16 kN), push knobs on the table top, flush column clamp (deeper base counterbore, shorter column spigot, low-head M10 × 16), handle stop without jam nut, stop screw M6 × 0.75 × 40. No heights or kinematics change. Build-pack operating steps: left and right corrected. |
 
 ## Open items for the prototype
 
@@ -70,6 +71,5 @@ These are start values to prove on a 7075 aluminium prototype kit before cutting
 2. Grip fit of the upper ring (shell + 0.35) and the plunger protrusion (0.2–0.3).
 3. Die-spring forces against the real pickup and crimp forces (load cell on station B).
 4. A 16 kN proof load and a 10,000-stroke endurance run (build pack, section 10).
-5. Six fit problems found by the 3D model's interference check (links against the ram, pin B in the crown slot, push knobs, column clamp screws, handle stop, stop screw length). See [`models/README.md`](../models/README.md#design-problems-found-by-the-3d-check-rev-c). They are not yet fixed in the drawings.
 
 The calculations are hand calculations. A mechanical engineer should review them before production.

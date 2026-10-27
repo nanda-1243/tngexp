@@ -1,4 +1,4 @@
-"""MagPress M4 Rev C: 3D models of every part, made and bought, as STEP, STL and OBJ, plus a placed assembly.
+"""MagPress M4 Rev C.1: 3D models of every part, made and bought, as STEP, STL and OBJ, plus a placed assembly.
 
 Run:  python models/build_models.py [outdir]      (needs cadquery and trimesh; outdir defaults to models/)
 
@@ -265,9 +265,7 @@ def mp104():
 
 
 def mp105():
-    T = 12
-    extra = [cyl(6, 12 + E, 170 + E, 0, 6, axis=(-1, 0, 0)), cyl(6, 12 + E, -170 - E, 0, 6, axis=(1, 0, 0))]
-    return plate(DR.rrect(0, 0, 340, 150, 0), T, P.table_feats(), extra)
+    return plate(DR.rrect(0, 0, 340, 150, 0), 12, P.table_feats())
 
 
 def mp106():
@@ -275,8 +273,8 @@ def mp106():
 
 
 def mp107():
-    s = stepped([(20, 10.5), (25, 158), (20, 25), (16, 16)])
-    return cut_all(s, [cyl(10, 15 + E, z0=-E), cyl(10, 15 + E, z0=209.5 - 15)])
+    s = stepped([(20, 6.5), (25, 158), (20, 25), (16, 16)])
+    return cut_all(s, [cyl(10, 15 + E, z0=-E), cyl(10, 15 + E, z0=205.5 - 15)])
 
 
 def mp108():
@@ -509,8 +507,8 @@ def bumper():
 
 
 def knob():
-    k = cq.Workplane('XY').circle(12).extrude(20).edges('>Z').fillet(5).val()
-    return k.fuse(cyl(6, 12, z0=-12))
+    k = cq.Workplane('XY').circle(7).extrude(18).edges('>Z').fillet(3).val()
+    return k.fuse(cyl(5, 8, z0=-8))
 
 
 def grip():
@@ -531,7 +529,7 @@ def ball_plunger():
 
 
 def adj_stop_screw():
-    return set_screw(10, 20, cone_point=False, socket=5)
+    return set_screw(10, 12, cone_point=False, socket=5)
 
 
 # =====================================================================================
@@ -547,7 +545,7 @@ def build():
     part('MP-104', 'Station stop block', 'make', 'Frame', mp104(), 'oxide', [at(-101, 76.5, 34.05), at(101, 76.5, 34.05)])
     part('MP-105', 'Die table (slide)', 'make', 'Die table', mp105(), 'gold', [at(SX, 0, 18)])
     part('MP-106', 'Die table stop pin', 'make', 'Die table', mp106(), 'oxide', [at(SX, 66, 24)])
-    part('MP-107', 'Column', 'make', 'Frame', mp107(), 'chrome', [at(0, -105, 7.5), at(0, 105, 7.5)])
+    part('MP-107', 'Column', 'make', 'Frame', mp107(), 'chrome', [at(0, -105, 11.5), at(0, 105, 11.5)])
     part('MP-108', 'Crown', 'make', 'Frame', mp108(), 'oxide', [at(0, 0, 176)])
     part('MP-109', 'Ram', 'make', 'Press drive', mp109(), 'oxide', [at(0, 0, 134)])
     part('MP-110', 'Clevis', 'make', 'Press drive', mp110(), 'oxide', [at(0, 0, 162)])
@@ -594,17 +592,15 @@ def build():
          [at(x, 82, 44.55) for x in (-110, -92, 92, 110)])
     stop_nut_x = 116.0
     part('BUY-04', 'Stop screw M6 × 0.75 × 40 hex', 'buy', 'Frame', hex_screw(6, 40, 10, 4), 'steel',
-         [Tr(*ALONG_X, at=(83 + 40, 68, 42.05)), Tr(*ALONG_MX, at=(-83 - 40, 68, 42.05))],
-         spec='BOM lists M6 × 0.75 × 25; 25 is too short to reach the stop through the 30 mm block (see README)')
+         [Tr(*ALONG_X, at=(83 + 40, 68, 42.05)), Tr(*ALONG_MX, at=(-83 - 40, 68, 42.05))])
     part('BUY-05', 'Thin lock nut M6 × 0.75', 'buy', 'Frame', nut(10, 3.2, 6), 'steel',
          [Tr(*ALONG_X, at=(stop_nut_x, 68, 42.05)), Tr(*ALONG_MX, at=(-stop_nut_x, 68, 42.05))])
-    part('BUY-06', 'Column clamp screw M10 × 25 ISO 4762', 'buy', 'Frame', cap_screw(10, 25, 16, 10, 8), 'oxide',
-         [Tr(*DOWN, at=(0, y, 3.5)) for y in (-105, 105)])
-    part('BUY-07', 'Column clamp washer Ø32 × 4', 'buy', 'Frame', tube(32, 10.5, 4), 'oxide', [at(0, y, 3.5) for y in (-105, 105)])
+    part('BUY-06', 'Column clamp screw M10 × 16 DIN 7984 (low head)', 'buy', 'Frame', cap_screw(10, 16, 16, 6, 7), 'oxide',
+         [Tr(*DOWN, at=(0, y, 9)) for y in (-105, 105)])
+    part('BUY-07', 'Column clamp washer Ø32 × 2.5, hardened', 'buy', 'Frame', tube(32, 10.5, 2.5), 'oxide', [at(0, y, 9) for y in (-105, 105)])
     part('BUY-08', 'Nord-Lock washer M16', 'buy', 'Frame', tube(25.4, 17, 3.4), 'steel', [at(0, y, 201) for y in (-105, 105)])
     part('BUY-09', 'Column nut M16 × 1.5', 'buy', 'Frame', nut(24, 13, 16), 'steel', [at(0, y, 204.4) for y in (-105, 105)])
-    part('BUY-10', 'Handle stop screw M10 × 1 × 20 (set screw)', 'buy', 'Frame', adj_stop_screw(), 'steel', [at(0, -105, Y_REST - 4 - 20)])
-    part('BUY-11', 'Handle stop jam nut M10 × 1', 'buy', 'Frame', nut(17, 5, 10), 'steel', [at(0, -105, 217.4)])
+    part('BUY-10', 'Handle stop screw M10 × 1 × 12, nylon patch (set screw)', 'buy', 'Frame', adj_stop_screw(), 'steel', [at(0, -105, Y_REST - 4 - 12)])
     part('BUY-12', 'Handle stop cap, urethane Ø16 × 4', 'buy', 'Frame', cyl(16, 4), 'ure', [at(0, -105, Y_REST - 4)])
     part('BUY-13', 'Flanged bronze bushing 25 × 32 × 33 (ram)', 'buy', 'Press drive', bushing(25, 32, 30, (40, 3)), 'bronze',
          [at(0, y, 134) for y in (-105, 105)], spec='self-lubricating, graphite plugs')
@@ -639,8 +635,7 @@ def build():
 
     # ---------------- bought parts: die table ----------------
     part('BUY-31', 'Spring ball plunger M6', 'buy', 'Die table', ball_plunger(), 'stain', [at(SX, -45, 18.5)])
-    part('BUY-32', 'Push knob, phenolic Ø24, M6', 'buy', 'Die table', knob(), 'knob',
-         [Tr(*ALONG_X, at=(SX + 170, 0, 24)), Tr(*ALONG_MX, at=(SX - 170, 0, 24))])
+    part('BUY-32', 'Push knob, phenolic Ø14 × 18, M5', 'buy', 'Die table', knob(), 'knob', [at(SX + 163, 0, 30), at(SX - 163, 0, 30)])
 
     # ---------------- bought parts: universal die ----------------
     spl = [(x, -z) for (x, z) in P2.SPR_LOW]
@@ -682,6 +677,51 @@ def grip_place():
     u = P.GRIP_C - 60
     y, z = lever_pt(u, 0, PSI)
     return Tr(('x', 90 - PSI), at=(0, y, z))
+
+
+def overlaps(placed, skip):
+    """pairs of placed parts [(name, pid, shape)] that overlap by more than 1 mm^3."""
+    boxes = [(n, s, s.BoundingBox()) for (n, pid, s) in placed]
+    hits = []
+    for i in range(len(boxes)):
+        n1, s1, b1 = boxes[i]
+        for j in range(i + 1, len(boxes)):
+            n2, s2, b2 = boxes[j]
+            if b1.xmax < b2.xmin or b2.xmax < b1.xmin or b1.ymax < b2.ymin or b2.ymax < b1.ymin or b1.zmax < b2.zmin or b2.zmax < b1.zmin:
+                continue
+            if skip(n1, n2):
+                continue
+            v = s1.intersect(s2).Volume()
+            if v > 1.0:
+                hits.append((n1, n2, v))
+    return hits
+
+
+POSES = (50.0, 35.0, 20.0, 10.0, 3.0)          # handle angles checked besides the placed (open) pose; 3 deg = on the stop
+RAM_MOVES = {'MP-109', 'BUY-13', 'MP-110', 'BUY-27', 'MP-111', 'BUY-28', 'BUY-29', 'MP-120', 'MP-118', 'BUY-23', 'BUY-21', 'BUY-22',
+             'MP-201', 'MP-202', 'MP-210', 'BUY-34', 'BUY-35', 'BUY-38', 'BUY-39', 'BUY-42', 'BUY-43', 'MP-212', 'BUY-46', 'BUY-45',
+             'MP-203-' + KIT_SHOWN, 'MP-204-' + KIT_SHOWN, 'BUY-16_2', 'MP-116_2', 'BUY-17_2', 'BUY-17_4', 'BUY-18_2', 'BUY-18_4',
+             'BUY-37_5', 'BUY-37_6'}
+LEVER_MOVES = {'MP-113', 'BUY-15', 'BUY-30', 'BUY-16_1', 'MP-116_1', 'BUY-17_1', 'BUY-17_3', 'BUY-18_1', 'BUY-18_3'}
+
+
+def pose(inst, psi):
+    """the placed assembly at handle angle psi: ram group lowered, lever turned about O, links re-placed. Returns (parts, ram drop)."""
+    a_y, a_z = lever_pt(A_U, A_W, psi)
+    b_z = a_z - math.sqrt(60.0 ** 2 - a_y ** 2)
+    out = []
+    link_local = next(p['shape'] for p in PARTS if p['id'] == 'MP-114')
+    ang = math.degrees(math.atan2(a_z - b_z, -a_y))
+    for n, pid, s, c in inst:
+        if n in RAM_MOVES or pid in RAM_MOVES:
+            s = s.translate(V(0, 0, b_z - B_Z))
+        elif n in LEVER_MOVES or pid in LEVER_MOVES:
+            s = s.translate(V(0, 0, -OY)).rotate(V(0, 0, 0), V(1, 0, 0), PSI - psi).translate(V(0, 0, OY))
+        elif pid == 'MP-114':
+            x = -14 if n.endswith('_1') else 14
+            s = Tr(*(SIDE_PLATE + (('x', -ang),)), at=(x, 0, b_z))(link_local)
+        out.append((n, pid, s))
+    return out, B_Z - b_z
 
 
 # =====================================================================================
@@ -766,34 +806,40 @@ def main():
     except ImportError:
         print('trimesh not installed: GLB skipped')
 
-    # ---------------- interference check on the placed assembly ----------------
-    hits, below = [], []
-    boxes = [(n, pid, s, s.BoundingBox()) for (n, pid, s, c) in inst]
-    for n, pid, s, bb in boxes:
-        if bb.zmin < -0.1:
-            below.append((n, bb.zmin))
-    for i in range(len(boxes)):
-        n1, p1, s1, b1 = boxes[i]
-        for j in range(i + 1, len(boxes)):
-            n2, p2, s2, b2 = boxes[j]
-            if b1.xmax < b2.xmin or b2.xmax < b1.xmin or b1.ymax < b2.ymin or b2.ymax < b1.ymin or b1.zmax < b2.zmin or b2.zmax < b1.zmin:
-                continue
-            v = s1.intersect(s2).Volume()
-            if v > 1.0:
-                hits.append((n1, n2, v))
+    # ---------------- interference checks: handle up (as placed) and handle down ----------------
+    groups = {p['id']: p['group'] for p in PARTS}
+    open_pose = [(n, pid, s) for (n, pid, s, c) in inst]
+    hits_open, below = overlaps(open_pose, skip=lambda a, b: False), []
+    for n, pid, s in open_pose:
+        z = s.BoundingBox().zmin
+        if z < -0.1:
+            below.append((n, z))
+    die = lambda n: groups[n.rsplit('_', 1)[0]] in ('Universal die', 'Size kit')
+    skip = lambda a, b: (die(a) and die(b)) or 'BUY-20' in (a.rsplit('_', 1)[0], b.rsplit('_', 1)[0])
+    moving = []
+    for psi in POSES:
+        placed, drop = pose(inst, psi)
+        moving.append((psi, drop, overlaps(placed, skip)))
+    hits_closed = [h for (_, _, hs) in moving for h in hs]
     with open(os.path.join(OUT, 'assembly', 'interference.txt'), 'w') as f:
-        f.write('Interference check, MagPress M4 Rev C assembly (handle up, station B under the ram, kit %s)\n' % KIT_SHOWN)
-        f.write('%d placed parts. Overlaps above 1 mm^3 (touching faces and press fits at the same nominal size are not overlaps):\n\n' % len(inst))
-        for a, b, v in sorted(hits, key=lambda h: -h[2]):
-            f.write('  %-14s x %-14s %10.1f mm^3\n' % (a, b, v))
-        if not hits:
-            f.write('  none\n')
+        f.write('Interference check, MagPress M4 Rev C.1 assembly (station B under the ram, kit %s)\n' % KIT_SHOWN)
+        f.write('%d placed parts. Overlaps above 1 mm^3 (touching faces and press fits at the same nominal size are not overlaps).\n' % len(inst))
+        f.write('Through the stroke, die parts against die parts are not checked: the spring-loaded rings telescope by design. '
+                'Return springs are not checked (they compress).\n')
+        for title, hits in [('Handle up, %.1f deg (as placed in the assembly files)' % PSI, hits_open)] + \
+                [('Handle at %.0f deg%s (ram %.1f mm down)' % (psi, ', on the stop' if psi == POSES[-1] else '', drop), hs) for (psi, drop, hs) in moving]:
+            f.write('\n%s:\n' % title)
+            for a_, b_, v in sorted(hits, key=lambda h: -h[2]):
+                f.write('  %-14s x %-14s %10.1f mm^3\n' % (a_, b_, v))
+            if not hits:
+                f.write('  none\n')
         f.write('\nParts reaching below the bench (Z < 0):\n')
         for n, z in below:
             f.write('  %-14s lowest point Z = %.2f\n' % (n, z))
         if not below:
             f.write('  none\n')
-    print('%d part files, %d placed instances, %d overlaps, %d below the bench' % (len(PARTS), len(inst), len(hits), len(below)))
+    hits = hits_open + hits_closed
+    print('%d part files, %d placed instances, overlaps: %d handle up, %d through the stroke; %d below the bench' % (len(PARTS), len(inst), len(hits_open), len(hits_closed), len(below)))
 
 
 if __name__ == '__main__':

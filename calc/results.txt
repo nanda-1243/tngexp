@@ -46,13 +46,15 @@ F  8 kN: pin O d12 542 MPa, d16 229 MPa (arm 23); pins A/B d12 212 MPa (arm 9)
 F 16 kN: pin O d12 1085 MPa, d16 458 MPa (arm 23); pins A/B d12 424 MPa (arm 9)
 Crown at  8 kN: 96 MPa, 0.13 mm
 Crown at 16 kN: 192 MPa, 0.27 mm
+Crown at the slot-wall reliefs (Rev C.1),  8 kN: 106 MPa
+Crown at the slot-wall reliefs (Rev C.1), 16 kN: 212 MPa
 Base 12 mm:  5 kN 55 MPa 0.16 mm;  15 kN 164 MPa 0.48 mm;  16 kN 175 MPa 0.51 mm
 Base 15 mm:  5 kN 35 MPa 0.08 mm;  15 kN 105 MPa 0.24 mm;  16 kN 112 MPa 0.26 mm
 
 ================================================================================================
 5. MASSES (estimate, kg)
 ================================================================================================
-Frame                     26.1   (base plate 15 mm 17.54, rails + keepers 1.80, stop blocks, stop pin, knobs, plunger 0.30, die table (6061) 1.65, columns 1.44, crown 3.31, column nuts + washers 0.09)
+Frame                     26.1   (base plate 15 mm 17.54, rails + keepers 1.80, stop blocks, stop pin, knobs, plunger 0.30, die table (6061) 1.65, columns 1.42, crown 3.31, column nuts + washers 0.09)
 Ram assembly               5.1   (ram 4.33, ram bushings 0.21, clevis 0.09, die holder 0.16, return rods + nuts 0.27, station pilot 0.03)
 Drive                      3.1   (pivot cheeks 0.55, handle lever 1.82, grip (TPR) 0.05, toggle links 0.17, pins O, A, B 0.19, spacers 0.04, return springs 0.24)
 Universal die, upper       2.2   (upper die body 144 x 116 x 10 1.30, shank + shim + pins 0.05, upper carrier 0.89)
