@@ -24,15 +24,24 @@ Station pilot (tip 84 below the ram, table top at 30, ram bottom at 134 open): e
 2. FORCE NEEDED PER SIZE (ESTIMATE)
 ================================================================================================
 Basis: 7 N per mm of shell edge (scaled from the round-badge figures in US 4,696,086) x 2.2 for the final crimp. Prove it on the prototype.
-Hand force at the stop = (crimp + 1.62 kN of springs) / (0.84 x MA 34.6). Rev E corners R1 (sharp-cornered magnets).
-5050  edge 198 mm  crimp 3.05 kN  hand force at the stop 161 N
-6363  edge 252 mm  crimp 3.89 kN  hand force at the stop 190 N
-5380  edge 264 mm  crimp 4.07 kN  hand force at the stop 196 N
-6590  edge 308 mm  crimp 4.75 kN  hand force at the stop 219 N
-D44  edge 138 mm  crimp 2.13 kN  hand force at the stop 129 N
-D50  edge 157 mm  crimp 2.42 kN  hand force at the stop 139 N
-D56  edge 176 mm  crimp 2.71 kN  hand force at the stop 149 N
-D58  edge 182 mm  crimp 2.81 kN  hand force at the stop 152 N
+Hand force at the stop = (crimp + 3.03 kN of springs) / (0.84 x MA 34.6). Rev E corners R1 (sharp-cornered magnets).
+5050  edge 198 mm  crimp 3.05 kN  hand force at the stop 210 N
+6363  edge 252 mm  crimp 3.89 kN  hand force at the stop 238 N
+5380  edge 264 mm  crimp 4.07 kN  hand force at the stop 245 N
+6590  edge 308 mm  crimp 4.75 kN  hand force at the stop 268 N
+D44  edge 138 mm  crimp 2.13 kN  hand force at the stop 178 N
+D50  edge 157 mm  crimp 2.42 kN  hand force at the stop 188 N
+D56  edge 176 mm  crimp 2.71 kN  hand force at the stop 198 N
+D58  edge 182 mm  crimp 2.81 kN  hand force at the stop 201 N
+
+Stroke 1, flat tin blank: fold force (wiping bend round the pedestal, tin 0.20 soft T2, sy 250 MPa; 0.22 T3, sy 300 MPa)
+Upper springs: preload 1.57 kN, 1.83 kN after 1.3 mm of give (the most stroke 1 allows); ring A springs 0.38 kN at the stop
+5050  fold 0.20: 0.86 kN (+0.38 = 1.24, OK)   0.22 T3: 1.25 kN (+0.38 = 1.63, OK)
+6363  fold 0.20: 1.09 kN (+0.38 = 1.47, OK)   0.22 T3: 1.59 kN (+0.38 = 1.97, carrier gives too far)
+5380  fold 0.20: 1.15 kN (+0.38 = 1.53, OK)   0.22 T3: 1.66 kN (+0.38 = 2.04, carrier gives too far)
+6590  fold 0.20: 1.34 kN (+0.38 = 1.72, OK)   0.22 T3: 1.94 kN (+0.38 = 2.32, carrier gives too far)
+Use 0.20 mm soft tinplate (T2) for the flat blanks. Round kits keep drawn round cups (a flat round blank cannot be folded).
+Hand force in stroke 1 near its end (travel 34, MA 12.2): about 156 N for 65 x 90 with 0.20 tin.
 
 ================================================================================================
 3. HANDLE: REV A SCREWED BAR vs REV B/C ONE-PIECE LEVER
@@ -67,19 +76,19 @@ Base 15 mm:  5 kN 35 MPa 0.08 mm;  15 kN 105 MPa 0.24 mm;  16 kN 112 MPa 0.26 mm
 Frame                     28.1   (base plate 15 mm 17.54, rails + keepers 1.80, stop blocks, stop pin, knobs, plunger 0.30, die table (6061) 1.65, columns 1.42, crown 5.27, column nuts + washers 0.09)
 Ram assembly               5.1   (ram 4.33, ram bushings 0.21, clevis 0.09, die holder 0.16, return rods + nuts 0.27, station pilot 0.03)
 Drive                      3.1   (pivot cheeks 0.55, handle lever 1.82, grip (TPR) 0.05, toggle links 0.17, pins O, A, B 0.19, spacers 0.04, return springs 0.24)
-Universal die, upper       2.2   (upper die body 144 x 116 x 10 1.30, shank + shim + pins 0.05, upper carrier 0.89)
+Universal die, upper       3.3   (upper die body 144 x 116 x 20 (Rev E) 2.39, shank + shim + pins 0.05, upper carrier 0.89)
 Universal die, lower       5.4   (station bases (2) 2.82, lower carriers (2) 2.38, die springs, screws, pins 0.15)
 Size kit 5050               3.12   (plug 0.29, upper ring 0.66, pickup ring A 0.71, pickup pedestal 0.42, crimp ring B 0.71, crimp anvil 0.33)
 Size kit 6363               3.22   (plug 0.46, upper ring 0.49, pickup ring A 0.53, pickup pedestal 0.68, crimp ring B 0.53, crimp anvil 0.54)
 Size kit 5380               3.24   (plug 0.49, upper ring 0.47, pickup ring A 0.50, pickup pedestal 0.71, crimp ring B 0.50, crimp anvil 0.56)
 Size kit 6590               3.35   (plug 0.67, upper ring 0.29, pickup ring A 0.31, pickup pedestal 0.99, crimp ring B 0.31, crimp anvil 0.78)
-Press with the heaviest kit fitted   47.2 kg
-Die steel for all four sizes: Rev C 20.5 kg (universal die + 4 kits)  vs  Rev B 35.0 kg (4 complete sets)
+Press with the heaviest kit fitted   48.3 kg
+Die steel for all four sizes: Rev C 21.6 kg (universal die + 4 kits)  vs  Rev B 35.0 kg (4 complete sets)
 Size kit D44                3.05   (plug 0.18, upper ring 0.77, pickup ring A 0.82, pickup pedestal 0.25, crimp ring B 0.82, crimp anvil 0.20)
 Size kit D50                3.08   (plug 0.23, upper ring 0.72, pickup ring A 0.77, pickup pedestal 0.33, crimp ring B 0.77, crimp anvil 0.26)
 Size kit D56                3.12   (plug 0.28, upper ring 0.67, pickup ring A 0.71, pickup pedestal 0.41, crimp ring B 0.71, crimp anvil 0.33)
 Size kit D58                3.13   (plug 0.30, upper ring 0.65, pickup ring A 0.69, pickup pedestal 0.44, crimp ring B 0.69, crimp anvil 0.35)
-Rev D: die steel for all eight sizes 32.9 kg (universal die + 4 square/rectangular + 4 round kits)
+Rev D: die steel for all eight sizes 34.0 kg (universal die + 4 square/rectangular + 4 round kits)
 Lever: area 11582 mm2, mass 1.82 kg, CG at u 142, w -3.4 mm from pivot O
 
 ================================================================================================
@@ -87,14 +96,14 @@ Lever: area 11582 mm2, mass 1.82 kg, CG at u 142, w -3.4 mm from pivot O
 ================================================================================================
 Wire 3.5, OD 31.5, mean D 28.0 (C 8.0), 16.4 active coils, G 81500 -> rate 4.25 N/mm; solid 64.4 mm
 Free length 128; installed 109.5 open, 70.6 closed
-Moving mass on the ram 8.4 kg; lever side 1.99 kg
+Moving mass on the ram 9.5 kg; lever side 1.99 kg
  handle deg   springs N (2)   needed N (no friction)   margin   shear stress MPa
-      65           157               108              1.46       155
-      45           300               125              2.39       296
-      30           393               148              2.66       387
-      15           459               200              2.30       452
-       3           488               374              1.30       480
-Torque at the closed position: springs 4.51 N.m, needed 3.47 N.m
+      65           157               118              1.33       155
+      45           300               136              2.20       296
+      30           393               158              2.48       387
+      15           459               210              2.18       452
+       3           488               385              1.27       480
+Torque at the closed position: springs 4.51 N.m, needed 3.56 N.m
 Rev A springs (2 x 45 N): 0.83 N.m
 Extra hand force from the springs: at the start 27 N, at the end 16 N
 
@@ -103,6 +112,9 @@ Extra hand force from the springs: at the start 27 N, at the end 16 N
 ================================================================================================
 Lower A (green, light, D10 x 32)   preload 2.0 mm ( 6%) -> 10.0 mm (31%):   75 N ->  376 N total; 500k-stroke limit 35.00%, max 40.0%
 Lower B (green, light, D10 x 32)   preload 2.0 mm ( 6%) -> 10.0 mm (31%):   75 N ->  376 N total; 500k-stroke limit 35.00%, max 40.0%
-Upper (blue, medium, D10 x 32)     preload 6.0 mm (19%) -> 10.9 mm (34%):  682 N -> 1239 N total; 500k-stroke limit 33.75%, max 37.5%
+Upper Rev D (blue, medium, D10 x 32) preload 6.0 mm (19%) -> 10.9 mm (34%):  682 N -> 1239 N total; 500k-stroke limit 33.75%, max 37.5%
+Upper Rev E (red, heavy, D12.5 x 44) preload 8.0 mm (18%) -> 12.9 mm (29%): 1574 N -> 2540 N total; 500k-stroke limit 25.00%, max 30.0%
 Upper retraction at the end of stroke 2 = working travel - lower travel = 4.90 mm (5.5 available).
 Rev B used red (heavy) D10 x 32 springs at 12.5 -> 37.5%; the heavy-duty maximum is about 30%.
+Rev E upper springs reach 29% at the stop of stroke 2 (heavy-duty max 30%): replace them every 100,000 strokes. The extra cavity
+comes from 8 spring caps MP-213 on top of the die body (Rev D blue springs could not hold the ring while the tin folds).

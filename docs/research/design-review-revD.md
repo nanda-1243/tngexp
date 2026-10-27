@@ -6,7 +6,7 @@ Three independent reviews of the Rev D design, each working from the source dime
 - **Dies, forming and fits:** stroke timing, fit and alignment chain, forming, consumables.
 - **Assembly drawing check:** hole alignment, fastener lengths, assembly order, BOM.
 
-Date: 2026-10-27. The design has not been changed yet; these are the findings and the proposed fixes for a Rev E. The context is one press, built and used by its owner.
+Date: 2026-10-27. These are the findings on Rev D and the fixes proposed for Rev E; the table below says what Rev E did with each. The context is one press, built and used by its owner.
 
 ## Summary
 
@@ -18,6 +18,31 @@ The toggle drive, pins, links, bushings, lever, columns in tension and the base 
 4. **Safety for a home build**: tipping, pinch points and the handle snapping back.
 
 None of this needs a new concept. It needs a revision before any metal is cut, and a cheap prototype kit to prove the forming.
+
+## What Rev E did
+
+| # | Rev E |
+|---|---|
+| 1 | Fixed: Ø6 detent pin along X from the left end face (MP-201 L), studs K and K2 on its axis. |
+| 2 | Replaced: the roll channel is gone. The Rev E anvil folds the edge flat (cove R0.7 flush with ring B's bore, floor 0.4 under the back plate); the anvil block slides in ring B (X + 0.43 in X + 0.45). |
+| 3 | Fixed: photo and film cut 4.5 over the face (corners clipped 45°), so they end with the tin: no tails. |
+| 4 | Mostly fixed: shank Ø12 g6 spigot, pilot Ø10 g6 spigot, station bases set with a plug and doweled in place. No register counterbore on the rings. |
+| 5 | Fixed: countersinks Ø11.5. |
+| 6 | Fixed: MP-116 39 long. |
+| 7 | Fixed: crown 120 wide, 121 MPa at the cheek-bolt line at 16 kN. |
+| 8 | Fixed: handle stop on post MP-121 on the crown; no hole in the columns. |
+| 9 | Fixed differently: tin now starts as a flat blank folded in stroke 1 (the market method for sharp corners), M3 ball plungers at 1.8, short 0.3 × 30° lead-in so the grip is on 2.5 mm of straight wall. Ring A travel stays 8. |
+| 10 | Partly: dog-point thumb screws take the load in shear; no carrier lip. |
+| 11 | Fixed: upper springs 8 × Ø12.5 × 44 red (1.57 → 2.54 kN) against 75 → 380 N lower, also needed to fold the tin. |
+| 12 | Open: set on the prototype with the shim pack. |
+| 13 | Square kits use flat tin blanks X + 8 (the consumable sold for these sizes); pedestal X − 1.0. Round kits still use drawn cups. |
+| 14 | Fixed: sharp R1 corners from a folded flat blank and a flat fold, with Ø1.2 corner reliefs for the gusset. |
+| 15 | Calcs now count the springs at 0.84 efficiency: 210–268 N at the stop with the stronger Rev E springs. |
+| 16 | Fixed: six pads, two under the tongue; bolt it down. |
+| 17 | Partly: POM guide sleeves and the wider crown. |
+| 18 | Open: guards are advice for the prototype. |
+| 19 | Fixed: back ram bushing reamed Ø25.15. |
+| 20 | Fixed: F7 drop-in dowels, diamond plug dowel, key pins 1 mm into the wall, spacers 9.75, column clamp, lock screw 7.0, M5 × 30 and M5 × 20 (tapped through), V1/V2 10 deep, pilot Ø10, stops set 0.3 past. |
 
 ## Critical: fix before building
 

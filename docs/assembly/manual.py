@@ -1,6 +1,6 @@
-"""MagPress M4 Rev D assembly manual: step images (from the 3D assembly), Markdown and PDF.
+"""MagPress M4 Rev E assembly manual: step images (from the 3D assembly), Markdown and PDF.
 
-python3 docs/assembly/manual.py            # render images, write docs/assembly-manual.md and the PDF in release/RevD/
+python3 docs/assembly/manual.py            # render images, write docs/assembly-manual.md and the PDF in release/RevE/
 python3 docs/assembly/manual.py --no-render  # text only (reuse the existing images)
 
 Needs Node with Playwright (Chromium). The step images come from models/assembly/MagPress-M4_assembly.glb,
@@ -20,7 +20,7 @@ ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
 GLB = os.path.join(ROOT, 'models', 'assembly', 'MagPress-M4_assembly.glb')
 IMG = os.path.join(HERE, 'img')
 MD_OUT = os.path.join(ROOT, 'docs', 'assembly-manual.md')
-PDF_OUT = os.path.join(ROOT, 'release', 'RevD', 'MagPress-M4_Assembly-Manual_RevD.pdf')
+PDF_OUT = os.path.join(ROOT, 'release', 'RevE', 'MagPress-M4_Assembly-Manual_RevE.pdf')
 
 NAMES, FILES = {}, {}
 with open(os.path.join(ROOT, 'models', 'parts.csv')) as f:
@@ -68,12 +68,12 @@ UP = 'from below'
 # the steps
 # =====================================================================================
 CHANGES = [
-    ('Ram MP-109', 'Two link-clearance pockets on the top beside the clevis: the links\' R12 lower ends dipped 2 mm into the ram.', 6),
-    ('Crown MP-108', 'Reliefs in the slot walls for the ends of pin B (underside, handle up) and pin A (top, handle down).', 7),
-    ('Die table MP-105, push knobs', 'Ø14 knobs on the table top at each end, instead of Ø24 knobs on the end faces that reached into the base.', 3),
-    ('Base MP-101, column MP-107', 'Counterbore 8.5 deep and column spigot 6.5: the M10 × 16 low-head clamp screw and Ø32 × 2.5 washer sit flush underneath.', 2),
-    ('Handle stop', 'M10 × 1 × 12 set screw with a nylon patch and no jam nut: there was no room for the nut.', 12),
-    ('Stop screw', 'M6 × 0.75 × 40: the 25 mm screw could not reach through the stop block.', 5),
+    ('Size kits', 'Sharp R1 corners. Stroke 1 folds a flat tin blank (X + 8, corners clipped 45°) round the pedestal; ring A has a stepped recess for the blank and the photo. The crimp anvil folds the edge flat under the back plate.', 17),
+    ('Upper die MP-201, springs', 'Die body 20 thick with a Ø54 counterbore for the holder; 8 red Ø12.5 × 44 springs (1.6 kN) hold the upper ring while the tin folds.', 15),
+    ('Plug locking pin', 'A Ø6 detent pin along the die body from the left end (the Rev D cross pin was blocked by the front column).', 18),
+    ('Crown MP-108, handle stop', 'Crown 120 wide (was 80). The handle stop is on its own post MP-121 on the crown, not in the column top.', 12),
+    ('Return springs', 'POM guide sleeves on the rods.', 12),
+    ('Screws, pads, pilot', 'Rail and keeper screws M5 × 30, station-base screws M5 × 20 into tapped-through bases; six pads; Ø10 station pilot in tough steel.', 3),
 ]
 
 TABLE = ['MP-105', 'MP-205', 'BUY-40', 'BUY-41', 'BUY-32']
@@ -109,7 +109,7 @@ STEPS = [
          do=['The station bases go on now because their screws are under the table.',
              'Press two Ø6 × 12 dowels into each pair of G holes in the table top, 6 mm proud.',
              'Put a station base (MP-205) on each pair of dowels: base A over the left station, base B over the right. The Ø4 hole Q in each base goes to the front.',
-             'From underneath, fit the eight M5 × 16 countersunk screws (F1 to F8) flush, 6 N·m.',
+             'From underneath, fit the eight M5 × 20 countersunk screws (F1 to F8) flush, 6 N·m. The holes in the bases are tapped right through.',
              'Screw the two Ø14 push knobs into the M5 holes K1/K2 on the table top, one at each end.'],
          check='Screw heads flush or below the table underside; bases sit flat on the table.'),
     dict(part='A', title='Guide rails, keepers and the die table', view=V_ISO, frame='all', install=True,
@@ -119,7 +119,7 @@ STEPS = [
          do=['Lay the front rail (-F, 8 holes) and the back rail (-B, 10 holes) on the base over the rail screw holes.',
              'Put the die table between them as a gauge, with a 0.05 mm shim between the table and one rail.',
              'Lay the keepers on the rails with the hole line toward the outside, so the inner edge overlaps the table by 5 mm: front keeper (-F) at the front, back keeper (-B, with four plain holes) at the back.',
-             'Fit the fourteen M5 × 20 countersunk screws through keeper and rail into the base, 6 N·m, working from the centre out. Leave the four plain holes in the back keeper for the stop blocks.',
+             'Fit the fourteen M5 × 30 countersunk screws through keeper and rail into the base, 6 N·m, working from the centre out; the heads end just below the keeper top. Leave the four plain holes in the back keeper for the stop blocks.',
              'Pull out the shim. Put a few drops of light oil on the rails.'],
          check='The table runs end to end with fingertip force, with no rock and no lift at the ends; running clearance 0.03 to 0.05 mm.'),
     dict(part='A', title='Stop blocks, stop pin and ball plunger', view=(-0.35, 0.78, 0.55), frame='new', install=True, zoom=1.1,
@@ -142,8 +142,8 @@ STEPS = [
              'Press the 12 × 14 × 20 PTFE-composite bushing into the clevis bore, flush both sides. Never ream or grease these bushings.',
              'Check the two link-clearance pockets L1/L2 beside the clevis pocket are clean and deburred: the links\' lower ends run in them. Put the clevis in the 2 mm pocket on the ram top, bore running left to right. Fit two M5 × 25 cap screws, Loctite 243, 6 N·m.',
              'Push the die holder\'s Ø24 spigot into the ram underside, its Ø4 orientation hole to the front. Fit four M5 × 16 low-head screws from below, Loctite 243, 6 N·m. Screw the M5 cone-point lock screw into the holder\'s side hole and back it off.',
-             'Screw the station pilot into hole PL under the ram (back side), Loctite 243. The tip ends 84 mm below the ram.',
-             'Screw the two return rods into R1/R2 on the ram top, Loctite 243, 20 N·m.',
+             'Push the station pilot\'s Ø10 body into hole PL under the ram (back side) and screw it home, Loctite 243 on the M6 thread. The tip ends 84 mm below the ram.',
+             'Screw the two return rods into R1/R2 on the ram top with a spanner on their flats, Loctite 243, 20 N·m.',
              'Screw the two urethane bumpers into U1/U2 on the ram top, Loctite 243, hand tight.'],
          check='Clevis bore parallel to the ram underside within 0.02; pilot square to the ram.'),
     dict(part='B', title='Crown sub-assembly', view=(-0.6, -0.75, 0.2), frame='all',
@@ -192,13 +192,13 @@ STEPS = [
              'With the ram still resting low, swing the links down either side of the clevis. Raise the ram until the bores line up and push pin B through link, clevis and link.',
              'Fit a DIN 471-12 ring at each end of pin B. Pin B can only go in with the ram low: with the handle up its ends sit in the crown reliefs.'],
          check='Lifting the handle lifts the ram smoothly; nothing touches the crown or the ram top through the full stroke.'),
-    dict(part='C', title='Return springs and handle stop', view=(0.85, -0.35, 0.4), frame='new', install=True, zoom=1.3,
-         add=[G((0, 0, 40), 'BUY-20'), G((0, 0, 100), 'BUY-21'), G((0, 0, 120), 'BUY-22'),
-              G((0, 0, 30), 'BUY-10'), G((0, 0, 55), 'BUY-12')],
-         tools='17 mm socket, 5 mm hex key, calipers, protractor or angle gauge',
-         do=['Take the wooden block out. Drop a return spring over each return rod, then a Ø32 × 3 washer and an M10 nylock nut.',
+    dict(part='C', title='Return springs and handle stop', view=(-0.25, -0.92, 0.38), frame='new', install=True, zoom=1.3,
+         add=[G((0, 0, 25), 'BUY-49'), G((0, 0, 40), 'BUY-20'), G((0, 0, 100), 'BUY-21'), G((0, 0, 120), 'BUY-22'),
+              G((0, 0, 20), 'MP-121'), G((0, 0, 40), 'BUY-10'), G((0, 0, 60), 'BUY-12')],
+         tools='17 mm socket, 5 mm hex key, 17 mm spanner, torque wrench, calipers, protractor or angle gauge, Loctite 243',
+         do=['Take the wooden block out. Slide a POM guide sleeve over each return rod down onto the crown, then drop a return spring over it, then a Ø32 × 3 washer and an M10 nylock nut.',
              'Tighten each nut until the ram is pulled up against the bumpers and the spring measures 109.5 mm (about 80 N).',
-             'Screw the M10 × 1 × 12 handle-stop set screw (nylon patch) into the top of the front column and put the urethane cap on it.',
+             'Screw the handle-stop post (MP-121) into hole T on the crown top, 62 mm in front of the centre, Loctite 243, 40 N·m. Screw the M10 × 1 × 12 stop screw (nylon patch) into the post and put the urethane cap on it.',
              'Pull the handle down onto the stop. Adjust the screw until the lever rests 3° above horizontal; the nylon patch holds the setting.'],
          check='Handle swings 65° to 3° and springs back to the open stop from fully down, 20 times out of 20. Ram travel 38.9 ±0.3 mm.'),
     # ------------------------------------------------------------------ D
@@ -217,18 +217,19 @@ STEPS = [
              'Put the Ø16 centring pin in the die holder and lock it with the holder\'s cone-point screw. Put the Ø12 plug in hole C of station base A.',
              'Push the table to the right until it clicks (station A under the ram). Lower the handle slowly and adjust the right-hand stop screw until the pin point lands on the plug centre. Lock the nut.',
              'Push the table to the left (station B under the ram) and set the left-hand stop screw the same way.',
+             'Rev E: then back each stop screw off 0.4 of a turn (0.3 mm) before you lock it, so the table stops just past its station and the pilot always pulls it back onto the station.',
              'Move the table 3 mm off a station and make a slow stroke: the station pilot must land on the table and stop the stroke. Repeat at the other station.'],
          check='±0.05 mm at both stations; off station the stroke stops with the dies at least 5 mm apart.'),
     dict(part='D', title='Upper die on the bench', view=V_BELOW, frame='all',
          add=[G((0, 0, 0), 'MP-201'), G((0, 0, 40), 'MP-202'), G((0, 0, 30), 'BUY-42'), G((0, 0, -22), 'BUY-34'),
               G((0, 0, -55), 'MP-210', ('BUY-37', 5, 6)), G((30, 0, -55), ('BUY-38', 1)), G((-30, 0, -55), ('BUY-38', 2)),
               G((0, 0, -100), 'BUY-35')],
-         tools='16 mm spanner on the shank flats or soft jaws, 5 mm hex key, torque wrench, Loctite 243, a block with a Ø20 hole',
-         do=['Screw the shank (MP-202) into the M10 hole in the die body\'s top face, Loctite 243, until the Ø16 face seats: 25 N·m.',
-             'Press the Ø4 × 10 orientation pin into hole O on the body top, 4 mm proud.',
-             'Check the two key pins are flush in the upper carrier. Screw the two thumb screws into the carrier ends and back them out of the pocket.',
-             'Turn the body over onto the block (shank down through the hole). Put the eight blue die springs in its spring pockets.',
-             'Lay the carrier on the springs, pocket side up. Fit the four Ø6 × 10 shoulder screws through the carrier into the body. Tighten them in a cross pattern a turn at a time: the springs push back with about 680 N in total. Finish at 8 N·m.'],
+         tools='16 mm spanner on the shank flats or soft jaws, 5 mm hex key, torque wrench, Loctite 243, a block with a Ø20 hole, a vise or the press to compress the springs',
+         do=['Screw the shank (MP-202) into the M10 hole in the floor of the counterbore on the die body top, Loctite 243, until the Ø16 face seats: 25 N·m. Its Ø12 spigot locates it.',
+             'Press the Ø4 × 10 orientation pin into hole O in the counterbore floor, 4 mm proud.',
+             'Check the two key pins are flush in the upper carrier. Screw the two dog-point thumb screws into the carrier ends and back them out of the pocket.',
+             'Turn the body over onto the block (shank down through the hole). Put the eight red Ø12.5 × 44 die springs in its spring pockets.',
+             'Lay the carrier on the springs, pocket side up. The springs push back with about 1.6 kN, so press the carrier down onto the body in a vise or under the press first. Fit the four Ø6 × 10 shoulder screws through the carrier into the body, then release slowly. Finish at 8 N·m.'],
          check='The carrier pushes up 5.5 mm evenly and springs back square to the body.'),
     dict(part='D', title='Mount the upper die', view=(-0.9, -0.38, 0.14), frame='new', install=True, fitExtra=I('MP-111'), zoom=1.35,
          hide=['MP-211-A', 'MP-211-B', 'BUY-33', 'BUY-36', 'BUY-37'],
@@ -237,7 +238,7 @@ STEPS = [
          tools='2.5 mm hex key',
          do=['Put the shim pack on the body top over the shank and orientation pin. Start with no shims; the depth is set in step 19.',
              'Push the shank up into the die holder, the orientation pin into the holder\'s Ø4 hole (front).',
-             'Tighten the cone-point lock screw into the shank\'s V-groove, firmly (about 3 N·m).'],
+             'Tighten the cone-point lock screw into the shank\'s V-groove with the hex key through slot W in the die body (from the right-hand end), firmly (about 3 N·m).'],
          check='Upper die face parallel to the table within 0.05 at all four corners.'),
     # ------------------------------------------------------------------ E
     dict(part='E', title='Prepare a size kit', view=V_ISO, frame='all',
@@ -248,19 +249,19 @@ STEPS = [
          tools='Press, 3 mm hex key, depth gauge or feelers, torque wrench, Loctite 243 and 222',
          do=['Do this once per kit; every kit is prepared the same way. Kit 6363 is shown.',
              'Plug: press the two Ø5 × 14 dowels into the D holes on the top face, 5.5 mm proud. Screw the stud (MP-212) into the M6 hole, Loctite 243, 8 N·m. A round plug (MP-223) is prepared the same way.',
-             'Upper ring: screw the four M4 spring plungers into the side holes until each ball stands 0.2 to 0.3 mm into the opening. Lock with Loctite 222.',
+             'Upper ring: screw the four M3 ball plungers into the side holes until each ball stands 0.2 to 0.3 mm into the opening. Lock with Loctite 222.',
              'Pickup pedestal and crimp anvil: press a Ø12 × 15 dowel into the underside hole C (7 mm proud) and a Ø4 × 10 pin into hole Q (4 mm proud). Round kits (Rev D) have no hole Q and no Ø4 pin: a round pedestal or anvil can turn.',
              'Rings A and B need no preparation. Check every part carries the kit\'s size code (and U, A or B).'],
          check='Plug dowels and stud square to the face; plungers all the same protrusion.'),
     dict(part='E', title='Fit the size kit', view=V_ISO, frame='new', install=True, zoom=1.15,
          add=[G((0, 0, -45), 'MP-203-' + K, 'BUY-46', 'MP-212', row='Plug from step 17', label=('MP-203-' + K, 'Plug', 'from step 17')),
-              G((0, -60, 0), 'BUY-39'),
+              G((-60, 0, 0), 'BUY-39'),
               G((0, 0, -75), 'MP-204-' + K, 'BUY-45', row='Upper ring from step 17', label=('MP-204-' + K, 'Upper ring', 'from step 17')),
               G((0, 0, 45), 'MP-207-' + K), G((0, 0, 85), 'MP-206-' + K, ('BUY-47', 1), ('BUY-48', 1), row='Pickup pedestal from step 17', label=('MP-206-' + K, 'Pickup pedestal', 'from step 17')),
               G((0, -120, 20), 'MP-209-' + K), G((0, -120, 50), 'MP-208-' + K, ('BUY-47', 2), ('BUY-48', 2), row='Crimp anvil from step 17', label=('MP-208-' + K, 'Crimp anvil', 'from step 17'))],
          tools='None',
          do=['With the handle up on its stop, offer the plug up to the die body: dowels into the D holes, stud into hole K. It only fits one way. A round plug (Rev D) goes on the inner holes instead: dowels into D2, stud into K2.',
-             'Push the ball-lock pin in through the front of the body until it locks. It passes the stud\'s groove and holds the plug.',
+             'Push the detent pin in from the left end of the die body until it clicks. It passes through the stud and holds the plug.',
              'Push the upper ring up into the upper carrier with its key slots on the key pins, and tighten the two thumb screws.',
              'Drop pickup ring A into carrier A, then the pickup pedestal through it, dowel into hole C and pin into hole Q (round kits: dowel only).',
              'Drop crimp ring B into carrier B, then the crimp anvil the same way. The key pins stop a ring going into the wrong carrier.'],
@@ -269,10 +270,11 @@ STEPS = [
     dict(part='F', title='Feet, set-up and first magnets', view=(-0.55, -0.8, 0.22), frame='all', install=True, zoom=0.75,
          add=[G((0, 0, -40), 'BUY-01')],
          tools='Calipers, 10 kN load cell and dummy block, hanging scale, marker',
-         do=['Stick the feet under the base, clear of the six bench holes: four at (±200, ±80) and one under the tongue.',
-             'Put the press on a flat bench (two people: it weighs about 45 kg). For all-day use bolt it down through the Ø9 holes.',
+         do=['Stick the six pads under the base, clear of the six bench holes: four at (±200, ±80) and two under the tongue.',
+             'Put the press on a flat bench (two people: it weighs about 48 kg). For all-day use bolt it down through the Ø9 holes.',
              'Set the depth: make a magnet, then add shims (0.1 / 0.2 / 0.5) until the crimp finishes with the handle about 5 to 10° above horizontal. Write the shim value on the frame label.',
-             'Run the tests in the table below, then make two test magnets per kit and check the corners and the crimp.'],
+             'Run the tests in the table below, then make two test magnets per kit and check the corners and the crimp.',
+             'Consumables for a square kit: flat tin blanks X + 8 cut from 0.20 mm soft tinplate, photo and film X + 9, all with the corners clipped on the 45° line printed by the Magnet Studio (`web/magnet-studio.html`); 1.2 mm back plates X − 1.4; magnet sheet X − 8. Round kits use drawn round cups.'],
          check='Every test in the table below passes.'),
 ]
 
@@ -280,7 +282,7 @@ PARTS_TITLE = {'A': 'Part A — Frame and die table', 'B': 'Part B — Ram and c
                'D': 'Part D — Universal die', 'E': 'Part E — Size kit', 'F': 'Part F — Set-up and tests'}
 
 TORQUE = [
-    ('Rail and keeper screws', 'M5 × 20 ISO 10642', '6 N·m', '—'),
+    ('Rail and keeper screws', 'M5 × 30 ISO 10642', '6 N·m', '—'),
     ('Stop-block screws', 'M5 × 35 ISO 4762', '6 N·m', 'Loctite 243'),
     ('Column clamp screws', 'M10 × 16 DIN 7984', '40 N·m', 'Loctite 243'),
     ('Column nuts', 'M16 × 1.5 + Nord-Lock', '100 N·m, two passes', '—'),
@@ -293,14 +295,15 @@ TORQUE = [
     ('Return-spring nuts', 'M10 nylock', 'to 109.5 mm spring length', '—'),
     ('Shank into the die body', 'M10', '25 N·m *', 'Loctite 243'),
     ('Die-holder lock screw', 'M5 cone point', 'about 3 N·m', 'nylon patch'),
-    ('Station-base screws', 'M5 × 16 ISO 10642', '6 N·m', '—'),
+    ('Station-base screws', 'M5 × 20 ISO 10642', '6 N·m', '—'),
+    ('Handle-stop post', 'M10 stud', '40 N·m', 'Loctite 243'),
     ('Carrier shoulder screws', 'ISO 7379 Ø6', '8 N·m', '—'),
     ('Plug stud', 'M6', '8 N·m *', 'Loctite 243'),
     ('Table stop pin', 'M4', '2.5 N·m *', 'Loctite 243'),
     ('Stop screws', 'M6 × 0.75 × 40 + lock nut', 'set, then lock', '—'),
     ('Handle-stop screw', 'M10 × 1 × 12', 'set to the 3° rest', 'nylon patch'),
-    ('Ball plunger, ring plungers', 'M6, M4', 'set, then lock', 'Loctite 222'),
-    ('Ring thumb screws', 'M5', 'finger tight', '—'),
+    ('Ball plunger, ring plungers', 'M6, M3', 'set, then lock', 'Loctite 222'),
+    ('Ring thumb screws', 'M5 dog point', 'finger tight', '—'),
 ]
 
 TESTS = [
@@ -311,7 +314,8 @@ TESTS = [
     ('Depth', 'Shims so the crimp finishes with the handle 5 to 10° above horizontal (step 19).', 'Full crimp with a firm push, no hard knock'),
     ('Force', '10 kN load cell on station B with a dummy block; 200 N on the grip with a hanging scale.', '≥ 5.5 kN'),
     ('Ring alignment', 'Marker blue on the lower ring tops, slow stroke on each station.', 'Even contact all round; the upper ring never touches a lower ring edge'),
-    ('Magnet quality', 'Make 20 of each size.', 'No white paper at the edges, no torn film, no corner wrinkles, flange closed all round'),
+    ('Stroke 1 fold', 'Slow stroke 1 at station A with a flat tin blank only; lift the ram and look at the shell in the upper ring.', 'Four straight walls about 4 mm deep, square corners with a small flat gusset, nothing left in the recess'),
+    ('Magnet quality', 'Make 20 of each size.', 'No white paper at the edges, no torn film, sharp corners with neat mitres on the back, back border flat all round'),
     ('Size-kit change', 'Change the kit, timing it; try each wrong ring in each carrier.', 'Under 2 minutes; no wrong ring seats'),
     ('Reference height', 'Handle on its closed stop: die-holder face to table top. Write it on the frame label.', 'Re-check after any service; within 0.1 mm'),
     ('Proof load (prototype only)', '20 kN cell on station B, push the grip to 16 kN; dial indicator before and after.', 'No permanent set; stroke still 38.9 ±0.3'),
@@ -400,26 +404,26 @@ def doc_blocks():
     note = lambda kind, title, t: B.append(('note', kind, title, t))
     brk = lambda: B.append(('break',))
 
-    h(1, 'MagPress M4 — Assembly manual (Rev D)')
+    h(1, 'MagPress M4 — Assembly manual (Rev E)')
     p('How to build the MagPress M4 photo-magnet press from its parts, in 19 steps: frame and die table, ram and crown, toggle drive, universal die, a size kit, then set-up and tests. '
       'Every picture comes from the 3D model in [`models/`](../models/): the parts added in a step are in colour and pulled apart along the way they go in; parts already fitted are grey. '
       'Labels give the part number; the parts table under each picture gives the name, quantity and 3D file.')
     img('assembly/img/cover.png', 'MagPress M4, assembled')
     h(2, 'Before you start')
-    ul(['**Parts.** Made parts (MP-xxx) are made to the drawing set in [`release/RevD/`](../release/RevD/); bought parts (BUY-xx) are in the BOM and in [`models/parts.csv`](../models/parts.csv). Lay every step\'s parts out and check them off before you start the step.',
+    ul(['**Parts.** Made parts (MP-xxx) are made to the drawing set in [`release/RevE/`](../release/RevE/); bought parts (BUY-xx) are in the BOM and in [`models/parts.csv`](../models/parts.csv). Lay every step\'s parts out and check them off before you start the step.',
         '**Directions.** Front is the operator side (the base tongue). Left and right are as seen from the front. Station A (pickup) is the left station on the die table, station B (crimp) the right. Pushing the table to the right puts station A under the ram.',
         '**Bushings.** The pin bushings are PTFE-composite and run dry: no grease, never ream them after pressing. Press them with a stepped mandrel, never with a hammer.',
         '**Lubrication.** Columns and the graphite-plugged ram bushings run dry: wipe them clean. Light oil on the rails only. No oil on the dies.',
         '**Threadlocker.** Clean threads with solvent before Loctite. The torque table below lists every joint.',
-        '**Safety.** The press weighs about 45 kg: lift it with two people. The pinch points are between the dies and between the table and the stop blocks. Wear gloves when handling tinplate shells.'])
+        '**Safety.** The press weighs about 48 kg: lift it with two people. The pinch points are between the dies and between the table and the stop blocks. Wear gloves when handling tin blanks: the cut edges are sharp.'])
+    note('check', 'Rev E',
+         'Rev E makes sharp-cornered magnets with the photo carried round onto the back as a flat printed border, like bought tin photo magnets, and fixes the points found in an independent design review. '
+         'The 3D check was repeated for Rev E at six handle angles and with a round kit fitted: nothing clashes. The changes, and the steps they touch:')
+    tbl(['Part', 'Change', 'Step'], [(a_, b_, str(c_)) for (a_, b_, c_) in CHANGES])
     note('check', 'Rev D',
          'Rev D adds four round size kits: Ø44, Ø50, Ø56 and Ø58 (drawings MP-223 to MP-229). They are prepared and fitted like the square kits in steps 17 and 18, with two differences: '
-         'the round plug hangs on the inner holes of the die body (dowels in D2, stud in K2, the same ball-lock pin), and round pedestals and anvils have no Ø4 anti-rotation pin. '
+         'the round plug hangs on the inner holes of the die body (dowels in D2, stud in K2, the same locking pin), and round pedestals and anvils have no Ø4 anti-rotation pin. '
          'The 3D check was repeated with round kit D58 fitted in place of kit 6363: nothing clashes.')
-    note('check', 'Rev C.1',
-         'Every part in this manual was checked against every other in the 3D model at six handle angles, from fully up to on the stop: nothing clashes. '
-         'Rev C.1 fixed the seven clashes found in Rev C with these changes (details in [`models/README.md`](../models/README.md)):')
-    tbl(['Part', 'Change', 'Step'], [(a_, b_, str(c_)) for (a_, b_, c_) in CHANGES])
     h(2, 'Tools and materials')
     ul(TOOLS)
     h(2, 'Torque and thread-locker table')
@@ -446,7 +450,7 @@ def doc_blocks():
     brk()
     h(2, 'Changing the size kit')
     ol(['Rest the handle up on its stop and push the table to the right (station A under the ram).',
-        'Upper: hold the upper ring, loosen its two thumb screws and lower it out. Press the button on the ball-lock pin, pull it out, and lower the plug off its dowels.',
+        'Upper: hold the upper ring, loosen its two thumb screws and lower it out. Pull the detent pin out to the left by its ring, and lower the plug off its dowels.',
         'Fit the new plug (it only fits one way: square plugs on the outer holes D and K, round plugs on the inner holes D2 and K2) and push the pin home. Push the new upper ring up so its key slots meet the pins, and tighten the thumb screws.',
         'Lower: screw the M5 T-handle puller into each pedestal or anvil and lift it out, then lift the ring out by its opening. Drop in the new ring A and pickup pedestal on the left, and ring B and crimp anvil on the right.',
         'One slow dry stroke on each station, then two test magnets. Check the corners (or, on a round magnet, the whole edge) and the crimp before running a batch.'])
@@ -455,7 +459,8 @@ def doc_blocks():
         ('Each shift', 'Wipe the die table, rails and dies. Blow shell chips out of the rings. No oil on the dies.'),
         ('Weekly or 5,000 strokes', 'Check the thumb screws, the die lock screw and the handle-stop setting. Light oil on the rails only.'),
         ('25,000 strokes', 'Check handle play (≤ 1 mm at the grip) and the column nut torque. Clean tin pick-up from the die edges with a brass brush.'),
-        ('250,000 strokes', 'Replace the die springs and return springs. Inspect the bushings and pins. Dye-penetrant check the die corners.')])
+        ('100,000 strokes', 'Replace the eight red upper die springs (they work to 29% of their length).'),
+        ('250,000 strokes', 'Replace the lower die springs and the return springs. Inspect the bushings and pins. Dye-penetrant check the die corners.')])
     p('If a shell jams, follow the un-jam procedure in [`docs/research/failure-review.md`](research/failure-review.md#un-jam-procedure).')
     return B
 
@@ -538,7 +543,7 @@ const { chromium } = require('playwright');
   await p.goto('file://' + src, { waitUntil: 'load' });
   await p.pdf({ path: dst, format: 'A4', printBackground: true, displayHeaderFooter: true,
     headerTemplate: '<div></div>',
-    footerTemplate: '<div style="font-size:8px;width:100%;padding:0 13mm;color:#666;display:flex;justify-content:space-between"><span>MagPress M4 · Assembly manual · Rev D</span><span class="pageNumber"></span></div>',
+    footerTemplate: '<div style="font-size:8px;width:100%;padding:0 13mm;color:#666;display:flex;justify-content:space-between"><span>MagPress M4 · Assembly manual · Rev E</span><span class="pageNumber"></span></div>',
     margin: { top: '14mm', bottom: '16mm', left: '13mm', right: '13mm' } });
   await b.close();
 })();

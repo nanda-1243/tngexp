@@ -1,4 +1,4 @@
-# MagPress M4 — Assembly manual (Rev D)
+# MagPress M4 — Assembly manual (Rev E)
 
 How to build the MagPress M4 photo-magnet press from its parts, in 19 steps: frame and die table, ram and crown, toggle drive, universal die, a size kit, then set-up and tests. Every picture comes from the 3D model in [`models/`](../models/): the parts added in a step are in colour and pulled apart along the way they go in; parts already fitted are grey. Labels give the part number; the parts table under each picture gives the name, quantity and 3D file.
 
@@ -6,25 +6,25 @@ How to build the MagPress M4 photo-magnet press from its parts, in 19 steps: fra
 
 ## Before you start
 
-- **Parts.** Made parts (MP-xxx) are made to the drawing set in [`release/RevD/`](../release/RevD/); bought parts (BUY-xx) are in the BOM and in [`models/parts.csv`](../models/parts.csv). Lay every step's parts out and check them off before you start the step.
+- **Parts.** Made parts (MP-xxx) are made to the drawing set in [`release/RevE/`](../release/RevE/); bought parts (BUY-xx) are in the BOM and in [`models/parts.csv`](../models/parts.csv). Lay every step's parts out and check them off before you start the step.
 - **Directions.** Front is the operator side (the base tongue). Left and right are as seen from the front. Station A (pickup) is the left station on the die table, station B (crimp) the right. Pushing the table to the right puts station A under the ram.
 - **Bushings.** The pin bushings are PTFE-composite and run dry: no grease, never ream them after pressing. Press them with a stepped mandrel, never with a hammer.
 - **Lubrication.** Columns and the graphite-plugged ram bushings run dry: wipe them clean. Light oil on the rails only. No oil on the dies.
 - **Threadlocker.** Clean threads with solvent before Loctite. The torque table below lists every joint.
-- **Safety.** The press weighs about 45 kg: lift it with two people. The pinch points are between the dies and between the table and the stop blocks. Wear gloves when handling tinplate shells.
+- **Safety.** The press weighs about 48 kg: lift it with two people. The pinch points are between the dies and between the table and the stop blocks. Wear gloves when handling tin blanks: the cut edges are sharp.
 
-> ✅ **Rev D.** Rev D adds four round size kits: Ø44, Ø50, Ø56 and Ø58 (drawings MP-223 to MP-229). They are prepared and fitted like the square kits in steps 17 and 18, with two differences: the round plug hangs on the inner holes of the die body (dowels in D2, stud in K2, the same ball-lock pin), and round pedestals and anvils have no Ø4 anti-rotation pin. The 3D check was repeated with round kit D58 fitted in place of kit 6363: nothing clashes.
-
-> ✅ **Rev C.1.** Every part in this manual was checked against every other in the 3D model at six handle angles, from fully up to on the stop: nothing clashes. Rev C.1 fixed the seven clashes found in Rev C with these changes (details in [`models/README.md`](../models/README.md)):
+> ✅ **Rev E.** Rev E makes sharp-cornered magnets with the photo carried round onto the back as a flat printed border, like bought tin photo magnets, and fixes the points found in an independent design review. The 3D check was repeated for Rev E at six handle angles and with a round kit fitted: nothing clashes. The changes, and the steps they touch:
 
 | Part | Change | Step |
 |---|---|---|
-| Ram MP-109 | Two link-clearance pockets on the top beside the clevis: the links' R12 lower ends dipped 2 mm into the ram. | 6 |
-| Crown MP-108 | Reliefs in the slot walls for the ends of pin B (underside, handle up) and pin A (top, handle down). | 7 |
-| Die table MP-105, push knobs | Ø14 knobs on the table top at each end, instead of Ø24 knobs on the end faces that reached into the base. | 3 |
-| Base MP-101, column MP-107 | Counterbore 8.5 deep and column spigot 6.5: the M10 × 16 low-head clamp screw and Ø32 × 2.5 washer sit flush underneath. | 2 |
-| Handle stop | M10 × 1 × 12 set screw with a nylon patch and no jam nut: there was no room for the nut. | 12 |
-| Stop screw | M6 × 0.75 × 40: the 25 mm screw could not reach through the stop block. | 5 |
+| Size kits | Sharp R1 corners. Stroke 1 folds a flat tin blank (X + 8, corners clipped 45°) round the pedestal; ring A has a stepped recess for the blank and the photo. The crimp anvil folds the edge flat under the back plate. | 17 |
+| Upper die MP-201, springs | Die body 20 thick with a Ø54 counterbore for the holder; 8 red Ø12.5 × 44 springs (1.6 kN) hold the upper ring while the tin folds. | 15 |
+| Plug locking pin | A Ø6 detent pin along the die body from the left end (the Rev D cross pin was blocked by the front column). | 18 |
+| Crown MP-108, handle stop | Crown 120 wide (was 80). The handle stop is on its own post MP-121 on the crown, not in the column top. | 12 |
+| Return springs | POM guide sleeves on the rods. | 12 |
+| Screws, pads, pilot | Rail and keeper screws M5 × 30, station-base screws M5 × 20 into tapped-through bases; six pads; Ø10 station pilot in tough steel. | 3 |
+
+> ✅ **Rev D.** Rev D adds four round size kits: Ø44, Ø50, Ø56 and Ø58 (drawings MP-223 to MP-229). They are prepared and fitted like the square kits in steps 17 and 18, with two differences: the round plug hangs on the inner holes of the die body (dowels in D2, stud in K2, the same locking pin), and round pedestals and anvils have no Ø4 anti-rotation pin. The 3D check was repeated with round kit D58 fitted in place of kit 6363: nothing clashes.
 
 ## Tools and materials
 
@@ -42,7 +42,7 @@ How to build the MagPress M4 photo-magnet press from its parts, in 19 steps: fra
 
 | Joint | Fastener | Torque | Thread lock |
 |---|---|---|---|
-| Rail and keeper screws | M5 × 20 ISO 10642 | 6 N·m | — |
+| Rail and keeper screws | M5 × 30 ISO 10642 | 6 N·m | — |
 | Stop-block screws | M5 × 35 ISO 4762 | 6 N·m | Loctite 243 |
 | Column clamp screws | M10 × 16 DIN 7984 | 40 N·m | Loctite 243 |
 | Column nuts | M16 × 1.5 + Nord-Lock | 100 N·m, two passes | — |
@@ -55,14 +55,15 @@ How to build the MagPress M4 photo-magnet press from its parts, in 19 steps: fra
 | Return-spring nuts | M10 nylock | to 109.5 mm spring length | — |
 | Shank into the die body | M10 | 25 N·m * | Loctite 243 |
 | Die-holder lock screw | M5 cone point | about 3 N·m | nylon patch |
-| Station-base screws | M5 × 16 ISO 10642 | 6 N·m | — |
+| Station-base screws | M5 × 20 ISO 10642 | 6 N·m | — |
+| Handle-stop post | M10 stud | 40 N·m | Loctite 243 |
 | Carrier shoulder screws | ISO 7379 Ø6 | 8 N·m | — |
 | Plug stud | M6 | 8 N·m * | Loctite 243 |
 | Table stop pin | M4 | 2.5 N·m * | Loctite 243 |
 | Stop screws | M6 × 0.75 × 40 + lock nut | set, then lock | — |
 | Handle-stop screw | M10 × 1 × 12 | set to the 3° rest | nylon patch |
-| Ball plunger, ring plungers | M6, M4 | set, then lock | Loctite 222 |
-| Ring thumb screws | M5 | finger tight | — |
+| Ball plunger, ring plungers | M6, M3 | set, then lock | Loctite 222 |
+| Ring thumb screws | M5 dog point | finger tight | — |
 
 Values marked * are standard values for property class 8.8 screws; the others are from the drawings and the build pack.
 
@@ -113,7 +114,7 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 | MP-105 | Die table (slide) | 1 | [STEP](../models/step/MP-105_die-table-slide.step) · [STL](../models/stl/MP-105_die-table-slide.stl) |
 | BUY-41 | Dowel pin Ø6 × 12 (station bases) | 4 | [STEP](../models/step/BUY-41_dowel-pin-d6-x-12-station-bases.step) · [STL](../models/stl/BUY-41_dowel-pin-d6-x-12-station-bases.stl) |
 | MP-205 | Station base (universal) | 2 | [STEP](../models/step/MP-205_station-base-universal.step) · [STL](../models/stl/MP-205_station-base-universal.stl) |
-| BUY-40 | Countersunk screw M5 × 16 ISO 10642 (station bases) | 8 | [STEP](../models/step/BUY-40_countersunk-screw-m5-x-16-iso-10642-station-bases.step) · [STL](../models/stl/BUY-40_countersunk-screw-m5-x-16-iso-10642-station-bases.stl) |
+| BUY-40 | Countersunk screw M5 × 20 ISO 10642 (station bases) | 8 | [STEP](../models/step/BUY-40_countersunk-screw-m5-x-20-iso-10642-station-bases.step) · [STL](../models/stl/BUY-40_countersunk-screw-m5-x-20-iso-10642-station-bases.stl) |
 | BUY-32 | Push knob, phenolic Ø14 × 18, M5 | 2 | [STEP](../models/step/BUY-32_push-knob-phenolic-d14-x-18-m5.step) · [STL](../models/stl/BUY-32_push-knob-phenolic-d14-x-18-m5.stl) |
 
 **Tools:** Soft-face mallet, 3 mm hex key, torque wrench
@@ -121,7 +122,7 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 1. The station bases go on now because their screws are under the table.
 2. Press two Ø6 × 12 dowels into each pair of G holes in the table top, 6 mm proud.
 3. Put a station base (MP-205) on each pair of dowels: base A over the left station, base B over the right. The Ø4 hole Q in each base goes to the front.
-4. From underneath, fit the eight M5 × 16 countersunk screws (F1 to F8) flush, 6 N·m.
+4. From underneath, fit the eight M5 × 20 countersunk screws (F1 to F8) flush, 6 N·m. The holes in the bases are tapped right through.
 5. Screw the two Ø14 push knobs into the M5 holes K1/K2 on the table top, one at each end.
 
 > ✅ **Check.** Screw heads flush or below the table underside; bases sit flat on the table.
@@ -137,14 +138,14 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 | MP-102-B | Guide rail, back | 1 | [STEP](../models/step/MP-102-B_guide-rail-back.step) · [STL](../models/stl/MP-102-B_guide-rail-back.stl) |
 | MP-103-F | Keeper strip, front | 1 | [STEP](../models/step/MP-103-F_keeper-strip-front.step) · [STL](../models/stl/MP-103-F_keeper-strip-front.stl) |
 | MP-103-B | Keeper strip, back | 1 | [STEP](../models/step/MP-103-B_keeper-strip-back.step) · [STL](../models/stl/MP-103-B_keeper-strip-back.stl) |
-| BUY-02 | Countersunk screw M5 × 20 ISO 10642 | 14 | [STEP](../models/step/BUY-02_countersunk-screw-m5-x-20-iso-10642.step) · [STL](../models/stl/BUY-02_countersunk-screw-m5-x-20-iso-10642.stl) |
+| BUY-02 | Countersunk screw M5 × 30 ISO 10642 | 14 | [STEP](../models/step/BUY-02_countersunk-screw-m5-x-30-iso-10642.step) · [STL](../models/stl/BUY-02_countersunk-screw-m5-x-30-iso-10642.stl) |
 
 **Tools:** 0.05 mm shim, 3 mm hex key, torque wrench, light oil
 
 1. Lay the front rail (-F, 8 holes) and the back rail (-B, 10 holes) on the base over the rail screw holes.
 2. Put the die table between them as a gauge, with a 0.05 mm shim between the table and one rail.
 3. Lay the keepers on the rails with the hole line toward the outside, so the inner edge overlaps the table by 5 mm: front keeper (-F) at the front, back keeper (-B, with four plain holes) at the back.
-4. Fit the fourteen M5 × 20 countersunk screws through keeper and rail into the base, 6 N·m, working from the centre out. Leave the four plain holes in the back keeper for the stop blocks.
+4. Fit the fourteen M5 × 30 countersunk screws through keeper and rail into the base, 6 N·m, working from the centre out; the heads end just below the keeper top. Leave the four plain holes in the back keeper for the stop blocks.
 5. Pull out the shim. Put a few drops of light oil on the rails.
 
 > ✅ **Check.** The table runs end to end with fingertip force, with no rock and no lift at the ends; running clearance 0.03 to 0.05 mm.
@@ -198,8 +199,8 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 2. Press the 12 × 14 × 20 PTFE-composite bushing into the clevis bore, flush both sides. Never ream or grease these bushings.
 3. Check the two link-clearance pockets L1/L2 beside the clevis pocket are clean and deburred: the links' lower ends run in them. Put the clevis in the 2 mm pocket on the ram top, bore running left to right. Fit two M5 × 25 cap screws, Loctite 243, 6 N·m.
 4. Push the die holder's Ø24 spigot into the ram underside, its Ø4 orientation hole to the front. Fit four M5 × 16 low-head screws from below, Loctite 243, 6 N·m. Screw the M5 cone-point lock screw into the holder's side hole and back it off.
-5. Screw the station pilot into hole PL under the ram (back side), Loctite 243. The tip ends 84 mm below the ram.
-6. Screw the two return rods into R1/R2 on the ram top, Loctite 243, 20 N·m.
+5. Push the station pilot's Ø10 body into hole PL under the ram (back side) and screw it home, Loctite 243 on the M6 thread. The tip ends 84 mm below the ram.
+6. Screw the two return rods into R1/R2 on the ram top with a spanner on their flats, Loctite 243, 20 N·m.
 7. Screw the two urethane bumpers into U1/U2 on the ram top, Loctite 243, hand tight.
 
 > ✅ **Check.** Clevis bore parallel to the ram underside within 0.02; pilot square to the ram.
@@ -314,17 +315,19 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 
 | Part | Name | Qty | 3D model |
 |---|---|---|---|
+| BUY-49 | Spring guide sleeve POM Ø24 × Ø10.5 × 60 (return rod) | 2 | [STEP](../models/step/BUY-49_spring-guide-sleeve-pom-d24-x-d10-5-x-60-return-rod.step) · [STL](../models/stl/BUY-49_spring-guide-sleeve-pom-d24-x-d10-5-x-60-return-rod.stl) |
 | BUY-20 | Return spring Ø3.5 wire, OD 31.5 (shown installed, 109.5) | 2 | [STEP](../models/step/BUY-20_return-spring-d3-5-wire-od-31-5-shown-installed-109-5.step) · [STL](../models/stl/BUY-20_return-spring-d3-5-wire-od-31-5-shown-installed-109-5.stl) |
 | BUY-21 | Washer Ø32 × 3 (return rod) | 2 | [STEP](../models/step/BUY-21_washer-d32-x-3-return-rod.step) · [STL](../models/stl/BUY-21_washer-d32-x-3-return-rod.stl) |
 | BUY-22 | Nylock nut M10 | 2 | [STEP](../models/step/BUY-22_nylock-nut-m10.step) · [STL](../models/stl/BUY-22_nylock-nut-m10.stl) |
+| MP-121 | Handle-stop post | 1 | [STEP](../models/step/MP-121_handle-stop-post.step) · [STL](../models/stl/MP-121_handle-stop-post.stl) |
 | BUY-10 | Handle stop screw M10 × 1 × 12, nylon patch (set screw) | 1 | [STEP](../models/step/BUY-10_handle-stop-screw-m10-x-1-x-12-nylon-patch-set-screw.step) · [STL](../models/stl/BUY-10_handle-stop-screw-m10-x-1-x-12-nylon-patch-set-screw.stl) |
 | BUY-12 | Handle stop cap, urethane Ø16 × 4 | 1 | [STEP](../models/step/BUY-12_handle-stop-cap-urethane-d16-x-4.step) · [STL](../models/stl/BUY-12_handle-stop-cap-urethane-d16-x-4.stl) |
 
-**Tools:** 17 mm socket, 5 mm hex key, calipers, protractor or angle gauge
+**Tools:** 17 mm socket, 5 mm hex key, 17 mm spanner, torque wrench, calipers, protractor or angle gauge, Loctite 243
 
-1. Take the wooden block out. Drop a return spring over each return rod, then a Ø32 × 3 washer and an M10 nylock nut.
+1. Take the wooden block out. Slide a POM guide sleeve over each return rod down onto the crown, then drop a return spring over it, then a Ø32 × 3 washer and an M10 nylock nut.
 2. Tighten each nut until the ram is pulled up against the bumpers and the spring measures 109.5 mm (about 80 N).
-3. Screw the M10 × 1 × 12 handle-stop set screw (nylon patch) into the top of the front column and put the urethane cap on it.
+3. Screw the handle-stop post (MP-121) into hole T on the crown top, 62 mm in front of the centre, Loctite 243, 40 N·m. Screw the M10 × 1 × 12 stop screw (nylon patch) into the post and put the urethane cap on it.
 4. Pull the handle down onto the stop. Adjust the screw until the lever rests 3° above horizontal; the nylon patch holds the setting.
 
 > ✅ **Check.** Handle swings 65° to 3° and springs back to the open stop from fully down, 20 times out of 20. Ram travel 38.9 ±0.3 mm.
@@ -360,7 +363,8 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 2. Put the Ø16 centring pin in the die holder and lock it with the holder's cone-point screw. Put the Ø12 plug in hole C of station base A.
 3. Push the table to the right until it clicks (station A under the ram). Lower the handle slowly and adjust the right-hand stop screw until the pin point lands on the plug centre. Lock the nut.
 4. Push the table to the left (station B under the ram) and set the left-hand stop screw the same way.
-5. Move the table 3 mm off a station and make a slow stroke: the station pilot must land on the table and stop the stroke. Repeat at the other station.
+5. Rev E: then back each stop screw off 0.4 of a turn (0.3 mm) before you lock it, so the table stops just past its station and the pilot always pulls it back onto the station.
+6. Move the table 3 mm off a station and make a slow stroke: the station pilot must land on the table and stop the stroke. Repeat at the other station.
 
 > ✅ **Check.** ±0.05 mm at both stations; off station the stroke stops with the dies at least 5 mm apart.
 
@@ -373,19 +377,19 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 | MP-201 | Upper die body (universal) | 1 | [STEP](../models/step/MP-201_upper-die-body-universal.step) · [STL](../models/stl/MP-201_upper-die-body-universal.stl) |
 | MP-202 | Upper die shank (universal) | 1 | [STEP](../models/step/MP-202_upper-die-shank-universal.step) · [STL](../models/stl/MP-202_upper-die-shank-universal.stl) |
 | BUY-42 | Orientation pin Ø4 × 10 | 1 | [STEP](../models/step/BUY-42_orientation-pin-d4-x-10.step) · [STL](../models/stl/BUY-42_orientation-pin-d4-x-10.stl) |
-| BUY-34 | Die spring ISO 10243 Ø10 × 32 blue (medium), shown installed 26 | 8 | [STEP](../models/step/BUY-34_die-spring-iso-10243-d10-x-32-blue-medium-shown-installed-26.step) · [STL](../models/stl/BUY-34_die-spring-iso-10243-d10-x-32-blue-medium-shown-installed-26.stl) |
+| BUY-34 | Die spring ISO 10243 Ø12.5 × 44 red (heavy), shown installed 36 | 8 | [STEP](../models/step/BUY-34_die-spring-iso-10243-d12-5-x-44-red-heavy-shown-installed-36.step) · [STL](../models/stl/BUY-34_die-spring-iso-10243-d12-5-x-44-red-heavy-shown-installed-36.stl) |
 | MP-210 | Upper carrier (universal) | 1 | [STEP](../models/step/MP-210_upper-carrier-universal.step) · [STL](../models/stl/MP-210_upper-carrier-universal.stl) |
 | BUY-37 | Key pin Ø4 × 14 | 2 | [STEP](../models/step/BUY-37_key-pin-d4-x-14.step) · [STL](../models/stl/BUY-37_key-pin-d4-x-14.stl) |
-| BUY-38 | Thumb screw M5, knurled, cone point (upper ring) | 2 | [STEP](../models/step/BUY-38_thumb-screw-m5-knurled-cone-point-upper-ring.step) · [STL](../models/stl/BUY-38_thumb-screw-m5-knurled-cone-point-upper-ring.stl) |
+| BUY-38 | Thumb screw M5, knurled, dog point Ø3.5 × 3 (upper ring) | 2 | [STEP](../models/step/BUY-38_thumb-screw-m5-knurled-dog-point-d3-5-x-3-upper-ring.step) · [STL](../models/stl/BUY-38_thumb-screw-m5-knurled-dog-point-d3-5-x-3-upper-ring.stl) |
 | BUY-35 | Shoulder screw ISO 7379 Ø6 × 10 (upper carrier) | 4 | [STEP](../models/step/BUY-35_shoulder-screw-iso-7379-d6-x-10-upper-carrier.step) · [STL](../models/stl/BUY-35_shoulder-screw-iso-7379-d6-x-10-upper-carrier.stl) |
 
-**Tools:** 16 mm spanner on the shank flats or soft jaws, 5 mm hex key, torque wrench, Loctite 243, a block with a Ø20 hole
+**Tools:** 16 mm spanner on the shank flats or soft jaws, 5 mm hex key, torque wrench, Loctite 243, a block with a Ø20 hole, a vise or the press to compress the springs
 
-1. Screw the shank (MP-202) into the M10 hole in the die body's top face, Loctite 243, until the Ø16 face seats: 25 N·m.
-2. Press the Ø4 × 10 orientation pin into hole O on the body top, 4 mm proud.
-3. Check the two key pins are flush in the upper carrier. Screw the two thumb screws into the carrier ends and back them out of the pocket.
-4. Turn the body over onto the block (shank down through the hole). Put the eight blue die springs in its spring pockets.
-5. Lay the carrier on the springs, pocket side up. Fit the four Ø6 × 10 shoulder screws through the carrier into the body. Tighten them in a cross pattern a turn at a time: the springs push back with about 680 N in total. Finish at 8 N·m.
+1. Screw the shank (MP-202) into the M10 hole in the floor of the counterbore on the die body top, Loctite 243, until the Ø16 face seats: 25 N·m. Its Ø12 spigot locates it.
+2. Press the Ø4 × 10 orientation pin into hole O in the counterbore floor, 4 mm proud.
+3. Check the two key pins are flush in the upper carrier. Screw the two dog-point thumb screws into the carrier ends and back them out of the pocket.
+4. Turn the body over onto the block (shank down through the hole). Put the eight red Ø12.5 × 44 die springs in its spring pockets.
+5. Lay the carrier on the springs, pocket side up. The springs push back with about 1.6 kN, so press the carrier down onto the body in a vise or under the press first. Fit the four Ø6 × 10 shoulder screws through the carrier into the body, then release slowly. Finish at 8 N·m.
 
 > ✅ **Check.** The carrier pushes up 5.5 mm evenly and springs back square to the body.
 
@@ -402,7 +406,7 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 
 1. Put the shim pack on the body top over the shank and orientation pin. Start with no shims; the depth is set in step 19.
 2. Push the shank up into the die holder, the orientation pin into the holder's Ø4 hole (front).
-3. Tighten the cone-point lock screw into the shank's V-groove, firmly (about 3 N·m).
+3. Tighten the cone-point lock screw into the shank's V-groove with the hex key through slot W in the die body (from the right-hand end), firmly (about 3 N·m).
 
 > ✅ **Check.** Upper die face parallel to the table within 0.05 at all four corners.
 
@@ -418,7 +422,7 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 | BUY-46 | Dowel pin Ø5 × 14 (plug) | 2 | [STEP](../models/step/BUY-46_dowel-pin-d5-x-14-plug.step) · [STL](../models/stl/BUY-46_dowel-pin-d5-x-14-plug.stl) |
 | MP-212 | Plug stud (size kit, same for every size) | 1 | [STEP](../models/step/MP-212_plug-stud-size-kit-same-for-every-size.step) · [STL](../models/stl/MP-212_plug-stud-size-kit-same-for-every-size.stl) |
 | MP-204-6363 | Upper ring, kit 63.5 × 63.5 | 1 | [STEP](../models/step/MP-204-6363_upper-ring-kit-63-5-x-63-5.step) · [STL](../models/stl/MP-204-6363_upper-ring-kit-63-5-x-63-5.stl) |
-| BUY-45 | Spring plunger M4, nylon tip (upper ring) | 4 | [STEP](../models/step/BUY-45_spring-plunger-m4-nylon-tip-upper-ring.step) · [STL](../models/stl/BUY-45_spring-plunger-m4-nylon-tip-upper-ring.stl) |
+| BUY-45 | Ball plunger M3 (upper ring) | 4 | [STEP](../models/step/BUY-45_ball-plunger-m3-upper-ring.step) · [STL](../models/stl/BUY-45_ball-plunger-m3-upper-ring.stl) |
 | MP-206-6363 | Pickup pedestal, kit 63.5 × 63.5 | 1 | [STEP](../models/step/MP-206-6363_pickup-pedestal-kit-63-5-x-63-5.step) · [STL](../models/stl/MP-206-6363_pickup-pedestal-kit-63-5-x-63-5.stl) |
 | BUY-47 | Dowel pin Ø12 × 15 (pedestal and anvil spigot) | 2 | [STEP](../models/step/BUY-47_dowel-pin-d12-x-15-pedestal-and-anvil-spigot.step) · [STL](../models/stl/BUY-47_dowel-pin-d12-x-15-pedestal-and-anvil-spigot.stl) |
 | BUY-48 | Pin Ø4 × 10 (pedestal and anvil anti-rotation) | 2 | [STEP](../models/step/BUY-48_pin-d4-x-10-pedestal-and-anvil-anti-rotation.step) · [STL](../models/stl/BUY-48_pin-d4-x-10-pedestal-and-anvil-anti-rotation.stl) |
@@ -428,7 +432,7 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 
 1. Do this once per kit; every kit is prepared the same way. Kit 6363 is shown.
 2. Plug: press the two Ø5 × 14 dowels into the D holes on the top face, 5.5 mm proud. Screw the stud (MP-212) into the M6 hole, Loctite 243, 8 N·m. A round plug (MP-223) is prepared the same way.
-3. Upper ring: screw the four M4 spring plungers into the side holes until each ball stands 0.2 to 0.3 mm into the opening. Lock with Loctite 222.
+3. Upper ring: screw the four M3 ball plungers into the side holes until each ball stands 0.2 to 0.3 mm into the opening. Lock with Loctite 222.
 4. Pickup pedestal and crimp anvil: press a Ø12 × 15 dowel into the underside hole C (7 mm proud) and a Ø4 × 10 pin into hole Q (4 mm proud). Round kits (Rev D) have no hole Q and no Ø4 pin: a round pedestal or anvil can turn.
 5. Rings A and B need no preparation. Check every part carries the kit's size code (and U, A or B).
 
@@ -444,14 +448,14 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 | — | Upper ring from step 17 |  |  |
 | — | Pickup pedestal from step 17 |  |  |
 | — | Crimp anvil from step 17 |  |  |
-| BUY-39 | Ball-lock pin Ø6, push button, grip 55 | 1 | [STEP](../models/step/BUY-39_ball-lock-pin-d6-push-button-grip-55.step) · [STL](../models/stl/BUY-39_ball-lock-pin-d6-push-button-grip-55.stl) |
+| BUY-39 | Quick-release detent pin Ø6, usable length 64, ring handle | 1 | [STEP](../models/step/BUY-39_quick-release-detent-pin-d6-usable-length-64-ring-handle.step) · [STL](../models/stl/BUY-39_quick-release-detent-pin-d6-usable-length-64-ring-handle.stl) |
 | MP-207-6363 | Pickup ring A, kit 63.5 × 63.5 | 1 | [STEP](../models/step/MP-207-6363_pickup-ring-a-kit-63-5-x-63-5.step) · [STL](../models/stl/MP-207-6363_pickup-ring-a-kit-63-5-x-63-5.stl) |
 | MP-209-6363 | Crimp ring B, kit 63.5 × 63.5 | 1 | [STEP](../models/step/MP-209-6363_crimp-ring-b-kit-63-5-x-63-5.step) · [STL](../models/stl/MP-209-6363_crimp-ring-b-kit-63-5-x-63-5.stl) |
 
 **Tools:** None
 
 1. With the handle up on its stop, offer the plug up to the die body: dowels into the D holes, stud into hole K. It only fits one way. A round plug (Rev D) goes on the inner holes instead: dowels into D2, stud into K2.
-2. Push the ball-lock pin in through the front of the body until it locks. It passes the stud's groove and holds the plug.
+2. Push the detent pin in from the left end of the die body until it clicks. It passes through the stud and holds the plug.
 3. Push the upper ring up into the upper carrier with its key slots on the key pins, and tighten the two thumb screws.
 4. Drop pickup ring A into carrier A, then the pickup pedestal through it, dowel into hole C and pin into hole Q (round kits: dowel only).
 5. Drop crimp ring B into carrier B, then the crimp anvil the same way. The key pins stop a ring going into the wrong carrier.
@@ -466,14 +470,15 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 
 | Part | Name | Qty | 3D model |
 |---|---|---|---|
-| BUY-01 | Rubber pad Ø24 × 3 | 5 | [STEP](../models/step/BUY-01_rubber-pad-d24-x-3.step) · [STL](../models/stl/BUY-01_rubber-pad-d24-x-3.stl) |
+| BUY-01 | Rubber pad Ø24 × 3 | 6 | [STEP](../models/step/BUY-01_rubber-pad-d24-x-3.step) · [STL](../models/stl/BUY-01_rubber-pad-d24-x-3.stl) |
 
 **Tools:** Calipers, 10 kN load cell and dummy block, hanging scale, marker
 
-1. Stick the feet under the base, clear of the six bench holes: four at (±200, ±80) and one under the tongue.
-2. Put the press on a flat bench (two people: it weighs about 45 kg). For all-day use bolt it down through the Ø9 holes.
+1. Stick the six pads under the base, clear of the six bench holes: four at (±200, ±80) and two under the tongue.
+2. Put the press on a flat bench (two people: it weighs about 48 kg). For all-day use bolt it down through the Ø9 holes.
 3. Set the depth: make a magnet, then add shims (0.1 / 0.2 / 0.5) until the crimp finishes with the handle about 5 to 10° above horizontal. Write the shim value on the frame label.
 4. Run the tests in the table below, then make two test magnets per kit and check the corners and the crimp.
+5. Consumables for a square kit: flat tin blanks X + 8 cut from 0.20 mm soft tinplate, photo and film X + 9, all with the corners clipped on the 45° line printed by the Magnet Studio (`web/magnet-studio.html`); 1.2 mm back plates X − 1.4; magnet sheet X − 8. Round kits use drawn round cups.
 
 > ✅ **Check.** Every test in the table below passes.
 
@@ -486,7 +491,8 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 | Depth | Shims so the crimp finishes with the handle 5 to 10° above horizontal (step 19). | Full crimp with a firm push, no hard knock |
 | Force | 10 kN load cell on station B with a dummy block; 200 N on the grip with a hanging scale. | ≥ 5.5 kN |
 | Ring alignment | Marker blue on the lower ring tops, slow stroke on each station. | Even contact all round; the upper ring never touches a lower ring edge |
-| Magnet quality | Make 20 of each size. | No white paper at the edges, no torn film, no corner wrinkles, flange closed all round |
+| Stroke 1 fold | Slow stroke 1 at station A with a flat tin blank only; lift the ram and look at the shell in the upper ring. | Four straight walls about 4 mm deep, square corners with a small flat gusset, nothing left in the recess |
+| Magnet quality | Make 20 of each size. | No white paper at the edges, no torn film, sharp corners with neat mitres on the back, back border flat all round |
 | Size-kit change | Change the kit, timing it; try each wrong ring in each carrier. | Under 2 minutes; no wrong ring seats |
 | Reference height | Handle on its closed stop: die-holder face to table top. Write it on the frame label. | Re-check after any service; within 0.1 mm |
 | Proof load (prototype only) | 20 kN cell on station B, push the grip to 16 kN; dial indicator before and after. | No permanent set; stroke still 38.9 ±0.3 |
@@ -495,7 +501,7 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 ## Changing the size kit
 
 1. Rest the handle up on its stop and push the table to the right (station A under the ram).
-2. Upper: hold the upper ring, loosen its two thumb screws and lower it out. Press the button on the ball-lock pin, pull it out, and lower the plug off its dowels.
+2. Upper: hold the upper ring, loosen its two thumb screws and lower it out. Pull the detent pin out to the left by its ring, and lower the plug off its dowels.
 3. Fit the new plug (it only fits one way: square plugs on the outer holes D and K, round plugs on the inner holes D2 and K2) and push the pin home. Push the new upper ring up so its key slots meet the pins, and tighten the thumb screws.
 4. Lower: screw the M5 T-handle puller into each pedestal or anvil and lift it out, then lift the ring out by its opening. Drop in the new ring A and pickup pedestal on the left, and ring B and crimp anvil on the right.
 5. One slow dry stroke on each station, then two test magnets. Check the corners (or, on a round magnet, the whole edge) and the crimp before running a batch.
@@ -507,6 +513,7 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 | Each shift | Wipe the die table, rails and dies. Blow shell chips out of the rings. No oil on the dies. |
 | Weekly or 5,000 strokes | Check the thumb screws, the die lock screw and the handle-stop setting. Light oil on the rails only. |
 | 25,000 strokes | Check handle play (≤ 1 mm at the grip) and the column nut torque. Clean tin pick-up from the die edges with a brass brush. |
-| 250,000 strokes | Replace the die springs and return springs. Inspect the bushings and pins. Dye-penetrant check the die corners. |
+| 100,000 strokes | Replace the eight red upper die springs (they work to 29% of their length). |
+| 250,000 strokes | Replace the lower die springs and the return springs. Inspect the bushings and pins. Dye-penetrant check the die corners. |
 
 If a shell jams, follow the un-jam procedure in [`docs/research/failure-review.md`](research/failure-review.md#un-jam-procedure).

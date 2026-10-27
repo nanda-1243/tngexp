@@ -451,7 +451,7 @@ function updateInfo(){
   $('#sheetHint').textContent = g.label + ' · ' + L.n + '/' + S.paper;
   $('#photoHint').textContent = S.photos.length ? S.photos.length + (S.photos.length === 1 ? ' photo' : ' photos') : 'none yet';
   const f = $('#facts'), row = (a, b) => '<dt>' + a + '</dt><dd>' + b + '</dd>', pair = (w, h) => g.round ? 'Ø' + w : w + ' × ' + h;
-  f.innerHTML = row('Face', pair(g.W, g.H) + ' mm') + row('Paper cut', pair(g.cutW, g.cutH) + ' mm' + (g.round ? '' : ', corners clipped')) + row('Back border', '≈ ' + (g.bleed - g.fold).toFixed(1) + ' mm on the back') + row('Keep text in', pair(g.safeW, g.safeH) + ' mm')
+  f.innerHTML = row('Face', pair(g.W, g.H) + ' mm') + row('Paper cut', pair(g.cutW, g.cutH) + ' mm' + (g.round ? '' : ', corners clipped')) + (g.round ? '' : row('Tin blank', pair(g.cutW - 1, g.cutH - 1) + ' mm flat, same 45° corners')) + row('Back border', '≈ ' + (g.bleed - g.fold).toFixed(1) + ' mm on the back') + row('Keep text in', pair(g.safeW, g.safeH) + ' mm')
     + row('Layout', L.cols + ' × ' + L.rows + ' on ' + S.paper + ', ' + GAP + ' mm apart') + row('Print', 'at 100 %; check the 50 mm bar');
 }
 

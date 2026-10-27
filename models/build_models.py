@@ -1,4 +1,4 @@
-"""MagPress M4 Rev D: 3D models of every part, made and bought, as STEP, STL and OBJ, plus a placed assembly.
+"""MagPress M4 Rev E: 3D models of every part, made and bought, as STEP, STL and OBJ, plus a placed assembly.
 
 Run:  python models/build_models.py [outdir]      (needs cadquery and trimesh; outdir defaults to models/)
 
@@ -709,8 +709,8 @@ def build():
     ret = [(x, -z) for (x, z) in P2.RET]
     part('BUY-33', 'Die spring ISO 10243 Ø10 × 32 green (light), shown installed 30', 'buy', 'Universal die',
          helix_spring(9.8, 1.6, 30, 6), 'green', [at(cx + x, y, 33) for cx in (STA, STB) for (x, y) in spl])
-    part('BUY-34', 'Die spring ISO 10243 Ø10 × 32 blue (medium), shown installed 26', 'buy', 'Universal die',
-         helix_spring(9.8, 1.8, 26, 5.5), 'blue', [at(x, y, 94) for (x, y) in spu])
+    part('BUY-34', 'Die spring ISO 10243 Ø12.5 × 44 red (heavy), shown installed 36', 'buy', 'Universal die',
+         helix_spring(12.2, 2.2, 36, 7.5), 'red', [at(x, y, 94) for (x, y) in spu], spec='Rev E: 8 mm preload, 1.57 kN total; holds the upper ring while stroke 1 folds the flat tin blank')
     part('BUY-35', 'Shoulder screw ISO 7379 Ø6 × 10 (upper carrier)', 'buy', 'Universal die', shoulder_screw(10), 'oxide',
          [Tr(*DOWN, at=(x, y, 102)) for (x, y) in ret])
     part('BUY-36', 'Shoulder screw ISO 7379 Ø6 × 12 (lower carriers)', 'buy', 'Universal die', shoulder_screw(12), 'oxide',

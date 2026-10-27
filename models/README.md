@@ -1,6 +1,6 @@
-# MagPress M4 — 3D models (Rev D)
+# MagPress M4 — 3D models (Rev E)
 
-Every part of the press as its own 3D file: the 76 machined parts (including all eight size kits, four square or rectangular and four round) and the 47 bought parts from the BOM, 123 files in all. They come in three formats, plus an assembly that shows how they fit together.
+Every part of the press as its own 3D file: the 77 machined parts (including all eight size kits, four square or rectangular and four round) and the 48 bought parts from the BOM, 125 files in all. They come in three formats, plus an assembly that shows how they fit together.
 
 ![Assembled](assembly/preview_assembled.png) ![Exploded](assembly/preview_exploded.png)
 
@@ -38,9 +38,11 @@ Every part of the press as its own 3D file: the 76 machined parts (including all
 - The size-kit plungers are shown for kit 6363.
 - Not modelled: the optional bench screws and the foam kit case.
 
-## Interference check and the Rev C.1 fixes
+## Interference check, the Rev C.1 fixes and Rev E
 
 `build_models.py` checks every pair of placed parts for overlap, at the assembly pose (handle up) and at five more handle angles down to the 3° stop, with the ram, lever and links moved to match. It also checks that nothing reaches below the bench. The result is in [`assembly/interference.txt`](assembly/interference.txt): **no clashes**. Die parts are not checked against each other through the stroke, because the spring-loaded rings are meant to telescope. For Rev D the check is repeated with round kit D58 in place of kit 6363, its plug on the inner dowel pattern D2/K2: no clashes either.
+
+**Rev E** was checked the same way, with every change from the independent review in place: sharp R1 kits with the flat-fold anvil and the stepped ring A recess, the 20 mm upper die body and its red Ø12.5 × 44 springs, the detent pin along X, the spigots, the 120 wide crown with the handle-stop post MP-121, the spring guide sleeves, the six pads and the corrected screw lengths (one station-base screw ran 0.15 past its thread until the bases were tapped through). Result: no overlaps at any of the six handle angles, none with the round kit, nothing below the bench.
 
 The first check, on Rev C, found seven clashes. Rev C.1 fixes all of them in the drawings, BOM, build pack and these models:
 

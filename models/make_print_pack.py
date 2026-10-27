@@ -1,6 +1,6 @@
 """Zip the individual part files for 3D printing: STL at full size and at half scale, and OBJ at full size.
 
-python3 models/make_print_pack.py        # reads models/stl, models/obj and models/parts.csv; writes the zips to release/RevD/
+python3 models/make_print_pack.py        # reads models/stl, models/obj and models/parts.csv; writes the zips to release/RevE/
 
 Each file sits in a folder for its group, with the number to print at the end of its name (…_x4.stl).
 """
@@ -11,8 +11,8 @@ import struct
 import zipfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-REL = os.path.join(HERE, '..', 'release', 'RevD')
-TAG = 'MagPress-M4_RevD'
+REL = os.path.join(HERE, '..', 'release', 'RevE')
+TAG = 'MagPress-M4_RevE'
 SIZES = {'5050': '50 × 50', '6363': '63.5 × 63.5', '5380': '53 × 80', '6590': '65 × 90',
          'D44': 'Ø44', 'D50': 'Ø50', 'D56': 'Ø56', 'D58': 'Ø58'}
 FOLDERS = {'Frame': '01_frame', 'Die table': '02_die-table', 'Press drive': '03_press-drive', 'Universal die': '04_universal-die'}
@@ -52,7 +52,7 @@ def stl_size(data):
 def readme(scale, rows, fmt):
     pieces = sum(q for (_, _, q, _) in rows)
     big = [(name, dims) for (name, _, _, dims) in rows if max(dims[0], dims[1]) > 220 or dims[2] > 250]
-    lines = ['MagPress M4 Rev D - every part as its own %s file, %s.' % (fmt, scale),
+    lines = ['MagPress M4 Rev E - every part as its own %s file, %s.' % (fmt, scale),
              '',
              'Folders: 01 frame, 02 die table, 03 press drive (ram, crown, lever, links, pins), 04 universal die,',
              '05 hardware that comes with every size kit, 06-09 the square and rectangular kits (5050 = 50 x 50,',
@@ -76,7 +76,7 @@ def readme(scale, rows, fmt):
     else:
         lines.append('Every part fits a 220 x 220 mm bed and 250 mm height at this scale, as laid out in its file.')
     lines += ['', 'Made by models/make_print_pack.py from models/stl and models/obj. 3D views of how the parts fit:',
-              'models/assembly/ and the assembly manual (release/RevD/MagPress-M4_Assembly-Manual_RevD.pdf).', '']
+              'models/assembly/ and the assembly manual (release/RevE/MagPress-M4_Assembly-Manual_RevE.pdf).', '']
     return '\n'.join(lines)
 
 

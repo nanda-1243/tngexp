@@ -5,7 +5,7 @@ The dimensions come from the die drawings MP-203 to MP-209; the round kits (MP-2
 
 ## The finished magnet
 
-Photo and film wrapped round the R1 edge, the tinplate skirt rolled under the back plate, 3.6 mm thick (size 63.5 × 63.5 shown).
+Rev E: sharp corners, photo and film wrapped round the edge, the tinplate skirt folded flat under the back plate, 2.0 mm thick, with a 2.9 mm flat border of the photo on the back, mitred at the corners (size 63.5 × 63.5 shown). Print a date, a name or a brand on that border with the Magnet Studio (`web/magnet-studio.html`).
 
 | Front | Back | Edge, cut open |
 |---|---|---|
@@ -17,19 +17,19 @@ Photo and film wrapped round the R1 edge, the tinplate skirt rolled under the ba
 
 ![Load station A](stage01.png)
 
-Station A is outside the press. The tinplate shell sits face-up on the pickup pedestal. The printed photo and the mylar film lie flat in the 0.6 mm recess on top of pickup ring A, 6 mm bigger than the face on every side.
+Station A is outside the press. A flat tinplate blank lies in the lower step of the recess on top of pickup ring A, with the printed photo and the mylar film over it. The tin is cut 4 mm bigger than the face on every side and the photo and film 4.5 mm, all with the corners clipped at 45°.
 
 ### 2. Stroke 1: the dies close
 
 ![Stroke 1: the dies close](stage02.png)
 
-The upper die comes down. The upper ring’s opening is the shell size plus 0.35 mm, and the plug sits 5.5 mm up inside it. At 26 mm of ram travel the upper ring lands on ring A.
+The upper die comes down. The upper ring’s opening is the shell size plus 0.35 mm, and the plug sits 5.5 mm up inside it. At 26 mm of ram travel the upper ring lands on ring A, over the blank and the photo.
 
-### 3. The photo and film wrap the edge
+### 3. Fold 1: tin, photo and film fold down together
 
-![The photo and film wrap the edge](stage03.png)
+![Fold 1: tin, photo and film fold down together](stage03.png)
 
-The upper ring pushes ring A down 8 mm against its light springs. The shell stays where it is, so it comes up through the opening and drags the photo and film over its rounded edge and down the 4.5 mm skirt. The tails stay in the recess.
+The upper ring pushes ring A down 8 mm against its light springs. After 3.6 mm the blank meets the pedestal, which then pushes its middle up into the upper ring: the tin, photo and film fold down round the pedestal’s R0.8 edge into a 4 mm wall. At each corner the spare tin and paper fold into a small flat gusset; the corner reliefs make room for it. The upper die springs hold the ring down while the tin folds.
 
 ### 4. The plug sets the face
 
@@ -41,7 +41,7 @@ Ring A reaches its stop and the upper ring stops on it. Its carrier gives 1.5 mm
 
 ![Pickup: the shell rides up in the ring](stage05.png)
 
-On the way up the wrapped shell stays in the upper ring: 0.35 mm of clearance for about 0.2 mm of photo and film is a grip fit, and four spring plungers hold it. As it lifts out of ring A the tails swing down and hang about 1.8 mm below the rim.
+On the way up the folded shell stays in the upper ring: the tin springs back against the bore, and four ball plungers hold it. As it lifts out of ring A the paper ends swing down level with the shell rim: the paper ends with the tin, so there are no loose tails.
 
 ### 6. Slide to station B
 
@@ -53,7 +53,7 @@ Push the table to the left: station B comes under the ram. A back plate went ont
 
 ![Stroke 2: onto the crimp ring](stage07.png)
 
-The upper ring lands on crimp ring B and pushes it down to its stop. Ring B’s 30° lead-in centres the wrapped shell over the anvil, and the hanging tails just reach it.
+The upper ring lands on crimp ring B and pushes it down to its stop. Ring B’s 30° lead-in centres the wrapped shell over the anvil, and the bottom of the skirt just reaches the cove at the anvil’s edge.
 
 ### 8. The plug comes down
 
@@ -61,26 +61,26 @@ The upper ring lands on crimp ring B and pushes it down to its stop. Ring B’s 
 
 The upper ring is blocked on ring B. Its carrier gives way and the plug comes down 1.3 mm onto the face.
 
-### 9. The crimp: the edge rolls under
+### 9. The crimp: the edge folds flat under
 
-![The crimp: the edge rolls under](stage09.png)
+![The crimp: the edge folds flat under](stage09.png)
 
-The plug pushes the shell 3.6 mm out of the upper ring. The tails reach the anvil’s R1 roll channel first and turn inward, then the skirt follows and curls in under the back plate, rolling the tails inside the curl. The stroke ends when the shell face bottoms on the back plate.
+The plug pushes the shell 3.6 mm out of the upper ring. The skirt runs down ring B’s bore into the R0.7 cove at the anvil’s edge, turns inward and slides along the floor, under the edge of the back plate. The stroke ends when the shell face bottoms on the back plate, which clamps the folded border flat on the 0.4 mm floor.
 
 ### 10. Finished magnet
 
 ![Finished magnet](stage10.png)
 
-The ram lifts and ring B springs back up round the finished magnet: photo and film wrapped round the edge, the skirt rolled under the back plate, 3.6 mm thick. Lift it out and stick the magnet sheet on the back.
+The ram lifts and ring B springs back up round the finished magnet: photo and film wrapped round the edge, the skirt folded flat under the back plate, 2.0 mm thick, with a 2.9 mm flat border of the photo on the back. Lift it out and stick the magnet sheet on the back plate, inside the border.
 
 ## At the corners
 
-At a corner the photo and film shrink from an arc at 10 mm radius (6 mm out from the R4 face corner) to the 4 mm arc of the skirt. The excess, about 60%, gathers into fine pleats on the skirt and inside the rolled edge. If the corners wrinkle onto the face, the paper is too thick: use 90–120 g/m² paper.
+The paper is cut 4.5 mm over the face, with its corners clipped at 45° on the line |x| + |y| = W/2 + H/2 + 1.7. Folded down the side and onto the back, the two edges at a corner meet in a diagonal mitre on the back. Where the side walls meet, about two layers of paper overlap in a small gusset; the upper ring and ring B have a Ø1.2 relief in each corner to make room for it. If the corners tear or wrinkle onto the face, the paper is too thick: use 90–120 g/m² paper.
 
 ## Round magnets (Rev D)
 
-A round kit forms the magnet the same way, stroke for stroke: the section above is the same at every point of the edge. With no corners, the spare paper spreads evenly round the whole edge, about 17% at Ø58 and 21% at Ø44, in fine even pleats. Size Ø58 shown: photo cut Ø70.
+A round kit forms the magnet the same way, stroke for stroke: the section above is the same at every point of the edge. With no corners, the back border shrinks by about 10% as it turns in, and the spare paper gathers in fine even pleats all round. Size Ø58 shown: photo cut Ø67.
 
-| Front | Edge, cut open |
-|---|---|
-| ![Round magnet, front](round_face.png) | ![Round magnet, edge cut open](round_edge.png) |
+| Front | Back | Edge, cut open |
+|---|---|---|
+| ![Round magnet, front](round_face.png) | ![Round magnet, back](round_back.png) | ![Round magnet, edge cut open](round_edge.png) |

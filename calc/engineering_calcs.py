@@ -85,9 +85,13 @@ for t in (0, 10, 20, 26, 30, 35.5, 38, STROKE):
 section('2. FORCE NEEDED PER SIZE (ESTIMATE)')
 SIZES = [('5050', 50, 50), ('6363', 63.5, 63.5), ('5380', 80, 53), ('6590', 90, 65)]
 print('Basis: 7 N per mm of shell edge (scaled from the round-badge figures in US 4,696,086) x 2.2 for the final crimp. Prove it on the prototype.')
-# Rev E (independent review): at the stop the toggle also pushes against the upper die springs (carrier retracted 4.9 of 6: about
-# 1.13 kN) and the two return springs (2 x 245 N), and the pin friction makes the efficiency about 0.84, not 0.9.
-F_SPRINGS, ETA_END = 1130 + 2 * 245, 0.84
+# Rev E (independent review): at the stop the toggle also pushes against the upper die springs and the two return springs
+# (2 x 245 N), and the pin friction makes the efficiency about 0.84, not 0.9. Rev E flat tin blanks: the upper springs are
+# 8 x ISO 10243 D12.5 x 44 red (24.6 N/mm) in 36 mm cavities, 12.9 mm compressed at the stop (section 7).
+UP_N, UP_K, UP_L0, UP_CAV = 8, 24.6, 44.0, 36.0
+UP_PRE = UP_N * UP_K * (UP_L0 - UP_CAV)
+UP_END = UP_N * UP_K * (UP_L0 - UP_CAV + STROKE - 26.0 - 8.0)
+F_SPRINGS, ETA_END = UP_END + 2 * 245, 0.84
 print('Hand force at the stop = (crimp + %.2f kN of springs) / (%.2f x MA %.1f). Rev E corners R1 (sharp-cornered magnets).' % (F_SPRINGS / 1000, ETA_END, MA(PHI_END, L_REV_BC)))
 def hand_end(peak):
     return (peak + F_SPRINGS) / (ETA_END * MA(PHI_END, L_REV_BC))
@@ -101,6 +105,29 @@ for cd, Dm in ROUND:
     perim = math.pi * Dm
     peak = 2.2 * 7 * perim
     print('%s  edge %.0f mm  crimp %.2f kN  hand force at the stop %.0f N' % (cd, perim, peak / 1000, hand_end(peak)))
+
+# Rev E: the tin is a flat blank (X + 9, corners clipped 45 deg, as sold for square photo magnets). Stroke 1 folds its edges
+# down round the pickup pedestal (top edge R0.8) into the upper ring (0.3 x 30 deg lead-in, about R0.3): a wiping bend. Two
+# plastic hinges, M = sy t^2 / 4 per mm, over an arm of r_punch + r_die + stack (0.8 + 0.3 + 0.4), x 1.3 for friction and the
+# corner gussets.
+# The upper ring must take this plus the ring A springs (0.38 kN at its stop) without the carrier giving more than about
+# 1.3 mm (the plug meets the face at travel 35.3, ring A needs travel 34 + give to reach its stop).
+print()
+print('Stroke 1, flat tin blank: fold force (wiping bend round the pedestal, tin 0.20 soft T2, sy 250 MPa; 0.22 T3, sy 300 MPa)')
+FOLD_ARM = 0.8 + 0.3 + 0.4
+def fold_force(perim, t, sy):
+    return 1.3 * 2 * (sy * t * t / 4) / FOLD_ARM * perim
+UP_HOLD = UP_PRE + UP_N * UP_K * 1.3
+print('Upper springs: preload %.2f kN, %.2f kN after 1.3 mm of give (the most stroke 1 allows); ring A springs 0.38 kN at the stop' % (UP_PRE / 1000, UP_HOLD / 1000))
+for cd, X, Z in SIZES:
+    perim = 2 * (X + Z) - 8 + 2 * math.pi
+    f20, f22 = fold_force(perim, 0.20, 250), fold_force(perim, 0.22, 300)
+    print('%s  fold 0.20: %.2f kN (+0.38 = %.2f, %s)   0.22 T3: %.2f kN (+0.38 = %.2f, %s)'
+          % (cd, f20 / 1000, (f20 + 380) / 1000, 'OK' if f20 + 380 <= UP_HOLD else 'carrier gives too far',
+             f22 / 1000, (f22 + 380) / 1000, 'OK' if f22 + 380 <= UP_HOLD else 'carrier gives too far'))
+print('Use 0.20 mm soft tinplate (T2) for the flat blanks. Round kits keep drawn round cups (a flat round blank cannot be folded).')
+print('Hand force in stroke 1 near its end (travel 34, MA %.1f): about %.0f N for 65 x 90 with 0.20 tin.'
+      % (MA(phi_for_travel(34.0), L_REV_BC), (fold_force(2 * 155 - 8 + 2 * math.pi, 0.20, 250) + 380) / (ETA * MA(phi_for_travel(34.0), L_REV_BC))))
 
 # ----------------------------------------------------------------------------------------------
 # 3. Handle joint
@@ -215,7 +242,7 @@ drive = {
     'return springs': 2 * (math.pi * 28 * 18.4) * circ(3.5) * STEEL,
 }
 die_upper = {
-    'upper die body 144 x 116 x 10': (rr_area(144, 116, 6) - circ(10)) * 10 * STEEL,
+    'upper die body 144 x 116 x 20 (Rev E)': ((rr_area(144, 116, 6) - circ(10)) * 20 - (circ(54) + 45 * 10) * 10) * STEEL,
     'shank + shim + pins': (circ(16) * 15 + circ(10) * 9) * STEEL + 0.02,
     'upper carrier': (rr_area(144, 116, 3) - rr_area(106.02, 81.02, 6)) * 14 * STEEL,
 }
@@ -337,7 +364,8 @@ springs = [
     # name, n, rate N/mm, free L, cavity at rest, working travel, class limit for 500k strokes, class max
     ('Lower A (green, light, D10 x 32)', 4, 9.4, 32, 30, 8.0, 35.0, 40.0),
     ('Lower B (green, light, D10 x 32)', 4, 9.4, 32, 30, 8.0, 35.0, 40.0),
-    ('Upper (blue, medium, D10 x 32)', 8, 14.2, 32, 26, STROKE - 26.0 - 8.0, 33.75, 37.5),
+    ('Upper Rev D (blue, medium, D10 x 32)', 8, 14.2, 32, 26, STROKE - 26.0 - 8.0, 33.75, 37.5),
+    ('Upper Rev E (red, heavy, D12.5 x 44)', UP_N, UP_K, UP_L0, UP_CAV, STROKE - 26.0 - 8.0, 25.0, 30.0),
 ]
 for name, n, k, L0, cav, tr, lim, mx in springs:
     pre = L0 - cav
@@ -346,3 +374,5 @@ for name, n, k, L0, cav, tr, lim, mx in springs:
           % (name, pre, 100 * pre / L0, dmax, 100 * dmax / L0, n * k * pre, n * k * dmax, lim, mx))
 print('Upper retraction at the end of stroke 2 = working travel - lower travel = %.2f mm (5.5 available).' % (STROKE - 26 - 8))
 print('Rev B used red (heavy) D10 x 32 springs at 12.5 -> 37.5%; the heavy-duty maximum is about 30%.')
+print('Rev E upper springs reach 29% at the stop of stroke 2 (heavy-duty max 30%): replace them every 100,000 strokes. The extra cavity')
+print('comes from 8 spring caps MP-213 on top of the die body (Rev D blue springs could not hold the ring while the tin folds).')
