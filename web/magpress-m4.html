@@ -127,6 +127,15 @@ ol.cycle li b{font-family:var(--f-display);font-size:19px;font-weight:600}
 @media (max-width:640px){.steps>li{grid-template-columns:40px minmax(0,1fr)}.steps>li .btn{grid-column:2}}
 .note{border-left:3px solid var(--warn);padding:10px 14px;background:var(--panel);font-size:14px}
 .note b{color:var(--warn)}
+.note.revb{border-left-color:var(--accent)}
+.note.revb b{color:var(--accent)}
+.sev{display:inline-block;min-width:22px;text-align:center;font:500 11px var(--f-mono);padding:1px 5px;border:1px solid var(--line)}
+.sev.h{color:var(--warn);border-color:var(--warn)}
+.sev.m{color:var(--ink2)}
+.sev.l{color:var(--muted)}
+td.fx{color:var(--ink)}
+.fmea td{font-size:13px}
+.fmea td:first-child{font-family:var(--f-mono);color:var(--muted)}
 .chartbox{position:relative;border:1px solid var(--line);background:var(--panel);padding:10px 8px 4px;overflow-x:auto}
 #fchart{display:block;width:100%;min-width:560px;height:auto}
 #fchart text{font-family:var(--f-mono);font-size:11px;fill:var(--muted)}
@@ -162,17 +171,19 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
   <div class="tb-main">
     <span class="eyebrow">Design pack · manual photo-magnet press</span>
     <h1>MagPress M4</h1>
-    <p class="lede">A hand-lever toggle press with a sliding two-station die table. It makes square and rectangular photo fridge magnets in two strokes, and its four die sets swap without tools. This page has the 3D model, the force analysis, die and frame dimensions, a parts list, the manufacturing route, assembly steps and test plan.</p>
+    <p class="lede">A hand-lever toggle press with a sliding two-station die table. It makes square and rectangular photo fridge magnets in two strokes, and its four die sets swap without tools. This page has the 3D model, the force analysis, die and frame dimensions, a parts list, the manufacturing route, assembly steps, test plan and a failure review (section 11) that drove the Rev B changes.</p>
   </div>
   <div class="tb-cells">
     <div><span class="eyebrow">Sizes</span><b>50×50 · 63.5×63.5<br>53×80 · 65×90</b></div>
     <div><span class="eyebrow">Units</span><b>mm, N, kN</b></div>
-    <div><span class="eyebrow">Drive</span><b>Toggle, MA 6 → 31</b></div>
-    <div><span class="eyebrow">Die force</span><b>5.6 kN @ 200 N hand</b></div>
-    <div><span class="eyebrow">Revision</span><b>A · 2026-10-26</b></div>
+    <div><span class="eyebrow">Drive</span><b>Toggle, MA 6.6 → 35</b></div>
+    <div><span class="eyebrow">Die force</span><b>6.2 kN @ 200 N hand</b></div>
+    <div><span class="eyebrow">Revision</span><b>B · 2026-10-27</b></div>
     <div><span class="eyebrow">Status</span><b>For prototype</b></div>
   </div>
 </header>
+
+<div class="note revb"><b>Rev B, 2026-10-27.</b> A failure review of presses like this one, plus a stress check of Rev A, led to these changes: a one-piece handle lever, a Ø16 pivot pin in dry-running bushings, return springs strong enough to lift the handle from fully down, a station pilot that stops the stroke if the table is off station, die outers that are the same for every size, tougher die steel re-tempered after EDM, a stiffer base, and a 16 kN design load. <a href="#s-fail">Section 11</a> has the details.</div>
 
 <section aria-labelledby="s-model">
   <div class="sec-head"><span class="no">01</span><h2 id="s-model">3D model</h2><span class="muted small">Drag to orbit · scroll or pinch to zoom · click a part to inspect it</span></div>
@@ -226,12 +237,12 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
 
 <section aria-labelledby="s-how">
   <div class="sec-head"><span class="no">02</span><h2 id="s-how">How it makes a magnet</h2></div>
-  <p>Each magnet takes two strokes of the handle. The die table slides between two stations. Each lower die is loaded while it is <em>outside</em> the press, so your fingers are never under the ram. The upper die stays on the ram and does both jobs. This is the slide-type layout from the photo you sent. The two-stroke die action follows the badge-press patents listed in section 12, all expired.</p>
+  <p>Each magnet takes two strokes of the handle. The die table slides between two stations. Each lower die is loaded while it is <em>outside</em> the press, so your fingers are never under the ram. The upper die stays on the ram and does both jobs. This is the slide-type layout from the photo you sent. The two-stroke die action follows the badge-press patents listed in section 13, all expired.</p>
   <ol class="cycle" id="cycleList"></ol>
   <div class="two">
     <div class="card">
       <span class="eyebrow">Layer stack, front to back</span>
-      <p class="small">Mylar film (0.075 mm PET) → printed photo (120–150 g/m² matte paper) → tinplate shell (0.20–0.23 mm, drawn tray with clipped corners) → back plate (1.0–1.5 mm ABS/acrylic, or cardboard) → adhesive magnet sheet, applied after pressing.</p>
+      <p class="small">Mylar film (0.075 mm PET) → printed photo (90–120 g/m² plain or inkjet matte paper; not card or photo paper) → tinplate shell (0.20–0.23 mm, drawn tray with clipped corners) → back plate (1.0–1.5 mm ABS/acrylic, or cardboard) → adhesive magnet sheet, applied after pressing.</p>
       <p class="small muted">Sellers ship slightly different stacks (cardboard backs, acrylic backs, tin backs). The die set and the consumables must match, so buy consumables to this pack's sizes or adjust the die values in section 05.</p>
     </div>
     <div class="card">
@@ -239,9 +250,10 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
       <ul class="small" style="margin:0;padding-left:18px">
         <li><b>Toggle, not cam:</b> force rises as the stroke closes, which is where crimping needs it. The stroke ends 8° before dead centre, so it can't lock over.</li>
         <li><b>H-frame with two columns:</b> it is symmetric, so the ram can't tilt under load the way a C-frame does.</li>
-        <li><b>Slide, not turntable:</b> it is simpler to make. Stop blocks give repeatable positions, and the table can't drift while you press.</li>
+        <li><b>Slide, not turntable:</b> it is simpler to make. Stop blocks set each station, and a hardened pilot pin on the ram locks the table on station before the dies meet (Rev B).</li>
         <li><b>Grip lands over the base tongue:</b> the press can't tip toward you at the end of the stroke.</li>
         <li><b>Keyed die shoes:</b> the A and B shoes have different dowel patterns, so they can't go on the wrong station.</li>
+        <li><b>One-piece lever, dry bushings (Rev B):</b> there is no threaded handle joint to strip, and no greased pins to dry out or collect shell chips.</li>
       </ul>
     </div>
   </div>
@@ -257,12 +269,14 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
       <tr><td>Ram stroke</td><td class="num">38.9 mm</td><td>Toggle crank 40, link 60, handle 65° → 3°</td></tr>
       <tr><td>Open gap above lower die</td><td class="num">26 mm</td><td>Clearance for the table to slide with parts loaded</td></tr>
       <tr><td>Die working zone</td><td class="num">last 12.9 mm</td><td>From die contact to the end of the stroke</td></tr>
-      <tr><td>Force at die, end of stroke</td><td class="num">5.6 kN</td><td>200 N on the grip, 90% pin efficiency (section 04)</td></tr>
-      <tr><td>Frame design load</td><td class="num">8 kN</td><td>Covers a 280 N push. Crown stress ≈ 96 MPa, deflection ≈ 0.13 mm</td></tr>
+      <tr><td>Force at die, end of stroke</td><td class="num">6.2 kN</td><td>200 N on the grip, 320 mm lever, 90% pin efficiency (section 04)</td></tr>
+      <tr><td>Frame design load</td><td class="num">16 kN</td><td>Covers someone leaning 500 N on the grip (15.6 kN). Crown ≈ 192 MPa and 0.27 mm; pin O ≈ 460 MPa, hardened (section 11)</td></tr>
       <tr><td>Footprint (W × D)</td><td class="num">460 × 470 mm</td><td>Base 460 × 260 plus front tongue 210. The table overhangs 20 mm at each end stop</td></tr>
-      <tr><td>Height</td><td class="num">≈ 270 closed, ≈ 560 handle up</td><td>Handle 350 mm from the pivot</td></tr>
-      <tr><td>Mass (estimate)</td><td class="num">≈ 28 kg</td><td>Steel base, crown and ram. About 20 kg if the base is cut from 10 mm plate and the ram from 7075</td></tr>
+      <tr><td>Height</td><td class="num">≈ 325 to the rod tops, ≈ 586 handle up</td><td>Grip end 380 mm from the pivot</td></tr>
+      <tr><td>Mass (estimate)</td><td class="num">≈ 32 kg</td><td>15 mm steel base, steel crown and ram. For all-day use, bolt it to the bench through the six Ø9 holes</td></tr>
       <tr><td>Die change</td><td class="num">≈ 2–3 min, no tools</td><td>1 lock screw on the upper die, 2 thumb screws per lower die</td></tr>
+      <tr><td>Handle return</td><td class="num">60 N → 225 N per spring</td><td>Two return springs. They lift the handle and ram from fully down (Rev B)</td></tr>
+      <tr><td>Pivots</td><td class="num">Dry bushings</td><td>PTFE-composite bushings at O, A and B; hardened pins O Ø16, A and B Ø12; no grease</td></tr>
       <tr><td>Output (estimate)</td><td class="num">2–4 magnets/min</td><td>Practised operator. Measure on the prototype</td></tr>
     </tbody>
   </table></div>
@@ -270,7 +284,7 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
 
 <section aria-labelledby="s-force">
   <div class="sec-head"><span class="no">04</span><h2 id="s-force">Force through the stroke</h2></div>
-  <p>The handle drives a toggle. The crank (O→A, 40 mm) and the link (A→B, 60 mm) straighten as the handle comes down. Ram movement per degree of handle travel shrinks toward the bottom, so the force multiplies, reaching about ×31 at the end. Mechanical advantage is <span class="mono">MA = L / (dy/dφ)</span> with <span class="mono">dy/dφ = a·sinφ + a²·sinφ·cosφ / √(b² − a²sin²φ)</span>, where L = 290 mm (pivot to grip centre), a = 40, b = 60, and φ is the crank angle from straight down. The chart assumes 200 N on the grip and 90% efficiency through the three pins.</p>
+  <p>The handle drives a toggle. The crank (O→A, 40 mm) and the link (A→B, 60 mm) straighten as the handle comes down. Ram movement per degree of handle travel shrinks toward the bottom, so the force multiplies, reaching about ×35 at the end. Mechanical advantage is <span class="mono">MA = L / (dy/dφ)</span> with <span class="mono">dy/dφ = a·sinφ + a²·sinφ·cosφ / √(b² − a²sin²φ)</span>, where L = 320 mm (pivot to grip centre; Rev A had 290), a = 40, b = 60, and φ is the crank angle from straight down. The chart assumes 200 N on the grip and 90% efficiency through the three pins.</p>
   <div class="chartbox" id="chartBox">
     <svg id="fchart" viewBox="0 0 720 320" role="img" aria-label="Force at the die versus ram travel"></svg>
     <div id="ctip" hidden></div>
@@ -285,16 +299,18 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
       <span class="eyebrow">Common interface, same on all four sets</span>
       <ul class="small" style="margin:0;padding-left:18px">
         <li><b>Upper die:</b> Ø16 g6 shank with a V-groove, fitted into the Ø16 H7 die holder and locked by one M5 cone-point screw. A Ø4 pin in the die top fixes the rotation, which matters for rectangles. A shim pack on each upper die sets its depth once, so swapping needs no adjustment.</li>
-        <li><b>Lower dies:</b> each sits on a 140 × 124 × 10 shoe with two Ø8 dowels and two M5 thumb screws. Shoe A's dowels are 90 mm apart at the back; shoe B's are 60 mm apart at the front.</li>
+        <li><b>Lower dies:</b> each sits on a 150 × 120 × 10 shoe with two Ø8 dowels and two M5 thumb screws (head Ø12 at most). Shoe A's dowels are 80 mm apart at the back; shoe B's are 60 mm apart at the front.</li>
+        <li><b>Same outside on every size (Rev B):</b> the upper die body, upper frame and both lower frames are 126 × 100 for all four sizes, with the same screw, spring and dowel patterns. Only the plug, the pedestals and the frame openings change with size. One CNC program covers them all, spares fit every set, and every set gets the same spring cavities.</li>
         <li><b>Marking:</b> shoe A has a green band and is laser-marked "A · PICKUP". Shoe B has a red band and "B · CRIMP". Each part carries its drawing number and size code, for example MP-207 6590 A. The long side of every rectangular die runs along the table.</li>
       </ul>
     </div>
     <div class="card">
       <span class="eyebrow">Materials</span>
       <ul class="small" style="margin:0;padding-left:18px">
-        <li><b>Production:</b> 1.2379 / Cr12MoV (D2 type), vacuum hardened and tempered to 58–60 HRC. Wire-EDM the profiles after hardening, grind the faces, and polish the forming edges to Ra 0.2–0.4 µm. Optional TiN or hard-chrome coat.</li>
+        <li><b>Standard (Rev B):</b> A2 / 1.2363, vacuum hardened to 58–60 HRC. Wire-EDM the profiles with two skim cuts, then re-temper to remove the brittle recast layer. Polish the forming edges to Ra 0.2 µm and finish with thin dense chrome. Rev A's D2 wears better but is about half as tough, and on these dies the corners crack long before they wear out.</li>
+        <li><b>High volume:</b> a powder-metallurgy cold-work steel tempered high (above 500 °C), then PVD TiCN or TiAlN. The coating stops tin picking up on the frames. PVD runs at about 450 °C, so it needs a steel that is tempered above that.</li>
         <li><b>Prototype:</b> 7075-T6 aluminium, CNC machined and hard anodised. This is the cheapest way to prove the fits. Expect faster wear on the forming edges.</li>
-        <li><b>Shoes:</b> 6061-T6 or C45. <b>Springs:</b> ISO 10243 die springs, colour-coded green (light) for A, blue (medium) for the upper frame, red or yellow (strong) for B.</li>
+        <li><b>Shoes:</b> 6061-T6 or C45. <b>Springs:</b> ISO 10243 Ø10: L25 blue on the upper frame, L32 green for A, L32 red for B. They work between 12.5% and 37.5% of free length; replace them every 250,000 strokes.</li>
       </ul>
     </div>
   </div>
@@ -336,7 +352,7 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
     </svg>
   </div>
   <div class="tbl"><table id="dieTable"></table></div>
-  <p class="small muted">Fits are starting values. Upper frame opening = shell + 0.35 mm, so it grips the wrapped shell by friction. Plug = shell + 0.30 mm, sliding in the frame. Crimp frame opening = shell + 0.45 mm. Lap the upper frame opening on the first prototype until a wrapped shell lifts out of die A reliably and pushes out cleanly over die B.</p>
+  <p class="small muted">Fits are starting values. Upper frame opening = shell + 0.35 mm, so it grips the wrapped shell by friction. Plug = shell + 0.30 mm, sliding in the frame. Crimp frame opening = shell + 0.45 mm. Lap the upper frame opening on the first prototype until a wrapped shell lifts out of die A reliably and pushes out cleanly over die B. Rev B adds a 0.6 × 20° lead-in on the upper frame's bottom edge and four nylon-tip spring plungers that keep the wrapped shell from dropping out while the table slides.</p>
   <h3>Consumables per die set</h3>
   <div class="tbl"><table id="consTable"></table></div>
 </section>
@@ -344,7 +360,7 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
 <section aria-labelledby="s-frame">
   <div class="sec-head"><span class="no">06</span><h2 id="s-frame">Frame and drive parts</h2></div>
   <p>One frame serves all four die sets. Base, crown and ram carry the column holes at 210.00 mm pitch. Machine all three with the same program and datum scheme, or line-bore them together, so the ram slides freely once the column nuts are torqued.</p>
-  <p><b>Machine-shop drawings:</b> drawing set MP-000 to MP-209 (30 A3 sheets, PDF) with DXF profiles for cutting and wire-EDM. Where this page and the drawings differ, the drawings govern.</p>
+  <p><b>Machine-shop drawings:</b> Rev B drawing set MP-000 to MP-209 (30 A3 sheets, PDF) with DXF profiles for cutting and wire-EDM. MP-115 is deleted and MP-120 is new. Where this page and the drawings differ, the drawings govern.</p>
   <div class="tbl"><table id="frameTable"></table></div>
 </section>
 
@@ -357,7 +373,7 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
       <ul class="small" style="margin:0;padding-left:18px">
         <li>Frame and drive parts, one prototype from a local CNC shop: about $600–1,200.</li>
         <li>Bought parts (bushings, springs, pins, fasteners, grip, feet): about $80–150.</li>
-        <li>Die set in 7075 aluminium: about $120–300 each. In hardened Cr12MoV: about $250–600 each.</li>
+        <li>Die set in 7075 aluminium: about $120–300 each. In hardened A2: about $250–600 each. Rev B's common bodies and shoes cut this when you batch all four sizes.</li>
         <li>Batch pricing (10+) and shops in India or China usually cost much less. Get three quotes from this drawing pack.</li>
       </ul>
     </div>
@@ -373,13 +389,13 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
   <div class="tbl"><table>
     <thead><tr><th>Part family</th><th>Route</th><th>Critical checks</th></tr></thead>
     <tbody>
-      <tr><td>Base plate</td><td>Laser or plasma cut 12 mm S235 → stress-relieve if it warps → CNC face the station area → bore columns → drill and tap → powder coat with masks</td><td>Flatness 0.05 under the die table; column holes Ø25 H7 at 210.00 ±0.01</td></tr>
+      <tr><td>Base plate</td><td>Laser or plasma cut 20 mm S355 → stress-relieve → CNC face both sides to 15.0 → bore columns → drill and tap → QPQ nitrocarburise the slide area (black oxide for a prototype) → powder coat the rest with masks</td><td>Flatness 0.05 under the die table; column holes Ø20 H7 at 210.00 ±0.01</td></tr>
       <tr><td>Crown, ram, cheeks, clevis</td><td>Saw C45 bar → CNC mill and bore (same datum and program as the base) → deburr → black oxide</td><td>Column and bushing holes square to the faces within 0.02/100</td></tr>
       <tr><td>Columns</td><td>Turn GCr15 → induction harden 58–62 HRC → centreless grind Ø25 h6 → hard chrome 10 µm → thread ends</td><td>Straight within 0.02 over length; Ra ≤ 0.4</td></tr>
-      <tr><td>Toggle parts (hub, links)</td><td>Wire EDM or CNC from C45 plate → ream Ø12 H7 → black oxide</td><td>Centre distances 40.00 and 60.00 ±0.02; links matched as a pair</td></tr>
-      <tr><td>Pins</td><td>Buy as hardened dowel stock Ø12 g6, or turn GCr15 → harden → grind → retaining-ring grooves</td><td>Pin to bore clearance 0.01–0.03</td></tr>
+      <tr><td>Toggle parts (lever, links)</td><td>Lever: laser or waterjet from 25 mm C45 → CNC face to 20 → bore Ø18 / Ø14 H7 → radius the grip edges. Links: from 8 mm plate, faced to 7. Black oxide, then press in the PTFE-composite bushings</td><td>Centre distances 40.00 and 60.00 ±0.02; crank angle 85° ±0.1°; links matched as a pair</td></tr>
+      <tr><td>Pins, pilot</td><td>Buy as hardened dowel stock Ø12 g6 and Ø16 g6, or turn GCr15 → harden → grind → retaining-ring grooves. Pilot: turn, harden, grind Ø8 h6, polish the tip</td><td>Pin-to-bushing clearance per the bushing maker (typically 0.03–0.10)</td></tr>
       <tr><td>Die table, shoes</td><td>CNC 6061-T6 → ream dowel holes → Helicoils → hard anodise (table gold)</td><td>Table flat 0.03; dowel holes true position 0.02</td></tr>
-      <tr><td>Dies, production</td><td>Saw Cr12MoV → CNC rough with 0.3 mm left → vacuum harden 1020–1040 °C, gas quench, temper twice → 58–60 HRC → wire EDM the profiles (plug, frame openings, pedestals) → surface grind → polish forming edges and bevel → optional TiN</td><td>Profile ±0.01; plug-to-frame sliding fit 0.02–0.03 per side; forming edges Ra 0.2–0.4</td></tr>
+      <tr><td>Dies, production</td><td>Saw A2 (1.2363) → CNC rough with 0.3 mm left → vacuum harden, gas quench, temper twice → 58–60 HRC → wire EDM the profiles: main cut + 2 skim cuts → re-temper 25 °C below the last temper → surface grind → polish forming edges and lead-ins → thin dense chrome 3–5 µm. High volume: PM steel tempered high, then PVD TiCN / TiAlN</td><td>Profile ±0.01; no recast layer on forming edges (etch check); plug-to-frame sliding fit 0.02–0.03 per side; forming edges Ra 0.2</td></tr>
       <tr><td>Dies, prototype</td><td>CNC 7075-T6 to size → hard anodise 25–50 µm (machine allowance for the coating) → polish edges</td><td>Same fits as production, measured after anodise</td></tr>
       <tr><td>Marking</td><td>Laser-mark size code, die letter and shim value on every die part. Paint the A and B bands on the shoes</td><td>Readable after cleaning</td></tr>
     </tbody>
@@ -392,7 +408,7 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
   <h3>Swapping a die set</h3>
   <ol class="small" style="margin:0;padding-left:20px;max-width:75ch">
     <li>Rest the handle fully up on its stop and slide the table so both stations are clear.</li>
-    <li>Upper die: support it with one hand, loosen the M6 side screw on the die holder, and pull the die straight down. Push in the new die with the flat facing the screw and the pin in its slot, then tighten.</li>
+    <li>Upper die: support it with one hand, loosen the M5 cone-point lock screw on the die holder, and pull the die straight down. Push in the new die with the flat facing the screw and the pin in its slot, then tighten.</li>
     <li>Lower dies: loosen the two thumb screws on each shoe and lift the shoe off its dowels. Fit the new A shoe (green) on the left station and the new B shoe (red) on the right. The dowels prevent mix-ups.</li>
     <li>Make one slow dry stroke on each station with no parts. The upper frame's lead-in should enter both lower frames without touching.</li>
     <li>Make two test magnets and check the corners and the crimp before running a batch.</li>
@@ -405,24 +421,121 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
     <thead><tr><th>Test</th><th>How</th><th>Pass</th></tr></thead>
     <tbody>
       <tr><td>Station alignment</td><td>Put a Ø16 centring pin with a point in the die holder. Adjust each stop screw until the point lands on the station's centre mark. Lock the nuts.</td><td>±0.05 mm at both stations</td></tr>
+      <tr><td>Station pilot</td><td>Move the table 3 mm off station and make a slow stroke. Repeat at the other station and on the other side.</td><td>The stroke stops with the dies at least 5 mm apart; no die contact</td></tr>
+      <tr><td>Handle return</td><td>Pull the handle fully down onto its stop and let go. Repeat 20 times.</td><td>It returns to the open stop on its own every time</td></tr>
       <tr><td>Stroke and handle stop</td><td>Measure ram travel with calipers from handle-up to handle-down.</td><td>38.9 ±0.3 mm; handle stops 3° above horizontal</td></tr>
       <tr><td>Depth (per die set)</td><td>Fit the shims so the crimp finishes with the handle about 5–10° above horizontal. Record the shim value on the upper die.</td><td>Full crimp with a firm push; no hard knock at the bottom</td></tr>
-      <tr><td>Force</td><td>Put a load cell (10 kN button cell) on station B with a dummy block. Push the grip with a hanging scale at 200 N.</td><td>≥ 5 kN; compare with section 04</td></tr>
+      <tr><td>Force</td><td>Put a load cell (10 kN button cell) on station B with a dummy block. Push the grip with a hanging scale at 200 N.</td><td>≥ 5.5 kN; compare with section 04</td></tr>
+      <tr><td>Proof load (prototype only)</td><td>With a 20 kN cell on station B, push the grip until the cell reads 16 kN. Check with a dial indicator before and after.</td><td>No permanent set in the lever, pins, crown or base; stroke still 38.9 ±0.3 mm</td></tr>
       <tr><td>Magnet quality</td><td>Make 20 of each size.</td><td>No white paper at the edges, no torn film, no corner wrinkles, flange flat and closed all round, back doesn't move under a firm thumb twist</td></tr>
       <tr><td>Drop and pull</td><td>Drop five magnets from 1 m onto a hard floor; pull each back by hand.</td><td>No separation (set your own stricter spec for sale)</td></tr>
-      <tr><td>Endurance</td><td>Run 1,000 strokes, half on each station, then repeat the alignment and quality checks.</td><td>No change in alignment, no galling on the columns</td></tr>
+      <tr><td>Endurance</td><td>Run 1,000 strokes, half on each station, then repeat the alignment and quality checks. On the prototype, repeat at 10,000.</td><td>No change in alignment, no galling on the columns, ≤ 1 mm handle play at the grip</td></tr>
+      <tr><td>Reference height</td><td>With the handle on its closed stop, measure from the die-holder face to the table top. Write it on the frame label.</td><td>Re-check after any service; the value should not change by more than 0.1 mm</td></tr>
     </tbody>
   </table></div>
-  <div class="note"><b>Safety.</b> The pinch points are between the upper and lower dies, and between the table and the stop blocks. Load parts only at the outer stations. Return springs hold the handle up when released. Wear cut-resistant gloves when handling loose tinplate shells. The press weighs about 28 kg, so use two people to lift it.</div>
+  <div class="note"><b>Safety.</b> The pinch points are between the upper and lower dies, and between the table and the stop blocks. Load parts only at the outer stations. The return springs lift the handle when you let go, and the station pilot stops a stroke if the table is off station. Wear cut-resistant gloves when handling loose tinplate shells. The press weighs about 32 kg, so use two people to lift it. Ship it with the dies removed and boxed and the handle strapped down.</div>
+</section>
+
+<section aria-labelledby="s-fail">
+  <div class="sec-head"><span class="no">11</span><h2 id="s-fail">Failure modes and Rev B fixes</h2></div>
+  <p>This review looked at how hand-lever badge and magnet presses fail in use, from operator guides, vendor troubleshooting pages and user reports. It then checked Rev A at the loads a person can put on the grip: 200 N for a normal push and 500 N for someone leaning on it. Each problem below has a Rev B fix in the drawings and a test that proves it.</p>
+  <div class="two">
+    <div class="card">
+      <span class="eyebrow">What goes wrong on existing presses</span>
+      <ul class="small" style="margin:0;padding-left:18px">
+        <li><b>Jams from double shells or mis-loaded parts</b> are the most common stoppage. The usual cure is a partial "kick-out" stroke on the crimp die, not force on the handle.</li>
+        <li><b>Film slips and paper shows at the edge</b> with laser-printed photos (toner wax), heavy paper or card, or a worn crimp lead-in.</li>
+        <li><b>Cheap die sets crack or warp after a few hundred uses</b>, and some presses arrive with the dies already out of alignment.</li>
+        <li><b>Handles that screw into soft fittings strip</b>, and one library review reports a mechanism that sticks in the down position (both secondary reports).</li>
+        <li><b>Over-oiling</b> soils the finished pieces. Dirt on the slide makes the table stop short of its station.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="eyebrow">What the Rev A stress check found</span>
+      <ul class="small" style="margin:0;padding-left:18px">
+        <li><b>Handle joint:</b> the M12 stud between bar and hub reached ≈ 465 MPa at a 200 N push and ≈ 1,160 MPa at 500 N. It would bend or snap.</li>
+        <li><b>Handle return:</b> the two Rev A springs gave 0.8 N·m at the closed position, where the toggle needs about 4 N·m to reopen. The handle would stay down, which is the "sticks down" report above.</li>
+        <li><b>Pivot pin O (Ø12):</b> 542 MPa at 8 kN and more than 1,000 MPa at a 16 kN overload.</li>
+        <li><b>Nothing locked the table on station.</b> A table 2 mm off station lands the upper frame on the lower frame's edge.</li>
+        <li><b>Base (12 mm):</b> 0.51 mm deflection at 16 kN; die walls of 1.75 mm next to counterbores in hardened steel.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tbl"><table class="fmea">
+    <thead><tr><th>#</th><th>Failure mode</th><th>Cause</th><th>Effect</th><th>Sev.</th><th>Rev A risk</th><th>Rev B fix</th><th>Proof</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Handle joint bends, strips or snaps</td><td>Bar screwed into the hub on an M12 stud; thread stress 465 MPa at 200 N</td><td>Handle breaks; operator falls forward</td><td><span class="sev h">H</span></td><td><span class="sev h">H</span></td><td class="fx">One-piece C45 lever MP-113: 14 MPa at 200 N, 36 MPa at 500 N</td><td>16 kN proof load, no set</td></tr>
+      <tr><td>2</td><td>Handle stays down, ram sticks</td><td>Return springs too weak at the closed position (0.8 of 4 N·m needed)</td><td>Operator pulls the ram up through the dies by hand</td><td><span class="sev m">M</span></td><td><span class="sev h">H</span></td><td class="fx">Return springs Ø3.5 wire, OD 31.5: 60 N open, 225 N closed, 4.2 N·m</td><td>Handle-return test, 20 of 20</td></tr>
+      <tr><td>3</td><td>Pivot pin O bends</td><td>Ø12 pin at 542 MPa (8 kN), &gt; 1,000 MPa at 16 kN</td><td>Handle play, short ram travel, uneven crimp</td><td><span class="sev h">H</span></td><td><span class="sev m">M</span></td><td class="fx">Ø16 g6 hardened pin: 229 MPa at 8 kN, 458 MPa at 16 kN</td><td>Stroke 38.9 ±0.3 after 10,000</td></tr>
+      <tr><td>4</td><td>Pins and bores wear</td><td>Greased steel on steel; peak pin load near lockup; grease collects shell chips</td><td>Play, noise, toggle drifts toward dead centre</td><td><span class="sev m">M</span></td><td><span class="sev h">H</span></td><td class="fx">PTFE-composite bushings at O, A and B, run dry; bushings are the wear part</td><td>≤ 1 mm play at the grip</td></tr>
+      <tr><td>5</td><td>Dies crash off station</td><td>Table not fully home; ball detent only</td><td>Chipped frames, crushed shell</td><td><span class="sev h">H</span></td><td><span class="sev m">M</span></td><td class="fx">Station pilot MP-120 enters at 20 mm of travel, 6 mm before the dies meet, and stops the stroke if the table is off station</td><td>3 mm off-station test</td></tr>
+      <tr><td>6</td><td>Die corner cracks</td><td>D2's low toughness; EDM recast left on forming edges; thin walls</td><td>Die set scrapped; sharp fragments</td><td><span class="sev h">H</span></td><td><span class="sev m">M</span></td><td class="fx">A2 (about twice as tough), 2 skim cuts + re-temper, corner radii, walls ≥ 3.25 mm</td><td>Dye-penetrant check at 1,000 strokes</td></tr>
+      <tr><td>7</td><td>Tin pick-up (galling) on frames</td><td>Tinplate rubbing in the grip bore and crimp lead-in</td><td>Scratched shells, rising force, torn film</td><td><span class="sev m">M</span></td><td><span class="sev m">M</span></td><td class="fx">Lapped Ra 0.2 + thin dense chrome; PVD TiCN / TiAlN on high-temper steel for volume</td><td>Inspect at 25,000 strokes</td></tr>
+      <tr><td>8</td><td>Die springs break or sag</td><td>Worked past 40% of free length; cavities differed by size</td><td>Frames stop returning; pickup or crimp fails</td><td><span class="sev m">M</span></td><td><span class="sev m">M</span></td><td class="fx">ISO 10243 Ø10 springs at ≤ 37.5%; same cavities on every set; replace at 250,000</td><td>Stroke counter; free-length check</td></tr>
+      <tr><td>9</td><td>Shell drops out of the upper frame</td><td>Friction grip only; bore wears open</td><td>Double shell in die B → jam</td><td><span class="sev m">M</span></td><td><span class="sev h">H</span></td><td class="fx">4 nylon-tip plungers, 0.6 × 20° lead-in, lapped bore</td><td>50 fast table slides, no drops</td></tr>
+      <tr><td>10</td><td>Jam in die B</td><td>Two shells, or a dropped shell</td><td>Press stuck; forcing it damages dies</td><td><span class="sev h">H</span></td><td><span class="sev m">M</span></td><td class="fx">Fixes 5 and 9, plus the un-jam procedure below</td><td>Operator training</td></tr>
+      <tr><td>11</td><td>Film slips, white edge, wrinkles</td><td>Laser toner wax; paper too heavy</td><td>Rejects</td><td><span class="sev l">L</span></td><td><span class="sev h">H</span></td><td class="fx">90–120 g/m² paper; inkjet, or a 3 mm white border for laser; silicone on die B's lead-in</td><td>20-piece quality test</td></tr>
+      <tr><td>12</td><td>Ram binds on the columns</td><td>Bores out of line; uneven nut torque</td><td>Heavy handle, bushing wear</td><td><span class="sev m">M</span></td><td><span class="sev m">M</span></td><td class="fx">One datum and program for base, crown and ram; torque sequence</td><td>Ram falls under its own weight</td></tr>
+      <tr><td>13</td><td>Column nuts or cheek screws loosen</td><td>A shock load every stroke</td><td>Crown shifts; toggle out of line</td><td><span class="sev h">H</span></td><td><span class="sev l">L</span></td><td class="fx">Nord-Lock washers, set torques, threadlocker</td><td>Torque check at service</td></tr>
+      <tr><td>14</td><td>Base flexes, press walks</td><td>12 mm base; feet only</td><td>Misalignment, press slides on the bench</td><td><span class="sev m">M</span></td><td><span class="sev m">M</span></td><td class="fx">15 mm S355 (0.26 mm at 16 kN); rubber pads; six bench-mounting holes</td><td>Dial indicator under load</td></tr>
+      <tr><td>15</td><td>Toggle locks over</td><td>Fixed buffer worn or missing</td><td>Passes dead centre; force spike</td><td><span class="sev h">H</span></td><td><span class="sev l">L</span></td><td class="fx">Adjustable steel stop + urethane cap, set at 3° (8° before dead centre)</td><td>Check the setting at service</td></tr>
+      <tr><td>16</td><td>Overload from a lean or a pipe on the handle</td><td>500 N at the grip gives 15.6 kN</td><td>Frame or pins yield</td><td><span class="sev h">H</span></td><td><span class="sev m">M</span></td><td class="fx">16 kN design load on every frame and drive part</td><td>16 kN proof load</td></tr>
+      <tr><td>17</td><td>Damage in shipping</td><td>Dies and handle loose in the box</td><td>Dies misaligned or cracked on arrival</td><td><span class="sev m">M</span></td><td><span class="sev m">M</span></td><td class="fx">Ship with dies boxed separately, handle strapped down, table taped</td><td>Alignment check on arrival</td></tr>
+      <tr><td>18</td><td>Table sticks short of station</td><td>Shell chips and dust on the slide</td><td>Off-station stroke</td><td><span class="sev l">L</span></td><td><span class="sev m">M</span></td><td class="fx">QPQ slide surface; pilot catches it; wipe each shift</td><td>Daily wipe</td></tr>
+      <tr><td>19</td><td>Oil marks on magnets</td><td>Over-oiling the dies and columns</td><td>Soiled product</td><td><span class="sev l">L</span></td><td><span class="sev m">M</span></td><td class="fx">Dry bushings; no oil on dies; light oil on rails only</td><td>Maintenance schedule</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted">Sev. = how bad the effect is. Rev A risk = how likely it was on Rev A. H high, M medium, L low.</p>
+  <h3>Rev A against Rev B, by calculation</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Check</th><th>Load</th><th class="num">Rev A</th><th class="num">Rev B</th><th>Limit or target</th></tr></thead>
+    <tbody>
+      <tr><td>Handle joint bending</td><td>200 N / 500 N at the grip</td><td class="num">465 / 1,161 MPa</td><td class="num">14 / 36 MPa</td><td>C45 yield ≈ 340 MPa</td></tr>
+      <tr><td>Force at die, 200 N push</td><td>End of stroke</td><td class="num">5.6 kN</td><td class="num">6.2 kN</td><td>Largest set needs ≈ 4.7 kN</td></tr>
+      <tr><td>Hand force for the largest set</td><td>4.7 kN at die</td><td class="num">166 N</td><td class="num">150 N</td><td>Lower is easier</td></tr>
+      <tr><td>Pin O bending</td><td>8 / 16 kN</td><td class="num">542 / 1,084 MPa</td><td class="num">229 / 458 MPa</td><td>Hardened 100Cr6, keep under ≈ 800 MPa</td></tr>
+      <tr><td>Pins A and B bending</td><td>16 kN</td><td class="num">425 MPa</td><td class="num">425 MPa</td><td>Unchanged, OK</td></tr>
+      <tr><td>Crown bending</td><td>8 / 16 kN</td><td class="num">96 / 192 MPa</td><td class="num">96 / 192 MPa</td><td>C45 normalised yield ≈ 340 MPa; Rev B states it at 16 kN</td></tr>
+      <tr><td>Base deflection</td><td>5 / 16 kN</td><td class="num">0.16 / 0.51 mm</td><td class="num">0.08 / 0.26 mm</td><td>Under 0.3 mm at overload</td></tr>
+      <tr><td>Return-spring torque, closed</td><td>Toggle needs ≈ 4.0 N·m</td><td class="num">0.83 N·m</td><td class="num">4.16 N·m</td><td>At least the need</td></tr>
+      <tr><td>Return-spring shear stress</td><td>Handle down</td><td class="num">—</td><td class="num">≈ 445 MPa</td><td>Shot-peened music wire, long fatigue life</td></tr>
+      <tr><td>Die spring working range</td><td>Per stroke</td><td class="num">Not set</td><td class="num">12.5–37.5%</td><td>Under 40% of free length</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted">These are hand calculations: simple beam and pin bending with peak toggle loads, and no fatigue factors except where noted. Have a mechanical engineer check them, and run the proof-load and endurance tests in section 10 on the first prototype before you build more.</p>
+  <div class="two">
+    <div class="card">
+      <span class="eyebrow">Maintenance schedule</span>
+      <div class="tbl"><table>
+        <thead><tr><th>When</th><th>Task</th></tr></thead>
+        <tbody>
+          <tr><td>Each shift</td><td>Wipe the die table, rails and dies. Blow shell chips out of the frames. No oil on the dies.</td></tr>
+          <tr><td>Weekly or 5,000 strokes</td><td>Check the thumb screws, the die lock screw and the handle-stop setting. Light oil on the rails only.</td></tr>
+          <tr><td>25,000 strokes</td><td>Check handle play (≤ 1 mm at the grip) and the column nut torque. Look for tin pick-up on the die edges; clean it with a brass brush and re-polish.</td></tr>
+          <tr><td>250,000 strokes</td><td>Replace the die springs and return springs. Inspect the bushings and pins. Dye-penetrant check the die corners.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Un-jam procedure</span>
+      <ol class="small" style="margin:0;padding-left:18px">
+        <li>Stop. Don't force the handle past the point where it stops.</li>
+        <li>Lift the handle back to its open stop.</li>
+        <li>If a shell is stuck in the upper frame, slide die B under the ram with no back plate. Make a slow partial stroke, and the plug pushes the shell out into die B.</li>
+        <li>Lift stuck parts out of die B by hand, wearing gloves. Use a brass or plastic rod, never a screwdriver, near the frames.</li>
+        <li>Check the frame bores and lead-ins for scratches before you restart.</li>
+      </ol>
+    </div>
+  </div>
 </section>
 
 <section aria-labelledby="s-ip">
-  <div class="sec-head"><span class="no">11</span><h2 id="s-ip">Before you sell it</h2></div>
+  <div class="sec-head"><span class="no">12</span><h2 id="s-ip">Before you sell it</h2></div>
   <p>The two-stroke badge-die principle is described in patents that have now expired (US 4,696,086, US 6,038,944, US 6,938,518). This pack uses its own frame and die geometry rather than copying a particular vendor's machine. Before selling in your market, have a patent agent search for current patents and registered designs on square magnet presses, and give the product its own look and name.</p>
 </section>
 
 <section aria-labelledby="s-refs">
-  <div class="sec-head"><span class="no">12</span><h2 id="s-refs">Research and references</h2></div>
+  <div class="sec-head"><span class="no">13</span><h2 id="s-refs">Research and references</h2></div>
   <p class="small muted">No open-source CAD for this kind of press turned up. The design is built from the expired patents below, published operating guides and vendor specs. Vendor pages are marketing claims, so they were used only for sizes and part lists.</p>
   <ul class="refs">
     <li><a href="https://patents.google.com/patent/US4696086A/en">US 4,696,086 — Die set apparatus for badges</a> (Dickerson, 1987). Pickup and crimp die sequence, punch springs ≈ 100 lb, crimp springs ≈ 350 lb.</li>
@@ -437,6 +550,12 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
     <li><a href="https://www.firgelliauto.com/blogs/mechanisms/toggle-mechanism">Toggle mechanism formulas</a> (FIRGELLI). The MA above is derived directly from the linkage geometry.</li>
     <li><a href="https://webshop.tevema.com/gb/blog/colours-die-springs">Die spring colour codes</a> and <a href="https://scc-ccn.ca/standardsdb/standards/8168099">ISO 10243:2019</a>.</li>
     <li><a href="https://online.standard.no/en/iso-11949-2026">ISO 11949</a>, electrolytic tinplate gauges.</li>
+    <li><b>Failure review (Rev B):</b> <a href="https://www.americanbuttonmachines.com/blogs/american-button-machines/button-making-questions-ask-abm-common-crimping-issues-solved">American Button Machines: common crimping issues</a> (paper weight, toner wax, film slip), <a href="https://www.americanbuttonmachines.com/pages/button-maker-stuck">button maker stuck</a> and <a href="https://www.americanbuttonmachines.com/blogs/american-button-machines/how-to-unjam-a-button-maker-video-tutorial">how to un-jam</a> (double shells, kick-out stroke).</li>
+    <li><a href="https://nlc.nebraska.gov/grants/innovationstudios/Documents/ButtonMaintenanceDocument.pdf">Nebraska Library Commission button-maker maintenance</a> (cleaning, over-oiling) and the <a href="https://community.etsy.com/t5/Pinback-Button-Lovers-of-Etsy/Mylar-not-crimping/td-p/35346065">Etsy "mylar not crimping" thread</a>.</li>
+    <li><a href="https://mnmagnets.com/blogs/news/fridge-magnet-machine-guide">MN Magnets fridge-magnet machine guide</a>: dies that crack or warp after a few hundred uses, and dies that arrive misaligned. Vendor-written.</li>
+    <li><a href="https://accu-components.com/us/p/496-die-spring-color-charts">Accu die-spring charts</a> and <a href="https://pdf.directindustry.com/pdf/barnes-group/iso-die-springs/89659-634085.html">Barnes ISO die springs</a>: spring life against deflection.</li>
+    <li><a href="https://www.mdpi.com/2072-666X/10/3/182">Micromachines 10(3):182</a> (PVD coatings against tinplate), <a href="https://us.misumi-ec.com/product/tech/info/press-die/punch-coating/index.html">MISUMI punch coatings</a> and <a href="https://www.thefabricator.com/thefabricator/article/bending/galling-reduction-through-die-surface-treatment">The Fabricator on galling</a>.</li>
+    <li><a href="https://www.sakysteel.com/news/is-a2-tool-steel-better-than-d2-tool-steel">A2 vs D2 (Sakysteel)</a> and <a href="https://www.mwalloys.com/a2-vs-d2-tool-steel/">MW Alloys</a>: toughness against wear resistance.</li>
   </ul>
 </section>
 </div>
@@ -444,7 +563,7 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
 
 <script>
 window.MP = (function(){
-  var K = {a:40, b:60, L:290, Oy:234.5, phiOpen:70, phiEnd:8, off:5, hand:200, eta:0.9};
+  var K = {a:40, b:60, L:320, Oy:234.5, phiOpen:70, phiEnd:8, off:5, hand:200, eta:0.9};
   function rad(d){ return d*Math.PI/180; }
   function yB(phi){ var p=rad(phi); return K.Oy - K.a*Math.cos(p) - Math.sqrt(K.b*K.b - Math.pow(K.a*Math.sin(p),2)); }
   var yOpen = yB(K.phiOpen);
@@ -465,38 +584,38 @@ window.MP = (function(){
     var X = Math.max(s.W, s.H), Z = Math.min(s.W, s.H), r = 4, P = 2*(X+Z) - 8*r + 2*Math.PI*r, crimpPre = 7*P;
     return { W:X, H:Z, X:X, Z:Z, r:r, P:P, crimpPre:crimpPre, peak:2.2*crimpPre, upSpr:0.29*crimpPre, pickSpr:100,
       paper:[X+12,Z+12], safe:[X-6,Z-6], back:[X-1.4,Z-1.4], mag:[X-4,Z-4],
-      plug:[X+0.30,Z+0.30], upIn:[X+0.35,Z+0.35], upOut:[X+30,Z+30], body:[X+32,Z+32],
-      pickPed:[X-0.5,Z-0.5], pickIn:[X+0.6,Z+0.6], pickRec:[X+12.5,Z+12.5], lowOut:[X+32,Z+32],
+      plug:[X+0.30,Z+0.30], upIn:[X+0.35,Z+0.35], upOut:[126,100], body:[126,100],
+      pickPed:[X-0.5,Z-0.5], pickIn:[X+0.6,Z+0.6], pickRec:[X+12.5,Z+12.5], lowOut:[126,100],
       crimpPed:[X-4.5,Z-4.5], crimpIn:[X+0.45,Z+0.45], perA4: fitA4(X+12,Z+12) };
   }
   function f2(n){ return String(+n.toFixed(2)); }
   function pair(a){ return f2(a[0]) + ' × ' + f2(a[1]); }
   function kN(n){ return (n/1000).toFixed(1) + ' kN'; }
   var STEPS = [
-    {t:'Base and feet', s:'Fit 6 rubber feet to the base plate. Put the base on a flat bench and check it rocks on none of them.',
-      ul:['Feet: M6 studs into tapped holes, hand tight','Check the station area with a straightedge and feeler gauge'], chk:'Base flat within 0.1 mm across the station area'},
+    {t:'Base and pads', s:'Stick five 3 mm rubber pads under the base, clear of the six bench-mounting holes. Put the base on a flat bench and check that it doesn\'t rock. For all-day use, bolt it down through the Ø9 holes.',
+      ul:['Pads at (±200, ±80) and under the tongue','Check the station area with a straightedge and feeler gauge'], chk:'Base flat within 0.1 mm across the station area'},
     {t:'Slide guides', s:'Lay the two guide rails parallel, put the keepers on top and screw both down together, then fit the two stop blocks on the back keeper.',
       ul:['M5 × 20 countersunk screws through keeper and rail, 6 N·m','Set rail spacing with the die table itself plus 0.05 mm shim','Stop blocks: 2 × M5 × 35 each, through keeper and rail'], chk:'Rails parallel within 0.05 mm over 400 mm'},
     {t:'Die table', s:'Slide the die table in under the keepers. Fit the stop pin, the M6 ball plunger and the two push knobs (end faces).',
-      ul:['Table should run end to end with fingertip force and no rock','Ball plungers click at both stations'], chk:'Running clearance 0.03–0.05 mm, no lift at the ends'},
+      ul:['Table should run end to end with fingertip force and no rock','Ball plunger clicks at both stations','Pilot holes PA and PB clean and deburred'], chk:'Running clearance 0.03–0.05 mm, no lift at the ends'},
     {t:'Columns', s:'Press the two columns into the base (H7/p6) and pull them down with M10 screws and Ø32 washers from below.',
       ul:['Support the base on the press bed directly under each bore','Loctite 243 on the M10 screws, 40 N·m'], chk:'Columns square to the base within 0.05 per 100 mm'},
-    {t:'Ram', s:'Press the bushings into the ram, fit the clevis and die holder, screw in the return rods, then slide the ram down onto the columns.',
-      ul:['Bushings flush with the ram underside','Clevis: 2 × M5 into the 2 mm locating pocket','Die holder: 4 × M5 low-head, 6 N·m; bumpers: 2 × M6 on the ram top'], chk:'Ram slides the full column length under its own weight'},
-    {t:'Crown and return springs', s:'Lower the crown over the column tops and the return rods. Torque the column nuts, then fit the return springs, washers and nylock nuts, and screw the handle-stop buffer into the front column top.',
-      ul:['Column nuts 100 N·m in two passes, alternating','Set the springs to 80 mm installed length'], chk:'Ram still slides freely after torquing (if it binds, loosen and re-seat the crown)'},
-    {t:'Toggle drive', s:'Bolt and dowel the pivot cheeks to the crown. Fit the handle hub on pin O with a bronze spacer each side, join the two links to the hub (pin A) and the clevis (pin B), then fit the bar and grip.',
-      ul:['Grease all pins (lithium EP2)','Retaining rings on every pin','Grip: push on with rubber adhesive'], chk:'Handle swings 65° → 3° smoothly; ram travel 38.9 ±0.3 mm'},
+    {t:'Ram', s:'Press the bushings into the ram and the clevis. Fit the clevis, the die holder and the station pilot, screw in the return rods, then slide the ram down onto the columns.',
+      ul:['Ram bushings flush with the ram underside','Clevis: 2 × M5 into the 2 mm locating pocket','Die holder: 4 × M5 low-head, 6 N·m; bumpers: 2 × M6 on the ram top','Pilot: Loctite 243; tip 84 mm below the ram'], chk:'Ram slides the full column length under its own weight'},
+    {t:'Crown and return springs', s:'Lower the crown over the column tops and the return rods. Torque the column nuts, then fit the return springs, washers and nylock nuts. Screw the adjustable handle stop into the front column top.',
+      ul:['Column nuts 100 N·m on Nord-Lock washers, in two passes, alternating','Set the springs to 109.5 mm installed length (about 60 N each)'], chk:'Ram still slides freely after torquing (if it binds, loosen and re-seat the crown)'},
+    {t:'Toggle drive', s:'Bolt and dowel the pivot cheeks to the crown. Fit the one-piece handle lever on pin O with a bronze spacer each side, then join the two links to the lever (pin A) and the clevis (pin B).',
+      ul:['PTFE-composite bushings: assemble dry, no grease','Retaining rings on every pin; cheek screws on Nord-Lock washers','Set the handle stop so the lever rests 3° above horizontal, then lock the jam nut'], chk:'Handle swings 65° → 3° smoothly and springs back up from fully down; ram travel 38.9 ±0.3 mm'},
     {t:'Lower dies', s:'Place shoe A (green) on the left station and shoe B (red) on the right. Tighten the thumb screws.',
-      ul:['Wipe the dowels and table first; dirt here tilts the die','Check the springs sit in their pockets'], chk:'Each station centred under the ram within 0.05 mm (centring pin test)'},
-    {t:'Upper die', s:'Push the upper die shank into the die holder, flat toward the lock screw and pin in its slot. Tighten the M6 lock screw. Make a slow dry stroke on each station.',
-      ul:['Shim pack stays with the die','Seat the M5 cone-point lock screw in the shank groove'], chk:'Upper frame enters both lower frames without touching'}
+      ul:['Wipe the dowels and table first; dirt here tilts the die','Check the springs sit in their pockets'], chk:'On a slow dry stroke at each station, the pilot drops into its table hole without touching the edge'},
+    {t:'Upper die', s:'Push the upper die shank into the die holder, with the pin in its slot. Tighten the M5 cone-point lock screw into the shank groove. Make a slow dry stroke on each station.',
+      ul:['Shim pack stays with the die','Check the four plungers protrude 0.2–0.3 mm into the frame opening'], chk:'Upper frame enters both lower frames without touching'}
   ];
   var CYCLE = [
     {t:'Load die A', s:'With the table to the right, die A is outside. Put a tinplate shell face-up on the pedestal, then the printed photo and the mylar film in the recess on top.'},
     {t:'Slide the table', s:'Push the table left until it clicks. Die A is now under the ram and die B comes out on the right.'},
     {t:'Load die B', s:'Put a back plate on die B\'s pedestal.'},
-    {t:'Stroke 1: pickup', s:'Pull the handle down. The upper frame pushes the film and photo over the shell and swallows the wrapped shell, which lifts out with the ram.'},
+    {t:'Stroke 1: pickup', s:'Pull the handle down. The pilot pin enters the table first, so the dies only meet on station. The upper frame pushes the film and photo over the shell and swallows the wrapped shell, which lifts out with the ram.'},
     {t:'Slide back', s:'Push the table right. Die B goes under the ram.'},
     {t:'Stroke 2: crimp', s:'Pull the handle down fully. The plug pushes the shell out over the back and rolls its edge flat underneath.'},
     {t:'Unload', s:'Slide the table left, lift the finished magnet out of die B and stick on the magnet sheet.'}
@@ -547,7 +666,7 @@ window.MP = (function(){
     ['G','Upper plug profile, R4.15, concave lip R1', function(d){return MP.pair(d.plug);}],
     ['H','Upper frame opening (grip fit)', function(d){return MP.pair(d.upIn);}],
     ['I','Plug recess in frame, D', function(){return '5.5';}],
-    ['J','Upper frame springs, 4 × blue, total preload', function(d){return MP.kN(d.upSpr);}],
+    ['J','Upper frame springs, 4 × blue, total preload (est.)', function(d){return MP.kN(d.upSpr);}],
     ['K','Pickup pedestal, R3.75, h 21.8', function(d){return MP.pair(d.pickPed);}],
     ['L','Pickup frame opening / film recess 0.6 deep', function(d){return MP.pair(d.pickIn)+' / '+MP.pair(d.pickRec);}],
     ['M','Pickup springs, 4 × green, total preload', function(){return '≈ 0.1 kN';}],
@@ -555,8 +674,8 @@ window.MP = (function(){
     ['O','Crimp frame opening + 1.2 × 30° scalloped lead-in', function(d){return MP.pair(d.crimpIn);}],
     ['P','Crimp springs, 8 × red/yellow, total preload (est.)', function(d){return MP.kN(d.crimpPre);}],
     ['Q','Lower frame travel to hard stop on the shoe', function(){return '8';}],
-    ['—','Lower frame outside size (both dies)', function(d){return MP.pair(d.lowOut);}],
-    ['—','Upper die body (plus Ø16 shank)', function(d){return MP.pair(d.body);}],
+    ['—','Lower frame outside (both dies; same for all sizes, Rev B)', function(d){return MP.pair(d.lowOut);}],
+    ['—','Upper die body and frame outside (same for all sizes, Rev B)', function(d){return MP.pair(d.body);}],
     ['—','Peak force needed (est.)', function(d){return MP.kN(d.peak);}],
     ['—','Prints per A4 sheet', function(d){return String(d.perA4);}]
   ];
@@ -577,7 +696,7 @@ window.MP = (function(){
     var rows=[
       ['Tinplate shell','0.20–0.23 tinplate, drawn tray, clipped corners', function(d){return MP.pair([d.W,d.H])+' × 4.5';}],
       ['Mylar film','0.075 PET, clear gloss', function(d){return MP.pair(d.paper);}],
-      ['Photo paper','120–150 g/m² matte, 300 dpi artwork with bleed', function(d){return MP.pair(d.paper);}],
+      ['Photo paper','90–120 g/m² plain or inkjet matte, 300 dpi with bleed. Laser prints: 3 mm white border', function(d){return MP.pair(d.paper);}],
       ['Back plate','1.0–1.5 ABS or acrylic (or 0.8 grey board)', function(d){return MP.pair(d.back);}],
       ['Magnet sheet','0.8–1.0 flexible magnet, self-adhesive', function(d){return MP.pair(d.mag);}],
       ['Cutting','Rectangular paper punch, or trimmer and corner rounder', function(d){return d.perA4+' per A4';}]
@@ -605,24 +724,24 @@ window.MP = (function(){
 
   // frame parts table
   var FRAME = [
-    ['Base plate (MP-101)','1','S235 steel 12 mm','460 × 260 + tongue 140 × 210; Ø20 H7 × 2 at 210.00 (column spigots)','Black powder coat'],
+    ['Base plate (MP-101)','1','S355 steel, 15 mm','460 × 260 + tongue 140 × 210; Ø20 H7 × 2 at 210.00; 6 × Ø9 bench holes','Slide area QPQ; rest black powder coat'],
     ['Guide rail (MP-102)','2','C45 ground flat','14 × 12.05 × 460; 8 / 10 holes','Black oxide'],
     ['Keeper strip (MP-103)','2','C45 flat','20 × 4 × 460; overlaps the table 5 mm','Black oxide'],
     ['Stop block (MP-104)','2','C45','30 × 27 × 16; M6 × 0.75 stop screw','Black oxide'],
-    ['Die table (MP-105)','1','6061-T6','340 × 150 × 12; stations at ±80; keyed dowel patterns','Hard anodise, gold'],
+    ['Die table (MP-105)','1','6061-T6','340 × 150 × 12; stations at ±80; keyed dowel patterns; Ø8 H8 pilot holes','Hard anodise, gold'],
     ['Stop pin (MP-106)','1','C45, 45–50 HRC','Ø6 × 16 + M4 stud','Black oxide'],
-    ['Column (MP-107)','2','100Cr6, 58–62 HRC','Ø25 h6 × 158 + Ø20 spigots; M16 × 1.5 top; 206.5 long','Hard chrome 8–12 µm'],
-    ['Crown (MP-108)','1','C45','80 × 25 × 250; Ø20 H7 × 2 at 210.00; slot 38 × 66','Black oxide'],
-    ['Ram (MP-109)','1','C45','70 × 30 × 250; Ø32 H7 × 2 at 210.00 for bushings','Black oxide'],
-    ['Clevis (MP-110)','1','C45','20 × 22 × 32; Ø12 H7 cross bore','Black oxide'],
+    ['Column (MP-107)','2','100Cr6, 58–62 HRC','Ø25 h6 × 158 + Ø20 spigots; M16 × 1.5 top; 209.5 long; M10 × 1 top end for the handle stop','Hard chrome 8–12 µm'],
+    ['Crown (MP-108)','1','C45','80 × 25 × 250; Ø20 H7 × 2 at 210.00; slot 38 × 66; rod holes at X ±30','Black oxide'],
+    ['Ram (MP-109)','1','C45','80 × 30 × 250; Ø32 H7 × 2 at 210.00 for bushings; M6 for the station pilot','Black oxide'],
+    ['Clevis (MP-110)','1','C45','20 × 22 × 32; Ø14 H7 cross bore + PTFE-composite bushing','Black oxide'],
     ['Die holder (MP-111)','1','42CrMo4 QT','Ø50 × 11 + Ø24 spigot; Ø16 H7 bore; M5 lock screw','Black oxide'],
-    ['Pivot cheek (MP-112)','2','C45 16 mm','50 × 50; Ø12 H7 at 33.5 above the crown','Black oxide'],
-    ['Handle hub + crank (MP-113)','1','C45 20 mm','O→A 40.00 ±0.02 at 85° to the handle axis; Ø12 H7','Black oxide'],
-    ['Toggle link (MP-114)','2','C45 7 mm','A→B 60.00 ±0.02; Ø12 H7; matched pair','Black oxide'],
-    ['Handle bar (MP-115)','1','C45 or 304','Ø20 × 297 + M12 stud; grip centre 290 from O','Black oxide or bare'],
-    ['Pins A, B (MP-116) / O (MP-117)','2 + 1','100Cr6, 58–62 HRC','Ø12 g6; lengths 40 / 76; ring grooves','Ground'],
-    ['Return rod (MP-118)','2','C45','Ø10 × 142; M10 both ends','Zinc'],
-    ['Pivot spacer (MP-119)','2','CuSn8 bronze','Ø20 × Ø12.2 × 10','—']
+    ['Pivot cheek (MP-112)','2','C45','50 × 50 × 16; Ø18 H7 + bushing for pin O, 33.5 above the crown','Black oxide'],
+    ['Handle lever, one piece (MP-113)','1','C45 plate 25, faced to 20','O→A 40.00 ±0.02 at 85°; Ø18 / Ø14 H7 + bushings; grip centre 320; 380 long','Black oxide'],
+    ['Toggle link (MP-114)','2','C45 7 mm','A→B 60.00 ±0.02; Ø14 H7 + bushings; matched pair','Black oxide'],
+    ['Pins A, B (MP-116) / O (MP-117)','2 + 1','100Cr6, 58–62 HRC','Ø12 g6 × 40 (A, B); Ø16 g6 × 78 (O); ring grooves','Ground'],
+    ['Return rod (MP-118)','2','C45','Ø10 × 176; M10 both ends','Zinc'],
+    ['Pivot spacer (MP-119)','2','CuSn8 bronze','Ø24 × Ø16.2 × 10','—'],
+    ['Station pilot (MP-120)','1','100Cr6, 58–62 HRC','Ø8 h6 × 84 + M6 stud; 30° tip','Ground']
   ];
   (function(){
     var t=document.getElementById('frameTable');
@@ -632,40 +751,46 @@ window.MP = (function(){
 
   // BOM
   var BOM = [
-    ['Frame and drive','Base plate (MP-101)','1','Make','S235 12 mm, see drawings'],
+    ['Frame and drive','Base plate (MP-101)','1','Make','S355, 20 mm faced to 15, see drawings'],
     ['Frame and drive','Guide rails, keepers, stop blocks (MP-102/103/104)','2 + 2 + 2','Make','C45'],
     ['Frame and drive','Die table + stop pin (MP-105/106)','1 + 1','Make','6061-T6 hard anodise; C45'],
     ['Frame and drive','Columns (MP-107)','2','Make','100Cr6 hardened, hard chrome'],
     ['Frame and drive','Crown, ram, clevis, die holder (MP-108 to 111)','1 each','Make','C45 / 42CrMo4, black oxide'],
-    ['Frame and drive','Pivot cheeks, hub, links, handle bar (MP-112 to 115)','2 + 1 + 2 + 1','Make','C45'],
-    ['Frame and drive','Pins A/B and pin O (MP-116/117)','2 + 1','Make or buy','Ø12 g6 hardened dowel stock'],
+    ['Frame and drive','Pivot cheeks, handle lever, links (MP-112 to 114)','2 + 1 + 2','Make','C45'],
+    ['Frame and drive','Pins A/B and pin O (MP-116/117)','2 + 1','Make or buy','Ø12 g6 and Ø16 g6 hardened dowel stock'],
     ['Frame and drive','Return rods, pivot spacers (MP-118/119)','2 + 2','Make','C45; CuSn8'],
-    ['Bought parts','Flanged bushing, self-lubricating bronze','2','Buy','ID 25 / OD 32 / L 33 (JDB type)'],
-    ['Bought parts','Return spring','2','Buy','Music wire Ø2.5, OD 22, free length 90'],
-    ['Bought parts','Column nut + hardened washer','2','Buy','M16 × 1.5'],
+    ['Frame and drive','Station pilot (MP-120)','1','Make','100Cr6 hardened, ground'],
+    ['Bought parts','Flanged bushing, self-lubricating bronze','2','Buy','ID 25 / OD 32 / L 33 (ram)'],
+    ['Bought parts','PTFE-composite plain bushings (DU / PAP type)','2 + 1 + 2 + 4','Buy','16 × 18 × 15 (cheeks), 16 × 18 × 20 (lever O), 12 × 14 × 20 (lever A, clevis), 12 × 14 × 6 (links)'],
+    ['Bought parts','Return spring','2','Buy','Music wire Ø3.5, OD 31.5, free 122, ends ground, shot-peened (≈ 4.2 N/mm)'],
+    ['Bought parts','Column nut + Nord-Lock washer','2','Buy','M16 × 1.5'],
     ['Bought parts','Column clamp screw + washer','2','Buy','M10 × 25 ISO 4762 + Ø32 × 4 washer'],
     ['Bought parts','Countersunk screws (rails and keepers)','14','Buy','M5 × 20 ISO 10642'],
-    ['Bought parts','Cap screws','4 + 4 + 2 + 4','Buy','M5 × 35 (stop blocks), M8 × 30 (cheeks), M5 × 25 (clevis), M5 × 16 DIN 7984 (holder)'],
+    ['Bought parts','Cap screws','4 + 4 + 2 + 4','Buy','M5 × 35 (stop blocks), M8 × 30 + Nord-Lock (cheeks), M5 × 25 (clevis), M5 × 16 DIN 7984 (holder)'],
     ['Bought parts','Stop screw + lock nut','2','Buy','M6 × 0.75 × 25 hex'],
     ['Bought parts','Dowel pins','2','Buy','Ø6 × 16 m6 (cheeks)'],
     ['Bought parts','Spring ball plunger','1','Buy','M6, stainless'],
-    ['Bought parts','Retaining rings','6','Buy','DIN 471 for Ø12'],
-    ['Bought parts','Nylock nut + washer','2','Buy','M10, Ø30 washer'],
-    ['Bought parts','Urethane bumpers / handle-stop buffer','2 + 1','Buy','Ø16 × 12 M6; Ø30 × 13 M8 (90A)'],
-    ['Bought parts','Thumb screws','4','Buy','M5 knurled, Ø12 head'],
+    ['Bought parts','Retaining rings','4 + 2','Buy','DIN 471 for Ø12 and Ø16'],
+    ['Bought parts','Nylock nut + washer','2','Buy','M10, Ø32 × 3 washer'],
+    ['Bought parts','Urethane bumpers','2','Buy','Ø16 × 12, M6 stud, 90A'],
+    ['Bought parts','Adjustable handle stop','1','Buy','M10 × 1 × 20 set screw + jam nut + urethane cap Ø16 × 4'],
+    ['Bought parts','Thumb screws','4','Buy','M5 × 16 knurled, head Ø12 max'],
     ['Bought parts','Helicoil inserts','4','Buy','M5 × 1D (die table)'],
-    ['Bought parts','Rubber feet','6','Buy','Ø24 × 6, M6 stud'],
+    ['Bought parts','Rubber pads','5','Buy','Ø24 × 3 adhesive NBR'],
+    ['Bought parts','Bench screws (optional)','6','Buy','M8 + washers'],
     ['Bought parts','Push knobs','2','Buy','Phenolic Ø24, M6'],
     ['Bought parts','Grip','1','Buy','TPR Ø32 × 120, red'],
-    ['Per die set (× 4)','Upper die: body, shank, plug, frame (MP-201 to 204)','1 set','Make','Body 1.2312; plug and frame Cr12MoV (7075 for a prototype)'],
-    ['Per die set (× 4)','Upper frame springs','4','Buy','ISO 10243 blue, Ø10 hole'],
-    ['Per die set (× 4)','Lower die A: shoe, pedestal, frame (MP-205/206/207)','1 set','Make','Shoe C45; pedestal and frame Cr12MoV'],
-    ['Per die set (× 4)','Pickup springs','4','Buy','ISO 10243 green, Ø10 hole'],
+    ['Per die set (× 4)','Upper die: body, shank, plug, frame (MP-201 to 204)','1 set','Make','Body 1.2312, same for all sizes; plug and frame A2 (7075 for a prototype)'],
+    ['Per die set (× 4)','Upper frame springs','4','Buy','ISO 10243 Ø10 × 25 blue'],
+    ['Per die set (× 4)','Upper frame plungers','4','Buy','M4 spring plunger, nylon tip'],
+    ['Per die set (× 4)','Lower die A: shoe, pedestal, frame (MP-205/206/207)','1 set','Make','Shoe C45, same for all sizes; pedestal and frame A2'],
+    ['Per die set (× 4)','Pickup springs','4','Buy','ISO 10243 Ø10 × 32 green'],
     ['Per die set (× 4)','Lower die B: shoe, pedestal, frame (MP-205/208/209)','1 set','Make','As die A'],
-    ['Per die set (× 4)','Crimp springs','8','Buy','ISO 10243 red or yellow, Ø10 hole, to the preload in section 05'],
-    ['Per die set (× 4)','Shoulder screws','4 + 8','Buy','ISO 7379-6 × 10 (upper), 6 × 12 (lower)'],
+    ['Per die set (× 4)','Crimp springs','8','Buy','ISO 10243 Ø10 × 32 red, to the preload in section 05'],
+    ['Per die set (× 4)','Shoulder screws','4 + 8','Buy','ISO 7379 Ø6 × 10 (upper), Ø6 × 12 (lower)'],
     ['Per die set (× 4)','Plug and pedestal screws + dowels','12 + 6','Buy','M5 ISO 4762; Ø5 × 20 m6'],
-    ['Per die set (× 4)','Shoe dowels, orientation pin, shims','4 + 1 + 1 set','Buy','Ø8 × 16 m6; Ø4 × 10 m6; stainless 0.1 / 0.2 / 0.5']
+    ['Per die set (× 4)','Shoe dowels, orientation pin, shims','4 + 1 + 1 set','Buy','Ø8 × 16 m6; Ø4 × 10 m6; stainless 0.1 / 0.2 / 0.5'],
+    ['Spares','Service kit','1','Buy','Die springs for each set, 2 return springs, 1 set of PTFE-composite bushings, retaining rings, 4 plungers']
   ];
   MP.BOM = BOM;
   (function(){
@@ -851,9 +976,9 @@ function info(id, o){ INFO[id] = o; }
 
 // ---- static frame ----
 const L1 = {layer:'frame'};
-part(gStatic,'base',G.box(460,12,260),MAT.powder,[0,12,0],{...L1,step:1});
-part(gStatic,'base',G.box(140,12,210),MAT.powder,[0,12,235],{...L1,step:1});
-[[-200,-110],[200,-110],[-200,110],[200,110],[-55,320],[55,320]].forEach(p=>part(gStatic,'foot',G.cyl(12,6),MAT.rubber,[p[0],3,p[1]],{...L1,step:1,ex:[0,-40,0]}));
+part(gStatic,'base',G.box(460,15,260),MAT.powder,[0,10.5,0],{...L1,step:1});
+part(gStatic,'base',G.box(140,15,210),MAT.powder,[0,10.5,235],{...L1,step:1});
+[[-200,-80],[200,-80],[-200,80],[200,80],[0,300]].forEach(p=>part(gStatic,'foot',G.cyl(12,3),MAT.rubber,[p[0],1.5,p[1]],{...L1,step:1,ex:[0,-40,0]}));
 [-82,82].forEach(z=>{ part(gStatic,'rail',G.box(460,12.05,14),MAT.steel,[0,24.025,z],{...L1,step:2,ex:[0,40,0]}); });
 [-80,80].forEach(z=>{ part(gStatic,'keeper',G.box(460,4,20),MAT.black,[0,32.05,z],{...L1,step:2,ex:[0,70,0]}); });
 [-101,101].forEach(x=>{ const e={...L1,step:2,ex:[0,90,0]}, s=Math.sign(x);
@@ -866,11 +991,12 @@ part(gStatic,'base',G.box(140,12,210),MAT.powder,[0,12,235],{...L1,step:1});
   part(gStatic,'post',G.cyl(8,16,'y',32),MAT.steel,[0,209,z],e); });
 part(gStatic,'crown',G.rr(80,250,6,25,{w:38,d:66,r:5,oz:13}),MAT.black,[0,188.5,0],{...L1,step:6,ex:[0,330,0]});
 [-105,105].forEach(z=>{ part(gStatic,'postnut',G.cyl(14,13,'y',6),MAT.steel,[0,210,z],{...L1,step:6,ex:[0,360,0]}); part(gStatic,'postnut',G.cyl(16,2.5,'y',32),MAT.steel,[0,202.25,z],{...L1,step:6,ex:[0,360,0]}); });
-part(gStatic,'buffer',G.cyl(15,13,'y',32),MAT.ure,[0,223.5,105],{...L1,step:6,ex:[0,380,0]});
+part(gStatic,'buffer',G.cyl(5,3.3,'y',24),MAT.steel,[0,218.65,105],{...L1,step:6,ex:[0,380,0]});
+part(gStatic,'buffer',G.cyl(8,4,'y',32),MAT.ure,[0,222.3,105],{...L1,step:6,ex:[0,380,0]});
 [-28,28].forEach(x=>part(gStatic,'cheek',G.box(16,50,50),MAT.black,[x,226,0],{layer:'drive',step:7,ex:[0,380,0]}));
-[-15,15].forEach(x=>part(gStatic,'spacer',G.cyl(10,10,'x',32),MAT.bronze,[x,K.Oy,0],{layer:'drive',step:7,ex:[0,460,0]}));
+[-15,15].forEach(x=>part(gStatic,'spacer',G.cyl(12,10,'x',32),MAT.bronze,[x,K.Oy,0],{layer:'drive',step:7,ex:[0,460,0]}));
 const retSprings = [];
-[[25,60],[-25,-60]].forEach(p=>{ const s = part(gStatic,'retspring',G.spring(11,1.6,80,10),MAT.sprS,[p[0],241,p[1]],{layer:'drive',step:6,ex:[0,350,0],spring:'ret'}); retSprings.push(s); });
+[[30,60],[-30,-60]].forEach(p=>{ const s = part(gStatic,'retspring',G.spring(14,1.75,109.5,16),MAT.sprS,[p[0],255.75,p[1]],{layer:'drive',step:6,ex:[0,350,0],spring:'ret'}); retSprings.push(s); });
 
 // ---- slide ----
 const LS = {layer:'slide'};
@@ -881,12 +1007,14 @@ part(gSlide,'stoppin',G.cyl(3,16,'y',24),MAT.steel,[0,38,-66],{...LS,step:3,ex:[
 // ---- ram group (positions at open pose) ----
 const LD = {layer:'drive'};
 const yO = MP.yOpen;
-part(gRam,'ram',G.box(70,30,250),MAT.black,[0,149,0],{...LD,step:5,ex:[0,260,0]});
+part(gRam,'ram',G.box(80,30,250),MAT.black,[0,149,0],{...LD,step:5,ex:[0,260,0]});
 [-105,105].forEach(z=>{ part(gRam,'bush',G.cyl(16,30),MAT.bronze,[0,149,z],{...LD,step:5,ex:[0,260,0]}); part(gRam,'bush',G.cyl(20,3),MAT.bronze,[0,165.5,z],{...LD,step:5,ex:[0,260,0]}); });
 part(gRam,'clevis',G.box(20,22,32),MAT.black,[0,173,0],{...LD,step:5,ex:[0,285,0]});
 part(gRam,'pinB',G.cyl(6,40,'x'),MAT.steel,[0,yO,0],{...LD,step:7,ex:[0,300,0]});
-[[25,60],[-25,-60]].forEach(p=>{ part(gRam,'rod',G.cyl(5,127),MAT.steel,[p[0],227.5,p[1]],{...LD,step:5,ex:[0,300,0]}); part(gRam,'rodnut',G.cyl(9,8,'y',6),MAT.steel,[p[0],285,p[1]],{...LD,step:6,ex:[0,420,0]}); });
-[[-25,60],[25,-60]].forEach(p=>part(gRam,'bumper',G.cyl(8,12,'y',24),MAT.ure,[p[0],170,p[1]],{...LD,step:5,ex:[0,290,0]}));
+[[30,60],[-30,-60]].forEach(p=>{ part(gRam,'rod',G.cyl(5,161),MAT.steel,[p[0],244.5,p[1]],{...LD,step:5,ex:[0,300,0]}); part(gRam,'rodnut',G.cyl(16,3,'y',32),MAT.steel,[p[0],312,p[1]],{...LD,step:6,ex:[0,420,0]}); part(gRam,'rodnut',G.cyl(9,8,'y',6),MAT.steel,[p[0],317.5,p[1]],{...LD,step:6,ex:[0,420,0]}); });
+[[-30,60],[30,-60]].forEach(p=>part(gRam,'bumper',G.cyl(8,12,'y',24),MAT.ure,[p[0],170,p[1]],{...LD,step:5,ex:[0,290,0]}));
+part(gRam,'pilot',G.cyl(4,80,'y',24),MAT.chrome,[0,94,-65],{...LD,step:5,ex:[0,235,0]});
+part(gRam,'pilot',{geo:new THREE.CylinderGeometry(4,1.7,4,24), scad:'cylinder(r1=1.7,r2=4,h=4,center=true,$fn=24);'},MAT.chrome,[0,52,-65],{...LD,step:5,ex:[0,235,0]});
 part(gRam,'holder',G.cyl(25,11,'y',48),MAT.black,[0,128.5,0],{...LD,step:5,ex:[0,235,0]});
 
 // ---- handle group (local coords, origin at pivot O) ----
@@ -894,12 +1022,15 @@ const crankDir = new THREE.Vector3(0, -Math.cos(K.off*D2R), Math.sin(K.off*D2R))
 const Aloc = crankDir.clone().multiplyScalar(K.a);
 const handleParts = [];
 function hpart(id, g, mat, pos, o){ const p = part(gHandle, id, g, mat, pos, Object.assign({layer:'drive', step:7}, o)); handleParts.push(p); return p; }
-hpart('hub', G.box(20,34,30), MAT.black, [0,0,4]);
-hpart('hub', G.box(20,50,18), MAT.black, [0, Aloc.y/2, Aloc.z/2], {rot:[Math.atan2(crankDir.z, crankDir.y)/D2R,0,0]});
-hpart('pinO', G.cyl(6,76,'x'), MAT.steel, [0,0,0]);
+// one-piece lever (MP-113): profile in (u along the handle, w across), 20 thick, centred on x = 0
+const LEVER = [[50.0,16.77],[0.0,18.0],[-0.94,17.98],[-1.88,17.9],[-2.82,17.78],[-3.74,17.61],[-4.66,17.39],[-5.56,17.12],[-6.45,16.8],[-7.32,16.44],[-8.17,16.04],[-9.0,15.59],[-9.8,15.1],[-10.58,14.56],[-11.33,13.99],[-12.04,13.38],[-12.73,12.73],[-13.38,12.04],[-13.99,11.33],[-14.56,10.58],[-15.1,9.8],[-15.59,9.0],[-16.04,8.17],[-16.44,7.32],[-16.8,6.45],[-17.12,5.56],[-17.39,4.66],[-17.61,3.74],[-17.78,2.82],[-17.9,1.88],[-17.98,0.94],[-18.0,0.0],[-17.98,-0.94],[-17.9,-1.88],[-17.78,-2.82],[-17.61,-3.74],[-17.39,-4.66],[-8.1,-42.95],[-7.93,-43.56],[-7.72,-44.15],[-7.48,-44.73],[-7.21,-45.3],[-6.91,-45.85],[-6.58,-46.38],[-6.22,-46.9],[-5.84,-47.4],[-5.43,-47.88],[-5.0,-48.33],[-4.54,-48.77],[-4.07,-49.17],[-3.57,-49.56],[-3.05,-49.91],[-2.51,-50.24],[-1.96,-50.54],[-1.39,-50.81],[-0.81,-51.05],[-0.22,-51.26],[0.38,-51.44],[0.99,-51.59],[1.61,-51.7],[2.23,-51.78],[2.86,-51.83],[3.49,-51.85],[4.11,-51.83],[4.74,-51.78],[5.36,-51.7],[5.98,-51.59],[6.59,-51.44],[7.19,-51.26],[7.79,-51.05],[8.37,-50.81],[8.93,-50.54],[9.49,-50.24],[10.02,-49.91],[10.54,-49.56],[11.04,-49.17],[50.0,-16.77],[260,-12],[260,-10],[370,-10],[371.74,-9.85],[373.42,-9.4],[375.0,-8.66],[376.43,-7.66],[377.66,-6.43],[378.66,-5.0],[379.4,-3.42],[379.85,-1.74],[380.0,0.0],[379.85,1.74],[379.4,3.42],[378.66,5.0],[377.66,6.43],[376.43,7.66],[375.0,8.66],[373.42,9.4],[371.74,9.85],[370,10],[260,10],[260,12]];
+function leverGeo(){ const sh = new THREE.Shape(); LEVER.forEach((p,i)=> i? sh.lineTo(p[0],p[1]) : sh.moveTo(p[0],p[1]));
+  const g = new THREE.ExtrudeGeometry(sh, {depth:20, bevelEnabled:false, curveSegments:8}); g.rotateY(-Math.PI/2); g.translate(10,0,0);
+  return {geo:g, scad:`rotate([90,0,-90]) linear_extrude(height=20,center=true) polygon(points=${JSON.stringify(LEVER)});`}; }
+hpart('lever', leverGeo(), MAT.black, [0,0,0]);
+hpart('pinO', G.cyl(8,78,'x'), MAT.steel, [0,0,0]);
 hpart('pinA', G.cyl(6,40,'x'), MAT.steel, [0,Aloc.y,Aloc.z]);
-hpart('bar', G.cyl(10,320,'z'), MAT.black, [0,0,180]);
-hpart('grip', G.cyl(16,120,'z',32), MAT.red, [0,0,290]);
+hpart('grip', G.cyl(16,120,'z',32), MAT.red, [0,0,320]);
 const exHandle = new THREE.Vector3(0,460,0);
 
 // ---- links ----
@@ -918,27 +1049,27 @@ function buildDies(){
   clearDies(); D = MP.dims(MP.cur); const W=D.W, H=D.H;   // W = long side, along the table (X); H along Z
   const LDie = {layer:'die', die:true};
   const corners = (a,b)=>[[a,b],[a,-b],[-a,b],[-a,-b]];
-  const mids = [[W/2+8,0],[-(W/2+8),0],[0,H/2+8],[0,-(H/2+8)]];
+  const mids = [[54,0],[-54,0],[0,41.5],[0,-41.5]];   // Rev B universal spring pattern
   // upper die (ram group, open-pose world coords)
-  part(gDieRam,'upBody',G.rr(W+32,H+32,6,10),MAT.die,[0,117,0],{...LDie,step:9,ex:[0,190,0]});
+  part(gDieRam,'upBody',G.rr(126,100,6,10),MAT.die,[0,117,0],{...LDie,step:9,ex:[0,190,0]});
   part(gDieRam,'shim',G.cyl(20,1,'y',40),MAT.sprS,[0,122.5,0],{...LDie,step:9,ex:[0,215,0]});
   part(gDieRam,'upPlug',G.rr(W+0.3,H+0.3,4.15,14.5),MAT.die,[0,104.75,0],{...LDie,step:9,ex:[0,165,0]});
-  part(gUpFrame,'upFrame',G.rr(W+30,H+30,3,14,{w:W+0.35,d:H+0.35,r:4.2}),MAT.dieF,[0,99,0],{...LDie,step:9,ex:[0,120,0]});
+  part(gUpFrame,'upFrame',G.rr(126,100,3,14,{w:W+0.35,d:H+0.35,r:4.2}),MAT.dieF,[0,99,0],{...LDie,step:9,ex:[0,120,0]});
   mids.forEach(s=>part(gDieRam,'upSpring',G.spring(4,0.9,6,4),MAT.sprB,[s[0],109,s[1]],{...LDie,step:9,ex:[0,142,0],spring:'U'}));
   // lower dies (slide group local)
   [[-80,'A'],[80,'B']].forEach(([x,k])=>{
-    part(gDieSlide,'shoe'+k,G.box(140,10,124),MAT.steel,[x,35,0],{...LDie,step:8,ex:[0,140,0]});
-    part(gDieSlide,'shoe'+k,G.box(136,6,1.2),k==='A'?MAT.sprG:MAT.sprR,[x,35,62.4],{...LDie,step:8,ex:[0,140,0]});
-    part(gDieSlide,'thumb',G.cyl(6,10,'y',24),MAT.knob,[x+63,45,55],{...LDie,step:8,ex:[0,150,0]});
-    part(gDieSlide,'thumb',G.cyl(6,10,'y',24),MAT.knob,[x-63,45,-55],{...LDie,step:8,ex:[0,150,0]});
+    part(gDieSlide,'shoe'+k,G.box(150,10,120),MAT.steel,[x,35,0],{...LDie,step:8,ex:[0,140,0]});
+    part(gDieSlide,'shoe'+k,G.box(146,6,1.2),k==='A'?MAT.sprG:MAT.sprR,[x,35,60.4],{...LDie,step:8,ex:[0,140,0]});
+    part(gDieSlide,'thumb',G.cyl(6,8,'y',24),MAT.knob,[x+70,44,55],{...LDie,step:8,ex:[0,150,0]});
+    part(gDieSlide,'thumb',G.cyl(6,8,'y',24),MAT.knob,[x-70,44,-55],{...LDie,step:8,ex:[0,150,0]});
   });
   part(gDieSlide,'pedA',G.rr(W-0.5,H-0.5,3.75,21.8),MAT.die,[-80,50.9,0],{...LDie,step:8,ex:[0,170,0]});
-  part(gFrameA,'frameA',G.rr(W+32,H+32,3,18,{w:W+0.6,d:H+0.6,r:4.3}),MAT.dieF,[-80,57,0],{...LDie,step:8,ex:[0,215,0]});
+  part(gFrameA,'frameA',G.rr(126,100,3,18,{w:W+0.6,d:H+0.6,r:4.3}),MAT.dieF,[-80,57,0],{...LDie,step:8,ex:[0,215,0]});
   mids.forEach(s=>part(gDieSlide,'sprA',G.spring(5,1.1,8,4),MAT.sprG,[-80+s[0],44,s[1]],{...LDie,step:8,ex:[0,185,0],spring:'A'}));
   part(gDieSlide,'pedB',G.rr(W-4.5,H-4.5,2.5,17),MAT.die,[80,48.5,0],{...LDie,step:8,ex:[0,170,0]});
-  part(gFrameB,'frameB',G.rr(W+32,H+32,3,18,{w:W+0.45,d:H+0.45,r:4.2}),MAT.dieF,[80,57,0],{...LDie,step:8,ex:[0,215,0]});
-  corners(W/2+8,H/4).concat(corners(W/4,H/2+8)).forEach(s=>part(gDieSlide,'sprB',G.spring(5,1.3,8,4),MAT.sprR,[80+s[0],44,s[1]],{...LDie,step:8,ex:[0,185,0],spring:'B'}));
-  parts.forEach(p=>{ if(p.spring){ p.h0 = p.spring==='U'?6 : p.spring==='A'?8 : p.spring==='B'?8 : 80; } });
+  part(gFrameB,'frameB',G.rr(126,100,3,18,{w:W+0.45,d:H+0.45,r:4.2}),MAT.dieF,[80,57,0],{...LDie,step:8,ex:[0,215,0]});
+  corners(54,16.25).concat(corners(22.5,41.5)).forEach(s=>part(gDieSlide,'sprB',G.spring(5,1.3,8,4),MAT.sprR,[80+s[0],44,s[1]],{...LDie,step:8,ex:[0,185,0],spring:'B'}));
+  parts.forEach(p=>{ if(p.spring){ p.h0 = p.spring==='U'?6 : p.spring==='A'?8 : p.spring==='B'?8 : 109.5; } });
 
   // work parts
   const shell = new THREE.Mesh(G.rr(W,H,4,4.5).geo, MAT.tin.clone()); shell.userData={id:'wShell'};
@@ -958,53 +1089,53 @@ function buildDies(){
 function dieInfo(id){
   const d = D, P = MP.pair, k = MP.kN;
   const T = {
-    upBody:{name:'Upper die body', layer:'Die set · upper', qty:'1 per set', mat:'1.2312 prehardened 28–32 HRC (MP-201)', dims:`${P(d.body)} × 10; shank MP-202 screwed in`, note:'Its top face seats against the die holder through the shim pack, which sets this die\'s depth once.'},
+    upBody:{name:'Upper die body', layer:'Die set · upper', qty:'1 per set', mat:'1.2312 prehardened 28–32 HRC (MP-201)', dims:`${P(d.body)} × 10, same for every size; shank MP-202 screwed in`, note:'Its top face seats against the die holder through the shim pack, which sets this die\'s depth once.'},
     shim:{name:'Depth shim pack', layer:'Die set · upper', qty:'1 per set', mat:'Stainless shims 0.1 / 0.2 / 0.5', dims:'Ø40 with Ø16.5 and Ø4.2 holes', note:'Set so the crimp finishes with the handle 5–10° above horizontal. Laser-mark the value on the die.'},
-    upPlug:{name:'Upper plug (pusher)', layer:'Die set · upper', qty:'1 per set', mat:'Cr12MoV 58–60 HRC (MP-203)', dims:`${P(d.plug)}, R4.15, h 14.5; recessed 5.5 in the frame; concave lip R1`, note:'In stroke 2 it pushes the shell out of the frame and rolls the shell edge flat under the back.'},
-    upFrame:{name:'Upper frame (spring sleeve)', layer:'Die set · upper', qty:'1 per set', mat:'Cr12MoV 58–60 HRC, lapped bore (MP-204)', dims:`Opening ${P(d.upIn)} (grip fit), outside ${P(d.upOut)}, h 14, travel 5.5`, note:'Wraps the film and photo over the shell in stroke 1, then holds the wrapped shell by friction while the table slides.'},
-    upSpring:{name:'Upper frame springs', layer:'Die set · upper', qty:'4 per set', mat:'ISO 10243 blue (medium), Ø10 hole', dims:`Total preload ≈ ${k(d.upSpr)}`, note:'Weaker than the crimp springs, so the frame stops on die B and the plug moves through it.'},
-    shoeA:{name:'Die shoe A (pickup)', layer:'Die set · lower A', qty:'1 per set', mat:'C45 or 6061-T6 (MP-205)', dims:'140 × 124 × 10; Ø8 dowels 90 apart at the back; 2 thumb screws', note:'Green band. Its dowel pattern only fits the left station.'},
-    shoeB:{name:'Die shoe B (crimp)', layer:'Die set · lower B', qty:'1 per set', mat:'C45 or 6061-T6 (MP-205)', dims:'140 × 124 × 10; Ø8 dowels 60 apart at the front; 2 thumb screws', note:'Red band. Its dowel pattern only fits the right station.'},
-    thumb:{name:'Thumb screw', layer:'Die set', qty:'2 per station', mat:'M5 knurled, Ø12 head', dims:'—', note:'Tool-free die change.'},
-    pedA:{name:'Pickup pedestal', layer:'Die set · lower A', qty:'1 per set', mat:'Cr12MoV 58–60 HRC (MP-206)', dims:`${P(d.pickPed)}, R3.75, h 21.8`, note:'The shell sits face-up over it.'},
-    frameA:{name:'Pickup frame', layer:'Die set · lower A', qty:'1 per set', mat:'Cr12MoV 58–60 HRC (MP-207)', dims:`Opening ${P(d.pickIn)}; film recess ${P(d.pickRec)} × 0.6; outside ${P(d.lowOut)}; h 18; travel 8`, note:'Centres the shell and the film. It drops 8 mm onto the shoe as the upper frame pushes the film down around the shell.'},
-    sprA:{name:'Pickup springs', layer:'Die set · lower A', qty:'4 per set', mat:'ISO 10243 green (light), Ø10 hole', dims:'Total preload ≈ 0.1 kN; cavity 24 at rest', note:'Light, so the film is not crushed before it wraps.'},
-    pedB:{name:'Crimp pedestal', layer:'Die set · lower B', qty:'1 per set', mat:'Cr12MoV 58–60 HRC (MP-208)', dims:`${P(d.crimpPed)}, R2.5, h 17`, note:'Smaller than the back plate, which leaves room for the shell edge to roll under the back.'},
-    frameB:{name:'Crimp frame', layer:'Die set · lower B', qty:'1 per set', mat:'Cr12MoV 58–60 HRC (MP-209)', dims:`Opening ${P(d.crimpIn)} with 1.2 × 30° lead-in; outside ${P(d.lowOut)}; h 18; travel 8`, note:'The lead-in folds the film skirt under the shell edge as the shell enters. It bottoms on the shoe at 8 mm.'},
-    sprB:{name:'Crimp springs', layer:'Die set · lower B', qty:'8 per set', mat:'ISO 10243 red or yellow, Ø10 hole', dims:`Total preload ≈ ${k(d.crimpPre)} (estimate)`, note:'Stiffer than the upper frame springs. That is what makes the two-stroke sequence work.'}
+    upPlug:{name:'Upper plug (pusher)', layer:'Die set · upper', qty:'1 per set', mat:'A2 / 1.2363, 58–60 HRC (MP-203)', dims:`${P(d.plug)}, R4.15, h 14.5; recessed 5.5 in the frame; concave lip R1`, note:'In stroke 2 it pushes the shell out of the frame and rolls the shell edge flat under the back.'},
+    upFrame:{name:'Upper frame (spring sleeve)', layer:'Die set · upper', qty:'1 per set', mat:'A2 58–60 HRC, lapped bore (MP-204)', dims:`Opening ${P(d.upIn)} (grip fit), outside ${P(d.upOut)}, h 14, travel 5.5`, note:'Wraps the film and photo over the shell in stroke 1, then holds the wrapped shell while the table slides. Rev B: a 0.6 × 20° lead-in and four nylon-tip plungers stop the shell dropping out.'},
+    upSpring:{name:'Upper frame springs', layer:'Die set · upper', qty:'4 per set', mat:'ISO 10243 Ø10 × 25 blue (medium)', dims:`Total preload ≈ ${k(d.upSpr)}; works 12–34% of free length`, note:'Weaker than the crimp springs, so the frame stops on die B and the plug moves through it.'},
+    shoeA:{name:'Die shoe A (pickup)', layer:'Die set · lower A', qty:'1 per set', mat:'C45 or 6061-T6 (MP-205)', dims:'150 × 120 × 10, same for every size; Ø8 dowels 80 apart at the back; 2 thumb screws', note:'Green band. Its dowel pattern only fits the left station.'},
+    shoeB:{name:'Die shoe B (crimp)', layer:'Die set · lower B', qty:'1 per set', mat:'C45 or 6061-T6 (MP-205)', dims:'150 × 120 × 10, same for every size; Ø8 dowels 60 apart at the front; 2 thumb screws', note:'Red band. Its dowel pattern only fits the right station.'},
+    thumb:{name:'Thumb screw', layer:'Die set', qty:'2 per station', mat:'M5 × 16 knurled, head Ø12 max', dims:'—', note:'Tool-free die change. A bigger head would hit the frame corner or the stop block.'},
+    pedA:{name:'Pickup pedestal', layer:'Die set · lower A', qty:'1 per set', mat:'A2 58–60 HRC (MP-206)', dims:`${P(d.pickPed)}, R3.75, h 21.8`, note:'The shell sits face-up over it.'},
+    frameA:{name:'Pickup frame', layer:'Die set · lower A', qty:'1 per set', mat:'A2 58–60 HRC (MP-207)', dims:`Opening ${P(d.pickIn)}; film recess ${P(d.pickRec)} × 0.6; outside ${P(d.lowOut)}; h 18; travel 8`, note:'Centres the shell and the film. It drops 8 mm onto the shoe as the upper frame pushes the film down around the shell.'},
+    sprA:{name:'Pickup springs', layer:'Die set · lower A', qty:'4 per set', mat:'ISO 10243 Ø10 × 32 green (light)', dims:'Total preload ≈ 0.1 kN; cavity 28 at rest, 20 closed', note:'Light, so the film is not crushed before it wraps.'},
+    pedB:{name:'Crimp pedestal', layer:'Die set · lower B', qty:'1 per set', mat:'A2 58–60 HRC (MP-208)', dims:`${P(d.crimpPed)}, R2.5, h 17`, note:'Smaller than the back plate, which leaves room for the shell edge to roll under the back.'},
+    frameB:{name:'Crimp frame', layer:'Die set · lower B', qty:'1 per set', mat:'A2 58–60 HRC, re-tempered after EDM (MP-209)', dims:`Opening ${P(d.crimpIn)} with 1.2 × 30° lead-in; outside ${P(d.lowOut)}; h 18; travel 8`, note:'The lead-in folds the film skirt under the shell edge as the shell enters. It bottoms on the shoe at 8 mm.'},
+    sprB:{name:'Crimp springs', layer:'Die set · lower B', qty:'8 per set', mat:'ISO 10243 Ø10 × 32 red (heavy)', dims:`Total preload ≈ ${k(d.crimpPre)} (estimate); works 12.5–37.5% of free length`, note:'Stiffer than the upper frame springs. That is what makes the two-stroke sequence work.'}
   };
   return T[id];
 }
 Object.entries({
-  base:{name:'Base plate', layer:'Frame', qty:'1', mat:'S235 / Q235 steel, 12 mm', dims:'460 × 260 + front tongue 140 × 210 (one piece)', note:'The tongue sits under the grip at the end of the stroke, so the press can\'t tip forward. Powder coated, bores masked.'},
-  foot:{name:'Rubber foot', layer:'Frame', qty:'6', mat:'NBR Ø24 × 6, M6 stud', dims:'—', note:'Two are under the tongue.'},
+  base:{name:'Base plate', layer:'Frame', qty:'1', mat:'S355 steel, 15 mm (MP-101)', dims:'460 × 260 + front tongue 140 × 210 (one piece); 6 × Ø9 bench holes', note:'Rev B: 15 mm (was 12), 0.26 mm deflection at the 16 kN design load. The tongue sits under the grip at the end of the stroke, so the press can\'t tip forward.'},
+  foot:{name:'Rubber pad', layer:'Frame', qty:'5', mat:'NBR Ø24 × 3, adhesive', dims:'—', note:'Clear of the bench-mounting holes; one under the tongue.'},
   rail:{name:'Slide guide rail', layer:'Frame', qty:'2', mat:'C45 ground flat bar (MP-102)', dims:'14 × 12.05 × 460', note:'Parallel within 0.05 mm over 400 mm. 0.05 taller than the table, for running clearance under the keeper.'},
   keeper:{name:'Keeper strip (gib)', layer:'Frame', qty:'2', mat:'C45 flat', dims:'20 × 4 × 460, overlaps the table 5 mm', note:'Screwed down through the rail with M5 countersunk screws (MP-103).'},
   stop:{name:'Station stop block', layer:'Frame', qty:'2', mat:'C45 + M6 × 0.75 stop screw (MP-104)', dims:'30 × 27 × 16', note:'Adjust so each station sits under the ram centre within ±0.05 mm, then lock.'},
-  post:{name:'Column', layer:'Frame', qty:'2', mat:'GCr15 / 52100, 58–62 HRC, hard chrome', dims:'Ø25 h6 × 158 + Ø20 spigots, 206.5 long (MP-107)', note:'Ø20 spigot pressed into the base and clamped from below with M10 + Ø32 washer; M16 × 1.5 nut on top of the crown.'},
-  postnut:{name:'Column nut', layer:'Frame', qty:'2', mat:'M16 class 8 + hardened washer', dims:'—', note:'100 N·m, two passes.'},
-  crown:{name:'Crown', layer:'Frame', qty:'1', mat:'C45, black oxide', dims:'80 × 25 × 250; slot 38 × 66 for the links (MP-108)', note:'At 8 kN: ≈ 96 MPa bending stress, ≈ 0.13 mm deflection.'},
-  cheek:{name:'Pivot cheek', layer:'Press drive', qty:'2', mat:'C45 16 mm (MP-112)', dims:'50 × 50 × 16; Ø12 H7 pivot 33.5 above the crown', note:'2 × M8 from below + 1 × Ø6 dowel each. Carries the toggle reaction.'},
-  retspring:{name:'Return spring', layer:'Press drive', qty:'2', mat:'Music wire Ø2.5, OD 22', dims:'Free 90, installed 80', note:'Lifts ram and handle back to open.'},
+  post:{name:'Column', layer:'Frame', qty:'2', mat:'GCr15 / 52100, 58–62 HRC, hard chrome', dims:'Ø25 h6 × 158 + Ø20 spigots, 209.5 long; M10 × 1 top end (MP-107)', note:'Ø20 spigot pressed into the base and clamped from below with M10 + Ø32 washer; M16 × 1.5 nut on top of the crown.'},
+  postnut:{name:'Column nut', layer:'Frame', qty:'2', mat:'M16 class 8 + Nord-Lock washer', dims:'—', note:'100 N·m, two passes.'},
+  crown:{name:'Crown', layer:'Frame', qty:'1', mat:'C45, black oxide', dims:'80 × 25 × 250; slot 38 × 66 for the links (MP-108)', note:'At the 16 kN design load: ≈ 192 MPa bending stress, ≈ 0.27 mm deflection.'},
+  cheek:{name:'Pivot cheek', layer:'Press drive', qty:'2', mat:'C45 (MP-112)', dims:'50 × 50 × 16; Ø18 H7 + PTFE-composite bushing, 33.5 above the crown', note:'2 × M8 + Nord-Lock from below + 1 × Ø6 dowel each. Carries the toggle reaction.'},
+  retspring:{name:'Return spring', layer:'Press drive', qty:'2', mat:'Music wire Ø3.5, OD 31.5, shot-peened', dims:'Free 122, installed 109.5; 60 N open, 225 N closed', note:'Rev B: strong enough to lift the handle from fully down (4.2 N·m at the closed position; Rev A gave 0.8).'},
+  pilot:{name:'Station pilot', layer:'Press drive', qty:'1', mat:'100Cr6, 58–62 HRC, ground (MP-120)', dims:'Ø8 h6 × 84 + M6 stud; 30° tip', note:'New in Rev B. It enters the table hole 6 mm before the dies meet. If the table is off station, it lands on the table and stops the stroke.'},
   slide:{name:'Die table (slide)', layer:'Die table', qty:'1', mat:'6061-T6, hard anodised gold', dims:'340 × 150 × 12; stations at ±80', note:'Press load passes straight through the table into the base. Nothing rolls under load.'},
   stoppin:{name:'Stop pin', layer:'Die table', qty:'1', mat:'C45, 45–50 HRC (MP-106)', dims:'Ø6 × 16 + M4 stud', note:'Hits the stop screw in each stop block.'},
   knob:{name:'Push knob', layer:'Die table', qty:'2', mat:'Phenolic Ø24, M6 in the table end faces', dims:'—', note:'Push or pull the table between stations.'},
-  ram:{name:'Ram (crosshead)', layer:'Press drive', qty:'1', mat:'C45, black oxide', dims:'70 × 30 × 250; Ø32 H7 bushing bores at 210.00', note:'Carries the die holder below and the clevis on top.'},
+  ram:{name:'Ram (crosshead)', layer:'Press drive', qty:'1', mat:'C45, black oxide', dims:'80 × 30 × 250; Ø32 H7 bushing bores at 210.00', note:'Carries the die holder and station pilot below, and the clevis on top.'},
   bush:{name:'Ram bushing', layer:'Press drive', qty:'2', mat:'Self-lubricating bronze with graphite plugs', dims:'ID 25 / OD 32 / L 33, flanged', note:'Pressed into the ram.'},
-  clevis:{name:'Clevis', layer:'Press drive', qty:'1', mat:'C45', dims:'20 × 22 × 32; Ø12 H7 cross bore (MP-110)', note:'Sits in a 2 mm pocket on the ram; 2 × M5.'},
-  pinB:{name:'Pin B (link to ram)', layer:'Press drive', qty:'1', mat:'100Cr6 Ø12 g6, hardened, ground (MP-116)', dims:'L 40', note:'Retaining rings both ends.'},
-  pinA:{name:'Pin A (crank to links)', layer:'Press drive', qty:'1', mat:'100Cr6 Ø12 g6, hardened, ground (MP-116)', dims:'L 40', note:'Crank radius O→A 40.00.'},
-  pinO:{name:'Pin O (handle pivot)', layer:'Press drive', qty:'1', mat:'100Cr6 Ø12 g6, hardened, ground (MP-117)', dims:'L 76', note:'Runs in the two pivot cheeks, with a bronze spacer each side of the hub.'},
-  rod:{name:'Return rod', layer:'Press drive', qty:'2', mat:'C45 Ø10', dims:'142 long, M10 ends (MP-118)', note:'Screwed into the ram; passes up through the crown.'},
-  rodnut:{name:'Rod nut + washer', layer:'Press drive', qty:'2', mat:'M10 nylock + Ø30 washer', dims:'—', note:'Sets the return spring length.'},
+  clevis:{name:'Clevis', layer:'Press drive', qty:'1', mat:'C45', dims:'20 × 22 × 32; Ø14 H7 cross bore + bushing (MP-110)', note:'Sits in a 2 mm pocket on the ram; 2 × M5.'},
+  pinB:{name:'Pin B (link to ram)', layer:'Press drive', qty:'1', mat:'100Cr6 Ø12 g6, hardened, ground (MP-116)', dims:'L 40', note:'Runs dry in PTFE-composite bushings. Retaining rings both ends.'},
+  pinA:{name:'Pin A (crank to links)', layer:'Press drive', qty:'1', mat:'100Cr6 Ø12 g6, hardened, ground (MP-116)', dims:'L 40', note:'Crank radius O→A 40.00. Runs dry in PTFE-composite bushings.'},
+  pinO:{name:'Pin O (handle pivot)', layer:'Press drive', qty:'1', mat:'100Cr6 Ø16 g6, hardened, ground (MP-117)', dims:'L 78', note:'Rev B: Ø16 (was 12), 229 MPa at 8 kN. Runs in bushed cheeks, with a bronze spacer each side of the lever.'},
+  rod:{name:'Return rod', layer:'Press drive', qty:'2', mat:'C45 Ø10', dims:'176 long, M10 ends (MP-118)', note:'Screwed into the ram; passes up through the crown at X ±30.'},
+  rodnut:{name:'Rod nut + washer', layer:'Press drive', qty:'2', mat:'M10 nylock + Ø32 × 3 washer', dims:'—', note:'Sets the return spring to 109.5 mm installed.'},
   holder:{name:'Die holder', layer:'Press drive', qty:'1', mat:'42CrMo4 QT, black oxide (MP-111)', dims:'Ø50 × 11 + Ø24 spigot; Ø16 H7 bore; M5 cone-point lock screw', note:'Fixed to the ram. Takes every upper die.'},
-  hub:{name:'Handle hub + crank', layer:'Press drive', qty:'1', mat:'C45 20 mm', dims:'O→A 40.00 ±0.02', note:'With the links this forms the toggle. The stroke ends 8° before dead centre, so it can\'t lock over.'},
-  bar:{name:'Handle bar', layer:'Press drive', qty:'1', mat:'Ø20 C45 or 304 stainless', dims:'320 long; grip centre 290 from O', note:'—'},
-  grip:{name:'Grip', layer:'Press drive', qty:'1', mat:'Red TPR sleeve', dims:'Ø32 × 120', note:'Ends over the base tongue at the bottom of the stroke.'},
-  link:{name:'Toggle link', layer:'Press drive', qty:'2', mat:'C45 7 mm (MP-114)', dims:'Centres 60.00 ±0.02; Ø12 H7', note:'Matched pair, one each side of the hub.'},
-  spacer:{name:'Pivot spacer', layer:'Press drive', qty:'2', mat:'CuSn8 bronze (MP-119)', dims:'Ø20 × Ø12.2 × 10', note:'Centres the hub on pin O between the cheeks.'},
+  lever:{name:'Handle lever (one piece)', layer:'Press drive', qty:'1', mat:'C45 plate, 20 thick (MP-113)', dims:'380 long; O→A 40.00 ±0.02 at 85°; grip centre 320', note:'Rev B: replaces the Rev A hub and screwed-in bar, whose M12 thread was overstressed. With the links it forms the toggle; the stroke ends 8° before dead centre.'},
+  grip:{name:'Grip', layer:'Press drive', qty:'1', mat:'Red TPR sleeve', dims:'Ø32 × 120, centre 320 from O', note:'Ends over the base tongue at the bottom of the stroke.'},
+  link:{name:'Toggle link', layer:'Press drive', qty:'2', mat:'C45 7 mm (MP-114)', dims:'Centres 60.00 ±0.02; Ø14 H7 + bushings', note:'Matched pair, one each side of the lever.'},
+  spacer:{name:'Pivot spacer', layer:'Press drive', qty:'2', mat:'CuSn8 bronze (MP-119)', dims:'Ø24 × Ø16.2 × 10', note:'Centres the lever on pin O between the cheeks.'},
   bumper:{name:'Open-position bumper', layer:'Press drive', qty:'2', mat:'Urethane 90A, M6 stud', dims:'Ø16 × 12', note:'Stops the ram against the crown with the handle at 65°.'},
-  buffer:{name:'Handle stop buffer', layer:'Frame', qty:'1', mat:'Urethane 90A, M8 stud', dims:'Ø30 × 13', note:'On the front column top. Stops the bar 3° above horizontal, 8° before toggle dead centre.'},
+  buffer:{name:'Adjustable handle stop', layer:'Frame', qty:'1', mat:'M10 × 1 set screw + jam nut + urethane cap', dims:'Cap Ø16 × 4', note:'In the front column top. Set it so the lever rests 3° above horizontal, 8° before toggle dead centre, then lock the jam nut.'},
   wShell:{name:'Tinplate shell', layer:'Work part', qty:'1 per magnet', mat:'Tinplate 0.20–0.23', dims:'', note:'Face-up on die A; after stroke 1 it is wrapped and held in the upper frame.'},
   wLam:{name:'Printed photo + mylar film', layer:'Work part', qty:'1 per magnet', mat:'120–150 g/m² paper + 0.075 PET', dims:'', note:'Lies in the recess on top of die A.'},
   wBack:{name:'Back plate', layer:'Work part', qty:'1 per magnet', mat:'1.2 ABS / acrylic', dims:'', note:'On die B\'s pedestal.'},
@@ -1113,7 +1244,7 @@ function fillInspector(id){
   const inf = id ? getInfo(id) : null;
   if(inf){ lab.textContent = inf.layer; h.textContent = inf.name; row('Qty',inf.qty); row('Material',inf.mat); row('Size',inf.dims); row('Note',inf.note); }
   else { lab.textContent = 'Selected die set'; h.textContent = MP.cur.label+' mm'; const d = D;
-    row('Shell', MP.pair([d.W,d.H])+' × 4.5'); row('Photo cut', MP.pair(d.paper)); row('Upper frame', 'opening '+MP.pair(d.upIn)); row('Crimp springs', '≈ '+MP.kN(d.crimpPre)+' preload'); row('Peak force', '≈ '+MP.kN(d.peak)+' (5.6 kN available)'); row('Tip', 'Click any part to see its material, size and notes.'); }
+    row('Shell', MP.pair([d.W,d.H])+' × 4.5'); row('Photo cut', MP.pair(d.paper)); row('Upper frame', 'opening '+MP.pair(d.upIn)); row('Crimp springs', '≈ '+MP.kN(d.crimpPre)+' preload'); row('Peak force', '≈ '+MP.kN(d.peak)+' ('+MP.kN(MP.force(K.phiEnd))+' available)'); row('Tip', 'Click any part to see its material, size and notes.'); }
   insp.appendChild(dl);
 }
 
