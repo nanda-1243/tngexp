@@ -1,0 +1,43 @@
+# MagPress M4 — manual photo fridge-magnet press
+
+Design pack for a hand-lever toggle press that makes square and rectangular photo fridge magnets in four sizes (50 × 50, 63.5 × 63.5, 53 × 80, 65 × 90 mm). It has one universal die that stays on the press and a six-part size kit for each size.
+
+**Status: Rev C, final design. Build and test a prototype before production.**
+
+Interactive build pack (3D model, force chart, dimensions, BOM, assembly, tests, failure review): https://claude.ai/artifact/C4NaemzVJD5yDM3Ks2FCBi. The same page is [`web/magpress-m4.html`](web/magpress-m4.html).
+
+## What's here
+
+| Path | Contents |
+|---|---|
+| [`release/`](release/) | Machine-shop drawing set (33 A3 sheets, PDF) and DXF profiles for cutting and wire-EDM. If a DXF and a drawing disagree, the drawing governs. |
+| [`web/magpress-m4.html`](web/magpress-m4.html) | The build-pack page (single file; three.js from a CDN). |
+| [`cad/`](cad/) | Python source that generates every drawing and DXF (`build.py`), plus the PDF renderer (`render.js`) and cover images. |
+| [`calc/`](calc/) | `engineering_calcs.py`, the calculations behind every number in the design, and its output `results.txt`. |
+| [`docs/design-notes.md`](docs/design-notes.md) | Architecture, key numbers, height stack, die system and revision history. |
+| [`docs/research/`](docs/research/) | Research: [sources](docs/research/sources.md), [failure review and FMEA](docs/research/failure-review.md), and the [stepped-die study](docs/research/stepped-die-study.md). |
+| [`web/tools/`](web/tools/) | Page smoke test and the cover-image renderer. |
+
+## Rebuild
+
+Needs Python 3 with Pillow, and Node with Playwright (Chromium).
+
+```sh
+python3 calc/engineering_calcs.py > calc/results.txt          # calculations
+node web/tools/cover_shots.js web/magpress-m4.html out          # optional: re-render cover images
+python3 web/tools/crop_covers.py out cad
+python3 cad/build.py out cad/img_assembled.png cad/img_exploded.png
+node cad/render.js "$PWD/out" MagPress-M4_Drawings_RevC.pdf     # PDF from the SVG sheets
+cp out/MagPress-M4_Drawings_RevC.pdf out/MagPress-M4_DXF_RevC.zip release/
+node web/tools/check_page.js web/magpress-m4.html               # page smoke test
+```
+
+## Revisions
+
+- **Rev A:** first design.
+- **Rev B:** failure review: lever, pin O, bushings, return springs, station pilot, base, 16 kN design load.
+- **Rev C:** universal die and size kits, crimp anvil with roll channel, re-rated springs, final consistency check.
+
+Each revision is a separate commit, so `git log` and `git diff` show what changed. The details are in [`docs/design-notes.md`](docs/design-notes.md#revision-history).
+
+The figures are hand calculations and starting values. Have a mechanical engineer review them, and prove the die fits, the roll channel and the spring forces on a 7075 aluminium prototype kit before cutting tool steel.

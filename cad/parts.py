@@ -237,21 +237,27 @@ def mp106():
 # MP-105 DIE TABLE (Rev B: pilot holes, shoe pattern for 142 × 120 shoes)
 # =====================================================================================
 def table_feats():
-    return [feat(-120, -30, 'hole', d=8, depth=10, label='DA1'), feat(-40, -30, 'hole', d=8, depth=10, label='DA2'),
-            feat(50, 30, 'hole', d=8, depth=10, label='DB1'), feat(110, 30, 'hole', d=8, depth=10, label='DB2'),
-            feat(-10, 55, 'tap', m='M5', thru=True, label='T1', ldx=-6), feat(-150, -55, 'tap', m='M5', thru=True, label='T2'),
-            feat(150, 55, 'tap', m='M5', thru=True, label='T3'), feat(10, -55, 'tap', m='M5', thru=True, label='T4'),
-            feat(0, -66, 'tap', m='M4', depth=8, label='S'), feat(0, 45, 'tap', m='M6', thru=True, label='BP'),
-            feat(-80, -65, 'hole', d=8, thru=True, label='PA', ldy=4), feat(80, -65, 'hole', d=8, thru=True, label='PB', ldy=4)]
+    f = []
+    n = 1
+    for cx in (-80, 80):
+        for (x, z) in ((-35, -35), (35, -35), (-35, 35), (35, 35)):
+            f.append(feat(cx + x, z, 'hole', d=5.5, thru=True, csk=10.4, side='bot', label='F%d' % n)); n += 1
+    n = 1
+    for cx in (-80, 80):
+        for x in (-45, 45):
+            f.append(feat(cx + x, 0, 'hole', d=6, depth=10, label='G%d' % n, ldy=4)); n += 1
+    f += [feat(0, -66, 'tap', m='M4', depth=8, label='S'), feat(0, 45, 'tap', m='M6', thru=True, label='BP'),
+          feat(-80, -65, 'hole', d=8, thru=True, label='PA', ldy=4), feat(80, -65, 'hole', d=8, thru=True, label='PB', ldy=4)]
+    return f
 
 
 def mp105():
     sh = new('MP-105', 'DIE TABLE (SLIDE)', scale='1:2', qty='1',
              material='EN AW-6061-T6 plate 15 mm, faced to 12.00',
-             finish='Hard anodise 25 µm, gold, PTFE-sealed; fit Helicoils after anodising',
+             finish='Hard anodise 25 µm, gold, PTFE-sealed',
              notes=['Thickness 12.00 ±0.01 and flat within 0.03 after anodising. Guide rails MP-102 are 12.05.',
-                    'Rev B: PA/PB Ø8 H8 THRU take the station pilot MP-120, ±0.02 to the shoe dowels. Rev B shoe pattern: dowels and thumb holes moved for the 150 × 120 universal shoes.',
-                    'DA/DB: Ø8 H7 × 10 (shoe dowels; A and B use different pitches so the shoes cannot be swapped). T1–T4: STI M5 THRU for Helicoils.',
+                    'PA/PB Ø8 H8 THRU take the station pilot MP-120, ±0.02 to the base dowel holes G. Rev C: the station bases MP-205 are fixed for good (F, G); no thumb screws.',
+                    'F1–F8: Ø5.5 THRU, 90° countersink Ø10.4 from the BOTTOM (M5 × 16 ISO 10642, flush). G1–G4: Ø6 H7 × 10 (base dowels).',
                     'S: M4 × 8 (stop pin MP-106). BP: M6 THRU (ball plunger). K1/K2: M6 × 12 in each end face, centred (push knobs).',
                     'Hole positions from the table centre. Station centres at X = −80 (A) and +80 (B), Z = 0.',
                     'Long edges: 0.5 × 45° chamfer only (they run against the rails).'] + GEN)
@@ -270,8 +276,8 @@ def mp105():
     rows = []
     for f in fs:
         lb = f['label']
-        if lb.startswith('D'): d = 'Ø8 H7 × 10 deep (shoe dowel)'
-        elif lb.startswith('T'): d = 'STI M5 THRU for Helicoil (thumb screw)'
+        if lb.startswith('F'): d = 'Ø5.5 THRU, CSK Ø10.4 × 90° BOTTOM (base screw)'
+        elif lb.startswith('G'): d = 'Ø6 H7 × 10 deep (base dowel)'
         elif lb == 'S': d = 'M4 × 8 deep (stop pin MP-106)'
         elif lb == 'BP': d = 'M6 THRU (ball plunger)'
         else: d = 'Ø8 H8 THRU (station pilot), ±0.02'
@@ -378,8 +384,8 @@ def mp118():
     sh = new('MP-118', 'RETURN ROD', scale='1:1', qty='2',
              material='C45 Ø12 bright bar', finish='Zinc plate 8 µm',
              notes=['Bottom thread screws into the ram MP-109 (M10 × 15) with Loctite 243.',
-                    'Rev B return spring: music wire Ø3.5 (EN 10270-1 DH), OD 31.5, free length 122, ≈ 16 active coils, ends closed and ground, shot-peened.',
-                    'Rate ≈ 4.2 N/mm. Installed 109.5 at handle-up (≈ 60 N); 70.6 at handle-down (≈ 225 N, τ ≈ 445 MPa). Solid length ≤ 63.',
+                    'Return spring: music wire Ø3.5 (EN 10270-1 DH), OD 31.5, free length 128, ≈ 16.4 active coils, ends closed and ground, shot-peened.',
+                    'Rate ≈ 4.25 N/mm. Installed 109.5 at handle-up (≈ 80 N); 70.6 at handle-down (≈ 245 N, τ ≈ 480 MPa). Solid length ≤ 64.5.',
                     'Top: Ø32 × 3 washer and M10 nylock nut. The two springs together must lift the handle from the fully-down position.'] + GEN)
     v, pos, Ltot = turned(sh, 110, 110, 1.0, [{'l': 15, 'd': 10, 'thread': 'M10'}, {'l': 131, 'd': 10}, {'l': 30, 'd': 10, 'thread': 'M10'}])
     v.hdim(0, -5, 15, -5, -16, text='15')

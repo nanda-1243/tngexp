@@ -211,7 +211,7 @@ class Sheet:
             if val != '':
                 self.text(x + 1.5, y + h - 1.6, val, size, weight=weight)
         cell(x0, y0, 110, 8, 'PROJECT', 'MagPress M4 · manual photo-magnet press', 3.0)
-        cell(x0 + 110, y0, 30, 8, 'REVISION', 'B', 3.2, 'bold')
+        cell(x0 + 110, y0, 30, 8, 'REVISION', 'C', 3.2, 'bold')
         cell(x0 + 140, y0, 40, 8, 'SHEET', '%d / %d' % (self.index, self.total), 3.2)
         self.rect(x0, y0 + 8, 180, 14, 'box')
         self.text(x0 + 1.2, y0 + 10.6, 'TITLE', 1.9)
