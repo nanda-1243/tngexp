@@ -1,0 +1,1245 @@
+<title>MagPress M4 Build Pack</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: an engineering title block, then a full-width 3D bench (viewer + control rail), then numbered build sheets. */
+:root{
+  --bg:#ECEEEF; --panel:#FFFFFF; --sunk:#E3E6E8; --stage:#DCE0E3; --zone:#E8E2D2;
+  --ink:#15181B; --ink2:#434B53; --muted:#69727B; --line:#D1D6DA;
+  --accent:#8A6510; --accent-ink:#FFFFFF; --accent-soft:#F4E9C9;
+  --series:#8A6510; --warn:#B4232A; --ok:#2F7A44;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111315; --panel:#181B1E; --sunk:#202428; --stage:#1A1E22; --zone:#2A271E;
+    --ink:#ECEEF0; --ink2:#B7BEC5; --muted:#8B949C; --line:#2C3136;
+    --accent:#D8B24C; --accent-ink:#1A1405; --accent-soft:#3A3014;
+    --series:#D8B24C; --warn:#E5534B; --ok:#5BB774; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111315; --panel:#181B1E; --sunk:#202428; --stage:#1A1E22; --zone:#2A271E;
+  --ink:#ECEEF0; --ink2:#B7BEC5; --muted:#8B949C; --line:#2C3136;
+  --accent:#D8B24C; --accent-ink:#1A1405; --accent-soft:#3A3014;
+  --series:#D8B24C; --warn:#E5534B; --ok:#5BB774; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--f-body);}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:28px 64px;display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:.01em;text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(34px,5vw,52px);font-weight:700}
+h2{font-size:30px}
+h3{font-size:21px}
+p{margin:0;max-width:68ch}
+a{color:var(--accent)}
+.mono{font-family:var(--f-mono)}
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--ink2);font-size:16.5px}
+section{display:flex;flex-direction:column;gap:18px;min-width:0}
+.sec-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.sec-head .no{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:500}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+
+/* title block */
+.titleblock{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);border:1.5px solid var(--ink);background:var(--panel)}
+.tb-main{padding:22px 24px;display:flex;flex-direction:column;gap:12px;border-right:1.5px solid var(--ink);min-width:0}
+.tb-cells{display:grid;grid-template-columns:1fr 1fr}
+.tb-cells div{padding:10px 14px;border-bottom:1px solid var(--line);border-left:1px solid var(--line);display:flex;flex-direction:column;gap:2px;min-width:0}
+.tb-cells div:nth-child(odd){border-left:0}
+.tb-cells b{font-family:var(--f-mono);font-weight:500;font-size:13.5px}
+@media (max-width:760px){.titleblock{grid-template-columns:1fr}.tb-main{border-right:0;border-bottom:1.5px solid var(--ink)}}
+
+/* bench */
+.bench{display:grid;grid-template-columns:minmax(0,1fr) 340px;border:1.5px solid var(--ink);background:var(--panel);min-width:0}
+#stage{position:relative;height:600px;background:var(--stage);overflow:hidden;min-width:0}
+#stage canvas{display:block;width:100%;height:100%;outline:none}
+.stage-msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;color:var(--muted)}
+#tip{position:absolute;pointer-events:none;background:var(--panel);color:var(--ink);border:1px solid var(--line);padding:4px 8px;font-size:12.5px;white-space:nowrap;transform:translate(12px,12px);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+#caption{position:absolute;left:12px;right:12px;bottom:12px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);padding:10px 12px;font-size:13.5px;max-width:560px;margin-bottom:env(safe-area-inset-bottom,0px)}
+#caption b{font-family:var(--f-mono);font-weight:500;font-size:12px;color:var(--accent);display:block;letter-spacing:.06em;text-transform:uppercase}
+.views{position:absolute;top:10px;left:10px;display:flex;gap:4px;flex-wrap:wrap}
+.views button{font:500 12px var(--f-mono);background:var(--panel);color:var(--ink2);border:1px solid var(--line);padding:5px 8px;cursor:pointer}
+.views button:hover{color:var(--ink);border-color:var(--ink2)}
+.rail{border-left:1.5px solid var(--ink);display:flex;flex-direction:column;min-width:0;max-height:600px;overflow:auto}
+.rail .blk{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:9px}
+.rail .lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.rail .lbl output{color:var(--ink);letter-spacing:0;text-transform:none;font-size:12px}
+.seg{display:grid;grid-template-columns:repeat(2,1fr);gap:4px}
+.seg.four{grid-template-columns:repeat(2,1fr)}
+.seg button,.btn{font:500 13px var(--f-mono);border:1px solid var(--line);background:var(--sunk);color:var(--ink);padding:7px 8px;cursor:pointer;min-height:34px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.btn:hover,.seg button:hover{border-color:var(--ink2)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.row .btn{flex:1}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);padding:4px 9px;font-size:12.5px;cursor:pointer;user-select:none;background:var(--panel)}
+.chip input{accent-color:var(--accent);margin:0}
+.chip i{width:10px;height:10px;display:inline-block}
+.readout{font-family:var(--f-mono);font-size:12.5px;color:var(--ink2);display:grid;grid-template-columns:auto 1fr;gap:2px 10px}
+.readout span:nth-child(even){color:var(--ink);text-align:right}
+#inspector h3{font-size:20px}
+#inspector dl{margin:0;display:grid;grid-template-columns:86px minmax(0,1fr);gap:5px 10px;font-size:13px}
+#inspector dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+#inspector dd{margin:0;min-width:0}
+#stepbox p{font-size:13.5px}
+.stepnav{display:flex;align-items:center;gap:6px}
+.stepnav span{flex:1;text-align:center;font-family:var(--f-mono);font-size:12.5px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:900px){.bench{grid-template-columns:1fr}.rail{border-left:0;border-top:1.5px solid var(--ink);max-height:none}#stage{height:440px}}
+
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:8px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--sunk);white-space:nowrap}
+td.num,th.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.hl{background:var(--accent-soft)}
+th.hl{color:var(--ink)}
+td .tag{font-family:var(--f-mono);font-size:11px;padding:1px 6px;border:1px solid var(--line);white-space:nowrap}
+.letter{display:inline-flex;width:20px;height:20px;align-items:center;justify-content:center;border:1.5px solid var(--accent);border-radius:50%;font:600 11px var(--f-mono);color:var(--ink)}
+
+/* grids */
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+@media (max-width:820px){.two{grid-template-columns:1fr}}
+.card{border:1px solid var(--line);background:var(--panel);padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+ol.cycle{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;counter-reset:c}
+ol.cycle li{counter-increment:c;border-top:2px solid var(--ink);padding-top:10px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+ol.cycle li::before{content:"Step " counter(c);font:500 11.5px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+ol.cycle li b{font-family:var(--f-display);font-size:19px;font-weight:600}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;border:1px solid var(--line);background:var(--panel)}
+.steps>li{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:16px;padding:16px 18px;border-bottom:1px solid var(--line);align-items:start}
+.steps>li:last-child{border-bottom:0}
+.steps .n{font:600 30px/1 var(--f-display);color:var(--accent)}
+.steps h3{margin-bottom:4px}
+.steps ul{margin:6px 0 0;padding-left:18px;font-size:14px;color:var(--ink2)}
+.steps .chk{font-size:13px;margin-top:6px}
+.steps .chk b{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ok)}
+@media (max-width:640px){.steps>li{grid-template-columns:40px minmax(0,1fr)}.steps>li .btn{grid-column:2}}
+.note{border-left:3px solid var(--warn);padding:10px 14px;background:var(--panel);font-size:14px}
+.note b{color:var(--warn)}
+.chartbox{position:relative;border:1px solid var(--line);background:var(--panel);padding:10px 8px 4px;overflow-x:auto}
+#fchart{display:block;width:100%;min-width:560px;height:auto}
+#fchart text{font-family:var(--f-mono);font-size:11px;fill:var(--muted)}
+#fchart .grid{stroke:var(--line);stroke-width:1}
+#fchart .axis{stroke:var(--ink2);stroke-width:1}
+#fchart .line{fill:none;stroke:var(--series);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+#fchart .area{fill:var(--series);opacity:.1}
+#fchart .zone{fill:var(--zone)}
+#fchart .ref{stroke:var(--ink2);stroke-width:1.5}
+#fchart .lbl{fill:var(--ink2)}
+#fchart .lblk{fill:var(--ink);font-weight:500}
+#fchart .dot{fill:var(--series);stroke:var(--panel);stroke-width:2}
+#fchart .xh{stroke:var(--ink2);stroke-width:1}
+#ctip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);padding:6px 9px;font:12px/1.45 var(--f-mono);color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.12);white-space:nowrap}
+.diag{border:1px solid var(--line);background:var(--panel);overflow-x:auto;padding:8px}
+.diag svg{display:block;width:100%;min-width:620px;height:auto}
+.diag text{font-family:var(--f-mono);font-size:11px;fill:var(--ink2)}
+.diag .cap{font-family:var(--f-display);font-size:16px;fill:var(--ink);font-weight:600}
+.diag .ol{stroke:var(--ink2);stroke-width:1.2}
+.diag .ld{stroke:var(--accent);stroke-width:1}
+.diag .lc{fill:var(--panel);stroke:var(--accent);stroke-width:1.5}
+.diag .lt{fill:var(--ink);font-weight:600;font-size:11px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--panel);padding:9px 14px;font-size:13.5px;z-index:20}
+textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(--sunk);color:var(--ink);border:1px solid var(--line);padding:8px}
+.refs{columns:2 340px;column-gap:28px;font-size:14px;margin:0;padding-left:18px}
+.refs li{break-inside:avoid;margin-bottom:8px}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+</style>
+
+<div class="wrap">
+
+<header class="titleblock" aria-label="Title block">
+  <div class="tb-main">
+    <span class="eyebrow">Design pack · manual photo-magnet press</span>
+    <h1>MagPress M4</h1>
+    <p class="lede">A hand-lever toggle press with a sliding two-station die table. It makes square and rectangular photo fridge magnets in two strokes, and its four die sets swap without tools. This page has the 3D model, the force analysis, die and frame dimensions, a parts list, the manufacturing route, assembly steps and test plan.</p>
+  </div>
+  <div class="tb-cells">
+    <div><span class="eyebrow">Sizes</span><b>50×50 · 63.5×63.5<br>53×80 · 65×90</b></div>
+    <div><span class="eyebrow">Units</span><b>mm, N, kN</b></div>
+    <div><span class="eyebrow">Drive</span><b>Toggle, MA 6 → 31</b></div>
+    <div><span class="eyebrow">Die force</span><b>5.6 kN @ 200 N hand</b></div>
+    <div><span class="eyebrow">Revision</span><b>A · 2026-10-26</b></div>
+    <div><span class="eyebrow">Status</span><b>For prototype</b></div>
+  </div>
+</header>
+
+<section aria-labelledby="s-model">
+  <div class="sec-head"><span class="no">01</span><h2 id="s-model">3D model</h2><span class="muted small">Drag to orbit · scroll or pinch to zoom · click a part to inspect it</span></div>
+  <div class="bench">
+    <div id="stage">
+      <div class="stage-msg" id="stageMsg">Loading the 3D model…</div>
+      <div class="views" role="group" aria-label="Camera views">
+        <button data-view="iso">3/4</button><button data-view="front">Front</button><button data-view="side">Side</button><button data-view="dies">Dies</button>
+      </div>
+      <div id="tip" hidden></div>
+      <div id="caption" hidden><b id="capHead"></b><span id="capText"></span></div>
+    </div>
+    <aside class="rail" aria-label="Model controls">
+      <div class="blk">
+        <div class="lbl">Die set (magnet size, mm)</div>
+        <div class="seg four" id="sizeSeg" role="group" aria-label="Die set size"></div>
+      </div>
+      <div class="blk">
+        <div class="lbl">Press cycle</div>
+        <div class="row"><button class="btn primary" id="playCycle">Run press cycle</button><button class="btn" id="resetCycle">Reset</button></div>
+        <div class="lbl"><label for="handle">Handle angle</label><output id="handleOut">65°</output></div>
+        <input type="range" id="handle" min="3" max="65" step="0.5" value="65">
+        <div class="lbl">Die table</div>
+        <div class="seg" role="group" aria-label="Die table position"><button id="posA" aria-pressed="false">A under ram</button><button id="posB" aria-pressed="true">B under ram</button></div>
+        <div class="readout" id="poseRead"></div>
+      </div>
+      <div class="blk">
+        <div class="lbl">View</div>
+        <div class="seg" role="group" aria-label="Display mode"><button id="modeAll" aria-pressed="true">Assembled</button><button id="modeBuild" aria-pressed="false">Build steps</button></div>
+        <div id="stepbox" hidden>
+          <div class="stepnav"><button class="btn" id="stepPrev" aria-label="Previous step">◀</button><span id="stepNo">Step 1 / 9</span><button class="btn" id="stepNext" aria-label="Next step">▶</button></div>
+          <b id="stepTitle"></b>
+          <p id="stepText" class="muted"></p>
+        </div>
+        <div class="lbl"><label for="explode">Exploded view</label><output id="explodeOut">0%</output></div>
+        <input type="range" id="explode" min="0" max="100" step="1" value="0">
+        <label class="chip"><input type="checkbox" id="section"> Cut-away (front half removed)</label>
+        <div class="lbl">Layers</div>
+        <div class="chips" id="layerChips"></div>
+      </div>
+      <div class="blk" id="inspector" aria-live="polite"></div>
+      <div class="blk">
+        <div class="lbl">Take the model further</div>
+        <div class="row"><button class="btn" id="copyScad">Copy OpenSCAD</button><button class="btn" id="copyBom">Copy BOM (CSV)</button></div>
+        <p class="small muted">The OpenSCAD copy is the full assembly with the selected die set, built from simple solids at true size. Use it as a starting layout in OpenSCAD, then import it into FreeCAD or Fusion to detail it.</p>
+        <textarea id="scadOut" hidden aria-label="OpenSCAD source" readonly></textarea>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section aria-labelledby="s-how">
+  <div class="sec-head"><span class="no">02</span><h2 id="s-how">How it makes a magnet</h2></div>
+  <p>Each magnet takes two strokes of the handle. The die table slides between two stations. Each lower die is loaded while it is <em>outside</em> the press, so your fingers are never under the ram. The upper die stays on the ram and does both jobs. This is the slide-type layout from the photo you sent. The two-stroke die action follows the badge-press patents listed in section 12, all expired.</p>
+  <ol class="cycle" id="cycleList"></ol>
+  <div class="two">
+    <div class="card">
+      <span class="eyebrow">Layer stack, front to back</span>
+      <p class="small">Mylar film (0.075 mm PET) → printed photo (120–150 g/m² matte paper) → tinplate shell (0.20–0.23 mm, drawn tray with clipped corners) → back plate (1.0–1.5 mm ABS/acrylic, or cardboard) → adhesive magnet sheet, applied after pressing.</p>
+      <p class="small muted">Sellers ship slightly different stacks (cardboard backs, acrylic backs, tin backs). The die set and the consumables must match, so buy consumables to this pack's sizes or adjust the die values in section 05.</p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Why these choices</span>
+      <ul class="small" style="margin:0;padding-left:18px">
+        <li><b>Toggle, not cam:</b> force rises as the stroke closes, which is where crimping needs it. The stroke ends 8° before dead centre, so it can't lock over.</li>
+        <li><b>H-frame with two columns:</b> it is symmetric, so the ram can't tilt under load the way a C-frame does.</li>
+        <li><b>Slide, not turntable:</b> it is simpler to make. Stop blocks give repeatable positions, and the table can't drift while you press.</li>
+        <li><b>Grip lands over the base tongue:</b> the press can't tip toward you at the end of the stroke.</li>
+        <li><b>Keyed die shoes:</b> the A and B shoes have different dowel patterns, so they can't go on the wrong station.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="s-spec">
+  <div class="sec-head"><span class="no">03</span><h2 id="s-spec">Specification</h2></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Item</th><th>Value</th><th>Basis</th></tr></thead>
+    <tbody>
+      <tr><td>Magnet sizes</td><td class="num">50×50, 63.5×63.5, 53×80, 65×90</td><td>One swappable die set per size: an upper die and lower dies A and B</td></tr>
+      <tr><td>Strokes per magnet</td><td class="num">2</td><td>Pickup, then crimp</td></tr>
+      <tr><td>Ram stroke</td><td class="num">38.9 mm</td><td>Toggle crank 40, link 60, handle 65° → 3°</td></tr>
+      <tr><td>Open gap above lower die</td><td class="num">26 mm</td><td>Clearance for the table to slide with parts loaded</td></tr>
+      <tr><td>Die working zone</td><td class="num">last 12.9 mm</td><td>From die contact to the end of the stroke</td></tr>
+      <tr><td>Force at die, end of stroke</td><td class="num">5.6 kN</td><td>200 N on the grip, 90% pin efficiency (section 04)</td></tr>
+      <tr><td>Frame design load</td><td class="num">8 kN</td><td>Covers a 280 N push. Crown stress ≈ 96 MPa, deflection ≈ 0.13 mm</td></tr>
+      <tr><td>Footprint (W × D)</td><td class="num">460 × 470 mm</td><td>Base 460 × 260 plus front tongue 210. The table overhangs 20 mm at each end stop</td></tr>
+      <tr><td>Height</td><td class="num">≈ 270 closed, ≈ 560 handle up</td><td>Handle 350 mm from the pivot</td></tr>
+      <tr><td>Mass (estimate)</td><td class="num">≈ 28 kg</td><td>Steel base, crown and ram. About 20 kg if the base is cut from 10 mm plate and the ram from 7075</td></tr>
+      <tr><td>Die change</td><td class="num">≈ 2–3 min, no tools</td><td>1 lock screw on the upper die, 2 thumb screws per lower die</td></tr>
+      <tr><td>Output (estimate)</td><td class="num">2–4 magnets/min</td><td>Practised operator. Measure on the prototype</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section aria-labelledby="s-force">
+  <div class="sec-head"><span class="no">04</span><h2 id="s-force">Force through the stroke</h2></div>
+  <p>The handle drives a toggle. The crank (O→A, 40 mm) and the link (A→B, 60 mm) straighten as the handle comes down. Ram movement per degree of handle travel shrinks toward the bottom, so the force multiplies, reaching about ×31 at the end. Mechanical advantage is <span class="mono">MA = L / (dy/dφ)</span> with <span class="mono">dy/dφ = a·sinφ + a²·sinφ·cosφ / √(b² − a²sin²φ)</span>, where L = 290 mm (pivot to grip centre), a = 40, b = 60, and φ is the crank angle from straight down. The chart assumes 200 N on the grip and 90% efficiency through the three pins.</p>
+  <div class="chartbox" id="chartBox">
+    <svg id="fchart" viewBox="0 0 720 320" role="img" aria-label="Force at the die versus ram travel"></svg>
+    <div id="ctip" hidden></div>
+  </div>
+  <p class="small muted">The required force for each die set is an estimate: about 7 N per mm of magnet edge for the crimp spring preload, scaled from the round-badge spring figures in US 4,696,086, then × 2.2 for the final crimp. Measure it on the prototype with a load cell (section 10). Stroke 1 needs much less force and stops at about 35.5 mm, when the plug meets the shell.</p>
+</section>
+
+<section aria-labelledby="s-dies">
+  <div class="sec-head"><span class="no">05</span><h2 id="s-dies">Swappable die sets</h2></div>
+  <div class="two">
+    <div class="card">
+      <span class="eyebrow">Common interface, same on all four sets</span>
+      <ul class="small" style="margin:0;padding-left:18px">
+        <li><b>Upper die:</b> Ø16 g6 shank with a V-groove, fitted into the Ø16 H7 die holder and locked by one M5 cone-point screw. A Ø4 pin in the die top fixes the rotation, which matters for rectangles. A shim pack on each upper die sets its depth once, so swapping needs no adjustment.</li>
+        <li><b>Lower dies:</b> each sits on a 140 × 124 × 10 shoe with two Ø8 dowels and two M5 thumb screws. Shoe A's dowels are 90 mm apart at the back; shoe B's are 60 mm apart at the front.</li>
+        <li><b>Marking:</b> shoe A has a green band and is laser-marked "A · PICKUP". Shoe B has a red band and "B · CRIMP". Each part carries its drawing number and size code, for example MP-207 6590 A. The long side of every rectangular die runs along the table.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Materials</span>
+      <ul class="small" style="margin:0;padding-left:18px">
+        <li><b>Production:</b> 1.2379 / Cr12MoV (D2 type), vacuum hardened and tempered to 58–60 HRC. Wire-EDM the profiles after hardening, grind the faces, and polish the forming edges to Ra 0.2–0.4 µm. Optional TiN or hard-chrome coat.</li>
+        <li><b>Prototype:</b> 7075-T6 aluminium, CNC machined and hard anodised. This is the cheapest way to prove the fits. Expect faster wear on the forming edges.</li>
+        <li><b>Shoes:</b> 6061-T6 or C45. <b>Springs:</b> ISO 10243 die springs, colour-coded green (light) for A, blue (medium) for the upper frame, red or yellow (strong) for B.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="diag" aria-label="Schematic section through the die set">
+    <svg viewBox="0 0 760 380" id="dieDiag" role="img" aria-label="Schematic cross-section of the upper die, lower pickup die A and lower crimp die B with lettered features">
+      <defs>
+        <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" style="fill:var(--sunk)"/><line x1="0" y1="0" x2="0" y2="7" style="stroke:var(--muted)" stroke-width="1"/></pattern>
+      </defs>
+      <!-- upper die -->
+      <text x="380" y="20" text-anchor="middle" class="cap">Upper die (on the ram)</text>
+      <rect x="340" y="30" width="80" height="14" fill="url(#hatch)" class="ol"/>
+      <rect x="280" y="44" width="200" height="22" fill="url(#hatch)" class="ol"/>
+      <path d="M296 66 l6 4 l-6 4 l6 4 l-6 4 M460 66 l6 4 l-6 4 l6 4 l-6 4" fill="none" stroke="#2f6fb5" stroke-width="2"/>
+      <rect x="286" y="82" width="46" height="40" fill="url(#hatch)" class="ol"/>
+      <rect x="428" y="82" width="46" height="40" fill="url(#hatch)" class="ol"/>
+      <rect x="334" y="66" width="92" height="44" fill="url(#hatch)" class="ol"/>
+      <path d="M334 110 q46 -6 92 0" fill="none" class="ol"/>
+      <line x1="434" y1="110" x2="434" y2="122" class="ld"/><line x1="430" y1="110" x2="438" y2="110" class="ld"/><line x1="430" y1="122" x2="438" y2="122" class="ld"/>
+      <!-- lower A -->
+      <text x="170" y="196" text-anchor="middle" class="cap">Lower die A · pickup</text>
+      <rect x="60" y="330" width="220" height="18" fill="url(#hatch)" class="ol"/>
+      <rect x="122" y="246" width="96" height="84" fill="url(#hatch)" class="ol"/>
+      <rect x="70" y="214" width="50" height="62" fill="url(#hatch)" class="ol"/>
+      <rect x="220" y="214" width="50" height="62" fill="url(#hatch)" class="ol"/>
+      <path d="M86 278 l6 4 l-6 4 l6 4 l-6 4 l6 4 l-6 4 l6 4 l-6 4 l6 4 l-6 4 l6 4 M254 278 l6 4 l-6 4 l6 4 l-6 4 l6 4 l-6 4 l6 4 l-6 4 l6 4 l-6 4 l6 4" fill="none" stroke="#3e9b4f" stroke-width="2"/>
+      <rect x="100" y="210" width="140" height="4" fill="none" style="stroke:var(--accent)" stroke-width="1"/>
+      <!-- lower B -->
+      <text x="590" y="196" text-anchor="middle" class="cap">Lower die B · crimp</text>
+      <rect x="480" y="330" width="220" height="18" fill="url(#hatch)" class="ol"/>
+      <rect x="552" y="258" width="76" height="72" fill="url(#hatch)" class="ol"/>
+      <path d="M490 214 h48 l8 8 v42 h-56 z" fill="url(#hatch)" class="ol"/>
+      <path d="M690 214 h-48 l-8 8 v42 h56 z" fill="url(#hatch)" class="ol"/>
+      <rect x="540" y="252" width="100" height="6" style="fill:var(--muted)" opacity=".55"/>
+      <path d="M500 266 l7 4 l-7 4 l7 4 l-7 4 l7 4 l-7 4 l7 4 l-7 4 l7 4 l-7 4 l7 4 l-7 4 l7 4 l-7 4 l7 4 M674 266 l7 4 l-7 4 l7 4 l-7 4 l7 4 l-7 4 l7 4 l-7 4 l7 4 l-7 4 l7 4 l-7 4 l7 4 l-7 4 l7 4" fill="none" stroke="#c8302b" stroke-width="2.4"/>
+      
+      <!-- leaders + letters -->
+      <g id="diagLetters"></g>
+      <text x="380" y="372" text-anchor="middle">Schematic section, not to scale. Letters match the table below.</text>
+    </svg>
+  </div>
+  <div class="tbl"><table id="dieTable"></table></div>
+  <p class="small muted">Fits are starting values. Upper frame opening = shell + 0.35 mm, so it grips the wrapped shell by friction. Plug = shell + 0.30 mm, sliding in the frame. Crimp frame opening = shell + 0.45 mm. Lap the upper frame opening on the first prototype until a wrapped shell lifts out of die A reliably and pushes out cleanly over die B.</p>
+  <h3>Consumables per die set</h3>
+  <div class="tbl"><table id="consTable"></table></div>
+</section>
+
+<section aria-labelledby="s-frame">
+  <div class="sec-head"><span class="no">06</span><h2 id="s-frame">Frame and drive parts</h2></div>
+  <p>One frame serves all four die sets. Base, crown and ram carry the column holes at 210.00 mm pitch. Machine all three with the same program and datum scheme, or line-bore them together, so the ram slides freely once the column nuts are torqued.</p>
+  <p><b>Machine-shop drawings:</b> drawing set MP-000 to MP-209 (30 A3 sheets, PDF) with DXF profiles for cutting and wire-EDM. Where this page and the drawings differ, the drawings govern.</p>
+  <div class="tbl"><table id="frameTable"></table></div>
+</section>
+
+<section aria-labelledby="s-bom">
+  <div class="sec-head"><span class="no">07</span><h2 id="s-bom">Bill of materials</h2></div>
+  <div class="tbl"><table id="bomTable"></table></div>
+  <div class="two">
+    <div class="card">
+      <span class="eyebrow">Budget guide (rough, 2026)</span>
+      <ul class="small" style="margin:0;padding-left:18px">
+        <li>Frame and drive parts, one prototype from a local CNC shop: about $600–1,200.</li>
+        <li>Bought parts (bushings, springs, pins, fasteners, grip, feet): about $80–150.</li>
+        <li>Die set in 7075 aluminium: about $120–300 each. In hardened Cr12MoV: about $250–600 each.</li>
+        <li>Batch pricing (10+) and shops in India or China usually cost much less. Get three quotes from this drawing pack.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Make or buy</span>
+      <p class="small">Make the frame, drive and dies; they are simple prismatic parts that any 3-axis CNC shop and wire-EDM shop can handle. Buy everything that is a catalogue item: bushings, die springs, pins, fasteners, ball plungers, thumb screws, grip and feet. Buy consumables (shells, film, backs, magnet sheet) from a magnet-supplies vendor in the four sizes.</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="s-mfg">
+  <div class="sec-head"><span class="no">08</span><h2 id="s-mfg">Manufacturing route</h2></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Part family</th><th>Route</th><th>Critical checks</th></tr></thead>
+    <tbody>
+      <tr><td>Base plate</td><td>Laser or plasma cut 12 mm S235 → stress-relieve if it warps → CNC face the station area → bore columns → drill and tap → powder coat with masks</td><td>Flatness 0.05 under the die table; column holes Ø25 H7 at 210.00 ±0.01</td></tr>
+      <tr><td>Crown, ram, cheeks, clevis</td><td>Saw C45 bar → CNC mill and bore (same datum and program as the base) → deburr → black oxide</td><td>Column and bushing holes square to the faces within 0.02/100</td></tr>
+      <tr><td>Columns</td><td>Turn GCr15 → induction harden 58–62 HRC → centreless grind Ø25 h6 → hard chrome 10 µm → thread ends</td><td>Straight within 0.02 over length; Ra ≤ 0.4</td></tr>
+      <tr><td>Toggle parts (hub, links)</td><td>Wire EDM or CNC from C45 plate → ream Ø12 H7 → black oxide</td><td>Centre distances 40.00 and 60.00 ±0.02; links matched as a pair</td></tr>
+      <tr><td>Pins</td><td>Buy as hardened dowel stock Ø12 g6, or turn GCr15 → harden → grind → retaining-ring grooves</td><td>Pin to bore clearance 0.01–0.03</td></tr>
+      <tr><td>Die table, shoes</td><td>CNC 6061-T6 → ream dowel holes → Helicoils → hard anodise (table gold)</td><td>Table flat 0.03; dowel holes true position 0.02</td></tr>
+      <tr><td>Dies, production</td><td>Saw Cr12MoV → CNC rough with 0.3 mm left → vacuum harden 1020–1040 °C, gas quench, temper twice → 58–60 HRC → wire EDM the profiles (plug, frame openings, pedestals) → surface grind → polish forming edges and bevel → optional TiN</td><td>Profile ±0.01; plug-to-frame sliding fit 0.02–0.03 per side; forming edges Ra 0.2–0.4</td></tr>
+      <tr><td>Dies, prototype</td><td>CNC 7075-T6 to size → hard anodise 25–50 µm (machine allowance for the coating) → polish edges</td><td>Same fits as production, measured after anodise</td></tr>
+      <tr><td>Marking</td><td>Laser-mark size code, die letter and shim value on every die part. Paint the A and B bands on the shoes</td><td>Readable after cleaning</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section aria-labelledby="s-asm">
+  <div class="sec-head"><span class="no">09</span><h2 id="s-asm">Assembly</h2><span class="muted small">Each step has a "Show in 3D" button that opens the build view at that step</span></div>
+  <ol class="steps" id="asmSteps"></ol>
+  <h3>Swapping a die set</h3>
+  <ol class="small" style="margin:0;padding-left:20px;max-width:75ch">
+    <li>Rest the handle fully up on its stop and slide the table so both stations are clear.</li>
+    <li>Upper die: support it with one hand, loosen the M6 side screw on the die holder, and pull the die straight down. Push in the new die with the flat facing the screw and the pin in its slot, then tighten.</li>
+    <li>Lower dies: loosen the two thumb screws on each shoe and lift the shoe off its dowels. Fit the new A shoe (green) on the left station and the new B shoe (red) on the right. The dowels prevent mix-ups.</li>
+    <li>Make one slow dry stroke on each station with no parts. The upper frame's lead-in should enter both lower frames without touching.</li>
+    <li>Make two test magnets and check the corners and the crimp before running a batch.</li>
+  </ol>
+</section>
+
+<section aria-labelledby="s-qa">
+  <div class="sec-head"><span class="no">10</span><h2 id="s-qa">Setup, calibration and tests</h2></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Test</th><th>How</th><th>Pass</th></tr></thead>
+    <tbody>
+      <tr><td>Station alignment</td><td>Put a Ø16 centring pin with a point in the die holder. Adjust each stop screw until the point lands on the station's centre mark. Lock the nuts.</td><td>±0.05 mm at both stations</td></tr>
+      <tr><td>Stroke and handle stop</td><td>Measure ram travel with calipers from handle-up to handle-down.</td><td>38.9 ±0.3 mm; handle stops 3° above horizontal</td></tr>
+      <tr><td>Depth (per die set)</td><td>Fit the shims so the crimp finishes with the handle about 5–10° above horizontal. Record the shim value on the upper die.</td><td>Full crimp with a firm push; no hard knock at the bottom</td></tr>
+      <tr><td>Force</td><td>Put a load cell (10 kN button cell) on station B with a dummy block. Push the grip with a hanging scale at 200 N.</td><td>≥ 5 kN; compare with section 04</td></tr>
+      <tr><td>Magnet quality</td><td>Make 20 of each size.</td><td>No white paper at the edges, no torn film, no corner wrinkles, flange flat and closed all round, back doesn't move under a firm thumb twist</td></tr>
+      <tr><td>Drop and pull</td><td>Drop five magnets from 1 m onto a hard floor; pull each back by hand.</td><td>No separation (set your own stricter spec for sale)</td></tr>
+      <tr><td>Endurance</td><td>Run 1,000 strokes, half on each station, then repeat the alignment and quality checks.</td><td>No change in alignment, no galling on the columns</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><b>Safety.</b> The pinch points are between the upper and lower dies, and between the table and the stop blocks. Load parts only at the outer stations. Return springs hold the handle up when released. Wear cut-resistant gloves when handling loose tinplate shells. The press weighs about 28 kg, so use two people to lift it.</div>
+</section>
+
+<section aria-labelledby="s-ip">
+  <div class="sec-head"><span class="no">11</span><h2 id="s-ip">Before you sell it</h2></div>
+  <p>The two-stroke badge-die principle is described in patents that have now expired (US 4,696,086, US 6,038,944, US 6,938,518). This pack uses its own frame and die geometry rather than copying a particular vendor's machine. Before selling in your market, have a patent agent search for current patents and registered designs on square magnet presses, and give the product its own look and name.</p>
+</section>
+
+<section aria-labelledby="s-refs">
+  <div class="sec-head"><span class="no">12</span><h2 id="s-refs">Research and references</h2></div>
+  <p class="small muted">No open-source CAD for this kind of press turned up. The design is built from the expired patents below, published operating guides and vendor specs. Vendor pages are marketing claims, so they were used only for sizes and part lists.</p>
+  <ul class="refs">
+    <li><a href="https://patents.google.com/patent/US4696086A/en">US 4,696,086 — Die set apparatus for badges</a> (Dickerson, 1987). Pickup and crimp die sequence, punch springs ≈ 100 lb, crimp springs ≈ 350 lb.</li>
+    <li><a href="https://patents.google.com/patent/US6938518B1/en">US 6,938,518 — Two-stroke machine for buttons with coplanar shell flanges</a> (Tecre, 2005). Rectangular shells 0.008–0.009 in, clipped corners, spring cells, scalloped bevel.</li>
+    <li><a href="https://patents.google.com/patent/US6038944A/en">US 6,038,944 — Apparatus for manufacturing buttons</a> (Tecre, 2000). Box frame vs C/H frames, slide vs turntable, handle-over-base anti-tip.</li>
+    <li><a href="https://patents.google.com/patent/US4571806">US 4,571,806 — Apparatus for assembling buttons</a>. Toggle-joint drive in a hand press.</li>
+    <li><a href="https://bpl.on.ca/sites/default/files/_content_files/page/PDF/BPLMaker-Button-Maker-Guide.pdf">BPL Maker button-maker guide</a>, <a href="https://librarybeta.macewan.ca/sites/default/files/makerspace_images/Makerspace-Guides/Button-Press-Guide-Digital.pdf">MacEwan button press guide</a>, <a href="https://ats.emory.edu/_includes/documents/techlab_handouts/Assembling_1inch_buttons_2021.pdf">Emory TechLab handout</a>. Operating sequence and common faults.</li>
+    <li><a href="https://www.jxmide.com/wendy-63-563-5mm-square-shape-custom-photo-fridge-magnet-button-machine-with-cutter-and-1000pcs-magnets-2-product/">JXMide square magnet machine</a> and the <a href="https://jxmide.en.made-in-china.com/product/QnvpmjWAJsrX/China-63-5X63-5-Custom-DIY-50X50-Magnetic-Rectangle-Square-Button-Photo-Fridge-Magnet-Making-Machine-Kit.html">Made-in-China listing</a>. The four standard sizes and consumable options.</li>
+    <li><a href="https://www.enters.cn/products/63-5-63-5mm-best-fridge-magnet-maker-kit">63.5 mm kit</a> (press order: shell, mylar, paper, acrylic, magnet) and <a href="https://plastiquealaloupe.fondationtaraocean.org/products/square-magnet-button-maker-press-machine-with-100-sets-squar/213073541/">square kit listing</a> (mould A / mould B steps).</li>
+    <li><a href="https://grawerton.pl/en/1116-set-for-making-magnets-65x90-mm-100-pcsop.html">Grawerton 65×90 set</a> (tin, cardboard, magnet, foil) and <a href="https://factor.bg/en/product/4478/idgamax-78x53-mm-fridge-magnet-supplies-pack-500-pcs.html">IDGamax 78×53 supplies</a>.</li>
+    <li><a href="https://mybadgestudio.com/blog/63-5mm-square-fridge-magnet-template-guide">63.5 mm template guide</a>, <a href="https://onlineprinters.ie/p/fridge-magnets-round-%f8-7-5-cm">Onlineprinters</a> and <a href="https://replatform.tradeprint.co.uk/magnet-printing/fridge-magnets">Tradeprint</a> bleed guidance.</li>
+    <li><a href="https://www.firgelliauto.com/blogs/mechanisms/toggle-mechanism">Toggle mechanism formulas</a> (FIRGELLI). The MA above is derived directly from the linkage geometry.</li>
+    <li><a href="https://webshop.tevema.com/gb/blog/colours-die-springs">Die spring colour codes</a> and <a href="https://scc-ccn.ca/standardsdb/standards/8168099">ISO 10243:2019</a>.</li>
+    <li><a href="https://online.standard.no/en/iso-11949-2026">ISO 11949</a>, electrolytic tinplate gauges.</li>
+  </ul>
+</section>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+window.MP = (function(){
+  var K = {a:40, b:60, L:290, Oy:234.5, phiOpen:70, phiEnd:8, off:5, hand:200, eta:0.9};
+  function rad(d){ return d*Math.PI/180; }
+  function yB(phi){ var p=rad(phi); return K.Oy - K.a*Math.cos(p) - Math.sqrt(K.b*K.b - Math.pow(K.a*Math.sin(p),2)); }
+  var yOpen = yB(K.phiOpen);
+  function travel(phi){ return yOpen - yB(phi); }
+  function dyd(phi){ var p=rad(phi), s=Math.sin(p), c=Math.cos(p); return K.a*s + K.a*K.a*s*c/Math.sqrt(K.b*K.b - K.a*K.a*s*s); }
+  function MA(phi){ return K.L / dyd(phi); }
+  function force(phi, hand){ return (hand||K.hand) * K.eta * MA(phi); }
+  var Z = {lowerTop:66, upperBottom:92, contact:26, pickStop:35.5, frameTravel:8, recess:5.5};
+  function phiForTravel(t){ var lo=K.phiEnd, hi=K.phiOpen; for(var i=0;i<60;i++){ var m=(lo+hi)/2; if(travel(m) > t) lo=m; else hi=m; } return (lo+hi)/2; }
+  var psiPick = phiForTravel(Z.pickStop) - K.off;
+  var SIZES = [
+    {id:'s50', label:'50 × 50', code:'5050', W:50, H:50},
+    {id:'s63', label:'63.5 × 63.5', code:'6363', W:63.5, H:63.5},
+    {id:'r53', label:'53 × 80', code:'5380', W:53, H:80},
+    {id:'r65', label:'65 × 90', code:'6590', W:65, H:90}];
+  function fitA4(w,h){ w+=1; h+=1; return Math.max(Math.floor(210/w)*Math.floor(297/h), Math.floor(210/h)*Math.floor(297/w)); }
+  function dims(s){
+    var X = Math.max(s.W, s.H), Z = Math.min(s.W, s.H), r = 4, P = 2*(X+Z) - 8*r + 2*Math.PI*r, crimpPre = 7*P;
+    return { W:X, H:Z, X:X, Z:Z, r:r, P:P, crimpPre:crimpPre, peak:2.2*crimpPre, upSpr:0.29*crimpPre, pickSpr:100,
+      paper:[X+12,Z+12], safe:[X-6,Z-6], back:[X-1.4,Z-1.4], mag:[X-4,Z-4],
+      plug:[X+0.30,Z+0.30], upIn:[X+0.35,Z+0.35], upOut:[X+30,Z+30], body:[X+32,Z+32],
+      pickPed:[X-0.5,Z-0.5], pickIn:[X+0.6,Z+0.6], pickRec:[X+12.5,Z+12.5], lowOut:[X+32,Z+32],
+      crimpPed:[X-4.5,Z-4.5], crimpIn:[X+0.45,Z+0.45], perA4: fitA4(X+12,Z+12) };
+  }
+  function f2(n){ return String(+n.toFixed(2)); }
+  function pair(a){ return f2(a[0]) + ' × ' + f2(a[1]); }
+  function kN(n){ return (n/1000).toFixed(1) + ' kN'; }
+  var STEPS = [
+    {t:'Base and feet', s:'Fit 6 rubber feet to the base plate. Put the base on a flat bench and check it rocks on none of them.',
+      ul:['Feet: M6 studs into tapped holes, hand tight','Check the station area with a straightedge and feeler gauge'], chk:'Base flat within 0.1 mm across the station area'},
+    {t:'Slide guides', s:'Lay the two guide rails parallel, put the keepers on top and screw both down together, then fit the two stop blocks on the back keeper.',
+      ul:['M5 × 20 countersunk screws through keeper and rail, 6 N·m','Set rail spacing with the die table itself plus 0.05 mm shim','Stop blocks: 2 × M5 × 35 each, through keeper and rail'], chk:'Rails parallel within 0.05 mm over 400 mm'},
+    {t:'Die table', s:'Slide the die table in under the keepers. Fit the stop pin, the M6 ball plunger and the two push knobs (end faces).',
+      ul:['Table should run end to end with fingertip force and no rock','Ball plungers click at both stations'], chk:'Running clearance 0.03–0.05 mm, no lift at the ends'},
+    {t:'Columns', s:'Press the two columns into the base (H7/p6) and pull them down with M10 screws and Ø32 washers from below.',
+      ul:['Support the base on the press bed directly under each bore','Loctite 243 on the M10 screws, 40 N·m'], chk:'Columns square to the base within 0.05 per 100 mm'},
+    {t:'Ram', s:'Press the bushings into the ram, fit the clevis and die holder, screw in the return rods, then slide the ram down onto the columns.',
+      ul:['Bushings flush with the ram underside','Clevis: 2 × M5 into the 2 mm locating pocket','Die holder: 4 × M5 low-head, 6 N·m; bumpers: 2 × M6 on the ram top'], chk:'Ram slides the full column length under its own weight'},
+    {t:'Crown and return springs', s:'Lower the crown over the column tops and the return rods. Torque the column nuts, then fit the return springs, washers and nylock nuts, and screw the handle-stop buffer into the front column top.',
+      ul:['Column nuts 100 N·m in two passes, alternating','Set the springs to 80 mm installed length'], chk:'Ram still slides freely after torquing (if it binds, loosen and re-seat the crown)'},
+    {t:'Toggle drive', s:'Bolt and dowel the pivot cheeks to the crown. Fit the handle hub on pin O with a bronze spacer each side, join the two links to the hub (pin A) and the clevis (pin B), then fit the bar and grip.',
+      ul:['Grease all pins (lithium EP2)','Retaining rings on every pin','Grip: push on with rubber adhesive'], chk:'Handle swings 65° → 3° smoothly; ram travel 38.9 ±0.3 mm'},
+    {t:'Lower dies', s:'Place shoe A (green) on the left station and shoe B (red) on the right. Tighten the thumb screws.',
+      ul:['Wipe the dowels and table first; dirt here tilts the die','Check the springs sit in their pockets'], chk:'Each station centred under the ram within 0.05 mm (centring pin test)'},
+    {t:'Upper die', s:'Push the upper die shank into the die holder, flat toward the lock screw and pin in its slot. Tighten the M6 lock screw. Make a slow dry stroke on each station.',
+      ul:['Shim pack stays with the die','Seat the M5 cone-point lock screw in the shank groove'], chk:'Upper frame enters both lower frames without touching'}
+  ];
+  var CYCLE = [
+    {t:'Load die A', s:'With the table to the right, die A is outside. Put a tinplate shell face-up on the pedestal, then the printed photo and the mylar film in the recess on top.'},
+    {t:'Slide the table', s:'Push the table left until it clicks. Die A is now under the ram and die B comes out on the right.'},
+    {t:'Load die B', s:'Put a back plate on die B\'s pedestal.'},
+    {t:'Stroke 1: pickup', s:'Pull the handle down. The upper frame pushes the film and photo over the shell and swallows the wrapped shell, which lifts out with the ram.'},
+    {t:'Slide back', s:'Push the table right. Die B goes under the ram.'},
+    {t:'Stroke 2: crimp', s:'Pull the handle down fully. The plug pushes the shell out over the back and rolls its edge flat underneath.'},
+    {t:'Unload', s:'Slide the table left, lift the finished magnet out of die B and stick on the magnet sheet.'}
+  ];
+  var cur = SIZES[1];
+  function setSize(id){ for(var i=0;i<SIZES.length;i++) if(SIZES[i].id===id) cur=SIZES[i]; document.dispatchEvent(new CustomEvent('mp:size',{detail:cur})); }
+  return {K:K, Z:Z, yB:yB, yOpen:yOpen, travel:travel, MA:MA, force:force, phiForTravel:phiForTravel, psiPick:psiPick,
+    SIZES:SIZES, dims:dims, f2:f2, pair:pair, kN:kN, STEPS:STEPS, CYCLE:CYCLE, get cur(){return cur;}, setSize:setSize};
+})();
+</script>
+
+<script>
+(function(){
+  var MP = window.MP;
+  function el(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs) e.setAttribute(k, attrs[k]); if(html!=null) e.innerHTML=html; return e; }
+  function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(function(){t.hidden=true;},2600); }
+  MP.toast = toast;
+
+  // size buttons
+  var seg = document.getElementById('sizeSeg');
+  MP.SIZES.forEach(function(s){ var b=el('button',{'data-size':s.id,'aria-pressed':String(s===MP.cur)}, s.label); b.addEventListener('click',function(){ MP.setSize(s.id); }); seg.appendChild(b); });
+
+  // cycle list
+  var cl = document.getElementById('cycleList');
+  MP.CYCLE.forEach(function(c){ var li=el('li'); var b=el('b'); b.textContent=c.t; var p=el('span'); p.textContent=c.s; li.appendChild(b); li.appendChild(p); cl.appendChild(li); });
+
+  // assembly steps
+  var as = document.getElementById('asmSteps');
+  MP.STEPS.forEach(function(st, i){
+    var li = el('li'); li.appendChild(el('div',{'class':'n'}, String(i+1)));
+    var body = el('div'); var h=el('h3'); h.textContent=st.t; body.appendChild(h);
+    var p=el('p'); p.textContent=st.s; body.appendChild(p);
+    var ul=el('ul'); st.ul.forEach(function(x){ var l=el('li'); l.textContent=x; ul.appendChild(l); }); body.appendChild(ul);
+    var c=el('p',{'class':'chk'}); c.innerHTML='<b>Check</b> '; c.appendChild(document.createTextNode(st.chk)); body.appendChild(c);
+    li.appendChild(body);
+    var btn=el('button',{'class':'btn'},'Show in 3D'); btn.addEventListener('click',function(){ document.dispatchEvent(new CustomEvent('mp:showstep',{detail:i+1})); document.getElementById('s-model').scrollIntoView({behavior:'smooth'}); });
+    li.appendChild(btn); as.appendChild(li);
+  });
+
+  // die dimension table
+  var ROWS = [
+    ['A','Finished magnet face', function(d){return MP.pair([d.W,d.H]);}],
+    ['B','Shell blank (tinplate 0.22, depth 4.5, R4)', function(d){return MP.pair([d.W,d.H]);}],
+    ['C','Photo + film cut size (R6)', function(d){return MP.pair(d.paper);}],
+    ['D','Safe area for text and faces', function(d){return MP.pair(d.safe);}],
+    ['E','Back plate (ABS/acrylic 1.2)', function(d){return MP.pair(d.back);}],
+    ['F','Magnet sheet, stick on after', function(d){return MP.pair(d.mag);}],
+    ['G','Upper plug profile, R4.15, concave lip R1', function(d){return MP.pair(d.plug);}],
+    ['H','Upper frame opening (grip fit)', function(d){return MP.pair(d.upIn);}],
+    ['I','Plug recess in frame, D', function(){return '5.5';}],
+    ['J','Upper frame springs, 4 × blue, total preload', function(d){return MP.kN(d.upSpr);}],
+    ['K','Pickup pedestal, R3.75, h 21.8', function(d){return MP.pair(d.pickPed);}],
+    ['L','Pickup frame opening / film recess 0.6 deep', function(d){return MP.pair(d.pickIn)+' / '+MP.pair(d.pickRec);}],
+    ['M','Pickup springs, 4 × green, total preload', function(){return '≈ 0.1 kN';}],
+    ['N','Crimp pedestal (relief under back edge), R2.5', function(d){return MP.pair(d.crimpPed);}],
+    ['O','Crimp frame opening + 1.2 × 30° scalloped lead-in', function(d){return MP.pair(d.crimpIn);}],
+    ['P','Crimp springs, 8 × red/yellow, total preload (est.)', function(d){return MP.kN(d.crimpPre);}],
+    ['Q','Lower frame travel to hard stop on the shoe', function(){return '8';}],
+    ['—','Lower frame outside size (both dies)', function(d){return MP.pair(d.lowOut);}],
+    ['—','Upper die body (plus Ø16 shank)', function(d){return MP.pair(d.body);}],
+    ['—','Peak force needed (est.)', function(d){return MP.kN(d.peak);}],
+    ['—','Prints per A4 sheet', function(d){return String(d.perA4);}]
+  ];
+  function renderDieTable(){
+    var t = document.getElementById('dieTable'); t.innerHTML='';
+    var thead=el('thead'), tr=el('tr'); tr.appendChild(el('th',null,'')); tr.appendChild(el('th',null,'Feature'));
+    MP.SIZES.forEach(function(s){ var th=el('th',{'class':'num'+(s===MP.cur?' hl':'')}); th.textContent=s.label; tr.appendChild(th); });
+    thead.appendChild(tr); t.appendChild(thead);
+    var tb=el('tbody');
+    ROWS.forEach(function(r){ var tr=el('tr'); var c0=el('td'); if(r[0]!=='—'){ var sp=el('span',{'class':'letter'}); sp.textContent=r[0]; c0.appendChild(sp);} tr.appendChild(c0);
+      var c1=el('td'); c1.textContent=r[1]; tr.appendChild(c1);
+      MP.SIZES.forEach(function(s){ var td=el('td',{'class':'num'+(s===MP.cur?' hl':'')}); td.textContent=r[2](MP.dims(s)); tr.appendChild(td); });
+      tb.appendChild(tr); });
+    t.appendChild(tb);
+  }
+  function renderCons(){
+    var t=document.getElementById('consTable'); t.innerHTML='';
+    var rows=[
+      ['Tinplate shell','0.20–0.23 tinplate, drawn tray, clipped corners', function(d){return MP.pair([d.W,d.H])+' × 4.5';}],
+      ['Mylar film','0.075 PET, clear gloss', function(d){return MP.pair(d.paper);}],
+      ['Photo paper','120–150 g/m² matte, 300 dpi artwork with bleed', function(d){return MP.pair(d.paper);}],
+      ['Back plate','1.0–1.5 ABS or acrylic (or 0.8 grey board)', function(d){return MP.pair(d.back);}],
+      ['Magnet sheet','0.8–1.0 flexible magnet, self-adhesive', function(d){return MP.pair(d.mag);}],
+      ['Cutting','Rectangular paper punch, or trimmer and corner rounder', function(d){return d.perA4+' per A4';}]
+    ];
+    var thead=el('thead'), tr=el('tr'); ['Part','Spec'].forEach(function(h){tr.appendChild(el('th',null,h));});
+    MP.SIZES.forEach(function(s){ var th=el('th',{'class':'num'+(s===MP.cur?' hl':'')}); th.textContent=s.label; tr.appendChild(th); });
+    thead.appendChild(tr); t.appendChild(thead); var tb=el('tbody');
+    rows.forEach(function(r){ var tr=el('tr'); var a=el('td'); a.textContent=r[0]; var b=el('td'); b.textContent=r[1]; tr.appendChild(a); tr.appendChild(b);
+      MP.SIZES.forEach(function(s){ var td=el('td',{'class':'num'+(s===MP.cur?' hl':'')}); td.textContent=r[2](MP.dims(s)); tr.appendChild(td); }); tb.appendChild(tr); });
+    t.appendChild(tb);
+  }
+
+  // die diagram letters
+  (function(){
+    var g=document.getElementById('diagLetters'); var NS='http://www.w3.org/2000/svg';
+    var L=[['G',380,96,520,96],['H',309,122,250,140],['I',434,116,520,124],['J',466,74,540,60],
+           ['K',170,300,40,300],['L',95,214,40,232],['M',92,300,40,270],
+           ['N',590,300,730,300],['O',540,220,730,232],['P',680,286,730,268],['Q',525,320,455,300]];
+    L.forEach(function(a){
+      var ln=document.createElementNS(NS,'line'); ln.setAttribute('x1',a[1]); ln.setAttribute('y1',a[2]); ln.setAttribute('x2',a[3]); ln.setAttribute('y2',a[4]); ln.setAttribute('class','ld'); g.appendChild(ln);
+      var c=document.createElementNS(NS,'circle'); c.setAttribute('cx',a[3]); c.setAttribute('cy',a[4]); c.setAttribute('r',10); c.setAttribute('class','lc'); g.appendChild(c);
+      var t=document.createElementNS(NS,'text'); t.setAttribute('x',a[3]); t.setAttribute('y',a[4]+4); t.setAttribute('text-anchor','middle'); t.setAttribute('class','lt'); t.textContent=a[0]; g.appendChild(t);
+    });
+  })();
+
+  // frame parts table
+  var FRAME = [
+    ['Base plate (MP-101)','1','S235 steel 12 mm','460 × 260 + tongue 140 × 210; Ø20 H7 × 2 at 210.00 (column spigots)','Black powder coat'],
+    ['Guide rail (MP-102)','2','C45 ground flat','14 × 12.05 × 460; 8 / 10 holes','Black oxide'],
+    ['Keeper strip (MP-103)','2','C45 flat','20 × 4 × 460; overlaps the table 5 mm','Black oxide'],
+    ['Stop block (MP-104)','2','C45','30 × 27 × 16; M6 × 0.75 stop screw','Black oxide'],
+    ['Die table (MP-105)','1','6061-T6','340 × 150 × 12; stations at ±80; keyed dowel patterns','Hard anodise, gold'],
+    ['Stop pin (MP-106)','1','C45, 45–50 HRC','Ø6 × 16 + M4 stud','Black oxide'],
+    ['Column (MP-107)','2','100Cr6, 58–62 HRC','Ø25 h6 × 158 + Ø20 spigots; M16 × 1.5 top; 206.5 long','Hard chrome 8–12 µm'],
+    ['Crown (MP-108)','1','C45','80 × 25 × 250; Ø20 H7 × 2 at 210.00; slot 38 × 66','Black oxide'],
+    ['Ram (MP-109)','1','C45','70 × 30 × 250; Ø32 H7 × 2 at 210.00 for bushings','Black oxide'],
+    ['Clevis (MP-110)','1','C45','20 × 22 × 32; Ø12 H7 cross bore','Black oxide'],
+    ['Die holder (MP-111)','1','42CrMo4 QT','Ø50 × 11 + Ø24 spigot; Ø16 H7 bore; M5 lock screw','Black oxide'],
+    ['Pivot cheek (MP-112)','2','C45 16 mm','50 × 50; Ø12 H7 at 33.5 above the crown','Black oxide'],
+    ['Handle hub + crank (MP-113)','1','C45 20 mm','O→A 40.00 ±0.02 at 85° to the handle axis; Ø12 H7','Black oxide'],
+    ['Toggle link (MP-114)','2','C45 7 mm','A→B 60.00 ±0.02; Ø12 H7; matched pair','Black oxide'],
+    ['Handle bar (MP-115)','1','C45 or 304','Ø20 × 297 + M12 stud; grip centre 290 from O','Black oxide or bare'],
+    ['Pins A, B (MP-116) / O (MP-117)','2 + 1','100Cr6, 58–62 HRC','Ø12 g6; lengths 40 / 76; ring grooves','Ground'],
+    ['Return rod (MP-118)','2','C45','Ø10 × 142; M10 both ends','Zinc'],
+    ['Pivot spacer (MP-119)','2','CuSn8 bronze','Ø20 × Ø12.2 × 10','—']
+  ];
+  (function(){
+    var t=document.getElementById('frameTable');
+    var thead=el('thead'), tr=el('tr'); ['Part','Qty','Material','Key dimensions and tolerances','Finish'].forEach(function(h,i){ tr.appendChild(el('th',i===1?{'class':'num'}:null,h)); }); thead.appendChild(tr); t.appendChild(thead);
+    var tb=el('tbody'); FRAME.forEach(function(r){ var tr=el('tr'); r.forEach(function(c,i){ var td=el('td', (i===1||i===3)?{'class': i===1?'num':''}:null); td.textContent=c; tr.appendChild(td); }); tb.appendChild(tr); }); t.appendChild(tb);
+  })();
+
+  // BOM
+  var BOM = [
+    ['Frame and drive','Base plate (MP-101)','1','Make','S235 12 mm, see drawings'],
+    ['Frame and drive','Guide rails, keepers, stop blocks (MP-102/103/104)','2 + 2 + 2','Make','C45'],
+    ['Frame and drive','Die table + stop pin (MP-105/106)','1 + 1','Make','6061-T6 hard anodise; C45'],
+    ['Frame and drive','Columns (MP-107)','2','Make','100Cr6 hardened, hard chrome'],
+    ['Frame and drive','Crown, ram, clevis, die holder (MP-108 to 111)','1 each','Make','C45 / 42CrMo4, black oxide'],
+    ['Frame and drive','Pivot cheeks, hub, links, handle bar (MP-112 to 115)','2 + 1 + 2 + 1','Make','C45'],
+    ['Frame and drive','Pins A/B and pin O (MP-116/117)','2 + 1','Make or buy','Ø12 g6 hardened dowel stock'],
+    ['Frame and drive','Return rods, pivot spacers (MP-118/119)','2 + 2','Make','C45; CuSn8'],
+    ['Bought parts','Flanged bushing, self-lubricating bronze','2','Buy','ID 25 / OD 32 / L 33 (JDB type)'],
+    ['Bought parts','Return spring','2','Buy','Music wire Ø2.5, OD 22, free length 90'],
+    ['Bought parts','Column nut + hardened washer','2','Buy','M16 × 1.5'],
+    ['Bought parts','Column clamp screw + washer','2','Buy','M10 × 25 ISO 4762 + Ø32 × 4 washer'],
+    ['Bought parts','Countersunk screws (rails and keepers)','14','Buy','M5 × 20 ISO 10642'],
+    ['Bought parts','Cap screws','4 + 4 + 2 + 4','Buy','M5 × 35 (stop blocks), M8 × 30 (cheeks), M5 × 25 (clevis), M5 × 16 DIN 7984 (holder)'],
+    ['Bought parts','Stop screw + lock nut','2','Buy','M6 × 0.75 × 25 hex'],
+    ['Bought parts','Dowel pins','2','Buy','Ø6 × 16 m6 (cheeks)'],
+    ['Bought parts','Spring ball plunger','1','Buy','M6, stainless'],
+    ['Bought parts','Retaining rings','6','Buy','DIN 471 for Ø12'],
+    ['Bought parts','Nylock nut + washer','2','Buy','M10, Ø30 washer'],
+    ['Bought parts','Urethane bumpers / handle-stop buffer','2 + 1','Buy','Ø16 × 12 M6; Ø30 × 13 M8 (90A)'],
+    ['Bought parts','Thumb screws','4','Buy','M5 knurled, Ø12 head'],
+    ['Bought parts','Helicoil inserts','4','Buy','M5 × 1D (die table)'],
+    ['Bought parts','Rubber feet','6','Buy','Ø24 × 6, M6 stud'],
+    ['Bought parts','Push knobs','2','Buy','Phenolic Ø24, M6'],
+    ['Bought parts','Grip','1','Buy','TPR Ø32 × 120, red'],
+    ['Per die set (× 4)','Upper die: body, shank, plug, frame (MP-201 to 204)','1 set','Make','Body 1.2312; plug and frame Cr12MoV (7075 for a prototype)'],
+    ['Per die set (× 4)','Upper frame springs','4','Buy','ISO 10243 blue, Ø10 hole'],
+    ['Per die set (× 4)','Lower die A: shoe, pedestal, frame (MP-205/206/207)','1 set','Make','Shoe C45; pedestal and frame Cr12MoV'],
+    ['Per die set (× 4)','Pickup springs','4','Buy','ISO 10243 green, Ø10 hole'],
+    ['Per die set (× 4)','Lower die B: shoe, pedestal, frame (MP-205/208/209)','1 set','Make','As die A'],
+    ['Per die set (× 4)','Crimp springs','8','Buy','ISO 10243 red or yellow, Ø10 hole, to the preload in section 05'],
+    ['Per die set (× 4)','Shoulder screws','4 + 8','Buy','ISO 7379-6 × 10 (upper), 6 × 12 (lower)'],
+    ['Per die set (× 4)','Plug and pedestal screws + dowels','12 + 6','Buy','M5 ISO 4762; Ø5 × 20 m6'],
+    ['Per die set (× 4)','Shoe dowels, orientation pin, shims','4 + 1 + 1 set','Buy','Ø8 × 16 m6; Ø4 × 10 m6; stainless 0.1 / 0.2 / 0.5']
+  ];
+  MP.BOM = BOM;
+  (function(){
+    var t=document.getElementById('bomTable'); var thead=el('thead'), tr=el('tr'); ['Group','Item','Qty','Make / buy','Spec'].forEach(function(h,i){ tr.appendChild(el('th',i===2?{'class':'num'}:null,h)); }); thead.appendChild(tr); t.appendChild(thead);
+    var tb=el('tbody'); var last=''; BOM.forEach(function(r){ var tr=el('tr'); r.forEach(function(c,i){ var td=el('td', i===2?{'class':'num'}:null); if(i===0){ td.textContent = c===last?'':c; } else if(i===3){ var s=el('span',{'class':'tag'}); s.textContent=c; td.appendChild(s);} else td.textContent=c; tr.appendChild(td); }); last=r[0]; tb.appendChild(tr); }); t.appendChild(tb);
+  })();
+
+  // force chart
+  var NS='http://www.w3.org/2000/svg';
+  function sv(tag, attrs, parent){ var e=document.createElementNS(NS,tag); for(var k in attrs) e.setAttribute(k, attrs[k]); if(parent) parent.appendChild(e); return e; }
+  var CW=720, CH=320, m={l:56,r:160,t:28,b:48};
+  function xs(t){ return m.l + t/40*(CW-m.l-m.r); }
+  function ys(f){ return CH-m.b - f/8000*(CH-m.t-m.b); }
+  var samples=[]; for(var phi=MP.K.phiOpen; phi>=MP.K.phiEnd-1e-9; phi-=0.25){ samples.push({phi:phi, psi:phi-MP.K.off, t:MP.travel(phi), f:MP.force(phi), ma:MP.MA(phi)}); }
+  var refG, dotEl, xh;
+  function drawChart(){
+    var svg=document.getElementById('fchart'); svg.innerHTML='';
+    var tEnd = samples[samples.length-1].t;
+    sv('rect',{x:xs(MP.Z.contact), y:m.t, width:xs(tEnd)-xs(MP.Z.contact), height:CH-m.b-m.t, 'class':'zone'}, svg);
+    var zl=sv('text',{x:xs(MP.Z.contact)+4, y:m.t+12, 'class':'lbl'}, svg); zl.textContent='Die working zone';
+    [0,2000,4000,6000,8000].forEach(function(f){ sv('line',{x1:m.l,x2:CW-m.r,y1:ys(f),y2:ys(f),'class':'grid'},svg); var tx=sv('text',{x:m.l-8,y:ys(f)+4,'text-anchor':'end'},svg); tx.textContent = f===0?'0':(f/1000)+' kN'; });
+    [0,10,20,30,40].forEach(function(t){ var tx=sv('text',{x:xs(t),y:CH-m.b+18,'text-anchor':'middle'},svg); tx.textContent=t; sv('line',{x1:xs(t),x2:xs(t),y1:CH-m.b,y2:CH-m.b+4,'class':'axis'},svg); });
+    sv('line',{x1:m.l,x2:CW-m.r,y1:CH-m.b,y2:CH-m.b,'class':'axis'},svg);
+    var xt=sv('text',{x:(m.l+CW-m.r)/2,y:CH-8,'text-anchor':'middle','class':'lbl'},svg); xt.textContent='Ram travel from open (mm)';
+    var yt=sv('text',{x:m.l-8,y:14,'text-anchor':'end','class':'lbl'},svg); yt.textContent='Force at die';
+    var d='', a='M'+xs(samples[0].t)+' '+ys(0);
+    samples.forEach(function(s,i){ d+=(i?'L':'M')+xs(s.t).toFixed(1)+' '+ys(s.f).toFixed(1); a+='L'+xs(s.t).toFixed(1)+' '+ys(s.f).toFixed(1); });
+    a+='L'+xs(tEnd)+' '+ys(0)+'Z';
+    sv('path',{d:a,'class':'area'},svg); sv('path',{d:d,'class':'line'},svg);
+    // pickup stop marker
+    sv('line',{x1:xs(MP.Z.pickStop),x2:xs(MP.Z.pickStop),y1:ys(0),y2:ys(0)-10,'class':'axis'},svg);
+    var ps=sv('text',{x:xs(MP.Z.pickStop),y:ys(0)-14,'text-anchor':'middle','class':'lbl'},svg); ps.textContent='stroke 1 ends';
+    var last=samples[samples.length-1];
+    sv('circle',{cx:xs(last.t),cy:ys(last.f),r:4.5,'class':'dot'},svg);
+    var el1=sv('text',{x:xs(last.t)+10,y:ys(last.f)+4,'class':'lblk'},svg); el1.textContent=(last.f/1000).toFixed(1)+' kN available';
+    refG = sv('g',{},svg);
+    xh = sv('line',{x1:0,x2:0,y1:m.t,y2:CH-m.b,'class':'xh',visibility:'hidden'},svg);
+    dotEl = sv('circle',{cx:-20,cy:-20,r:5,'class':'dot'},svg);
+    drawRef(); setPoseMarker(MP.K.phiOpen);
+    var hit=sv('rect',{x:m.l,y:m.t,width:CW-m.l-m.r,height:CH-m.t-m.b,fill:'transparent'},svg);
+    var tip=document.getElementById('ctip'), box=document.getElementById('chartBox');
+    function move(ev){ var r=svg.getBoundingClientRect(); var x=(ev.clientX-r.left)*CW/r.width; var t=(x-m.l)/(CW-m.l-m.r)*40; var best=samples[0], bd=1e9; samples.forEach(function(s){ var dd=Math.abs(s.t-t); if(dd<bd){bd=dd;best=s;} });
+      xh.setAttribute('x1',xs(best.t)); xh.setAttribute('x2',xs(best.t)); xh.setAttribute('visibility','visible');
+      tip.hidden=false; tip.textContent=''; [['Travel',best.t.toFixed(1)+' mm'],['Handle',best.psi.toFixed(1)+'°'],['MA','×'+best.ma.toFixed(1)],['Force',(best.f/1000).toFixed(2)+' kN']].forEach(function(p){ var dv=document.createElement('div'); dv.textContent=p[0]+'  '+p[1]; tip.appendChild(dv); });
+      var br=box.getBoundingClientRect(); var px=ev.clientX-br.left+box.scrollLeft+14, py=ev.clientY-br.top+14; if(px>box.clientWidth-150) px-=170; tip.style.left=px+'px'; tip.style.top=py+'px'; }
+    hit.addEventListener('pointermove',move); hit.addEventListener('pointerdown',move);
+    hit.addEventListener('pointerleave',function(){ tip.hidden=true; xh.setAttribute('visibility','hidden'); });
+  }
+  function drawRef(){
+    if(!refG) return; refG.innerHTML=''; var d=MP.dims(MP.cur); var tEnd=samples[samples.length-1].t;
+    sv('line',{x1:xs(MP.Z.contact),x2:xs(tEnd),y1:ys(d.peak),y2:ys(d.peak),'class':'ref'},refG);
+    var t=sv('text',{x:xs(tEnd)+10,y:ys(d.peak)+4,'class':'lbl'},refG); t.textContent=MP.cur.label+' needs ≈ '+(d.peak/1000).toFixed(1)+' kN';
+  }
+  function setPoseMarker(phi){ if(!dotEl) return; dotEl.setAttribute('cx',xs(MP.travel(phi))); dotEl.setAttribute('cy',ys(MP.force(phi))); }
+  document.addEventListener('mp:pose',function(e){ setPoseMarker(e.detail.phi); });
+
+  function onSize(){ renderDieTable(); renderCons(); drawRef();
+    Array.prototype.forEach.call(seg.querySelectorAll('button'),function(b){ b.setAttribute('aria-pressed', String(b.getAttribute('data-size')===MP.cur.id)); }); }
+  document.addEventListener('mp:size', onSize);
+  renderDieTable(); renderCons(); drawChart();
+
+  setTimeout(function(){ var m=document.getElementById('stageMsg'); if(m && m.isConnected && !document.querySelector('#stage canvas')) m.textContent='The 3D model needs WebGL and access to cdn.jsdelivr.net. It did not load here; the rest of the build pack below still works.'; }, 12000);
+
+  // CSV copy
+  document.getElementById('copyBom').addEventListener('click',function(){
+    var csv = 'Group,Item,Qty,Make/buy,Spec\n' + BOM.map(function(r){ return r.map(function(c){ return '"'+String(c).replace(/"/g,'""')+'"'; }).join(','); }).join('\n');
+    var ta=document.getElementById('scadOut');
+    function fallback(){ ta.hidden=false; ta.value=csv; ta.focus(); ta.select(); toast('Clipboard blocked. The CSV is selected in the box below; copy it from there.'); }
+    try{ navigator.clipboard.writeText(csv).then(function(){ toast('BOM copied as CSV ('+BOM.length+' rows)'); }, fallback); }catch(e){ fallback(); }
+  });
+})();
+</script>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const MP = window.MP, K = MP.K;
+const D2R = Math.PI/180;
+const stage = document.getElementById('stage');
+const msg = document.getElementById('stageMsg');
+
+try {
+
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
+stage.insertBefore(renderer.domElement, stage.firstChild);
+msg.remove();
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+const camera = new THREE.PerspectiveCamera(32, 1, 5, 6000);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.dampingFactor = 0.08; controls.minDistance = 150; controls.maxDistance = 2600;
+const sun = new THREE.DirectionalLight(0xffffff, 1.4); sun.position.set(300, 700, 500); scene.add(sun);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x3a3a3a, 0.6));
+const ground = new THREE.Mesh(new THREE.CircleGeometry(900, 64), new THREE.MeshStandardMaterial({color:0xcccccc, roughness:1, metalness:0}));
+ground.rotation.x = -Math.PI/2; ground.position.y = -0.5; scene.add(ground);
+
+function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+let ACC = new THREE.Color('#8A6510');
+function applyTheme(){
+  try{ scene.background = new THREE.Color(css('--stage')); ground.material.color = new THREE.Color(css('--sunk')); ACC = new THREE.Color(css('--accent')); }catch(e){}
+  refreshHighlight();
+}
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+new MutationObserver(applyTheme).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
+
+// ---------- materials ----------
+function std(c, m, r, extra){ return new THREE.MeshStandardMaterial(Object.assign({color:c, metalness:m, roughness:r, side:THREE.DoubleSide, envMapIntensity:1.5}, extra||{})); }
+const MAT = {
+  powder: std(0x2a2d31, 0.15, 0.62), gold: std(0xc9a13b, 0.8, 0.32), chrome: std(0xe4e7ea, 0.85, 0.16),
+  black: std(0x1f2226, 0.55, 0.42), steel: std(0xb4bac1, 0.7, 0.34), die: std(0xd0d5da, 0.72, 0.28), dieF: std(0xbcc3ca, 0.68, 0.33),
+  bronze: std(0xb3894a, 0.9, 0.35), rubber: std(0x161616, 0, 0.9), red: std(0xd3262e, 0.05, 0.55),
+  sprG: std(0x3e9b4f, 0.4, 0.45), sprB: std(0x2f6fb5, 0.4, 0.45), sprR: std(0xc8302b, 0.4, 0.45), sprS: std(0xcfd4d9, 0.9, 0.3),
+  ure: std(0xd99a2b, 0, 0.5), knob: std(0x232323, 0.1, 0.55), uhmw: std(0xeeeeea, 0, 0.7),
+  tin: std(0xdde1e5, 0.75, 0.25), backP: std(0x2c2c2c, 0.1, 0.5)
+};
+
+// ---------- photo texture ----------
+function photoTexture(){
+  const c = document.createElement('canvas'); c.width = c.height = 512; const g = c.getContext('2d');
+  const sky = g.createLinearGradient(0,0,0,330); sky.addColorStop(0,'#2b2d6e'); sky.addColorStop(0.45,'#c0466f'); sky.addColorStop(0.8,'#f39a4c'); sky.addColorStop(1,'#ffd27a');
+  g.fillStyle = sky; g.fillRect(0,0,512,330);
+  g.fillStyle = '#fff1c4'; g.beginPath(); g.arc(300,260,52,0,Math.PI*2); g.fill();
+  g.fillStyle = '#5b2a52'; g.beginPath(); g.moveTo(0,300); g.lineTo(90,210); g.lineTo(170,280); g.lineTo(250,190); g.lineTo(360,300); g.lineTo(430,230); g.lineTo(512,290); g.lineTo(512,340); g.lineTo(0,340); g.fill();
+  g.fillStyle = '#2d1838'; g.beginPath(); g.moveTo(0,330); g.lineTo(120,270); g.lineTo(220,330); g.lineTo(330,262); g.lineTo(512,330); g.lineTo(512,345); g.lineTo(0,345); g.fill();
+  const sea = g.createLinearGradient(0,330,0,512); sea.addColorStop(0,'#e0794f'); sea.addColorStop(1,'#1d2a55'); g.fillStyle = sea; g.fillRect(0,335,512,177);
+  g.strokeStyle = 'rgba(255,230,170,.7)'; g.lineWidth = 3; for(let i=0;i<9;i++){ const y = 350 + i*16; g.beginPath(); g.moveTo(300-60+i*4, y); g.lineTo(300+60-i*4, y); g.stroke(); }
+  g.fillStyle='rgba(255,255,255,.9)'; g.font='600 34px sans-serif'; g.textAlign='center'; g.fillText('GOA 2026', 256, 470);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t;
+}
+const PHOTO = photoTexture();
+
+// ---------- geometry helpers (each returns {geo, scad}) ----------
+const f = n => +(+n).toFixed(3);
+function rrPath(p, w, d, r, cy){ cy = cy||0; r = Math.min(r, w/2-0.01, d/2-0.01); const hw=w/2, hd=d/2;
+  p.moveTo(-hw+r, cy-hd); p.lineTo(hw-r, cy-hd); p.absarc(hw-r, cy-hd+r, r, -Math.PI/2, 0, false); p.lineTo(hw, cy+hd-r);
+  p.absarc(hw-r, cy+hd-r, r, 0, Math.PI/2, false); p.lineTo(-hw+r, cy+hd); p.absarc(-hw+r, cy+hd-r, r, Math.PI/2, Math.PI, false);
+  p.lineTo(-hw, cy-hd+r); p.absarc(-hw+r, cy-hd+r, r, Math.PI, 1.5*Math.PI, false); return p; }
+const G = {
+  box(x,y,z){ return {geo:new THREE.BoxGeometry(x,y,z), scad:`cube([${f(x)},${f(z)},${f(y)}],center=true);`}; },
+  cyl(r,h,axis='y',seg=40){ const g = new THREE.CylinderGeometry(r,r,h,seg); if(axis==='x') g.rotateZ(Math.PI/2); if(axis==='z') g.rotateX(Math.PI/2);
+    const c = `cylinder(r=${f(r)},h=${f(h)},center=true,$fn=${seg});`; return {geo:g, scad: axis==='y'?c : axis==='x'?`rotate([0,90,0]) ${c}`:`rotate([90,0,0]) ${c}`}; },
+  rr(w,d,r,h,hole){ const s = rrPath(new THREE.Shape(), w, d, r); let hs='';
+    if(hole){ const oz = hole.oz||0; s.holes.push(rrPath(new THREE.Path(), hole.w, hole.d, hole.r, -oz));
+      const hr=Math.min(hole.r, hole.w/2-0.01, hole.d/2-0.01); hs = `translate([0,${f(-oz)}]) offset(r=${f(hr)}) square([${f(hole.w-2*hr)},${f(hole.d-2*hr)}],center=true);`; }
+    const g = new THREE.ExtrudeGeometry(s, {depth:h, bevelEnabled:false, curveSegments:8}); g.rotateX(-Math.PI/2); g.translate(0,-h/2,0);
+    const rr = Math.min(r, w/2-0.01, d/2-0.01);
+    const outer = `offset(r=${f(rr)}) square([${f(w-2*rr)},${f(d-2*rr)}],center=true);`;
+    return {geo:g, scad:`translate([0,0,${f(-h/2)}]) linear_extrude(height=${f(h)}) ${hole?`difference(){${outer} ${hs}}`:outer}`}; },
+  spring(R, wire, h, turns){ const curve = new (class extends THREE.Curve{ getPoint(t, tg=new THREE.Vector3()){ const a = t*turns*Math.PI*2; return tg.set(R*Math.cos(a), h*t - h/2, R*Math.sin(a)); } })();
+    const g = new THREE.TubeGeometry(curve, Math.max(60, turns*28), wire, 6, false);
+    return {geo:g, scad:`linear_extrude(height=${f(h)},center=true,twist=${-360*turns},slices=${turns*24}) translate([${f(R)},0]) circle(r=${f(wire)},$fn=8);`}; }
+};
+
+// ---------- scene graph ----------
+const root = new THREE.Group(); scene.add(root);
+const gStatic = new THREE.Group(), gSlide = new THREE.Group(), gRam = new THREE.Group(), gHandle = new THREE.Group(), gLinks = new THREE.Group();
+root.add(gStatic, gSlide, gRam, gHandle, gLinks);
+const gFrameA = new THREE.Group(), gFrameB = new THREE.Group(), gDieSlide = new THREE.Group(); gSlide.add(gFrameA, gFrameB, gDieSlide);
+const gDieRam = new THREE.Group(), gUpFrame = new THREE.Group(); gRam.add(gDieRam); gDieRam.add(gUpFrame);
+
+const parts = [];   // {mesh, base, ex, step, layer, id, die}
+const INFO = {};
+const pickables = [];
+function part(parent, id, g, mat, pos, o={}){
+  const mesh = new THREE.Mesh(g.geo, mat.clone());
+  mesh.position.set(pos[0], pos[1], pos[2]);
+  if(o.rot) mesh.rotation.set(o.rot[0]*D2R, o.rot[1]*D2R, o.rot[2]*D2R);
+  mesh.userData = {id, scad:g.scad};
+  parent.add(mesh);
+  const p = {mesh, base:mesh.position.clone(), ex:new THREE.Vector3(...(o.ex||[0,0,0])), step:o.step||1, layer:o.layer||'frame', id, die:!!o.die, spring:o.spring||null, baseScaleY:1};
+  parts.push(p); pickables.push(mesh); return p;
+}
+function info(id, o){ INFO[id] = o; }
+
+// ---- static frame ----
+const L1 = {layer:'frame'};
+part(gStatic,'base',G.box(460,12,260),MAT.powder,[0,12,0],{...L1,step:1});
+part(gStatic,'base',G.box(140,12,210),MAT.powder,[0,12,235],{...L1,step:1});
+[[-200,-110],[200,-110],[-200,110],[200,110],[-55,320],[55,320]].forEach(p=>part(gStatic,'foot',G.cyl(12,6),MAT.rubber,[p[0],3,p[1]],{...L1,step:1,ex:[0,-40,0]}));
+[-82,82].forEach(z=>{ part(gStatic,'rail',G.box(460,12.05,14),MAT.steel,[0,24.025,z],{...L1,step:2,ex:[0,40,0]}); });
+[-80,80].forEach(z=>{ part(gStatic,'keeper',G.box(460,4,20),MAT.black,[0,32.05,z],{...L1,step:2,ex:[0,70,0]}); });
+[-101,101].forEach(x=>{ const e={...L1,step:2,ex:[0,90,0]}, s=Math.sign(x);
+  part(gStatic,'stop',G.box(30,16,27),MAT.black,[x,42.05,-76.5],e);
+  part(gStatic,'stop',G.cyl(3,6,'x',12),MAT.steel,[s*86,42,-68],e);
+  part(gStatic,'stop',G.cyl(5,4,'x',6),MAT.steel,[s*118,42,-68],e); });
+[-105,105].forEach(z=>{ const e={...L1,step:4,ex:[0,30,z>0?140:-140]};
+  part(gStatic,'post',G.cyl(12.5,158,'y',48),MAT.chrome,[0,97,z],e);
+  part(gStatic,'post',G.cyl(10,25,'y',40),MAT.chrome,[0,188.5,z],e);
+  part(gStatic,'post',G.cyl(8,16,'y',32),MAT.steel,[0,209,z],e); });
+part(gStatic,'crown',G.rr(80,250,6,25,{w:38,d:66,r:5,oz:13}),MAT.black,[0,188.5,0],{...L1,step:6,ex:[0,330,0]});
+[-105,105].forEach(z=>{ part(gStatic,'postnut',G.cyl(14,13,'y',6),MAT.steel,[0,210,z],{...L1,step:6,ex:[0,360,0]}); part(gStatic,'postnut',G.cyl(16,2.5,'y',32),MAT.steel,[0,202.25,z],{...L1,step:6,ex:[0,360,0]}); });
+part(gStatic,'buffer',G.cyl(15,13,'y',32),MAT.ure,[0,223.5,105],{...L1,step:6,ex:[0,380,0]});
+[-28,28].forEach(x=>part(gStatic,'cheek',G.box(16,50,50),MAT.black,[x,226,0],{layer:'drive',step:7,ex:[0,380,0]}));
+[-15,15].forEach(x=>part(gStatic,'spacer',G.cyl(10,10,'x',32),MAT.bronze,[x,K.Oy,0],{layer:'drive',step:7,ex:[0,460,0]}));
+const retSprings = [];
+[[25,60],[-25,-60]].forEach(p=>{ const s = part(gStatic,'retspring',G.spring(11,1.6,80,10),MAT.sprS,[p[0],241,p[1]],{layer:'drive',step:6,ex:[0,350,0],spring:'ret'}); retSprings.push(s); });
+
+// ---- slide ----
+const LS = {layer:'slide'};
+part(gSlide,'slide',G.box(340,12,150),MAT.gold,[0,24,0],{...LS,step:3,ex:[0,110,0]});
+part(gSlide,'stoppin',G.cyl(3,16,'y',24),MAT.steel,[0,38,-66],{...LS,step:3,ex:[0,125,0]});
+[-1,1].forEach(s=>part(gSlide,'knob',G.cyl(12,24,'x',32),MAT.knob,[s*182,24,0],{...LS,step:3,ex:[0,130,0]}));
+
+// ---- ram group (positions at open pose) ----
+const LD = {layer:'drive'};
+const yO = MP.yOpen;
+part(gRam,'ram',G.box(70,30,250),MAT.black,[0,149,0],{...LD,step:5,ex:[0,260,0]});
+[-105,105].forEach(z=>{ part(gRam,'bush',G.cyl(16,30),MAT.bronze,[0,149,z],{...LD,step:5,ex:[0,260,0]}); part(gRam,'bush',G.cyl(20,3),MAT.bronze,[0,165.5,z],{...LD,step:5,ex:[0,260,0]}); });
+part(gRam,'clevis',G.box(20,22,32),MAT.black,[0,173,0],{...LD,step:5,ex:[0,285,0]});
+part(gRam,'pinB',G.cyl(6,40,'x'),MAT.steel,[0,yO,0],{...LD,step:7,ex:[0,300,0]});
+[[25,60],[-25,-60]].forEach(p=>{ part(gRam,'rod',G.cyl(5,127),MAT.steel,[p[0],227.5,p[1]],{...LD,step:5,ex:[0,300,0]}); part(gRam,'rodnut',G.cyl(9,8,'y',6),MAT.steel,[p[0],285,p[1]],{...LD,step:6,ex:[0,420,0]}); });
+[[-25,60],[25,-60]].forEach(p=>part(gRam,'bumper',G.cyl(8,12,'y',24),MAT.ure,[p[0],170,p[1]],{...LD,step:5,ex:[0,290,0]}));
+part(gRam,'holder',G.cyl(25,11,'y',48),MAT.black,[0,128.5,0],{...LD,step:5,ex:[0,235,0]});
+
+// ---- handle group (local coords, origin at pivot O) ----
+const crankDir = new THREE.Vector3(0, -Math.cos(K.off*D2R), Math.sin(K.off*D2R));
+const Aloc = crankDir.clone().multiplyScalar(K.a);
+const handleParts = [];
+function hpart(id, g, mat, pos, o){ const p = part(gHandle, id, g, mat, pos, Object.assign({layer:'drive', step:7}, o)); handleParts.push(p); return p; }
+hpart('hub', G.box(20,34,30), MAT.black, [0,0,4]);
+hpart('hub', G.box(20,50,18), MAT.black, [0, Aloc.y/2, Aloc.z/2], {rot:[Math.atan2(crankDir.z, crankDir.y)/D2R,0,0]});
+hpart('pinO', G.cyl(6,76,'x'), MAT.steel, [0,0,0]);
+hpart('pinA', G.cyl(6,40,'x'), MAT.steel, [0,Aloc.y,Aloc.z]);
+hpart('bar', G.cyl(10,320,'z'), MAT.black, [0,0,180]);
+hpart('grip', G.cyl(16,120,'z',32), MAT.red, [0,0,290]);
+const exHandle = new THREE.Vector3(0,460,0);
+
+// ---- links ----
+const links = [];
+[-14,14].forEach(x=>{ const p = part(gLinks,'link',G.box(7,K.b+24,24),MAT.black,[x,0,0],{...LD,step:7,ex:[0,420,0]}); links.push(p); });
+
+// ---------- die set (rebuilt per size) ----------
+const work = {};
+let D = MP.dims(MP.cur);
+function clearDies(){
+  for(let i=parts.length-1;i>=0;i--){ const p=parts[i]; if(p.die){ p.mesh.parent.remove(p.mesh); p.mesh.geometry.dispose(); p.mesh.material.dispose(); parts.splice(i,1); const k=pickables.indexOf(p.mesh); if(k>=0) pickables.splice(k,1);} }
+  Object.values(work).forEach(o=>{ if(o.parent) o.parent.remove(o); o.traverse(c=>{ if(c.isMesh){ c.geometry.dispose(); } }); });
+  for(let i=pickables.length-1;i>=0;i--){ if(String(pickables[i].userData.id||'').charAt(0)==='w') pickables.splice(i,1); }
+}
+function buildDies(){
+  clearDies(); D = MP.dims(MP.cur); const W=D.W, H=D.H;   // W = long side, along the table (X); H along Z
+  const LDie = {layer:'die', die:true};
+  const corners = (a,b)=>[[a,b],[a,-b],[-a,b],[-a,-b]];
+  const mids = [[W/2+8,0],[-(W/2+8),0],[0,H/2+8],[0,-(H/2+8)]];
+  // upper die (ram group, open-pose world coords)
+  part(gDieRam,'upBody',G.rr(W+32,H+32,6,10),MAT.die,[0,117,0],{...LDie,step:9,ex:[0,190,0]});
+  part(gDieRam,'shim',G.cyl(20,1,'y',40),MAT.sprS,[0,122.5,0],{...LDie,step:9,ex:[0,215,0]});
+  part(gDieRam,'upPlug',G.rr(W+0.3,H+0.3,4.15,14.5),MAT.die,[0,104.75,0],{...LDie,step:9,ex:[0,165,0]});
+  part(gUpFrame,'upFrame',G.rr(W+30,H+30,3,14,{w:W+0.35,d:H+0.35,r:4.2}),MAT.dieF,[0,99,0],{...LDie,step:9,ex:[0,120,0]});
+  mids.forEach(s=>part(gDieRam,'upSpring',G.spring(4,0.9,6,4),MAT.sprB,[s[0],109,s[1]],{...LDie,step:9,ex:[0,142,0],spring:'U'}));
+  // lower dies (slide group local)
+  [[-80,'A'],[80,'B']].forEach(([x,k])=>{
+    part(gDieSlide,'shoe'+k,G.box(140,10,124),MAT.steel,[x,35,0],{...LDie,step:8,ex:[0,140,0]});
+    part(gDieSlide,'shoe'+k,G.box(136,6,1.2),k==='A'?MAT.sprG:MAT.sprR,[x,35,62.4],{...LDie,step:8,ex:[0,140,0]});
+    part(gDieSlide,'thumb',G.cyl(6,10,'y',24),MAT.knob,[x+63,45,55],{...LDie,step:8,ex:[0,150,0]});
+    part(gDieSlide,'thumb',G.cyl(6,10,'y',24),MAT.knob,[x-63,45,-55],{...LDie,step:8,ex:[0,150,0]});
+  });
+  part(gDieSlide,'pedA',G.rr(W-0.5,H-0.5,3.75,21.8),MAT.die,[-80,50.9,0],{...LDie,step:8,ex:[0,170,0]});
+  part(gFrameA,'frameA',G.rr(W+32,H+32,3,18,{w:W+0.6,d:H+0.6,r:4.3}),MAT.dieF,[-80,57,0],{...LDie,step:8,ex:[0,215,0]});
+  mids.forEach(s=>part(gDieSlide,'sprA',G.spring(5,1.1,8,4),MAT.sprG,[-80+s[0],44,s[1]],{...LDie,step:8,ex:[0,185,0],spring:'A'}));
+  part(gDieSlide,'pedB',G.rr(W-4.5,H-4.5,2.5,17),MAT.die,[80,48.5,0],{...LDie,step:8,ex:[0,170,0]});
+  part(gFrameB,'frameB',G.rr(W+32,H+32,3,18,{w:W+0.45,d:H+0.45,r:4.2}),MAT.dieF,[80,57,0],{...LDie,step:8,ex:[0,215,0]});
+  corners(W/2+8,H/4).concat(corners(W/4,H/2+8)).forEach(s=>part(gDieSlide,'sprB',G.spring(5,1.3,8,4),MAT.sprR,[80+s[0],44,s[1]],{...LDie,step:8,ex:[0,185,0],spring:'B'}));
+  parts.forEach(p=>{ if(p.spring){ p.h0 = p.spring==='U'?6 : p.spring==='A'?8 : p.spring==='B'?8 : 80; } });
+
+  // work parts
+  const shell = new THREE.Mesh(G.rr(W,H,4,4.5).geo, MAT.tin.clone()); shell.userData={id:'wShell'};
+  const face = new THREE.Mesh(new THREE.PlaneGeometry(W-0.6,H-0.6), new THREE.MeshStandardMaterial({map:PHOTO, roughness:0.22, metalness:0})); face.rotation.x=-Math.PI/2; face.position.y=2.27; face.visible=false; face.userData={id:'wShell'}; shell.add(face);
+  const lamMats = [MAT.uhmw.clone(),MAT.uhmw.clone(),new THREE.MeshStandardMaterial({map:PHOTO, roughness:0.2}),MAT.uhmw.clone(),MAT.uhmw.clone(),MAT.uhmw.clone()];
+  const lam = new THREE.Mesh(new THREE.BoxGeometry(W+12,0.3,H+12), lamMats); lam.userData={id:'wLam'};
+  const back = new THREE.Mesh(G.rr(D.back[0],D.back[1],3.3,1.2).geo, MAT.backP.clone()); back.userData={id:'wBack'};
+  const mag = new THREE.Group(); const mb = new THREE.Mesh(G.rr(W,H,4,4.5).geo, MAT.tin.clone()); mb.userData={id:'wMag'}; mag.add(mb);
+  const mf = new THREE.Mesh(new THREE.PlaneGeometry(W-0.6,H-0.6), new THREE.MeshStandardMaterial({map:PHOTO, roughness:0.18})); mf.rotation.x=-Math.PI/2; mf.position.y=2.27; mf.userData={id:'wMag'}; mag.add(mf);
+  Object.assign(work, {shell, face, lam, back, mag});
+  pickables.push(shell, lam, back, mb, mf, face);
+  resetWork();
+  applyLayers(); applyStepVisibility(); applyPose(); fillInspector(null);
+}
+
+// ---------- info ----------
+function dieInfo(id){
+  const d = D, P = MP.pair, k = MP.kN;
+  const T = {
+    upBody:{name:'Upper die body', layer:'Die set · upper', qty:'1 per set', mat:'1.2312 prehardened 28–32 HRC (MP-201)', dims:`${P(d.body)} × 10; shank MP-202 screwed in`, note:'Its top face seats against the die holder through the shim pack, which sets this die\'s depth once.'},
+    shim:{name:'Depth shim pack', layer:'Die set · upper', qty:'1 per set', mat:'Stainless shims 0.1 / 0.2 / 0.5', dims:'Ø40 with Ø16.5 and Ø4.2 holes', note:'Set so the crimp finishes with the handle 5–10° above horizontal. Laser-mark the value on the die.'},
+    upPlug:{name:'Upper plug (pusher)', layer:'Die set · upper', qty:'1 per set', mat:'Cr12MoV 58–60 HRC (MP-203)', dims:`${P(d.plug)}, R4.15, h 14.5; recessed 5.5 in the frame; concave lip R1`, note:'In stroke 2 it pushes the shell out of the frame and rolls the shell edge flat under the back.'},
+    upFrame:{name:'Upper frame (spring sleeve)', layer:'Die set · upper', qty:'1 per set', mat:'Cr12MoV 58–60 HRC, lapped bore (MP-204)', dims:`Opening ${P(d.upIn)} (grip fit), outside ${P(d.upOut)}, h 14, travel 5.5`, note:'Wraps the film and photo over the shell in stroke 1, then holds the wrapped shell by friction while the table slides.'},
+    upSpring:{name:'Upper frame springs', layer:'Die set · upper', qty:'4 per set', mat:'ISO 10243 blue (medium), Ø10 hole', dims:`Total preload ≈ ${k(d.upSpr)}`, note:'Weaker than the crimp springs, so the frame stops on die B and the plug moves through it.'},
+    shoeA:{name:'Die shoe A (pickup)', layer:'Die set · lower A', qty:'1 per set', mat:'C45 or 6061-T6 (MP-205)', dims:'140 × 124 × 10; Ø8 dowels 90 apart at the back; 2 thumb screws', note:'Green band. Its dowel pattern only fits the left station.'},
+    shoeB:{name:'Die shoe B (crimp)', layer:'Die set · lower B', qty:'1 per set', mat:'C45 or 6061-T6 (MP-205)', dims:'140 × 124 × 10; Ø8 dowels 60 apart at the front; 2 thumb screws', note:'Red band. Its dowel pattern only fits the right station.'},
+    thumb:{name:'Thumb screw', layer:'Die set', qty:'2 per station', mat:'M5 knurled, Ø12 head', dims:'—', note:'Tool-free die change.'},
+    pedA:{name:'Pickup pedestal', layer:'Die set · lower A', qty:'1 per set', mat:'Cr12MoV 58–60 HRC (MP-206)', dims:`${P(d.pickPed)}, R3.75, h 21.8`, note:'The shell sits face-up over it.'},
+    frameA:{name:'Pickup frame', layer:'Die set · lower A', qty:'1 per set', mat:'Cr12MoV 58–60 HRC (MP-207)', dims:`Opening ${P(d.pickIn)}; film recess ${P(d.pickRec)} × 0.6; outside ${P(d.lowOut)}; h 18; travel 8`, note:'Centres the shell and the film. It drops 8 mm onto the shoe as the upper frame pushes the film down around the shell.'},
+    sprA:{name:'Pickup springs', layer:'Die set · lower A', qty:'4 per set', mat:'ISO 10243 green (light), Ø10 hole', dims:'Total preload ≈ 0.1 kN; cavity 24 at rest', note:'Light, so the film is not crushed before it wraps.'},
+    pedB:{name:'Crimp pedestal', layer:'Die set · lower B', qty:'1 per set', mat:'Cr12MoV 58–60 HRC (MP-208)', dims:`${P(d.crimpPed)}, R2.5, h 17`, note:'Smaller than the back plate, which leaves room for the shell edge to roll under the back.'},
+    frameB:{name:'Crimp frame', layer:'Die set · lower B', qty:'1 per set', mat:'Cr12MoV 58–60 HRC (MP-209)', dims:`Opening ${P(d.crimpIn)} with 1.2 × 30° lead-in; outside ${P(d.lowOut)}; h 18; travel 8`, note:'The lead-in folds the film skirt under the shell edge as the shell enters. It bottoms on the shoe at 8 mm.'},
+    sprB:{name:'Crimp springs', layer:'Die set · lower B', qty:'8 per set', mat:'ISO 10243 red or yellow, Ø10 hole', dims:`Total preload ≈ ${k(d.crimpPre)} (estimate)`, note:'Stiffer than the upper frame springs. That is what makes the two-stroke sequence work.'}
+  };
+  return T[id];
+}
+Object.entries({
+  base:{name:'Base plate', layer:'Frame', qty:'1', mat:'S235 / Q235 steel, 12 mm', dims:'460 × 260 + front tongue 140 × 210 (one piece)', note:'The tongue sits under the grip at the end of the stroke, so the press can\'t tip forward. Powder coated, bores masked.'},
+  foot:{name:'Rubber foot', layer:'Frame', qty:'6', mat:'NBR Ø24 × 6, M6 stud', dims:'—', note:'Two are under the tongue.'},
+  rail:{name:'Slide guide rail', layer:'Frame', qty:'2', mat:'C45 ground flat bar (MP-102)', dims:'14 × 12.05 × 460', note:'Parallel within 0.05 mm over 400 mm. 0.05 taller than the table, for running clearance under the keeper.'},
+  keeper:{name:'Keeper strip (gib)', layer:'Frame', qty:'2', mat:'C45 flat', dims:'20 × 4 × 460, overlaps the table 5 mm', note:'Screwed down through the rail with M5 countersunk screws (MP-103).'},
+  stop:{name:'Station stop block', layer:'Frame', qty:'2', mat:'C45 + M6 × 0.75 stop screw (MP-104)', dims:'30 × 27 × 16', note:'Adjust so each station sits under the ram centre within ±0.05 mm, then lock.'},
+  post:{name:'Column', layer:'Frame', qty:'2', mat:'GCr15 / 52100, 58–62 HRC, hard chrome', dims:'Ø25 h6 × 158 + Ø20 spigots, 206.5 long (MP-107)', note:'Ø20 spigot pressed into the base and clamped from below with M10 + Ø32 washer; M16 × 1.5 nut on top of the crown.'},
+  postnut:{name:'Column nut', layer:'Frame', qty:'2', mat:'M16 class 8 + hardened washer', dims:'—', note:'100 N·m, two passes.'},
+  crown:{name:'Crown', layer:'Frame', qty:'1', mat:'C45, black oxide', dims:'80 × 25 × 250; slot 38 × 66 for the links (MP-108)', note:'At 8 kN: ≈ 96 MPa bending stress, ≈ 0.13 mm deflection.'},
+  cheek:{name:'Pivot cheek', layer:'Press drive', qty:'2', mat:'C45 16 mm (MP-112)', dims:'50 × 50 × 16; Ø12 H7 pivot 33.5 above the crown', note:'2 × M8 from below + 1 × Ø6 dowel each. Carries the toggle reaction.'},
+  retspring:{name:'Return spring', layer:'Press drive', qty:'2', mat:'Music wire Ø2.5, OD 22', dims:'Free 90, installed 80', note:'Lifts ram and handle back to open.'},
+  slide:{name:'Die table (slide)', layer:'Die table', qty:'1', mat:'6061-T6, hard anodised gold', dims:'340 × 150 × 12; stations at ±80', note:'Press load passes straight through the table into the base. Nothing rolls under load.'},
+  stoppin:{name:'Stop pin', layer:'Die table', qty:'1', mat:'C45, 45–50 HRC (MP-106)', dims:'Ø6 × 16 + M4 stud', note:'Hits the stop screw in each stop block.'},
+  knob:{name:'Push knob', layer:'Die table', qty:'2', mat:'Phenolic Ø24, M6 in the table end faces', dims:'—', note:'Push or pull the table between stations.'},
+  ram:{name:'Ram (crosshead)', layer:'Press drive', qty:'1', mat:'C45, black oxide', dims:'70 × 30 × 250; Ø32 H7 bushing bores at 210.00', note:'Carries the die holder below and the clevis on top.'},
+  bush:{name:'Ram bushing', layer:'Press drive', qty:'2', mat:'Self-lubricating bronze with graphite plugs', dims:'ID 25 / OD 32 / L 33, flanged', note:'Pressed into the ram.'},
+  clevis:{name:'Clevis', layer:'Press drive', qty:'1', mat:'C45', dims:'20 × 22 × 32; Ø12 H7 cross bore (MP-110)', note:'Sits in a 2 mm pocket on the ram; 2 × M5.'},
+  pinB:{name:'Pin B (link to ram)', layer:'Press drive', qty:'1', mat:'100Cr6 Ø12 g6, hardened, ground (MP-116)', dims:'L 40', note:'Retaining rings both ends.'},
+  pinA:{name:'Pin A (crank to links)', layer:'Press drive', qty:'1', mat:'100Cr6 Ø12 g6, hardened, ground (MP-116)', dims:'L 40', note:'Crank radius O→A 40.00.'},
+  pinO:{name:'Pin O (handle pivot)', layer:'Press drive', qty:'1', mat:'100Cr6 Ø12 g6, hardened, ground (MP-117)', dims:'L 76', note:'Runs in the two pivot cheeks, with a bronze spacer each side of the hub.'},
+  rod:{name:'Return rod', layer:'Press drive', qty:'2', mat:'C45 Ø10', dims:'142 long, M10 ends (MP-118)', note:'Screwed into the ram; passes up through the crown.'},
+  rodnut:{name:'Rod nut + washer', layer:'Press drive', qty:'2', mat:'M10 nylock + Ø30 washer', dims:'—', note:'Sets the return spring length.'},
+  holder:{name:'Die holder', layer:'Press drive', qty:'1', mat:'42CrMo4 QT, black oxide (MP-111)', dims:'Ø50 × 11 + Ø24 spigot; Ø16 H7 bore; M5 cone-point lock screw', note:'Fixed to the ram. Takes every upper die.'},
+  hub:{name:'Handle hub + crank', layer:'Press drive', qty:'1', mat:'C45 20 mm', dims:'O→A 40.00 ±0.02', note:'With the links this forms the toggle. The stroke ends 8° before dead centre, so it can\'t lock over.'},
+  bar:{name:'Handle bar', layer:'Press drive', qty:'1', mat:'Ø20 C45 or 304 stainless', dims:'320 long; grip centre 290 from O', note:'—'},
+  grip:{name:'Grip', layer:'Press drive', qty:'1', mat:'Red TPR sleeve', dims:'Ø32 × 120', note:'Ends over the base tongue at the bottom of the stroke.'},
+  link:{name:'Toggle link', layer:'Press drive', qty:'2', mat:'C45 7 mm (MP-114)', dims:'Centres 60.00 ±0.02; Ø12 H7', note:'Matched pair, one each side of the hub.'},
+  spacer:{name:'Pivot spacer', layer:'Press drive', qty:'2', mat:'CuSn8 bronze (MP-119)', dims:'Ø20 × Ø12.2 × 10', note:'Centres the hub on pin O between the cheeks.'},
+  bumper:{name:'Open-position bumper', layer:'Press drive', qty:'2', mat:'Urethane 90A, M6 stud', dims:'Ø16 × 12', note:'Stops the ram against the crown with the handle at 65°.'},
+  buffer:{name:'Handle stop buffer', layer:'Frame', qty:'1', mat:'Urethane 90A, M8 stud', dims:'Ø30 × 13', note:'On the front column top. Stops the bar 3° above horizontal, 8° before toggle dead centre.'},
+  wShell:{name:'Tinplate shell', layer:'Work part', qty:'1 per magnet', mat:'Tinplate 0.20–0.23', dims:'', note:'Face-up on die A; after stroke 1 it is wrapped and held in the upper frame.'},
+  wLam:{name:'Printed photo + mylar film', layer:'Work part', qty:'1 per magnet', mat:'120–150 g/m² paper + 0.075 PET', dims:'', note:'Lies in the recess on top of die A.'},
+  wBack:{name:'Back plate', layer:'Work part', qty:'1 per magnet', mat:'1.2 ABS / acrylic', dims:'', note:'On die B\'s pedestal.'},
+  wMag:{name:'Finished magnet', layer:'Work part', qty:'—', mat:'—', dims:'', note:'Stick the magnet sheet on the back after pressing.'}
+}).forEach(([k,v])=>info(k,v));
+function getInfo(id){
+  const di = dieInfo(id); if(di) return di; const i = INFO[id]; if(!i) return null;
+  if(id==='wShell') return {...i, dims:MP.pair([D.W,D.H])+' × 4.5'}; if(id==='wLam') return {...i, dims:MP.pair(D.paper)};
+  if(id==='wBack') return {...i, dims:MP.pair(D.back)}; if(id==='wMag') return {...i, dims:MP.pair([D.W,D.H])};
+  return i;
+}
+
+// ---------- state ----------
+const state = { psi:65, sx:-80, explode:0, mode:'all', step:9, layers:{frame:true, slide:true, drive:true, die:true}, section:false, hover:null, sel:null, intro:1 };
+const W_ = {shellOn:null, lamOn:false, wrapped:false, backOn:false, magOn:false, present:0};
+function resetWork(){
+  Object.assign(W_, {shellOn:null, lamOn:false, wrapped:false, backOn:false, magOn:false, present:0});
+  const {shell, lam, back, mag, face} = work; if(!shell) return;
+  gSlide.add(shell); gSlide.add(lam); gSlide.add(back); gSlide.add(mag);
+  shell.visible = lam.visible = back.visible = mag.visible = false; face.visible = false;
+  shell.position.set(-80,59.75,0); lam.position.set(-80,66.15,0); lam.scale.set(1,1,1); back.position.set(80,57.6,0);
+  mag.position.set(80,56.39,0); mag.rotation.set(0,0,0);
+}
+
+// ---------- pose ----------
+const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+function stationUnder(){ if(Math.abs(state.sx-80)<1.5) return 'A'; if(Math.abs(state.sx+80)<1.5) return 'B'; return null; }
+function applyPose(){
+  const st = stationUnder();
+  if(st==='A' && state.psi < MP.psiPick) state.psi = MP.psiPick;
+  const phi = state.psi + K.off, tr = MP.travel(phi), fx = state.explode;
+  const live = fx < 0.001 && state.mode==='all';
+  gRam.position.y = -tr; gSlide.position.x = state.sx;
+  // die motion
+  const p = tr - MP.Z.contact; let offA=0, offB=0, up=0;
+  if(live && st==='A'){ offA = clamp(p,0,8); up = clamp(p-8,0,5.5); }
+  if(live && st==='B'){ offB = clamp(p,0,8); up = clamp(p-8,0,5.5); }
+  gFrameA.position.y = -offA; gFrameB.position.y = -offB; gUpFrame.position.y = up;
+  // parts: explode offsets + intro + springs
+  for(const q of parts){
+    const m = q.mesh; m.position.copy(q.base).addScaledVector(q.ex, fx);
+    if(state.mode==='build' && q.step===state.step && state.intro<1) m.position.y += (1-state.intro)*90;
+    if(q.spring && live){
+      let len = q.h0, bottom;
+      if(q.spring==='ret'){ len = q.h0 - tr; bottom = 201; }
+      else if(q.spring==='A'){ len = 8 - offA; bottom = 40; }
+      else if(q.spring==='B'){ len = 8 - offB; bottom = 40; }
+      else if(q.spring==='U'){ len = 6 - up; bottom = 106 + up; }
+      m.scale.y = Math.max(0.05, len/q.h0); m.position.y = bottom + len/2;
+    } else if(q.spring){ m.scale.y = 1; }
+  }
+  // handle
+  gHandle.position.set(0, K.Oy, 0).addScaledVector(exHandle, fx);
+  if(state.mode==='build' && state.step===7 && state.intro<1) gHandle.position.y += (1-state.intro)*90;
+  gHandle.rotation.x = -state.psi*D2R;
+  for(const hp of handleParts){ hp.mesh.position.copy(hp.base); }
+  // links
+  const A = new THREE.Vector3(0, K.Oy - K.a*Math.cos(phi*D2R), K.a*Math.sin(phi*D2R));
+  const B = new THREE.Vector3(0, MP.yB(phi), 0);
+  const ang = Math.atan2(A.z-B.z, A.y-B.y);
+  for(const l of links){ l.mesh.position.set(l.base.x, (A.y+B.y)/2, (A.z+B.z)/2).addScaledVector(l.ex, fx); l.mesh.rotation.x = ang; if(state.mode==='build' && state.step===7 && state.intro<1) l.mesh.position.y += (1-state.intro)*90; }
+  // work parts
+  if(work.lam && W_.lamOn && !W_.wrapped && st==='A' && live){
+    const fb = 92 - tr + up; const y = Math.min(66.15, fb - 0.15); const w = clamp((66.15 - y)/8, 0, 1);
+    work.lam.position.y = y; work.lam.scale.x = 1 + (D.W/(D.W+12) - 1)*w; work.lam.scale.z = 1 + (D.H/(D.H+12) - 1)*w;
+    if(w > 0.98){ W_.wrapped = true; work.lam.visible = false; work.face.visible = true; }
+  }
+  updateReadout(phi, tr, st);
+  document.dispatchEvent(new CustomEvent('mp:pose',{detail:{phi}}));
+}
+function updateReadout(phi, tr, st){
+  document.getElementById('handleOut').textContent = state.psi.toFixed(1)+'°';
+  const hs = document.getElementById('handle'); if(+hs.value !== state.psi) hs.value = state.psi;
+  const r = document.getElementById('poseRead'); r.textContent='';
+  const rows = [['Ram travel', tr.toFixed(1)+' mm'], ['Mech. advantage', '×'+MP.MA(phi).toFixed(1)], ['Force at die (200 N)', (MP.force(phi)/1000).toFixed(2)+' kN'], ['Under ram', st? 'Die '+st+(st==='A'?' · pickup':' · crimp') : 'moving']];
+  rows.forEach(([a,b])=>{ const s1=document.createElement('span'); s1.textContent=a; const s2=document.createElement('span'); s2.textContent=b; r.append(s1,s2); });
+  document.getElementById('posA').setAttribute('aria-pressed', String(st==='A'));
+  document.getElementById('posB').setAttribute('aria-pressed', String(st==='B'));
+}
+
+// ---------- visibility ----------
+function applyLayers(){ for(const q of parts) q.mesh.userData.layerOn = state.layers[q.layer] !== false; applyStepVisibility(); }
+function applyStepVisibility(){
+  for(const q of parts){ const okStep = state.mode!=='build' || q.step <= state.step; q.mesh.visible = q.mesh.userData.layerOn !== false && okStep; }
+  if(work.shell){ const vis = state.mode==='all'; work.shell.visible = vis && W_.shellOn!==null; work.lam.visible = vis && W_.lamOn && !W_.wrapped; work.back.visible = vis && W_.backOn; work.mag.visible = vis && W_.magOn; }
+  refreshHighlight();
+}
+function refreshHighlight(){
+  for(const q of parts){ const m = q.mesh.material; if(!m.emissive) continue;
+    let c = null, i = 0;
+    if(state.mode==='build' && q.step===state.step){ c = ACC; i = 0.35; }
+    if(state.sel && q.mesh.userData.id===state.sel){ c = ACC; i = 0.6; }
+    if(state.hover && q.mesh === state.hover){ c = ACC; i = Math.max(i,0.4); }
+    if(c){ m.emissive.copy(c); m.emissiveIntensity = i; } else { m.emissive.setHex(0); m.emissiveIntensity = 0; }
+  }
+}
+
+// ---------- inspector ----------
+const insp = document.getElementById('inspector');
+function fillInspector(id){
+  insp.textContent='';
+  const lab = document.createElement('div'); lab.className='lbl'; insp.appendChild(lab);
+  const h = document.createElement('h3'); insp.appendChild(h);
+  const dl = document.createElement('dl');
+  function row(k,v){ if(!v) return; const dt=document.createElement('dt'); dt.textContent=k; const dd=document.createElement('dd'); dd.textContent=v; dl.append(dt,dd); }
+  const inf = id ? getInfo(id) : null;
+  if(inf){ lab.textContent = inf.layer; h.textContent = inf.name; row('Qty',inf.qty); row('Material',inf.mat); row('Size',inf.dims); row('Note',inf.note); }
+  else { lab.textContent = 'Selected die set'; h.textContent = MP.cur.label+' mm'; const d = D;
+    row('Shell', MP.pair([d.W,d.H])+' × 4.5'); row('Photo cut', MP.pair(d.paper)); row('Upper frame', 'opening '+MP.pair(d.upIn)); row('Crimp springs', '≈ '+MP.kN(d.crimpPre)+' preload'); row('Peak force', '≈ '+MP.kN(d.peak)+' (5.6 kN available)'); row('Tip', 'Click any part to see its material, size and notes.'); }
+  insp.appendChild(dl);
+}
+
+// ---------- picking ----------
+const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+const tip = document.getElementById('tip');
+let downAt = null;
+function pick(ev){ const r = renderer.domElement.getBoundingClientRect(); ptr.set(((ev.clientX-r.left)/r.width)*2-1, -((ev.clientY-r.top)/r.height)*2+1); ray.setFromCamera(ptr, camera);
+  const vis = pickables.filter(m=>{ let o=m; while(o){ if(!o.visible) return false; o=o.parent; } return true; });
+  const hits = ray.intersectObjects(vis, false);
+  if(state.section) { for(const h of hits){ if(h.point.z <= 0.5) return h; } return null; }
+  return hits[0]||null; }
+renderer.domElement.addEventListener('pointermove', ev=>{
+  if(ev.pointerType==='touch') return;
+  const h = pick(ev); const m = h ? h.object : null;
+  if(m !== state.hover){ state.hover = m && parts.some(q=>q.mesh===m) ? m : null; refreshHighlight(); }
+  if(h){ const inf = getInfo(h.object.userData.id); if(inf){ const r = stage.getBoundingClientRect(); tip.hidden=false; tip.textContent = inf.name; tip.style.left=(ev.clientX-r.left)+'px'; tip.style.top=(ev.clientY-r.top)+'px'; } }
+  else tip.hidden = true;
+});
+renderer.domElement.addEventListener('pointerleave', ()=>{ tip.hidden=true; state.hover=null; refreshHighlight(); });
+renderer.domElement.addEventListener('pointerdown', ev=>{ downAt=[ev.clientX, ev.clientY]; });
+renderer.domElement.addEventListener('pointerup', ev=>{ if(!downAt) return; const dx=ev.clientX-downAt[0], dy=ev.clientY-downAt[1]; downAt=null; if(dx*dx+dy*dy>25) return;
+  const h = pick(ev); state.sel = h ? h.object.userData.id : null; fillInspector(state.sel); refreshHighlight(); });
+
+// ---------- section ----------
+const clipPlane = new THREE.Plane(new THREE.Vector3(0,0,-1), 0);
+function applySection(){ renderer.clippingPlanes = state.section ? [clipPlane] : []; }
+
+// ---------- camera views ----------
+const VIEWS = { iso:{p:[720,560,900], t:[0,135,70]}, front:{p:[0,260,1150], t:[0,170,60]}, side:{p:[1150,270,90], t:[0,170,90]}, dies:{p:[240,225,320], t:[0,78,0]} };
+let camTween = null;
+function setView(name, instant){ const v = VIEWS[name]; if(!v) return; const p0 = camera.position.clone(), t0 = controls.target.clone(); const p1 = new THREE.Vector3(...v.p), t1 = new THREE.Vector3(...v.t);
+  if(instant || matchMedia('(prefers-reduced-motion: reduce)').matches){ camera.position.copy(p1); controls.target.copy(t1); return; }
+  const s = performance.now(); camTween = (now)=>{ const k = Math.min(1,(now-s)/700), e = k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2; camera.position.lerpVectors(p0,p1,e); controls.target.lerpVectors(t0,t1,e); if(k>=1) camTween=null; }; }
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+MP.camTo = (p, t) => { camTween = null; camera.position.set(p[0], p[1], p[2]); controls.target.set(t[0], t[1], t[2]); controls.update(); };
+
+// ---------- animation runner ----------
+let runId = 0;
+const ease = t => t<.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
+function tween(ms, fn){ const id = runId; return new Promise(res=>{ const t0 = performance.now(); function step(now){ if(id!==runId) return res(false); const t = Math.min(1,(now-t0)/ms); fn(ease(t)); applyPose(); if(t<1) requestAnimationFrame(step); else res(true); } requestAnimationFrame(step); }); }
+const wait = ms => tween(ms, ()=>{});
+function tv(key, a, b, ms){ return tween(ms, t=>{ state[key] = a + (b-a)*t; }); }
+const capEl = document.getElementById('caption');
+function cap(i){ if(i<0){ capEl.hidden=true; return; } const c = MP.CYCLE[i]; capEl.hidden=false; document.getElementById('capHead').textContent = `Step ${i+1} of ${MP.CYCLE.length} · ${c.t}`; document.getElementById('capText').textContent = c.s; }
+function cancelRun(){ runId++; document.getElementById('playCycle').disabled = false; }
+async function runCycle(){
+  const my = ++runId; const btn = document.getElementById('playCycle'); btn.disabled = true;
+  setMode('all'); state.explode = 0; syncExplode(); resetWork(); applyStepVisibility();
+  const go = ()=> my===runId;
+  const p0 = state.psi, s0 = state.sx;
+  await tween(500, t=>{ state.psi = p0 + (65-p0)*t; state.sx = s0 + (-80-s0)*t; }); if(!go()) return;
+  cap(0); W_.shellOn='A'; applyStepVisibility(); await tween(450, t=>{ work.shell.position.y = 59.75 + 60*(1-t); }); if(!go()) return;
+  W_.lamOn = true; applyStepVisibility(); await tween(450, t=>{ work.lam.position.y = 66.15 + 60*(1-t); }); if(!go()) return;
+  await wait(500); if(!go()) return;
+  cap(1); await tv('sx', -80, 80, 1100); if(!go()) return;
+  cap(2); W_.backOn = true; applyStepVisibility(); await tween(450, t=>{ work.back.position.y = 57.6 + 60*(1-t); }); if(!go()) return;
+  await wait(400); if(!go()) return;
+  cap(3); await tv('psi', 65, MP.psiPick, 1400); if(!go()) return;
+  W_.wrapped = true; work.lam.visible=false; work.face.visible = true;
+  await wait(250); if(!go()) return;
+  gRam.add(work.shell); work.shell.position.set(0, 95.25, 0); W_.shellOn='ram';
+  await tv('psi', MP.psiPick, 65, 1000); if(!go()) return;
+  cap(4); await tv('sx', 80, -80, 1100); if(!go()) return;
+  cap(5); await tv('psi', 65, 3, 1500); if(!go()) return;
+  W_.shellOn=null; W_.backOn=false; W_.magOn=true; applyStepVisibility();
+  await wait(250); if(!go()) return;
+  await tv('psi', 3, 65, 1000); if(!go()) return;
+  cap(6); await tv('sx', -80, 80, 1100); if(!go()) return;
+  await tween(1200, t=>{ work.mag.position.y = 56.39 + 70*t; work.mag.rotation.x = -0.9*t; work.mag.rotation.y = 0.5*t; }); if(!go()) return;
+  btn.disabled = false;
+}
+document.getElementById('playCycle').addEventListener('click', ()=>{ runCycle(); });
+document.getElementById('resetCycle').addEventListener('click', ()=>{ cancelRun(); cap(-1); resetWork(); state.psi=65; state.sx=-80; applyStepVisibility(); applyPose(); });
+
+// ---------- controls ----------
+document.getElementById('handle').addEventListener('input', e=>{ cancelRun(); state.psi = +e.target.value; applyPose(); });
+document.getElementById('posA').addEventListener('click', ()=>{ cancelRun(); const a = state.sx; tween(800, t=>{ state.sx = a + (80-a)*t; }); });
+document.getElementById('posB').addEventListener('click', ()=>{ cancelRun(); const a = state.sx; tween(800, t=>{ state.sx = a + (-80-a)*t; }); });
+const exEl = document.getElementById('explode');
+function syncExplode(){ exEl.value = Math.round(state.explode*100); document.getElementById('explodeOut').textContent = Math.round(state.explode*100)+'%'; }
+exEl.addEventListener('input', e=>{ state.explode = +e.target.value/100; syncExplode(); if(state.explode>0) cap(-1); applyPose(); });
+document.getElementById('section').addEventListener('change', e=>{ state.section = e.target.checked; applySection(); });
+function setMode(m){ state.mode = m; document.getElementById('modeAll').setAttribute('aria-pressed', String(m==='all')); document.getElementById('modeBuild').setAttribute('aria-pressed', String(m==='build')); document.getElementById('stepbox').hidden = m!=='build'; if(m==='build'){ cancelRun(); cap(-1); } applyStepVisibility(); applyPose(); updateStepText(); }
+document.getElementById('modeAll').addEventListener('click', ()=>setMode('all'));
+document.getElementById('modeBuild').addEventListener('click', ()=>{ if(state.mode!=='build'){ state.step = 1; } setMode('build'); playIntro(); });
+function updateStepText(){ const s = MP.STEPS[state.step-1]; document.getElementById('stepNo').textContent = `Step ${state.step} / ${MP.STEPS.length}`; document.getElementById('stepTitle').textContent = s.t; document.getElementById('stepText').textContent = s.s; document.getElementById('stepPrev').disabled = state.step<=1; document.getElementById('stepNext').disabled = state.step>=MP.STEPS.length; }
+function playIntro(){ if(matchMedia('(prefers-reduced-motion: reduce)').matches){ state.intro=1; applyPose(); return; } const s = performance.now(); state.intro = 0; (function f(now){ state.intro = Math.min(1,(now-s)/650); applyPose(); if(state.intro<1) requestAnimationFrame(f); })(s); }
+function goStep(n){ state.step = clamp(n,1,MP.STEPS.length); applyStepVisibility(); updateStepText(); playIntro(); }
+document.getElementById('stepPrev').addEventListener('click', ()=>goStep(state.step-1));
+document.getElementById('stepNext').addEventListener('click', ()=>goStep(state.step+1));
+document.addEventListener('mp:showstep', e=>{ state.step = e.detail; setMode('build'); goStep(e.detail); setView('iso'); });
+
+const LAYERS = [['frame','Frame','#2a2d31'],['slide','Die table','#c9a13b'],['drive','Press drive','#1f2226'],['die','Die set','#c3c9cf']];
+const chipsEl = document.getElementById('layerChips');
+LAYERS.forEach(([k,label,col])=>{ const l = document.createElement('label'); l.className='chip'; const i = document.createElement('input'); i.type='checkbox'; i.checked=true; i.id='layer-'+k; i.addEventListener('change',()=>{ state.layers[k]=i.checked; applyLayers(); }); const sw=document.createElement('i'); sw.style.background=col; l.append(i, sw, document.createTextNode(label)); chipsEl.appendChild(l); });
+
+document.addEventListener('mp:size', ()=>{ cancelRun(); cap(-1); state.sel=null; buildDies(); });
+
+// ---------- OpenSCAD export ----------
+document.getElementById('copyScad').addEventListener('click', ()=>{
+  const save = {ex:state.explode, mode:state.mode}; state.explode = 0; const prevMode = state.mode; state.mode='all'; applyPose(); scene.updateMatrixWorld(true);
+  const C = new THREE.Matrix4().set(1,0,0,0, 0,0,-1,0, 0,1,0,0, 0,0,0,1), Ci = C.clone().invert();
+  const out = [`// MagPress M4 — assembly layout, die set ${MP.cur.label} mm. Units: mm. Z up, Y toward the back.`, `// Generated from the 3D model. Simple solids at true size; detail holes and threads in your CAD tool.`, ''];
+  let n = 0;
+  for(const q of parts){ if(!q.mesh.userData.scad) continue; const m = C.clone().multiply(q.mesh.matrixWorld).multiply(Ci); const e = m.elements;
+    const rows = [[e[0],e[4],e[8],e[12]],[e[1],e[5],e[9],e[13]],[e[2],e[6],e[10],e[14]],[0,0,0,1]].map(r=>'['+r.map(v=>f(v)).join(',')+']').join(',');
+    const col = q.mesh.material.color, hx = col.getHex(); const rgb = [(hx>>16)&255,(hx>>8)&255,hx&255].map(v=>f(v/255));
+    const inf = getInfo(q.id); out.push(`// ${inf?inf.name:q.id}`); out.push(`color([${rgb.join(',')}]) multmatrix([${rows}]) ${q.mesh.userData.scad}`); n++; }
+  state.explode = save.ex; state.mode = prevMode; applyPose();
+  const txt = out.join('\n'); const ta = document.getElementById('scadOut');
+  function fallback(){ ta.hidden=false; ta.value=txt; ta.focus(); ta.select(); MP.toast('Clipboard blocked. The OpenSCAD source is selected in the box below.'); }
+  try{ navigator.clipboard.writeText(txt).then(()=>MP.toast(`OpenSCAD copied: ${n} parts, die set ${MP.cur.label}`), fallback); }catch(err){ fallback(); }
+});
+
+// ---------- loop ----------
+function resize(){ const w = stage.clientWidth, h = stage.clientHeight; renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix(); }
+new ResizeObserver(resize).observe(stage);
+let visible = true; new IntersectionObserver(es=>{ visible = es[0].isIntersecting; }).observe(stage);
+function loop(now){ requestAnimationFrame(loop); if(!visible) return; if(camTween) camTween(now); controls.update(); renderer.render(scene, camera); }
+
+buildDies(); applyTheme(); setView('iso', true); resize(); applySection(); requestAnimationFrame(loop);
+
+} catch(err){
+  if(!msg.isConnected) stage.prepend(msg);
+  msg.textContent = 'The 3D model could not start in this browser (' + (err && err.message ? err.message : err) + '). The rest of the build pack below still works.';
+  console.error(err);
+}
+</script>
