@@ -430,13 +430,18 @@
     { t: 'trio', x: 8.6, y: 8.0, s: 1.35, r: 0.4, c: 2 }, { t: 'squig', x: 16.5, y: 2.3, s: 2.6, c: 3 }];
   const GEO_B = [{ t: 'half', x: 4.8, y: 3.0, s: 2.6, r: PI, c: 1 }, { t: 'tri', x: 3.3, y: 9.0, s: 1.7, r: -0.3, c: 0 }, { t: 'ring', x: 9.6, y: 6.0, s: 1.3, c: 2 },
     { t: 'stripe', x: 11.8, y: 2.6, s: 1.8, r: 0.5, c: 3 }, { t: 'plus', x: 3.0, y: 15.0, s: 0.9, c: 2 }];
+  // the same families laid along an arc for rounds (x along the edge, y inward, mm at k = 1)
+  const GEO_RA = [{ t: 'disc', x: 0, y: 3.1, s: 1.5, c: 0 }, { t: 'dots', x: 5.6, y: 2.6, s: 1, c: 2 }, { t: 'trio', x: -5.0, y: 3.2, s: 0.95, r: 0.3, c: 2 },
+    { t: 'squig', x: 10.6, y: 2.2, s: 1.6, c: 3 }, { t: 'zig', x: -9.8, y: 2.3, s: 1.5, c: 1 }];
+  const GEO_RB = [{ t: 'half', x: 0, y: 2.2, s: 1.65, r: PI, c: 1 }, { t: 'ring', x: -5.0, y: 3.0, s: 0.95, c: 2 }, { t: 'stripe', x: 5.2, y: 2.6, s: 1.2, r: 0.5, c: 3 },
+    { t: 'tri', x: 9.8, y: 2.6, s: 1.1, r: 0.2, c: 0 }, { t: 'plus', x: -9.6, y: 2.6, s: 0.7, c: 2 }];
   reg('geo', 'Memphis geo', (ctx, g, p, h) => {
     const k = g.k, cols = [p.accent, turn(p.accent, 165, 0.66), p.paper, turn(p.accent, 50, 0.55)];
     h.shadow(ctx, 0.35 * k, 'rgba(0,0,0,.35)', 0.06 * k, 0.12 * k);
     if(g.round){ const R = g.W / 2;
-      [-3 * PI / 4, -PI / 4, PI / 4, 3 * PI / 4].forEach((a0, q) => { (q % 2 ? GEO_B : GEO_A).forEach(e => {
-        const u = (e.x - 7) * k * 1.15, v = (e.y + 0.6) * k * 0.95, an = a0 + u / R, rr = R - v - 1.4 * k;
-        geoShape(ctx, h, { t: e.t, x: rr * Math.cos(an), y: rr * Math.sin(an), s: e.s * 0.85, r: (e.r || 0) + an + PI / 2, c: e.c }, k, cols); }); });
+      [-3 * PI / 4, -PI / 4, PI / 4, 3 * PI / 4].forEach((a0, q) => { (q % 2 ? GEO_RB : GEO_RA).forEach(e => {
+        const an = a0 + e.x * k / R, rr = R - (e.y + 0.6) * k;
+        geoShape(ctx, h, { t: e.t, x: rr * Math.cos(an), y: rr * Math.sin(an), s: e.s, r: (e.r || 0) + an + PI / 2, c: e.c }, k, cols); }); });
       return; }
     [[-1, -1, 0], [1, -1, 1], [1, 1, 2], [-1, 1, 3]].forEach(([sx, sy, q]) => {
       (q % 2 ? GEO_B : GEO_A).forEach(e => { const ex = e.x * k * GS, ey = e.y * k * GS, rot = q * PI / 2;
