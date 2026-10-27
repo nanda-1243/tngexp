@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html, body { margin: 0; background: #fff; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  #stage { position: relative; width: 1600px; height: 1000px; overflow: hidden; }
+  canvas, svg { position: absolute; left: 0; top: 0; }
+  .lab { font-size: 22px; font-weight: 700; fill: #111; }
+  .sub { font-size: 17px; font-weight: 400; fill: #444; }
+  .ttl { font-size: 26px; font-weight: 700; fill: #111; }
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+<div id="stage"><svg id="ov" width="1600" height="1000"></svg></div>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const W = 1600, H = 1000;
+const stage = document.getElementById('stage'), ov = document.getElementById('ov');
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1); renderer.setSize(W, H); renderer.setClearColor(0xffffff);
+stage.insertBefore(renderer.domElement, ov);
+const scene = new THREE.Scene();
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8a8f99, 2.0));
+const key = new THREE.DirectionalLight(0xffffff, 1.5); scene.add(key);
+const cam = new THREE.PerspectiveCamera(26, W / H, 1, 10000); cam.up.set(0, 0, 1);
+const ghost = new THREE.MeshStandardMaterial({ color: 0xd5d9df, metalness: 0.0, roughness: 0.9, side: THREE.DoubleSide });
+const root = new THREE.Group(); root.rotation.x = Math.PI / 2; scene.add(root);   // GLB is Y-up; the manual works Z-up
+const M = {};
+
+new GLTFLoader().load('model.glb', g => {
+  root.add(g.scene);
+  g.scene.traverse(o => {
+    if (!o.isMesh) return;
+    const name = o.name || o.parent.name;
+    o.material.side = THREE.DoubleSide;
+    M[name] = { mesh: o, mat: o.material, base: o.position.clone() };
+  });
+  window.ready = true;
+});
+
+function svg(tag, a, txt) { const e = document.createElementNS('http://www.w3.org/2000/svg', tag); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; ov.appendChild(e); return e; }
+
+window.renderStep = s => {
+  while (ov.firstChild) ov.removeChild(ov.firstChild);
+  for (const k in M) { const m = M[k]; m.mesh.visible = false; m.mesh.position.copy(m.base); m.mesh.material = m.mat; }
+  const fitBox = new THREE.Box3(), allBox = new THREE.Box3();
+  for (const n of s.ctx) { const m = M[n]; if (!m || (s.hide || []).includes(n)) continue; m.mesh.visible = true; m.mesh.material = ghost; }
+  for (const gr of s.add) {
+    const [ex, ey, ez] = gr.ex;
+    for (const n of gr.names) { const m = M[n]; if (!m) continue; m.mesh.visible = true; m.mesh.position.set(m.base.x + ex, m.base.y + ez, m.base.z - ey); }
+  }
+  root.updateMatrixWorld(true);
+  for (const k in M) { const m = M[k]; if (m.mesh.visible) allBox.expandByObject(m.mesh); }
+  for (const gr of s.add) for (const n of gr.names) if (M[n]) fitBox.expandByObject(M[n].mesh);
+  for (const n of (s.fitExtra || [])) if (M[n]) fitBox.expandByObject(M[n].mesh);
+  const box = s.fit === 'all' || fitBox.isEmpty() ? allBox : fitBox;
+  const c = box.getCenter(new THREE.Vector3()), r = box.getSize(new THREE.Vector3()).length() / 2;
+  const d = new THREE.Vector3(...s.view).normalize();
+  const dist = r / Math.sin(THREE.MathUtils.degToRad(cam.fov / 2)) * (s.zoom || 0.92);
+  cam.position.copy(c).addScaledVector(d, dist); cam.lookAt(c);
+  cam.near = Math.max(1, dist - 4 * r); cam.far = dist + 4 * r; cam.updateProjectionMatrix();
+  key.position.copy(cam.position).add(new THREE.Vector3(-400, 300, 900));
+  renderer.render(scene, cam);
+
+  // labels: two columns of call-outs with leader lines
+  const centre = c.clone().project(cam), cx = (centre.x + 1) / 2 * W;
+  const L = [], R = [];
+  for (const lb of s.labels) {
+    const m = M[lb.name]; if (!m) continue;
+    const p = new THREE.Box3().setFromObject(m.mesh).getCenter(new THREE.Vector3()).project(cam);
+    const ax = (p.x + 1) / 2 * W, ay = (1 - p.y) / 2 * H;
+    (ax < cx ? L : R).push({ ax, ay, t: lb.text, sub: lb.sub || '' });
+  }
+  const lay = (col, x, anchor) => {
+    col.sort((a, b) => a.ay - b.ay);
+    const gap = 54, top = 90, bot = H - 40;
+    col.forEach((o, i) => { o.y = Math.max(o.ay, i ? col[i - 1].y + gap : top); });
+    if (col.length && col[col.length - 1].y > bot) {
+      col[col.length - 1].y = bot;
+      for (let i = col.length - 2; i >= 0; i--) col[i].y = Math.min(col[i].y, col[i + 1].y - gap);
+    }
+    for (const o of col) {
+      const lx = anchor === 'end' ? x + 10 : x - 10;
+      svg('line', { x1: lx, y1: o.y - 7, x2: o.ax, y2: o.ay, stroke: '#c0392b', 'stroke-width': 1.6 });
+      svg('circle', { cx: o.ax, cy: o.ay, r: 4, fill: '#c0392b' });
+      svg('text', { x, y: o.y, class: 'lab', 'text-anchor': anchor }, o.t);
+      if (o.sub) svg('text', { x, y: o.y + 20, class: 'sub', 'text-anchor': anchor }, o.sub);
+    }
+  };
+  lay(L, 290, 'end'); lay(R, W - 290, 'start');
+  if (s.title) svg('text', { x: 28, y: 46, class: 'ttl' }, s.title);
+  return true;
+};
+</script>
+</body>
+</html>

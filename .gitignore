@@ -4,3 +4,4 @@ __pycache__/
 web/tools/_page.html
 web/tools/*.png
 node_modules/
+docs/assembly/_build/

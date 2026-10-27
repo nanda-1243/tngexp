@@ -10,7 +10,8 @@ Interactive build pack (3D model, force chart, dimensions, BOM, assembly, tests,
 
 | Path | Contents |
 |---|---|
-| [`release/`](release/) | Machine-shop drawing set (33 A3 sheets, PDF) and DXF profiles for cutting and wire-EDM. If a DXF and a drawing disagree, the drawing governs. |
+| [`release/`](release/) | Machine-shop drawing set (33 A3 sheets, PDF), DXF profiles for cutting and wire-EDM, and the assembly manual (PDF). If a DXF and a drawing disagree, the drawing governs. |
+| [`docs/assembly-manual.md`](docs/assembly-manual.md) | Assembly manual: 19 illustrated steps with parts, tools, torques and checks, then set-up, tests and kit changes. Printable PDF in [`release/`](release/MagPress-M4_Assembly-Manual_RevC.pdf). |
 | [`models/`](models/) | 3D models of every part, made and bought (STEP, STL, OBJ), and the placed assembly (STEP, GLB, OBJ). Printing notes, plus six fit problems the 3D check found: see [`models/README.md`](models/README.md). |
 | [`web/magpress-m4.html`](web/magpress-m4.html) | The build-pack page (single file; three.js from a CDN). |
 | [`cad/`](cad/) | Python source that generates every drawing and DXF (`build.py`), plus the PDF renderer (`render.js`) and cover images. |
@@ -32,6 +33,7 @@ node cad/render.js "$PWD/out" MagPress-M4_Drawings_RevC.pdf     # PDF from the S
 cp out/MagPress-M4_Drawings_RevC.pdf out/MagPress-M4_DXF_RevC.zip release/
 node web/tools/check_page.js web/magpress-m4.html               # page smoke test
 python models/build_models.py                                   # 3D models (needs cadquery + trimesh)
+python3 docs/assembly/manual.py                                 # assembly manual: step images, Markdown, PDF
 ```
 
 ## Revisions
