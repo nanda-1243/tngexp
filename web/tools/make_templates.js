@@ -34,11 +34,11 @@ const fs = require('fs'); const path = require('path');
     '- **Blue dashed line:** the edge of the magnet face.',
     '- **Pink dotted line:** keep faces and text inside it (3 mm in from the face edge).',
     '- **Print at 100 % ("Actual size"), never "Fit to page".** The bar at the foot of each sheet must measure 50 mm.',
-    '- Paper: 90–120 g/m² matte inkjet paper. Cut round sizes with a circle punch; the others with a trimmer and a 6 mm corner rounder.', '',
+    '- Paper: 90–120 g/m² matte inkjet paper. Cut round sizes with a circle punch; the others with a trimmer or a rectangular punch (square corners, like the magnets).', '',
     '| Size | Face (mm) | Paper cut (mm) | Keep text inside (mm) | Per A4 | Per Letter | Files |', '|---|---|---|---|---|---|---|'];
   for (const r of rows) {
     const g = r.g, name = (g.round ? g.label : g.label + (g.W !== g.H ? (r.land ? ' landscape' : ' portrait') : ''));
-    md.push('| ' + name + ' | ' + pair(g, g.W, g.H) + ' | ' + pair(g, g.cutW, g.cutH) + (g.round ? '' : ', R6 corners') + ' | ' + pair(g, g.safeW, g.safeH) + ' | ' + r.A4 + ' | ' + r.Letter
+    md.push('| ' + name + ' | ' + pair(g, g.W, g.H) + ' | ' + pair(g, g.cutW, g.cutH) + (g.round ? '' : ', square corners') + ' | ' + pair(g, g.safeW, g.safeH) + ' | ' + r.A4 + ' | ' + r.Letter
       + ' | [A4](A4/template_' + r.base + '_A4.pdf) · [Letter](Letter/template_' + r.base + '_Letter.pdf) · [SVG](svg/guide_' + r.base + '.svg) |');
   }
   md.push('', 'Remake these files with `node web/tools/make_templates.js print-templates`.', '');

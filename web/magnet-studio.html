@@ -175,7 +175,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
             <li>Print at 100 % (“Actual size”), never “Fit to page”. The bar at the foot of the sheet must measure 50 mm.</li>
             <li>Use 90–120 g/m² matte inkjet paper. Photo paper and card are too thick to fold round the edge.</li>
             <li>Let inkjet prints dry for 10 minutes before pressing.</li>
-            <li>Cut on the grey line: a circle punch for round sizes; a trimmer and a 6 mm corner rounder for the others.</li>
+            <li>Cut on the grey line: a circle punch for round sizes, a trimmer or a rectangular punch for the others (square corners).</li>
             <li>The shaded band on the big preview folds over the rim: keep faces and text inside the dotted line.</li>
           </ul>
         </div>
@@ -425,7 +425,7 @@ function updateInfo(){
   $('#sheetHint').textContent = g.label + ' · ' + L.n + '/' + S.paper;
   $('#photoHint').textContent = S.photos.length ? S.photos.length + (S.photos.length === 1 ? ' photo' : ' photos') : 'none yet';
   const f = $('#facts'), row = (a, b) => '<dt>' + a + '</dt><dd>' + b + '</dd>', pair = (w, h) => g.round ? 'Ø' + w : w + ' × ' + h;
-  f.innerHTML = row('Face', pair(g.W, g.H) + ' mm') + row('Paper cut', pair(g.cutW, g.cutH) + ' mm' + (g.round ? '' : ', R6 corners')) + row('Keep text in', pair(g.safeW, g.safeH) + ' mm')
+  f.innerHTML = row('Face', pair(g.W, g.H) + ' mm') + row('Paper cut', pair(g.cutW, g.cutH) + ' mm' + (g.round ? '' : ', square corners')) + row('Keep text in', pair(g.safeW, g.safeH) + ' mm')
     + row('Layout', L.cols + ' × ' + L.rows + ' on ' + S.paper + ', ' + GAP + ' mm apart') + row('Print', 'at 100 %; check the 50 mm bar');
 }
 
@@ -499,7 +499,7 @@ function jsPDFctor(){ if(!window.jspdf || !window.jspdf.jsPDF) throw new Error('
 function pdfOutline(doc, g, cx, cy, inset, dash){
   doc.setLineDashPattern(dash || [], 0);
   if(g.round){ doc.circle(cx, cy, g.cutW / 2 - inset, 'S'); return; }
-  const w = g.cutW - 2 * inset, h = g.cutH - 2 * inset, r = inset >= 6 ? (inset === 6 ? g.r : 1) : g.cutR;
+  const w = g.cutW - 2 * inset, h = g.cutH - 2 * inset, r = inset === 0 ? g.cutR : Math.max(0, g.r - (inset - 6));
   doc.roundedRect(cx - w / 2, cy - h / 2, w, h, r, r, 'S');
 }
 function pdfFooter(doc, L, blank){
@@ -545,7 +545,7 @@ $('#savePng').addEventListener('click', async () => {
 function guideSVG(){
   const g = geom(), w = g.cutW, h = g.cutH, f = n => +n.toFixed(3);
   const shape = (inset, attrs) => g.round ? '<circle cx="' + f(w / 2) + '" cy="' + f(h / 2) + '" r="' + f(w / 2 - inset) + '" ' + attrs + '/>'
-    : '<rect x="' + f(inset) + '" y="' + f(inset) + '" width="' + f(w - 2 * inset) + '" height="' + f(h - 2 * inset) + '" rx="' + (inset === 0 ? g.cutR : inset === 6 ? g.r : 1) + '" ' + attrs + '/>';
+    : '<rect x="' + f(inset) + '" y="' + f(inset) + '" width="' + f(w - 2 * inset) + '" height="' + f(h - 2 * inset) + '" rx="' + (inset === 0 ? g.cutR : Math.max(0, g.r - (inset - 6))) + '" ' + attrs + '/>';
   return '<svg xmlns="http://www.w3.org/2000/svg" width="' + f(w) + 'mm" height="' + f(h) + 'mm" viewBox="0 0 ' + f(w) + ' ' + f(h) + '">\n'
     + '<title>MagPress M4 ' + g.label + ' design guide: cut ' + (g.round ? 'Ø' + w : w + ' × ' + h) + ' mm</title>\n'
     + '<g id="cut-line">' + shape(0, 'fill="none" stroke="#8a8f96" stroke-width="0.2"') + '</g>\n'

@@ -23,7 +23,8 @@
     {id:'c50', label:'Ø50',         shape:'round', W:50,   H:50},
     {id:'c56', label:'Ø56',         shape:'round', W:56,   H:56},
     {id:'c58', label:'Ø58',         shape:'round', W:58,   H:58}];
-  const BLEED = 6, SAFE_IN = 3, R_FACE = 4, R_CUT = 6;
+  // square and rectangular magnets have sharp corners (R1 at the face, like commercial photo magnets) and square-cut paper
+  const BLEED = 6, SAFE_IN = 3, R_FACE = 1, R_CUT = 0;
   const POS = ['tl', 'tc', 'tr', 'ml', 'mc', 'mr', 'bl', 'bc', 'br', 'arc-top', 'arc-bottom'];
 
   // geometry of one magnet; rectangles are portrait unless landscape is set
@@ -34,7 +35,7 @@
     return { id: size.id, label: size.label, shape: size.shape, round, W, H,
       r: round ? W / 2 : R_FACE,                       // face corner radius (round: the radius)
       bleed: BLEED, cutW: W + 2 * BLEED, cutH: H + 2 * BLEED, cutR: round ? W / 2 + BLEED : R_CUT,
-      safeW: W - 2 * SAFE_IN, safeH: H - 2 * SAFE_IN, safeR: round ? W / 2 - SAFE_IN : 1,
+      safeW: W - 2 * SAFE_IN, safeH: H - 2 * SAFE_IN, safeR: round ? W / 2 - SAFE_IN : 0,
       min: Math.min(W, H), max: Math.max(W, H), k: Math.min(W, H) / 63.5 };   // k: size factor, 1 at 63.5
   }
 
