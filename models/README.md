@@ -14,6 +14,7 @@ Every part of the press as its own 3D file: the 52 machined parts (including all
 | [`assembly/`](assembly/) | The whole press with every part in place, each a separate, named, coloured body: `MagPress-M4_assembly.step` (CAD), `.glb` (opens in Windows 3D Viewer, Blender and online viewers), `.obj` + `.mtl`. Also `interference.txt` (clash check, below) and the preview images. |
 | [`parts.csv`](parts.csv) | The full list: part number, name, make or buy, group, quantity in the assembly, size, volume and file name. |
 | [`build_models.py`](build_models.py) | The script that makes all of the above from the drawing source in `cad/`. |
+| [`make_print_pack.py`](make_print_pack.py) | Zips the part files for printing into [`release/`](../release/): STL at half scale and full size, and OBJ at full size, in folders by group with the number to print in each file name. |
 
 **Names.** `MP-xxx` is the drawing number. Size-kit parts end in the size code: `5050` (50 × 50), `6363` (63.5 × 63.5), `5380` (53 × 80) and `6590` (65 × 90). `BUY-xx` is a bought part, named as in the BOM (BUY-11 was deleted in Rev C.1).
 

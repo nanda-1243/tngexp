@@ -12,6 +12,7 @@ Interactive build pack (3D model, force chart, dimensions, BOM, assembly, tests,
 |---|---|
 | [`release/`](release/) | Machine-shop drawing set (33 A3 sheets, PDF), DXF profiles for cutting and wire-EDM, and the assembly manual (PDF). If a DXF and a drawing disagree, the drawing governs. |
 | [`docs/assembly-manual.md`](docs/assembly-manual.md) | Assembly manual: 19 illustrated steps with parts, tools, torques and checks, then set-up, tests and kit changes. Printable PDF in [`release/`](release/MagPress-M4_Assembly-Manual_RevC1.pdf). |
+| Print packs in [`release/`](release/) | Every part as its own file for 3D printing: `MagPress-M4_RevC1_print-STL_half-scale.zip` (fits a 256 mm bed), `…_print-STL_full-size.zip` and `…_print-OBJ_full-size.zip`. Folders by group; the number to print is in each file name. |
 | [`models/`](models/) | 3D models of every part, made and bought (STEP, STL, OBJ), the placed assembly (STEP, GLB, OBJ) and the interference check behind Rev C.1. Printing notes in [`models/README.md`](models/README.md). |
 | [`web/magpress-m4.html`](web/magpress-m4.html) | The build-pack page (single file; three.js from a CDN). |
 | [`cad/`](cad/) | Python source that generates every drawing and DXF (`build.py`), plus the PDF renderer (`render.js`) and cover images. |
