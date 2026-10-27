@@ -10,6 +10,7 @@
   --ink:#15181B; --ink2:#434B53; --muted:#69727B; --line:#D1D6DA;
   --accent:#8A6510; --accent-ink:#FFFFFF; --accent-soft:#F4E9C9;
   --series:#8A6510; --warn:#B4232A; --ok:#2F7A44;
+  --m-tin:#7F8A95; --m-paper:#C0466F; --m-film:#1B88B8; --m-back:#454B53; --m-mag:#6B5236; --m-die:#D3D8DC; --m-hatch:#A3ACB4;
   --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -20,6 +21,7 @@
     --ink:#ECEEF0; --ink2:#B7BEC5; --muted:#8B949C; --line:#2C3136;
     --accent:#D8B24C; --accent-ink:#1A1405; --accent-soft:#3A3014;
     --series:#D8B24C; --warn:#E5534B; --ok:#5BB774; color-scheme:dark;
+    --m-tin:#B5BFC9; --m-paper:#E8789B; --m-film:#55C6F2; --m-back:#88919B; --m-mag:#A9865E; --m-die:#262B30; --m-hatch:#46505A;
   }
 }
 :root[data-theme="dark"]{
@@ -27,6 +29,7 @@
   --ink:#ECEEF0; --ink2:#B7BEC5; --muted:#8B949C; --line:#2C3136;
   --accent:#D8B24C; --accent-ink:#1A1405; --accent-soft:#3A3014;
   --series:#D8B24C; --warn:#E5534B; --ok:#5BB774; color-scheme:dark;
+  --m-tin:#B5BFC9; --m-paper:#E8789B; --m-film:#55C6F2; --m-back:#88919B; --m-mag:#A9865E; --m-die:#262B30; --m-hatch:#46505A;
 }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--f-body);}
@@ -167,6 +170,55 @@ td.fx{color:var(--ink)}
 textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(--sunk);color:var(--ink);border:1px solid var(--line);padding:8px}
 .refs{columns:2 340px;column-gap:28px;font-size:14px;margin:0;padding-left:18px}
 .refs li{break-inside:avoid;margin-bottom:8px}
+/* forming: finished magnet + die section */
+.sub{display:flex;flex-direction:column;gap:12px;margin-top:10px}
+.sub h3{font-size:24px}
+.mg{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);border:1.5px solid var(--ink);background:var(--panel)}
+#mgStage{position:relative;min-height:420px;background:var(--stage);min-width:0;overflow:hidden}
+#mgStage canvas{position:absolute;inset:0;display:block;width:100%;height:100%;outline:none}
+#mgStage [hidden],.fold [hidden]{display:none!important}
+#mgStage .views{top:10px;left:10px}
+#mgStage .views button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.mg-side{border-left:1.5px solid var(--ink);padding:14px 16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.facts{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:13.5px;margin:0}
+.facts dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.facts dd{margin:0;min-width:0;font-variant-numeric:tabular-nums}
+.legend{list-style:none;margin:0;padding:0;display:grid;gap:5px;font-size:13px}
+.legend li{display:grid;grid-template-columns:16px minmax(0,1fr) auto;gap:8px;align-items:center}
+.legend i{width:16px;height:10px;display:block}
+.legend span:last-child{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+#printLay{display:block;width:100%;height:auto}
+#printLay text{font-family:var(--f-mono);font-size:3.6px;fill:var(--ink2)}
+.fold{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);border:1.5px solid var(--ink);background:var(--panel)}
+.fold-fig{padding:10px;background:var(--panel);min-width:0;border-right:1.5px solid var(--ink)}
+#foldSvg{display:block;width:100%;max-width:560px;height:auto;margin:0 auto}
+#foldSvg text{font-family:var(--f-mono)}
+#foldSvg .lb{font-size:.56px;fill:var(--ink)}
+#foldSvg .lbs{font-size:.46px;fill:var(--muted)}
+#foldSvg .rd{font-size:.5px;fill:var(--ink2);letter-spacing:.04px}
+#foldSvg .die{fill:url(#hatch);stroke:var(--ink2);stroke-width:.035}
+#foldSvg .dieU{fill:url(#hatchU);stroke:var(--ink2);stroke-width:.035}
+#foldSvg .lead{stroke:var(--accent);stroke-width:.03;fill:none}
+#foldSvg .dot{fill:var(--accent)}
+.fold-side{padding:14px 16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.fold-ctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.fold-ctl .btn{flex:0 0 auto}
+.fold-ctl input{flex:1 1 140px}
+ol.stages{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+ol.stages li{border-bottom:1px solid var(--line)}
+ol.stages button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:8px;width:100%;padding:6px 4px;cursor:pointer;font-size:13.5px;align-items:baseline}
+ol.stages button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+ol.stages .k{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+ol.stages .st{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+ol.stages li[aria-current="step"] button{background:var(--accent-soft)}
+ol.stages li[aria-current="step"] .k{color:var(--accent)}
+.fold-cap{border-left:3px solid var(--accent);padding:8px 12px;background:var(--sunk);font-size:14px;min-height:96px}
+.fold-cap b{display:block;font-family:var(--f-display);font-size:19px;font-weight:600;margin-bottom:2px}
+.corner{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:18px;align-items:center}
+.corner svg{display:block;width:100%;height:auto}
+.corner svg text{font-family:var(--f-mono);font-size:2.3px;fill:var(--ink2)}
+@media (max-width:900px){.mg,.fold{grid-template-columns:1fr}.mg-side{border-left:0;border-top:1.5px solid var(--ink)}.fold-fig{border-right:0;border-bottom:1.5px solid var(--ink)}#mgStage{min-height:340px}}
+@media (max-width:520px){.corner{grid-template-columns:1fr}.corner svg{max-width:220px}}
 @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
 </style>
 
@@ -244,6 +296,70 @@ textarea#scadOut{width:100%;height:180px;font:12px var(--f-mono);background:var(
   <div class="sec-head"><span class="no">02</span><h2 id="s-how">How it makes a magnet</h2></div>
   <p>Each magnet takes two strokes of the handle. The die table slides between two stations. Each lower die is loaded while it is <em>outside</em> the press, so your fingers are never under the ram. The upper die stays on the ram and does both jobs. This is the slide-type layout from the photo you sent. The two-stroke die action follows the badge-press patents listed in section 13, all expired.</p>
   <ol class="cycle" id="cycleList"></ol>
+
+  <div class="sub" aria-labelledby="h-final">
+    <h3 id="h-final">The finished magnet</h3>
+    <p>This is what comes out of station B after stroke 2, built from the same die dimensions as the drawings. The photo and film wrap round the rounded edge, and the tinplate skirt is rolled under the back plate. Use <b>Edge, cut open</b> to see the layers.</p>
+    <div class="mg">
+      <div id="mgStage">
+        <div class="stage-msg" id="mgMsg">Loading the magnet model…</div>
+        <div class="views" role="group" aria-label="Magnet views">
+          <button data-mg="face" aria-pressed="true">Front</button><button data-mg="back" aria-pressed="false">Back</button><button data-mg="edge" aria-pressed="false">Edge, cut open</button>
+        </div>
+      </div>
+      <div class="mg-side">
+        <span class="eyebrow">Size <b id="mgSize" class="mono" style="color:var(--ink);letter-spacing:0">63.5 × 63.5</b> · follows the die set above</span>
+        <dl class="facts">
+          <dt>Face</dt><dd id="mgFace">63.5 × 63.5 mm, R4 corners</dd>
+          <dt>Thickness</dt><dd id="mgThick">3.7 mm</dd>
+          <dt>Photo paper</dt><dd id="mgPaper">75.5 × 75.5 mm, cut size</dd>
+          <dt>Safe area</dt><dd id="mgSafe">57.5 × 57.5 mm</dd>
+        </dl>
+        <ul class="legend" aria-label="Layers, front to back">
+          <li><i style="background:var(--m-film)"></i><span>Mylar film</span><span>0.075</span></li>
+          <li><i style="background:var(--m-paper)"></i><span>Printed photo</span><span>≈ 0.12</span></li>
+          <li><i style="background:var(--m-tin)"></i><span>Tinplate shell</span><span>0.20</span></li>
+          <li><i style="background:var(--m-back)"></i><span>Back plate, ABS</span><span>1.2</span></li>
+          <li><i style="background:var(--m-mag)"></i><span>Magnet sheet, stuck on after</span><span>0.5</span></li>
+        </ul>
+        <svg id="printLay" viewBox="0 0 120 90" role="img" aria-label="Print layout for the selected size"></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub" aria-labelledby="h-fold">
+    <h3 id="h-fold">How the folds are made</h3>
+    <p>A section through one edge of the dies, at true size and about 25 times enlarged, through both strokes. The station A parts are the pickup die, the station B parts the crimp die. Step through it or press Play.</p>
+    <div class="fold">
+      <div class="fold-fig">
+        <svg id="foldSvg" viewBox="-8.2 -0.3 22.4 24.1" role="img" aria-label="Animated section through the edge of the dies"></svg>
+      </div>
+      <div class="fold-side">
+        <div class="fold-ctl">
+          <button class="btn primary" id="foldPlay">Play</button>
+          <button class="btn" id="foldPrev" aria-label="Previous stage">◀</button>
+          <button class="btn" id="foldNext" aria-label="Next stage">▶</button>
+          <input type="range" id="foldScrub" min="0" max="1000" step="1" value="0" aria-label="Position in the sequence">
+        </div>
+        <div class="fold-cap" aria-live="polite"><b id="foldTitle"></b><span id="foldText"></span></div>
+        <ol class="stages" id="foldStages"></ol>
+      </div>
+    </div>
+    <div class="card corner">
+      <svg viewBox="0 0 40 40" role="img" aria-label="Plan of one corner: where the paper gathers">
+        <path d="M2 30 L28 30 A8 8 0 0 0 36 22 L36 2" style="fill:none;stroke:var(--m-tin);stroke-width:1"/>
+        <path d="M2 38 L38 38 L38 2" style="fill:none;stroke:var(--m-paper);stroke-width:.7;stroke-dasharray:1.6 1"/>
+        <path d="M28 30 L33.6 35.6 M30.9 29.4 L36.8 33.2 M33.4 27.3 L38 29.8 M35.2 24.8 L38 25.5 M25.2 30.9 L29 36" style="stroke:var(--m-paper);stroke-width:.45"/>
+        <path d="M28 30 A8 8 0 0 0 36 22 L38 22 L38 38 L28 38 Z" style="fill:var(--m-paper);opacity:.16"/>
+        <text x="2" y="28.3">face edge, R4</text>
+        <text x="2" y="36.4">paper, 6 mm out</text>
+      </svg>
+      <div>
+        <span class="eyebrow">At the corners</span>
+        <p class="small">Along the straight edges the photo and film fold down cleanly. At a corner they have to shrink from an arc at 10 mm radius (6 mm out from the R4 face corner) to the 4 mm arc of the skirt, so the excess, about 60%, gathers into fine pleats on the skirt and inside the rolled edge, out of sight. Round R4 corners keep the pleats small, and the film recess in ring A centres the photo so they come out even. If the corners wrinkle onto the face, the photo paper is too thick: use 90–120 g/m² paper, not card or photo paper.</p>
+      </div>
+    </div>
+  </div>
   <div class="two">
     <div class="card">
       <span class="eyebrow">Layer stack, front to back</span>
@@ -1453,3 +1569,380 @@ buildDies(); applyTheme(); setView('iso', true); resize(); applySection(); reque
   console.error(err);
 }
 </script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+// =====================================================================================
+// Forming geometry, shared by the die section and the finished-magnet model.
+// Section through the right-hand edge of the magnet: x = mm outward from the shell's outer face (the face edge, X/2),
+// z = mm above the bench, as on the drawings. Die values from MP-203 to MP-209; layers as in the consumables table.
+// =====================================================================================
+const F = { skirt:4.5, rc:1.0, over:6, chX:-1, chZ:56, back0:57.0, back1:58.2, backX:-0.7, mag0:56.5, magT:0.5 };
+const LAY = {                                       // centre line offset from the tin's outer face, radius in the roll channel, gauge
+  tin:   { line:-0.1,   r:0.705,  w:0.2 },
+  paper: { line:0.06,   r:0.865,  w:0.12 },
+  film:  { line:0.1575, r:0.9625, w:0.075 }
+};
+const FILM_UP = 0.0975;                             // film centre line above the paper centre line when the two lie flat
+
+// in the crimp station the stack is squeezed in over the anvil rim (56–57) and then follows the R1 roll channel
+function bmap(L, x, z){
+  if(z >= 57) return [x, z];
+  const xa = F.chX + L.r;
+  if(z >= 56) return [x + (xa - L.line) * (57 - z), z];
+  const th = (56 - z) / L.r;
+  return [F.chX + L.r * Math.cos(th), F.chZ - L.r * Math.sin(th)];
+}
+
+// centre line of one layer. st = {ztop, mode: 'flat' | 'drape' | 'hang', zc, a (deg), curl}
+function layerPath(L, st, x0){
+  const tin = L === LAY.tin, dz = L === LAY.film ? FILM_UP : 0;
+  const total = tin ? (-F.rc - x0) + Math.PI / 2 * (F.rc + L.line) + (F.skirt - F.rc) : (F.over - x0);
+  const zf = st.ztop + L.line, cx = -F.rc, cz = st.ztop - F.rc, R = F.rc + L.line;
+  if(!tin && (st.mode === 'flat' || (st.mode === 'drape' && st.zc + dz >= zf))) return [[x0, st.zc + dz], [x0 + total, st.zc + dz]];
+  const zcut = (!tin && st.mode === 'drape') ? st.zc + dz : -Infinity, zrim = st.ztop - F.skirt;
+  const pts = [[x0, zf]]; let used = 0, prev = [x0, zf];
+  const done = () => st.curl ? pts.map(([x, z]) => bmap(L, x, z)) : pts;
+  function* base(){
+    yield [cx, zf, cx - x0];
+    for(let i = 1; i <= 12; i++){ const ph = Math.PI / 2 * (1 - i / 12); yield [cx + R * Math.cos(ph), cz + R * Math.sin(ph), R * Math.PI / 24]; }
+    for(let s = 0.1; s < 40; s += 0.1) yield [L.line, cz - s, 0.1];
+  }
+  for(const [x, z, d] of base()){
+    if(z < zcut){
+      const f = (prev[1] - zcut) / (prev[1] - z), xc = prev[0] + (x - prev[0]) * f;
+      used += d * f; pts.push([xc, zcut], [xc + Math.max(0, total - used), zcut]); return done();
+    }
+    if(!tin && st.mode === 'hang' && st.a < 89.99 && z < zrim){
+      const f = (prev[1] - zrim) / (prev[1] - z), xr = prev[0] + (x - prev[0]) * f, a = st.a * Math.PI / 180;
+      used += d * f; const rem = Math.max(0, total - used);
+      pts.push([xr, zrim], [xr + rem * Math.cos(a), zrim - rem * Math.sin(a)]); return done();
+    }
+    if(used + d >= total){ const f = (total - used) / d; pts.push([prev[0] + (x - prev[0]) * f, prev[1] + (z - prev[1]) * f]); return done(); }
+    used += d; pts.push([x, z]); prev = [x, z];
+  }
+  return done();
+}
+
+// a thin closed outline around a centre line
+function band(pts, w){
+  const L = [], Rr = [];
+  for(let i = 0; i < pts.length; i++){
+    const a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)];
+    let tx = b[0] - a[0], tz = b[1] - a[1]; const n = Math.hypot(tx, tz) || 1; tx /= n; tz /= n;
+    L.push([pts[i][0] - tz * w / 2, pts[i][1] + tx * w / 2]); Rr.push([pts[i][0] + tz * w / 2, pts[i][1] - tx * w / 2]);
+  }
+  return L.concat(Rr.reverse());
+}
+
+const FINAL = { ztop: 58.4, mode: 'hang', a: 90, curl: true };
+function finalStats(){
+  let lo = 1e9; for(const k in LAY) for(const p of band(layerPath(LAY[k], FINAL, -1.5), LAY[k].w)) lo = Math.min(lo, p[1]);
+  return { lo, hi: FINAL.ztop + 0.195, thick: FINAL.ztop + 0.195 - lo };
+}
+const STATS = finalStats();
+const f1 = n => (Math.round(n * 10) / 10).toFixed(1);
+
+// =====================================================================================
+// Die section, animated through both strokes
+// =====================================================================================
+const STAGES = [
+  { k:'Load', t:'Load station A', t0:18, t1:18, d:1.4,
+    x:'Station A is outside the press. The tinplate shell sits face-up on the pickup pedestal. The printed photo and the mylar film lie flat in the 0.6 mm recess on top of pickup ring A, 6 mm bigger than the face on every side.' },
+  { k:'Stroke 1', t:'Stroke 1: the dies close', t0:18, t1:26, d:2.2,
+    x:'The upper die comes down. The upper ring’s opening is the shell size plus 0.35 mm, and the plug sits 5.5 mm up inside it. At 26 mm of ram travel the upper ring lands on ring A.' },
+  { k:'Wrap', t:'The photo and film wrap the edge', t0:26, t1:34, d:3.4,
+    x:'The upper ring pushes ring A down 8 mm against its light springs. The shell stays where it is, so it comes up through the opening and drags the photo and film over its rounded edge and down the 4.5 mm skirt. The tails stay in the recess.' },
+  { k:'Set', t:'The plug sets the face', t0:34, t1:35.5, d:1.6,
+    x:'Ring A reaches its stop and the upper ring stops on it. Its carrier gives 1.5 mm, so the plug comes down and presses the film and photo flat on the face. The plug’s R1 lip cradles the rounded edge.' },
+  { k:'Pickup', t:'Pickup: the shell rides up in the ring', t0:35.5, t1:22, d:2.8,
+    x:'On the way up the wrapped shell stays in the upper ring: 0.35 mm of clearance for about 0.2 mm of photo and film is a grip fit, and four spring plungers hold it. As it lifts out of ring A the tails swing down and hang about 1.8 mm below the rim.' },
+  { k:'Slide', t:'Slide to station B', t0:22, t1:22, d:2.2,
+    x:'Push the table to the left: station B comes under the ram. A back plate went onto the crimp anvil’s platform while the station was outside.' },
+  { k:'Stroke 2', t:'Stroke 2: onto the crimp ring', t0:22, t1:34, d:2.8,
+    x:'The upper ring lands on crimp ring B and pushes it down to its stop. Ring B’s 30° lead-in centres the wrapped shell over the anvil, and the hanging tails just reach it.' },
+  { k:'Plug', t:'The plug comes down', t0:34, t1:35.3, d:1.4,
+    x:'The upper ring is blocked on ring B. Its carrier gives way and the plug comes down 1.3 mm onto the face.' },
+  { k:'Crimp', t:'The crimp: the edge rolls under', t0:35.3, t1:38.9, d:3.8,
+    x:'The plug pushes the shell 3.6 mm out of the upper ring. The tails reach the anvil’s R1 roll channel first and turn inward, then the skirt follows and curls in under the back plate, rolling the tails inside the curl. The stroke ends when the shell face bottoms on the back plate.' },
+  { k:'Done', t:'Finished magnet', t0:38.9, t1:22, d:2.4,
+    x:'The ram lifts and ring B springs back up round the finished magnet: photo and film wrapped round the edge, the skirt rolled under the back plate, ' + f1(STATS.thick) + ' mm thick. Lift it out and stick the magnet sheet on the back.' }
+];
+const TOTAL = STAGES.reduce((s, g) => s + g.d, 0);
+const START = STAGES.map((g, i) => STAGES.slice(0, i).reduce((s, h) => s + h.d, 0));
+const ease = f => f < 0.5 ? 2 * f * f : 1 - Math.pow(-2 * f + 2, 2) / 2;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+function stateAt(T){
+  T = clamp(T, 0, TOTAL);
+  let i = STAGES.length - 1; while(i > 0 && T < START[i]) i--;
+  const S = STAGES[i], f = S.d ? clamp((T - START[i]) / S.d, 0, 1) : 1, e = ease(f);
+  const t = S.t0 + (S.t1 - S.t0) * e;
+  const r = Math.max(0, t - 34), zUr = 92 - t + r;
+  const slide = i < 5 ? 0 : i === 5 ? e : 1;
+  const zA = i <= 4 ? 66 - clamp(t - 26, 0, 8) : 66;
+  const zB = i >= 6 ? 66 - clamp(t - 26, 0, 8) : 66;
+  let ztop;
+  if(i <= 3) ztop = 62;
+  else if(i === 4) ztop = t >= 34 ? 62 : 96 - t;
+  else if(i === 5) ztop = 74;
+  else if(i === 6) ztop = 96 - t;
+  else if(i === 7) ztop = 62;
+  else if(i === 8) ztop = 62 - (t - 35.3);
+  else ztop = 58.4;
+  let work;
+  if(i <= 3) work = { ztop, mode: 'drape', zc: zA - 0.54 };
+  else if(i === 4) work = t >= 26 ? { ztop, mode: 'drape', zc: zA - 0.54 } : { ztop, mode: 'hang', a: clamp((26 - t) / 2, 0, 1) * 90 };
+  else work = { ztop, mode: 'hang', a: 90, curl: i >= 6 };
+  const plugB = Math.max(97.5 - t, ztop + 0.195);
+  return { i, f, t, zUr, plugB, zA, zB, dxA: -34 * slide, dxB: 34 * (1 - slide), work, station: i >= 5 && slide > 0.5 ? 'B' : 'A' };
+}
+
+const NS = 'http://www.w3.org/2000/svg', fs = document.getElementById('foldSvg');
+const ZT = 76, XL = -8, XW = 15, ZB = 52.5, XR = 7.8;
+const Y = z => ZT - z;
+function E(tag, a, parent){ const e = document.createElementNS(NS, tag); for(const k in a) e.setAttribute(k, a[k]); (parent || fs).appendChild(e); return e; }
+const pstr = pts => pts.map(([x, z]) => x.toFixed(3) + ',' + Y(z).toFixed(3)).join(' ');
+const defs = E('defs', {});
+for(const [id, ang] of [['hatch', 45], ['hatchU', -45]]){
+  const p = E('pattern', { id, patternUnits: 'userSpaceOnUse', width: .45, height: .45, patternTransform: 'rotate(' + ang + ')' }, defs);
+  E('rect', { width: .45, height: .45, style: 'fill:var(--m-die)' }, p);
+  E('line', { x1: 0, y1: 0, x2: 0, y2: .45, style: 'stroke:var(--m-hatch);stroke-width:.07' }, p);
+}
+const cp = E('clipPath', { id: 'foldWin' }, defs); E('rect', { x: XL, y: 0, width: XW, height: ZT - ZB }, cp);
+E('rect', { x: XL, y: 0, width: XW, height: ZT - ZB, style: 'fill:var(--panel)' });
+const W = E('g', { 'clip-path': 'url(#foldWin)' });
+const die = {};
+for(const [k, cls] of [['pedA', 'die'], ['ringA', 'die'], ['anvil', 'die'], ['ringB', 'die'], ['upRing', 'dieU'], ['plug', 'dieU']]) die[k] = E('polygon', { class: cls }, W);
+die.back = E('polygon', { style: 'fill:var(--m-back);stroke:var(--ink2);stroke-width:.03' }, W);
+const lay = {
+  tin: E('polyline', { style: 'fill:none;stroke:var(--m-tin);stroke-width:.2;stroke-linejoin:round' }, W),
+  paper: E('polyline', { style: 'fill:none;stroke:var(--m-paper);stroke-width:.12;stroke-linejoin:round' }, W),
+  film: E('polyline', { style: 'fill:none;stroke:var(--m-film);stroke-width:.075;stroke-linejoin:round' }, W)
+};
+E('rect', { x: XL, y: 0, width: XW, height: ZT - ZB, style: 'fill:none;stroke:var(--ink2);stroke-width:.05' });
+const ro = E('g', {});
+E('rect', { x: XL + .25, y: .25, width: 7.7, height: 1.6, style: 'fill:var(--panel);opacity:.9' }, ro);
+const roSt = E('text', { x: XL + .45, y: .95, class: 'rd' }, ro), roT = E('text', { x: XL + .45, y: 1.6, class: 'rd' }, ro);
+E('line', { x1: XL + .5, y1: ZT - ZB - .6, x2: XL + 1.5, y2: ZT - ZB - .6, style: 'stroke:var(--ink);stroke-width:.06' });
+E('text', { x: XL + 1.7, y: ZT - ZB - .45, class: 'lbs' }).textContent = '1 mm';
+const LBL = {};
+for(const k of ['upRing', 'plug', 'film', 'paper', 'tin', 'ringA', 'pedA', 'ringB', 'back', 'anvil']){
+  const g = E('g', {}); LBL[k] = { g, line: E('polyline', { class: 'lead' }, g), dot: E('circle', { r: .09, class: 'dot' }, g),
+    t: E('text', { class: 'lb' }, g), s: E('text', { class: 'lbs' }, g) };
+}
+const NAMES = { upRing: ['Upper ring', 'opening +0.35'], plug: ['Plug', 'R1 lip'], film: ['Mylar film', '0.075'], paper: ['Printed photo', '≈ 0.12'],
+  tin: ['Tinplate shell', '0.20'], ringA: ['Pickup ring A', 'opening +0.6'], pedA: ['Pickup pedestal', ''], ringB: ['Crimp ring B', '30° lead-in'],
+  back: ['Back plate', '1.2 ABS'], anvil: ['Crimp anvil', 'R1 roll channel'] };
+
+const arcPts = (cx, cz, r, a0, a1, n) => Array.from({ length: n + 1 }, (_, i) => { const a = a0 + (a1 - a0) * i / n; return [cx + r * Math.cos(a), cz + r * Math.sin(a)]; });
+const sh = (pts, dx) => pts.map(([x, z]) => [x + dx, z]);
+function inView(x, z){ return x > XL + .2 && x < XL + XW - .2 && z > ZB + .2 && z < ZT - .2; }
+
+function draw(T){
+  const s = stateAt(T), w = s.work;
+  const b = s.zUr, pb = s.plugB, zA = s.zA, zB = s.zB;
+  die.upRing.setAttribute('points', pstr([[0.775, b], [0.175, b + 1.65], [0.175, b + 14], [XR, b + 14], [XR, b]]));
+  die.plug.setAttribute('points', pstr([[0.15, pb + 1.0], [-0.15, pb + .5], [-.85, pb + .25], [-1.35, pb + .5], [-1.65, pb], [-8.6, pb], [-8.6, pb + 14.5], [0.15, pb + 14.5]]));
+  die.pedA.setAttribute('points', pstr(sh([[-8.6, 40], [-8.6, 61.8], ...arcPts(-.55, 61.5, .3, Math.PI / 2, 0, 4), [-.25, 40]], s.dxA)));
+  die.ringA.setAttribute('points', pstr(sh([[0.3, zA - 15], [0.3, zA - 1.1], ...arcPts(.8, zA - 1.1, .5, Math.PI, Math.PI / 2, 5), [6.25, zA - .6], [6.25, zA], [XR + 40, zA], [XR + 40, zA - 15]], s.dxA)));
+  die.ringB.setAttribute('points', pstr(sh([[0.225, zB - 15], [0.225, zB - 1.2], [0.915, zB], [XR + 40, zB], [XR + 40, zB - 15]], s.dxB)));
+  die.anvil.setAttribute('points', pstr(sh([[-8.6, 40], [-8.6, 57], [-2.25, 57], [-2, 56], ...arcPts(-1, 56, 1, Math.PI, 2 * Math.PI, 18), [0.15, 56], [0.15, 40]], s.dxB)));
+  die.back.setAttribute('points', pstr(sh([[-8.6, F.back0], [F.backX, F.back0], [F.backX, F.back1], [-8.6, F.back1]], s.dxB)));
+  const paths = {};
+  for(const k in LAY){ paths[k] = layerPath(LAY[k], w, -8.6); lay[k].setAttribute('points', pstr(paths[k])); }
+  roSt.textContent = s.station === 'A' ? 'STATION A · PICKUP' : 'STATION B · CRIMP';
+  roT.textContent = 'ram travel ' + s.t.toFixed(1) + ' mm';
+  // labels
+  const pick = (pts, xw) => { for(let n = 1; n < pts.length; n++){ const [x0, z0] = pts[n - 1], [x1, z1] = pts[n]; if((x0 - xw) * (x1 - xw) <= 0 && x0 !== x1) return [xw, z0 + (z1 - z0) * (xw - x0) / (x1 - x0)]; } return pts[0]; };
+  const skirtPt = (pts, z) => { for(const p of pts) if(p[0] > -.4 && p[1] <= z) return p; return pts[pts.length - 1]; };
+  const A = {
+    upRing: [3.2, b + 6], plug: [-5.5, pb + 3], film: pick(paths.film, -3.2), paper: pick(paths.paper, -5.2), tin: skirtPt(paths.tin, w.ztop - 2.6),
+    ringA: [3.2 + s.dxA, zA - 5], pedA: [-5 + s.dxA, 59], ringB: [3.2 + s.dxB, zB - 5], back: [-5 + s.dxB, 57.6], anvil: [-1 + s.dxB, 54.3]
+  };
+  const vis = [];
+  for(const k in A){ const [x, z] = A[k]; const on = inView(x, z) && (k !== 'back' && k !== 'anvil' && k !== 'ringB' || s.i >= 5) && (k !== 'ringA' && k !== 'pedA' || s.i <= 5);
+    LBL[k].g.style.display = on ? '' : 'none'; if(on) vis.push({ k, x, y: Y(z) }); }
+  vis.sort((p, q) => p.y - q.y);
+  const gap = 1.25, top = .9, bot = ZT - ZB - .9;
+  vis.forEach((o, n) => { o.ly = Math.max(o.y, n ? vis[n - 1].ly + gap : top); });
+  if(vis.length && vis[vis.length - 1].ly > bot){ vis[vis.length - 1].ly = bot; for(let n = vis.length - 2; n >= 0; n--) vis[n].ly = Math.min(vis[n].ly, vis[n + 1].ly - gap); }
+  for(const o of vis){ const L = LBL[o.k], tx = XL + XW + .45;
+    L.line.setAttribute('points', [(tx - .15) + ',' + (o.ly - .18), (XL + XW + .1) + ',' + (o.ly - .18), o.x + ',' + o.y].join(' '));
+    L.dot.setAttribute('cx', o.x); L.dot.setAttribute('cy', o.y);
+    L.t.setAttribute('x', tx); L.t.setAttribute('y', o.ly); L.t.textContent = NAMES[o.k][0];
+    L.s.setAttribute('x', tx); L.s.setAttribute('y', o.ly + .55); L.s.textContent = NAMES[o.k][1]; }
+  return s;
+}
+
+const listEl = document.getElementById('foldStages');
+STAGES.forEach((g, i) => {
+  const li = document.createElement('li'); const bt = document.createElement('button'); bt.type = 'button';
+  bt.innerHTML = '<span class="k">' + (i + 1) + '</span><span></span><span class="st">' + g.k + '</span>';
+  bt.children[1].textContent = g.t; bt.addEventListener('click', () => playStage(i)); li.appendChild(bt); listEl.appendChild(li);
+});
+const capT = document.getElementById('foldTitle'), capX = document.getElementById('foldText'), scrub = document.getElementById('foldScrub'), playBtn = document.getElementById('foldPlay');
+let T = START[0] + STAGES[0].d, raf = 0, stopAt = TOTAL, lastTs = 0, shown = -1;
+function show(){
+  const s = draw(T);
+  if(s.i !== shown){ shown = s.i; capT.textContent = (s.i + 1) + '. ' + STAGES[s.i].t; capX.textContent = STAGES[s.i].x;
+    Array.from(listEl.children).forEach((li, n) => { if(n === s.i) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current'); }); }
+  scrub.value = Math.round(T / TOTAL * 1000);
+}
+function tick(ts){
+  if(!lastTs) lastTs = ts; T = Math.min(stopAt, T + (ts - lastTs) / 1000); lastTs = ts; show();
+  if(T < stopAt) raf = requestAnimationFrame(tick); else stop();
+}
+function run(from, to){ cancelAnimationFrame(raf); T = from; stopAt = to; lastTs = 0; playBtn.textContent = 'Pause'; show(); raf = requestAnimationFrame(tick); }
+function stop(){ cancelAnimationFrame(raf); raf = 0; playBtn.textContent = 'Play'; }
+function playStage(i){ i = clamp(i, 0, STAGES.length - 1); run(START[i], START[i] + STAGES[i].d); }
+playBtn.addEventListener('click', () => { if(raf){ stop(); return; } run(T >= TOTAL - .01 ? 0 : T, TOTAL); });
+document.getElementById('foldNext').addEventListener('click', () => { const i = stateAt(T).i; playStage(T >= START[i] + STAGES[i].d - .01 ? i + 1 : i); });
+document.getElementById('foldPrev').addEventListener('click', () => { const i = stateAt(T).i; playStage(i - 1); });
+scrub.addEventListener('input', () => { stop(); T = scrub.value / 1000 * TOTAL; show(); });
+window.MPfold = { stages: STAGES.length, list: STAGES.map(g => ({ t: g.t, x: g.x })), thick: STATS.thick, at: i => { stop(); T = START[i] + STAGES[i].d; show(); } };
+show();
+
+// =====================================================================================
+// Finished magnet, 3D
+// =====================================================================================
+const mgStage = document.getElementById('mgStage'), mgMsg = document.getElementById('mgMsg');
+let mg = null;
+try{
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2)); renderer.localClippingEnabled = false;
+  mgStage.insertBefore(renderer.domElement, mgStage.firstChild); mgMsg.hidden = true;
+  const scene = new THREE.Scene();
+  const pm = new THREE.PMREMGenerator(renderer); scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+  const key = new THREE.DirectionalLight(0xffffff, 1.5); key.position.set(-60, 120, 80); scene.add(key);
+  const under = new THREE.DirectionalLight(0xffffff, 1.1); under.position.set(40, -120, 60); scene.add(under);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x9aa0a6, 0.7));
+  const camera = new THREE.PerspectiveCamera(30, 1, 1, 5000);
+  const controls = new OrbitControls(camera, renderer.domElement); controls.enableDamping = true; controls.dampingFactor = .08; controls.minDistance = 8; controls.maxDistance = 700;
+  const group = new THREE.Group(); scene.add(group);
+  mg = { renderer, scene, camera, controls, group, view: 'face' };
+}catch(e){ mgMsg.textContent = 'The 3D view needs WebGL, which this browser has turned off.'; }
+
+function photoTexture(){
+  const c = document.createElement('canvas'); c.width = c.height = 512; const g = c.getContext('2d');
+  const sky = g.createLinearGradient(0, 0, 0, 330); sky.addColorStop(0, '#2b2d6e'); sky.addColorStop(.45, '#c0466f'); sky.addColorStop(.8, '#f39a4c'); sky.addColorStop(1, '#ffd27a');
+  g.fillStyle = sky; g.fillRect(0, 0, 512, 330);
+  g.fillStyle = '#fff1c4'; g.beginPath(); g.arc(300, 260, 52, 0, Math.PI * 2); g.fill();
+  g.fillStyle = '#5b2a52'; g.beginPath(); g.moveTo(0, 300); g.lineTo(90, 210); g.lineTo(170, 280); g.lineTo(250, 190); g.lineTo(360, 300); g.lineTo(430, 230); g.lineTo(512, 290); g.lineTo(512, 340); g.lineTo(0, 340); g.fill();
+  g.fillStyle = '#2d1838'; g.beginPath(); g.moveTo(0, 330); g.lineTo(120, 270); g.lineTo(220, 330); g.lineTo(330, 262); g.lineTo(512, 330); g.lineTo(512, 345); g.lineTo(0, 345); g.fill();
+  const sea = g.createLinearGradient(0, 330, 0, 512); sea.addColorStop(0, '#e0794f'); sea.addColorStop(1, '#1d2a55'); g.fillStyle = sea; g.fillRect(0, 335, 512, 177);
+  g.strokeStyle = 'rgba(255,230,170,.7)'; g.lineWidth = 3; for(let i = 0; i < 9; i++){ const y = 350 + i * 16; g.beginPath(); g.moveTo(240 + i * 4, y); g.lineTo(360 - i * 4, y); g.stroke(); }
+  g.fillStyle = 'rgba(255,255,255,.9)'; g.font = '600 34px sans-serif'; g.textAlign = 'center'; g.fillText('GOA 2026', 256, 470);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t;
+}
+const MATS = mg ? {
+  tin: new THREE.MeshStandardMaterial({ color: 0xd4dae0, metalness: .85, roughness: .28, side: THREE.DoubleSide }),
+  paper: new THREE.MeshStandardMaterial({ map: photoTexture(), roughness: .6, metalness: 0, side: THREE.DoubleSide }),
+  film: new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: .04, metalness: 0, transparent: true, opacity: .07, clearcoat: 1, clearcoatRoughness: .03, side: THREE.DoubleSide, depthWrite: false }),
+  back: new THREE.MeshStandardMaterial({ color: 0x5b6169, roughness: .5, metalness: .05, side: THREE.DoubleSide }),
+  mag: new THREE.MeshStandardMaterial({ color: 0x4a3b2c, roughness: .85, metalness: 0, side: THREE.DoubleSide })
+} : null;
+
+function rrPath(a, b, r, half){
+  const out = [], P = (x, y, nx, ny) => out.push([x, y, nx, ny]);
+  const arc = (cx, cy, a0, a1) => { for(let i = 0; i <= 10; i++){ const t = a0 + (a1 - a0) * i / 10; P(cx + r * Math.cos(t), cy + r * Math.sin(t), Math.cos(t), Math.sin(t)); } };
+  P(0, -b, 0, -1); arc(a - r, -(b - r), -Math.PI / 2, 0); arc(a - r, b - r, 0, Math.PI / 2); P(0, b, 0, 1);
+  if(!half){ arc(-(a - r), b - r, Math.PI / 2, Math.PI); arc(-(a - r), -(b - r), Math.PI, 1.5 * Math.PI); }
+  return out;
+}
+function sweep(poly, path, closed, zB, uw, uh){
+  const pos = [], uv = [], idx = [], n = path.length, m = poly.length;
+  for(const [px, py, nx, ny] of path) for(const [s, z] of poly){ const x = px + s * nx, y = py + s * ny; pos.push(x, z - zB, -y); uv.push(x / uw + .5, y / uh + .5); }
+  for(let k = 0; k < (closed ? n : n - 1); k++){ const k2 = (k + 1) % n; for(let j = 0; j < m; j++){ const j2 = (j + 1) % m; idx.push(k * m + j, k2 * m + j, k2 * m + j2, k * m + j, k2 * m + j2, k * m + j2); } }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); g.setIndex(idx); g.computeVertexNormals(); return g;
+}
+function cap(poly, py, ny, zB, uw, uh){
+  const g = new THREE.ShapeGeometry(new THREE.Shape(poly.map(([s, z]) => new THREE.Vector2(s, z))));
+  const p = g.attributes.position, uv = g.attributes.uv;
+  for(let i = 0; i < p.count; i++){ const s = p.getX(i), z = p.getY(i), y = py + s * ny; p.setXYZ(i, 0, z - zB, -y); uv.setXY(i, .5, y / uh + .5); }
+  g.computeVertexNormals(); return g;
+}
+function rrShape(a, b, r, half){
+  const s = new THREE.Shape();
+  if(half){ s.moveTo(0, -b); s.lineTo(a - r, -b); s.absarc(a - r, -(b - r), r, -Math.PI / 2, 0, false); s.lineTo(a, b - r); s.absarc(a - r, b - r, r, 0, Math.PI / 2, false); s.lineTo(0, b); s.lineTo(0, -b); }
+  else { s.moveTo(-(a - r), -b); s.lineTo(a - r, -b); s.absarc(a - r, -(b - r), r, -Math.PI / 2, 0, false); s.lineTo(a, b - r); s.absarc(a - r, b - r, r, 0, Math.PI / 2, false);
+    s.lineTo(-(a - r), b); s.absarc(-(a - r), b - r, r, Math.PI / 2, Math.PI, false); s.lineTo(-a, -(b - r)); s.absarc(-(a - r), -(b - r), r, Math.PI, 1.5 * Math.PI, false); }
+  return s;
+}
+function slab(shape, z0, t, zB, uw, uh){
+  const g = new THREE.ExtrudeGeometry(shape, { depth: t, bevelEnabled: false, curveSegments: 14 });
+  g.rotateX(-Math.PI / 2); g.translate(0, z0 - zB, 0);
+  const p = g.attributes.position, uv = g.attributes.uv; for(let i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) / uw + .5, -p.getZ(i) / uh + .5);
+  return g;
+}
+
+function buildMagnet(){
+  if(!mg) return;
+  const D = MP.dims(MP.cur), X = D.W, Z = D.H, a = X / 2, b = Z / 2, half = mg.view === 'edge', zB = STATS.lo, uw = X + 12, uh = Z + 12;
+  mg.group.traverse(o => { if(o.isMesh) o.geometry.dispose(); }); mg.group.clear();
+  const path = rrPath(a, b, 4, half), inner = rrShape(a - 1.5, b - 1.5, 2.5, half);
+  const add = (g, m) => { const mesh = new THREE.Mesh(g, m); mg.group.add(mesh); return mesh; };
+  const zt = FINAL.ztop;
+  add(slab(inner, zt - .2, .2, zB, uw, uh), MATS.tin);
+  add(slab(inner, zt, .12, zB, uw, uh), MATS.paper);
+  add(slab(rrShape(a - 0.7, b - 0.7, 3.3, half), F.back0, F.back1 - F.back0, zB, uw, uh), MATS.back);
+  add(slab(rrShape(a - 2, b - 2, 2, half), F.mag0, F.magT, zB, uw, uh), MATS.mag);
+  for(const k of ['tin', 'paper', 'film']){
+    const poly = band(layerPath(LAY[k], FINAL, -1.5), LAY[k].w);
+    add(sweep(poly, path, !half, zB, uw, uh), MATS[k]);
+    if(half){ add(cap(poly, -b, -1, zB, uw, uh), MATS[k]); add(cap(poly, b, 1, zB, uw, uh), MATS[k]); }
+  }
+  add(slab(inner, zt + .12, .075, zB, uw, uh), MATS.film).renderOrder = 2;
+  const lab = MP.cur.label;
+  document.getElementById('mgSize').textContent = lab;
+  document.getElementById('mgFace').textContent = lab + ' mm, R4 corners';
+  document.getElementById('mgThick').textContent = f1(STATS.thick) + ' mm, with the magnet sheet inside the rolled edge';
+  document.getElementById('mgPaper').textContent = MP.pair(D.paper) + ' mm cut size (6 mm bleed all round)';
+  document.getElementById('mgSafe').textContent = MP.pair(D.safe) + ' mm: keep text and faces inside';
+  drawPrint(D);
+  setCam(true);
+}
+function setCam(){
+  if(!mg) return;
+  const D = MP.dims(MP.cur), X = D.W, Z = D.H, S = Math.max(X, Z), c = mg.controls, cam = mg.camera;
+  if(mg.view === 'face'){ cam.position.set(S * .55, S * 1.95, S * 1.6); c.target.set(0, 0, 0); }
+  else if(mg.view === 'back'){ cam.position.set(S * .5, -S * 1.85, S * 1.55); c.target.set(0, 2, 0); }
+  else { cam.position.set(-19, 8.5, -Z / 2 + 17); c.target.set(0, 1.6, -Z / 2 + 1.2); }
+  c.update();
+}
+function drawPrint(D){
+  const svg = document.getElementById('printLay'); while(svg.firstChild) svg.removeChild(svg.firstChild);
+  const [px, pz] = D.paper, k = Math.min(104 / px, 66 / pz), cx = 60, cy = 38;
+  const R = (w, h, r, st) => { const e = document.createElementNS(NS, 'rect'); e.setAttribute('x', cx - w * k / 2); e.setAttribute('y', cy - h * k / 2); e.setAttribute('width', w * k); e.setAttribute('height', h * k); e.setAttribute('rx', r * k); e.setAttribute('style', st); svg.appendChild(e); };
+  const Tx = (x, y, txt, st) => { const e = document.createElementNS(NS, 'text'); e.setAttribute('x', x); e.setAttribute('y', y); e.setAttribute('text-anchor', 'middle'); if(st) e.setAttribute('style', st); e.textContent = txt; svg.appendChild(e); };
+  R(px, pz, 0, 'fill:var(--m-paper);fill-opacity:.12;stroke:var(--m-paper);stroke-width:.6;stroke-dasharray:2 1.2');
+  R(D.W, D.H, 4, 'fill:var(--panel);stroke:var(--ink);stroke-width:.7');
+  R(D.safe[0], D.safe[1], 1, 'fill:none;stroke:var(--muted);stroke-width:.45;stroke-dasharray:.8 .8');
+  Tx(cx, cy - 2, 'face ' + MP.pair([D.W, D.H]), 'fill:var(--ink)');
+  Tx(cx, cy + 3, 'safe area ' + MP.pair(D.safe), '');
+  Tx(cx, 80, 'paper ' + MP.pair(D.paper) + ' · 6 mm folds round the edge', 'fill:var(--m-paper)');
+  Tx(cx, 86.5, 'print layout to scale, face up', '');
+}
+
+if(mg){
+  const resize = () => { const w = mgStage.clientWidth, h = mgStage.clientHeight; mg.renderer.setSize(w, h, false); mg.camera.aspect = w / h; mg.camera.updateProjectionMatrix(); };
+  new ResizeObserver(resize).observe(mgStage); resize();
+  let visible = true;
+  new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(mgStage);
+  const theme = () => { try{ mg.scene.background = new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--stage').trim()); }catch(e){} };
+  theme(); matchMedia('(prefers-color-scheme: dark)').addEventListener('change', theme);
+  new MutationObserver(theme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  (function loop(){ requestAnimationFrame(loop); if(!visible) return; mg.controls.update(); mg.renderer.render(mg.scene, mg.camera); })();
+  mgStage.querySelectorAll('[data-mg]').forEach(bt => bt.addEventListener('click', () => {
+    const was = mg.view; mg.view = bt.dataset.mg;
+    mgStage.querySelectorAll('[data-mg]').forEach(o => o.setAttribute('aria-pressed', String(o === bt)));
+    if((was === 'edge') !== (mg.view === 'edge')) buildMagnet(); else setCam();
+  }));
+  document.addEventListener('mp:size', buildMagnet);
+  buildMagnet();
+  window.MPmag = { view: v => mgStage.querySelector('[data-mg="' + v + '"]').click() };
+}else{ drawPrint(MP.dims(MP.cur)); }
+</script>
+
