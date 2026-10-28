@@ -44,8 +44,10 @@ def dedup(pts):
     return out
 
 
-T0 = 33.5                     # ram travel at the start
-y_ring0 = 92.0 - T0            # upper ring bottom at the start (58.5)
+T0 = float(sys.argv[10]) if len(sys.argv) > 10 else 24.0   # ram travel at the start (ring B still at its top, 66)
+leadB = float(sys.argv[11]) if len(sys.argv) > 11 else 1.2  # ring B top lead-in depth
+leadA = float(sys.argv[12]) if len(sys.argv) > 12 else 30.0  # ring B lead-in angle from the axis, deg
+y_ring0 = 92.0 - T0            # upper ring bottom at the start
 X = S1['X'].copy()
 X[:, 1] += y_ring0             # ring frame -> page frame
 rim_x, rim_y = 0.215, 56.85
@@ -63,27 +65,34 @@ if wall_r > 0:
     anv += arc(plat_x + wall_r, floor_y + wall_r, wall_r, -math.pi / 2, -math.pi)[1:]
 anv += [(plat_x, 57.0), (-9.0, 57.0)]
 anv = dedup(anv)
-li = 1.2 * math.tan(math.radians(30))
-ringB = [(7.5, 58.0), (0.225 + li, 58.0), (0.225, 58.0 - 1.2), (0.225, 50.0)]
+li = leadB * math.tan(math.radians(leadA))
+ringB = [(7.5, 58.0), (0.225 + li, 58.0), (0.225, 58.0 - leadB), (0.225, 50.0)]
 li2 = 0.3 * math.tan(math.radians(30))
-upr = [(0.175, 72.0), (0.175, 58.3), (0.175 + li2, 58.0), (7.5, 58.0)]
+mouth_r = S1.get('mouth_r', 0.0)
+if mouth_r > 0:
+    upr = dedup([(0.175, 72.0)] + arc(0.175 + mouth_r, 58.0 + mouth_r, mouth_r, math.pi, 1.5 * math.pi) + [(7.5, 58.0)])
+else:
+    upr = [(0.175, 72.0), (0.175, 58.3), (0.175 + li2, 58.0), (7.5, 58.0)]
 back = [(-3.6, 57.0), (-0.7, 57.0), (-0.7, 58.2), (-9.0, 58.2)]
 plug = dedup([(-6.0, 0.0), (-0.85, 0.0)] + arc(-0.85, 1.0, 1.0, -math.pi / 2, 0) + [(0.15, 6.0)])
 
-# ram travel t(tau): 33.5 -> tstop over the forming time, smooth
-TF = 0.45
+# ram travel t(tau): T0 -> tstop over the forming time, smooth
+TF = 0.8
 sm = lambda u: u * u * (3 - 2 * u)
-taus = np.linspace(0, TF, 91)
+taus = np.linspace(0, TF, 161)
 trav = T0 + (tstop - T0) * sm(taus / TF)
-ring_dy = [34.0 - min(t, 34.0) for t in trav]                         # upper ring and ring B come down 0.5 to their stop at 34
+upr_bot = lambda t: 92.0 - min(t, 34.0)
+ringB_top = lambda t: 66.0 if t <= 26.0 else upr_bot(t)
 plug_y = [97.5 - t for t in trav]
 face0 = X[0, 1]
-face_dy = [-(min(t, 34.0) - T0) - max(0.0, t - 34.105) for t in trav]
-# release: plug up 2, ring B / upper ring up 2 (springs), then springback
+# the face rides 0.105 below the plug until the anvil pushes the shell up onto it (about travel 33.6), then the plug carries it
+lift = lambda t: 0.105 * min(1.0, max(0.0, (t - 33.45) / 0.2))
+face_y = [97.5 - t - S1['T'] / 2 - 0.105 + lift(t) for t in trav]
+face_dy = [y - face_y[0] for y in face_y]
 TR = 0.1
 tabs = {}
-tabs['RINGB'] = [(ta, 0.0, d) for ta, d in zip(taus, ring_dy)] + [(TF + TR, 0.0, ring_dy[-1] + 3.0), (9.0, 0.0, ring_dy[-1] + 3.0)]
-tabs['UPR'] = [(ta, 0.0, d) for ta, d in zip(taus, ring_dy)] + [(TF + TR, 0.0, ring_dy[-1] + 6.0), (9.0, 0.0, ring_dy[-1] + 6.0)]
+tabs['RINGB'] = [(ta, 0.0, ringB_top(t) - 58.0) for ta, t in zip(taus, trav)] + [(TF + TR, 0.0, 3.0), (9.0, 0.0, 3.0)]
+tabs['UPR'] = [(ta, 0.0, upr_bot(t) - 58.0) for ta, t in zip(taus, trav)] + [(TF + TR, 0.0, 6.0), (9.0, 0.0, 6.0)]
 tabs['PLUG'] = [(ta, 0.0, py) for ta, py in zip(taus, plug_y)] + [(TF + TR, 0.0, plug_y[-1] + 4.0), (9.0, 0.0, plug_y[-1] + 4.0)]
 tabs['ANVIL'] = [(0, 0, 0), (9, 0, 0)]
 tabs['BACK'] = [(0, 0, 0), (9, 0, 0)]
@@ -97,8 +106,8 @@ sim.ep[:] = S1['ep']
 sim.alpha[:] = S1['alpha']
 dt = sim.stable_dt()
 sim.beta = 0.1 * dt
-fx = [(ta, X[0, 0], face0 + d) for ta, d in zip(taus, face_dy)]
-fx1 = [(ta, X[1, 0], X[1, 1] + d) for ta, d in zip(taus, face_dy)]
+fx = [(ta, X[0, 0], face0 + d) for ta, d in zip(taus, face_dy)] + [(TF + TR, X[0, 0], face0 + face_dy[-1]), (9.0, X[0, 0], face0 + face_dy[-1])]
+fx1 = [(ta, X[1, 0], X[1, 1] + d) for ta, d in zip(taus, face_dy)] + [(TF + TR, X[1, 0], X[1, 1] + face_dy[-1]), (9.0, X[1, 0], X[1, 1] + face_dy[-1])]
 fixes = {0: XF.table(fx), 1: XF.table(fx1)}
 ttabs = [XF.table(tabs[t.name]) for t in tools]
 t0 = time.time()
@@ -106,7 +115,7 @@ recT, recX, recF = XF.run_fast(sim, TF + TR + 0.05, ttabs, fixes, dt=dt, rec_eve
 print('%s: dt %.2e, %.0f s wall' % (job, dt, time.time() - t0))
 pickle.dump(dict(recT=recT, recX=recX, recF=recF, tools={t.name: t.pts for t in tools}, ttabs=ttabs, X=sim.X, ep=sim.ep, alpha=sim.alpha,
                  taus=taus, trav=trav, TF=TF, layers=[(L.name, L.t) for L in layers], T=sum(L.t for L in layers), mu=mu, land=land,
-                 tstop=tstop, cove_r=cove_r, plat_x=plat_x, floor_y=floor_y, wall_r=wall_r), open(job + '.pkl', 'wb'))
+                 tstop=tstop, T0=T0, leadB=leadB, leadA=leadA, cove_r=cove_r, plat_x=plat_x, floor_y=floor_y, wall_r=wall_r), open(job + '.pkl', 'wb'))
 Fp = np.abs(recF[:, 4, 1])
 print('peak plug force %.1f N/mm; final cut edge at (%.3f, %.3f); min y %.3f; max plastic strain %.2f'
       % (Fp.max(), sim.X[-1, 0], sim.X[-1, 1], sim.X[:, 1].min(), sim.alpha.max()))

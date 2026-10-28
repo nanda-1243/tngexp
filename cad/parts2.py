@@ -141,13 +141,20 @@ def plug(X, Z):
     return rrect(0, 0, X + 0.3, Z + 0.3, FACE_R + 0.15), 14.5, f
 
 
+RA_OPEN = 10.5                             # ring A opening X + 10.5 (Rev E verification fix)
+UR_MOUTH = 1.5                             # upper ring mouth radius (was a 0.3 x 30 deg lead-in)
+UR_N = 2.5                                 # M3 ball plungers, height above the upper ring's bottom face (was 1.8)
+
+
 def ring(X, Z, which):
     """size rings: U (upper, 14 high), A (pickup, 15), B (crimp guide, 15)."""
     if which == 'U':
         f = [feat(0, 0, 'rr', w=X + 0.35, h=Z + 0.35, r=FACE_R + 0.2, thru=True)] + corner_reliefs(X + 0.35, Z + 0.35)
         T = 14
     elif which == 'A':
-        f = [feat(0, 0, 'rr', w=X + 0.6, h=Z + 0.6, r=FACE_R + 0.3, thru=True),
+        # verification: an opening X + 0.6 trapped the flange on the recess floor and stroke 1 DREW it (15 N/mm); X + RA_OPEN
+        # leaves a 0.5 ledge after an R0.5 edge: the flange slides off it and is wiped down (6-7 N/mm peak, 1-2 at the end)
+        f = [feat(0, 0, 'rr', w=X + RA_OPEN, h=Z + RA_OPEN, r=0.5, thru=True),
              feat(0, 0, 'rr', w=X + 2 * BLEED + 0.5, h=Z + 2 * BLEED + 0.5, r=1.5, depth=0.6, side='top', label='G')]   # tin, photo and film
         T = 15
     else:
@@ -416,28 +423,29 @@ def mp204():
                 v.line(u - 2, w0, u - 2, w1, 'hid'); v.line(u + 2, w0, u + 2, w1, 'hid')
                 v.cl_v(w0, w1, u)
             v.poly([(sx * RX_ / 2, -3), (sx * (RX_ / 2 - 3), 0), (sx * RX_ / 2, 3)], 'hid')
-        v.leader(X / 4, -RZ_ / 2, 30, 28, 'N: 4× M3 radial (ball plungers)\n1.8 above the BOTTOM face, at X = ±E/2')
+        v.leader(X / 4, -RZ_ / 2, 30, 28, 'N: 4× M3 radial (ball plungers)\n%g above the BOTTOM face, at X = ±E/2' % UR_N)
         v.leader(RX_ / 2, 0, 30, 45, 'M: Ø3.6 × 3.5 hole, both X ends, 7 above\nthe bottom face (dog-point thumb screws)')
         v.leader((X + 0.35) / 2, (Z + 0.35) / 2, 22, 16, 'Y: corner relief Ø1.2 THRU on each corner of\nthe opening (paper folded at the corner)', 0.6)
         vd = View(sh, 345, 190, 0.2)
-        pts = [(-8, 0), (-8, 8), (0, 8), (0, 0.52), (-0.3, 0)]
+        m, n = UR_MOUTH, UR_N
+        pts = [(-8, 0), (-8, 8), (0, 8)] + [(-m + m * math.cos(math.radians(a)), m - m * math.sin(math.radians(a))) for a in range(0, 91, 10)]
         vd.poly(pts, 'sec')
-        vd.rect(-8, 1.8 - 1.5, 0, 1.8 + 1.5, 'ko'); vd.line(-8, 0.3, 0, 0.3); vd.line(-8, 3.3, 0, 3.3); vd.cl_h(-9, 1, 1.8)
+        vd.rect(-8, n - 1.5, 0, n + 1.5, 'ko'); vd.line(-8, n - 1.5, 0, n - 1.5); vd.line(-8, n + 1.5, 0, n + 1.5); vd.cl_h(-9, 1, n)
         vd.text(-4, 0, 'DETAIL P (5:1) bottom inner edge', 3.0, dy=18, weight='bold')
         vd.text(1.5, 4, 'opening', 2.6, 'start')
-        vd.leader(-0.15, 0.3, -30, 10, 'lead-in 0.3 × 30° all round, polished')
-        vd.leader(-4, 3.3, -16, -10, 'M3 plunger hole, centre 1.8')
+        vd.leader(-m * 0.29, m * 0.29, -30, 10, 'mouth R%g all round, polished Ra 0.2' % m)
+        vd.leader(-4, n + 1.5, -16, -10, 'M3 plunger hole, centre %g' % n)
     kit_sheet('MP-204', 'UPPER RING (SIZE KIT)', lambda x, z: ring(x, z, 'U'),
               [('C', 'X + 0.35  (opening, +0.01/0)', lambda x, z: x + 0.35), ('D', 'Z + 0.35  (opening, +0.01/0)', lambda x, z: z + 0.35),
                ('E', 'X / 2  (pitch of the plungers in X)', lambda x, z: x / 2)],
               ['Outside 106 × 81 (−0.01/−0.02) for every size: fits the upper carrier MP-210 pocket. Key slots K (R2.1, centre 1.0 outside the face) take the carrier pins.',
-               'Opening C × D, R1.2, with corner reliefs Y, THRU: wire-EDM after hardening, lap Ra 0.2. Bottom inner lead-in 0.3 × 30° (Detail P): Rev E, a short lead-in so the wrapped shell is gripped over 2.5 mm of straight wall. It is also the die edge the flat tin blank folds over in stroke 1: polish it.',
-               'Held by 2 dog-point thumb screws in holes M (Rev E: dog points take the load in shear; cone points brinelled their dimples). Four M3 ball plungers N protrude 0.2–0.3 into the opening at 1.8, on the straight wall of the shell.'],
+               'Opening C × D, R1.2, with corner reliefs Y, THRU: wire-EDM after hardening, lap Ra 0.2. Bottom inner edge R1.5 (Detail P): the die edge the flat tin blank folds over in stroke 1 (verification: the 0.3 × 30° lead-in drew the flange at 15 N/mm; R1.5 with ring A\'s narrow ledge wipes it at 6–7 N/mm, below the 1.57 kN spring preload for every kit). Polish it.',
+               'Held by 2 dog-point thumb screws in holes M (Rev E: dog points take the load in shear; cone points brinelled their dimples). Four M3 ball plungers N at 2.5, set 0.4–0.5 proud of the opening (screw in, check with a feeler gauge, lock): the folded wall springs back to 0.2–0.3 inside the bore, so the balls, not friction, hold the shell while the table slides.'],
               outer_dims(RX_, RZ_) + [('h', -(X + .35) / 2, (X + .35) / 2, 0, -RZ_ / 2 - 17, 'C'),
                                       ('v', (Z + .35) / 2, -(Z + .35) / 2, 0, -RX_ / 2 - 24, 'D')],
               [['K', '(0, ±41.5)', 'Key slot R2.1, centre 1.0 outside the face, full height, on both long faces'],
                ['M', '(±53, 0)', 'Ø3.6 × 3.5 deep, 7 above the bottom face (dog-point thumb screws)'],
-               ['N', '(±E/2, long faces)', 'M3 radial THRU, 1.8 above the bottom face (ball plungers)'],
+               ['N', '(±E/2, long faces)', 'M3 radial THRU, 2.5 above the bottom face (ball plungers, 0.4–0.5 proud)'],
                ['Y', 'opening corners', 'Ø1.2 THRU on each corner of the opening (corner relief)']],
               extra=extra, sec_b=(20, 'Z = ±20'), dxfname='upper_ring')
 
@@ -459,13 +467,14 @@ def mp206():
 def mp207():
     X, Z = SHOWN[1], SHOWN[2]
     kit_sheet('MP-207', 'PICKUP RING A (SIZE KIT)', lambda x, z: ring(x, z, 'A'),
-              [('C', 'X + 0.6  (opening)', lambda x, z: x + 0.6), ('D', 'Z + 0.6  (opening)', lambda x, z: z + 0.6),
+              [('C', 'X + 10.5  (opening)', lambda x, z: x + RA_OPEN), ('D', 'Z + 10.5  (opening)', lambda x, z: z + RA_OPEN),
                ('G', 'X + 12.5  (recess, 0.6 deep)', lambda x, z: x + 2 * BLEED + 0.5), ('H', 'Z + 12.5  (recess)', lambda x, z: z + 2 * BLEED + 0.5)],
               ['Outside 106 × 81 (−0.01/−0.02) for every size: drops into the lower carrier A pocket. Key slots KA fit only carrier A.',
-               'Opening C × D, R1.3, THRU, wire-EDM; top inner edge R0.5. Recess G × H, R1.5, 0.6 deep, Ra 0.8: it centres the flat tin blank, the photo and the film, all cut X + 12 with the corners clipped at 45° (Rev E), 0.4 thick together.',
+               'Opening C × D, R0.5, THRU, wire-EDM; top inner edge R0.5, polished. Recess G × H, R1.5, 0.6 deep, Ra 0.8: it centres the flat tin blank, the photo and the film, all cut X + 12 (never over X + 12.4) with the corners clipped at 45°, 0.4 thick together.',
+               'The blank rests on a 1.0 ledge (0.5 flat + the R0.5 edge). Verification fix: with the old X + 0.6 opening the flange was trapped on the recess floor and stroke 1 drew it into the upper ring (15 N/mm, more than the springs hold); now it slides off the ledge and is wiped down.',
                'Lift out by hand through the opening once the pedestal is out. Faces parallel 0.01.'],
-              outer_dims(RX_, RZ_) + [('h', -(X + .6) / 2, (X + .6) / 2, 0, -RZ_ / 2 - 17, 'C'),
-                                      ('v', (Z + .6) / 2, -(Z + .6) / 2, 0, -RX_ / 2 - 24, 'D'),
+              outer_dims(RX_, RZ_) + [('h', -(X + RA_OPEN) / 2, (X + RA_OPEN) / 2, 0, -RZ_ / 2 - 17, 'C'),
+                                      ('v', (Z + RA_OPEN) / 2, -(Z + RA_OPEN) / 2, 0, -RX_ / 2 - 24, 'D'),
                                       ('l', (X + 12.5) / 2, -20, 30, 34, 'recess G × H, R1.5, 0.6 deep', 0)],
               [['KA', '(+54, −20), (−54, +20)', 'Key slot R2.1, centre 1.0 outside the face, full height, on the short faces']],
               dxfname='pickup_ring')
