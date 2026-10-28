@@ -226,7 +226,7 @@ STEPS = [
               G((0, 0, -100), 'BUY-35')],
          tools='16 mm spanner on the shank flats or soft jaws, 5 mm hex key, torque wrench, Loctite 243, a block with a Ø20 hole, a vise or the press to compress the springs',
          do=['Screw the shank (MP-202) into the M10 hole in the floor of the counterbore on the die body top, Loctite 243, until the Ø16 face seats: 25 N·m. Its Ø12 spigot locates it.',
-             'Press the Ø4 × 10 orientation pin into hole O in the counterbore floor, 4 mm proud.',
+             'Press the Ø4 × 12 orientation pin into hole O in the counterbore floor, 6 mm proud.',
              'Check the two key pins are flush in the upper carrier. Screw the two dog-point thumb screws into the carrier ends and back them out of the pocket.',
              'Turn the body over onto the block (shank down through the hole). Put the eight red Ø12.5 × 44 die springs in its spring pockets.',
              'Lay the carrier on the springs, pocket side up. The springs push back with about 1.6 kN, so press the carrier down onto the body in a vise or under the press first. Fit the four Ø6 × 10 shoulder screws through the carrier into the body, then release slowly. Finish at 8 N·m.'],

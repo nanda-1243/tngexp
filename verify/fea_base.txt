@@ -1,0 +1,3 @@
+BASE PLATE MP-101 (S355, yield 355 MPa): 28265 tets, ccx rc 0
+  peak von Mises 155 MPa at (0.0, 114.9, 18.0); away from the clamp-washer seats 155 MPa at (0.0, 114.9, 18.0)
+  station area sinks 0.174 mm relative to the column seats (hand calc: 0.26 mm)

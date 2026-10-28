@@ -614,7 +614,7 @@ def mp111():
              notes=['Spigot Ø24 h6 locates in the ram (Ø24 H7). 4 × M5 × 16 DIN 7984 low-head screws from below + threadlocker.',
                     'Bore Ø16 H7 takes the upper-die shank MP-202. Bottom face (die seat) square to the bore within 0.01, flat 0.01.',
                     'Lock screw: M5 × 10 ISO 4027 cone-point set screw with nylon patch; seats in the shank V-groove. Rev E: 7.0 above the die seat (was 5.5), above the groove centre for any shim pack, so it always pulls the shank up. Check at every die change.',
-                    'Orientation hole Ø4 H8 × 6 deep in the bottom face at 20 mm radius, on the Z axis toward the FRONT.'] + GEN)
+                    'Orientation hole Ø4 H8 × 8 deep in the bottom face at 20 mm radius, on the Z axis toward the FRONT (Rev E: was 6; with the Ø4 × 12 pin it engages 5–6 mm whatever the shim pack).'] + GEN)
     v = View(sh, 110, 120, 0.5)
     v.rect(-25, 0, -12, 11, 'sec'); v.rect(12, 0, 25, 11, 'sec'); v.rect(-12, 11, -8, 15, 'sec'); v.rect(8, 11, 12, 15, 'sec')
     v.rect(-8, 0, 8, 15, 'ko')

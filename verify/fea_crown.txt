@@ -1,0 +1,3 @@
+CROWN MP-108 (C45, yield ~340 MPa): 26916 tets, counterbore floors 361 mm^2 (bearing 44 MPa), ccx rc 0
+  peak von Mises 136 MPa at (-21.0, -17.0, 176.0); away from bolt/nut seats 136 MPa at (-21.0, -17.0, 176.0)
+  largest upward deflection 0.045 mm (hand calc for the crown: 121 MPa at the cheek-bolt line)

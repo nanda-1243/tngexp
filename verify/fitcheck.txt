@@ -1,0 +1,97 @@
+Fastener and pin engagement check, MagPress M4 Rev E assembly (handle up, kit 6363 at station B).
+Engagement = length of thread (or pin) held in metal in each part, mm. Tapped holes are modelled at the nominal diameter.
+
+instance     kind   d    engaged in (mm)  | head bears on
+BUY-02_1     screw  5    MP-101_1 14.1 | head on MP-103-F_1
+BUY-02_2     screw  5    MP-101_1 14.1 | head on MP-103-F_1
+BUY-02_3     screw  5    MP-101_1 14.1 | head on MP-103-F_1
+BUY-02_4     screw  5    MP-101_1 14.1 | head on MP-103-F_1
+BUY-02_5     screw  5    MP-101_1 14.1 | head on MP-103-F_1
+BUY-02_6     screw  5    MP-101_1 14.1 | head on MP-103-F_1
+BUY-02_7     screw  5    MP-101_1 14.1 | head on MP-103-F_1
+BUY-02_8     screw  5    MP-101_1 14.1 | head on MP-103-F_1
+BUY-02_9     screw  5    MP-101_1 14.1 | head on MP-103-B_1
+BUY-02_10    screw  5    MP-101_1 14.1 | head on MP-103-B_1
+BUY-02_11    screw  5    MP-101_1 14.1 | head on MP-103-B_1
+BUY-02_12    screw  5    MP-101_1 14.1 | head on MP-103-B_1
+BUY-02_13    screw  5    MP-101_1 14.1 | head on MP-103-B_1
+BUY-02_14    screw  5    MP-101_1 14.1 | head on MP-103-B_1
+BUY-03_1     screw  5    MP-101_1 8.4 | head on MP-104_1
+BUY-03_2     screw  5    MP-101_1 8.4 | head on MP-104_1
+BUY-03_3     screw  5    MP-101_1 8.4 | head on MP-104_2
+BUY-03_4     screw  5    MP-101_1 8.4 | head on MP-104_2
+BUY-04_1     screw  6    MP-104_2 30.0, BUY-05_1 3.2 | head on -   <-- THREADED IN 2 PARTS HEAD NOT SEATED
+BUY-04_2     screw  6    MP-104_1 30.0, BUY-05_2 3.2 | head on -   <-- THREADED IN 2 PARTS HEAD NOT SEATED
+BUY-05_1     nut    6    BUY-04_1 3.2
+BUY-05_2     nut    6    BUY-04_2 3.2
+BUY-06_1     screw  10   MP-107_1 13.2 | head on BUY-07_1
+BUY-06_2     screw  10   MP-107_2 13.2 | head on BUY-07_2
+BUY-09_1     nut    16   MP-107_1 13.0
+BUY-09_2     nut    16   MP-107_2 13.0
+BUY-10_1     set    10   MP-121_1 10.4
+BUY-22_1     nut    10   MP-118_1 10.0
+BUY-22_2     nut    10   MP-118_2 10.0
+BUY-23_1     set    6    MP-109_1 10.0
+BUY-23_2     set    6    MP-109_1 10.0
+BUY-24_1     screw  8    MP-112_1 11.0 | head on BUY-25_1
+BUY-24_2     screw  8    MP-112_1 11.0 | head on BUY-25_2
+BUY-24_3     screw  8    MP-112_2 11.0 | head on BUY-25_3
+BUY-24_4     screw  8    MP-112_2 11.0 | head on BUY-25_4
+BUY-26_1     pin    6    MP-112_1 8.0, MP-108_1 8.0
+BUY-26_2     pin    6    MP-112_2 8.0, MP-108_1 8.0
+BUY-27_1     screw  5    MP-109_1 8.5 | head on MP-110_1
+BUY-27_2     screw  5    MP-109_1 8.5 | head on MP-110_1
+BUY-28_1     screw  5    MP-109_1 8.8 | head on MP-111_1
+BUY-28_2     screw  5    MP-109_1 8.8 | head on MP-111_1
+BUY-28_3     screw  5    MP-109_1 8.8 | head on MP-111_1
+BUY-28_4     screw  5    MP-109_1 8.8 | head on MP-111_1
+BUY-29_1     set    5    MP-111_1 9.2, MP-202_1 0.6
+BUY-31_1     set    6    MP-105_1 11.5
+BUY-32_1     set    5    MP-105_1 8.0
+BUY-32_2     set    5    MP-105_1 8.0
+BUY-35_1     screw  5    MP-201_1 9.5 | head on MP-210_1
+BUY-35_2     screw  5    MP-201_1 9.5 | head on MP-210_1
+BUY-35_3     screw  5    MP-201_1 9.5 | head on MP-210_1
+BUY-35_4     screw  5    MP-201_1 9.5 | head on MP-210_1
+BUY-36_1     screw  5    MP-205_1 9.5 | head on MP-211-A_1
+BUY-36_2     screw  5    MP-205_1 9.5 | head on MP-211-A_1
+BUY-36_3     screw  5    MP-205_1 9.5 | head on MP-211-A_1
+BUY-36_4     screw  5    MP-205_1 9.5 | head on MP-211-A_1
+BUY-36_5     screw  5    MP-205_2 9.5 | head on MP-211-B_1
+BUY-36_6     screw  5    MP-205_2 9.5 | head on MP-211-B_1
+BUY-36_7     screw  5    MP-205_2 9.5 | head on MP-211-B_1
+BUY-36_8     screw  5    MP-205_2 9.5 | head on MP-211-B_1
+BUY-37_1     pin    4    MP-211-A_1 9.2, MP-207-6363_1 1.5   <-- SHORT ENGAGEMENT IN MP-207-6363_1 (1.5 < 0.8 d)
+BUY-37_2     pin    4    MP-211-A_1 9.2, MP-207-6363_1 1.5   <-- SHORT ENGAGEMENT IN MP-207-6363_1 (1.5 < 0.8 d)
+BUY-37_3     pin    4    MP-211-B_1 9.2, MP-209-6363_1 1.5   <-- SHORT ENGAGEMENT IN MP-209-6363_1 (1.5 < 0.8 d)
+BUY-37_4     pin    4    MP-211-B_1 9.2, MP-209-6363_1 1.5   <-- SHORT ENGAGEMENT IN MP-209-6363_1 (1.5 < 0.8 d)
+BUY-37_5     pin    4    MP-210_1 9.2, MP-204-6363_1 1.5   <-- SHORT ENGAGEMENT IN MP-204-6363_1 (1.5 < 0.8 d)
+BUY-37_6     pin    4    MP-210_1 9.2, MP-204-6363_1 1.5   <-- SHORT ENGAGEMENT IN MP-204-6363_1 (1.5 < 0.8 d)
+BUY-38_1     set    5    MP-210_1 19.0
+BUY-38_2     set    5    MP-210_1 19.0
+BUY-39_1     pin    6    MP-201_1 60.1, MP-212_1 0.5
+BUY-40_1     screw  5    MP-205_1 8.2 | head on MP-105_1
+BUY-40_2     screw  5    MP-205_1 8.2 | head on MP-105_1
+BUY-40_3     screw  5    MP-205_1 8.2 | head on MP-105_1
+BUY-40_4     screw  5    MP-205_1 8.2 | head on MP-105_1
+BUY-40_5     screw  5    MP-205_2 8.1 | head on MP-105_1
+BUY-40_6     screw  5    MP-205_2 8.1 | head on MP-105_1
+BUY-40_7     screw  5    MP-205_2 8.1 | head on MP-105_1
+BUY-40_8     screw  5    MP-205_2 8.1 | head on MP-105_1
+BUY-41_1     pin    6    MP-105_1 6.0, MP-205_1 6.0
+BUY-41_2     pin    6    MP-205_1 6.0, MP-105_1 6.0
+BUY-41_3     pin    6    MP-105_1 6.0, MP-205_2 6.0
+BUY-41_4     pin    6    MP-205_2 6.0, MP-105_1 6.0
+BUY-42_1     pin    4    MP-201_1 6.0, MP-111_1 3.0, BUY-43_1 0.2   <-- SHORT ENGAGEMENT IN MP-111_1 (3.0 < 0.8 d)
+BUY-45_1     set    3    MP-204-6363_1 5.3
+BUY-45_2     set    3    MP-204-6363_1 5.3
+BUY-45_3     set    3    MP-204-6363_1 5.2
+BUY-45_4     set    3    MP-204-6363_1 5.2
+BUY-46_1     pin    5    MP-203-6363_1 8.0, MP-201_1 6.0
+BUY-46_2     pin    5    MP-203-6363_1 8.0, MP-201_1 6.0
+BUY-47_1     pin    12   MP-206-6363_1 8.0, MP-205_1 7.0   <-- SHORT ENGAGEMENT IN MP-205_1 (7.0 < 0.8 d)
+BUY-47_2     pin    12   MP-208-6363_1 8.0, MP-205_2 7.0   <-- SHORT ENGAGEMENT IN MP-205_2 (7.0 < 0.8 d)
+BUY-48_1     pin    4    MP-206-6363_1 6.0, MP-205_1 4.0
+BUY-48_2     pin    4    MP-208-6363_1 6.0, MP-205_2 4.0
+
+91 fasteners and pins checked, 11 flagged.

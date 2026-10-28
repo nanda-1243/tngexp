@@ -293,7 +293,7 @@ def mp201():
                ['L', 'Z +7, X −72 → −7', 'Ø6 H8 along X from the LEFT end, 4 up; detent groove 0.4 deep, 4 from the end'],
                ['R', RET_T, 'M5 THRU (carrier shoulder screws ISO 7379 Ø6 × 10)'],
                ['P', SPU_T, 'Ø13 × 18 from the BOTTOM (8 upper springs ISO 10243 Ø12.5 × 44 red)'],
-               ['O', '(0, +20)', 'Ø4 H7 × 6 below the floor of H (orientation pin Ø4 m6 × 10)']],
+               ['O', '(0, +20)', 'Ø4 H7 × 6 below the floor of H (orientation pin Ø4 m6 × 12, 6 proud)']],
               ['The plug hangs on dowels D and the stud K, held by a Ø6 quick-release detent pin in hole L: no screws to change a size. Round kits use the inner pattern D2 + K2.',
                'Rev E: pin L runs along X from the left end face (Rev D ran it from the front face, where the front column blocked it). K and K2 sit 6.8 either side of its axis, so one pin holds either stud. D, D2 are F7: the plug dowels drop in by hand.',
                'Floor of H (seat against the holder through the shim pack) and bottom face parallel 0.01, flat 0.01. The shim pack sets the crimp depth once for all kits.',

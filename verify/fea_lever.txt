@@ -1,0 +1,3 @@
+LEVER MP-113 (C45, yield ~340 MPa), 500 N lean at the stop, link force 15.6 kN at A (line 10.3 mm from O): 57593 tets, rc 0
+  peak von Mises 295 MPa at (-3.0, -42.4, -9.4) (bore contact zone)
+  peak away from the bores 127 MPa at (6.6, -51.4, -10.0); grip deflection 0.49 mm

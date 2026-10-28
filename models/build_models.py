@@ -313,7 +313,7 @@ def mp110():
 
 def mp111():
     s = stepped([(50, 11), (24, 4)])
-    tools = [cyl(16, 15 + 2 * E, z0=-E), cyl(4, 6 + E, 0, -20, -E), cyl(5, 25 - 7.5, 7.5, 0, 7.0, axis=(1, 0, 0))]
+    tools = [cyl(16, 15 + 2 * E, z0=-E), cyl(4, 8 + E, 0, -20, -E), cyl(5, 25 - 7.5, 7.5, 0, 7.0, axis=(1, 0, 0))]
     for a in (45, 135, 225, 315):
         x, y = 20 * math.cos(math.radians(a)), 20 * math.sin(math.radians(a))
         tools += [cyl(5.5, 11 + 2 * E, x, y, -E), cyl(9, 3.8 + E, x, y, -E)]
@@ -724,7 +724,7 @@ def build():
          [Tr(*DOWN, at=(cx + x, -z, 18.15)) for cx in (STA, STB) for (x, z) in P2.BASE_FIX])
     part('BUY-41', 'Dowel pin Ø6 × 12 (station bases)', 'buy', 'Universal die', dowel(6, 12), 'steel',
          [at(cx + x, -z, 24) for cx in (STA, STB) for (x, z) in P2.BASE_DOWEL])
-    part('BUY-42', 'Orientation pin Ø4 × 10', 'buy', 'Universal die', dowel(4, 10), 'steel', [at(0, -20, 116)])
+    part('BUY-42', 'Orientation pin Ø4 × 12', 'buy', 'Universal die', dowel(4, 12), 'steel', [at(0, -20, 116)])
     part('BUY-43', 'Depth shim pack Ø40 × 1', 'buy', 'Universal die', shim_pack(), 'stain', [at(0, 0, 122)], spec='stainless 0.1 / 0.2 / 0.5, shown as 1.0')
     part('BUY-44', 'Puller, M5 T-handle (loose tool)', 'buy', 'Universal die', puller(), 'knob', [])
 
