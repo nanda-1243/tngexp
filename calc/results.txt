@@ -7,7 +7,7 @@ Die contact at travel 26.0; working travel 12.90 mm
 dy/dphi at 8 / 20 / 70 deg          9.26 / 22.48 / 48.58 mm/rad
 Rev A (L 290)    MA open 6.0, MA end 31.3; force at 200 N 5.64 kN; at 500 N lean 14.1 kN
 Rev B/C (L 320)  MA open 6.6, MA end 34.6; force at 200 N 6.22 kN; at 500 N lean 15.6 kN
-Pickup stops at travel 35.5 -> handle angle 15.2 deg
+Pickup stops at travel 34.2 (Rev E: pedestal 23.0, the plug meets the face as ring A reaches its stop) -> handle angle 18.2 deg
 Station pilot (tip 84 below the ram, table top at 30, ram bottom at 134 open): enters the table at travel 20.0 mm
 
  travel mm   handle deg     MA    force kN @200 N
@@ -16,7 +16,7 @@ Station pilot (tip 84 below the ram, table top at 30, ram bottom at 134 open): e
     20.00        41.0       7.3       1.31
     26.00        32.7       8.3       1.49
     30.00        26.3       9.6       1.72
-    35.50        15.2      14.1       2.54
+    34.20        18.2      12.4       2.23
     38.00         7.4      22.5       4.04
     38.90         3.0      34.6       6.22
 
@@ -35,13 +35,13 @@ D56  edge 176 mm  crimp 2.71 kN  hand force at the stop 198 N
 D58  edge 182 mm  crimp 2.81 kN  hand force at the stop 201 N
 
 Stroke 1, flat tin blank: fold force (wiping bend round the pedestal, tin 0.20 soft T2, sy 250 MPa; 0.22 T3, sy 300 MPa)
-Upper springs: preload 1.57 kN, 1.83 kN after 1.3 mm of give (the most stroke 1 allows); ring A springs 0.38 kN at the stop
-5050  fold 0.20: 0.86 kN (+0.38 = 1.24, OK)   0.22 T3: 1.25 kN (+0.38 = 1.63, OK)
-6363  fold 0.20: 1.09 kN (+0.38 = 1.47, OK)   0.22 T3: 1.59 kN (+0.38 = 1.97, carrier gives too far)
-5380  fold 0.20: 1.15 kN (+0.38 = 1.53, OK)   0.22 T3: 1.66 kN (+0.38 = 2.04, carrier gives too far)
-6590  fold 0.20: 1.34 kN (+0.38 = 1.72, OK)   0.22 T3: 1.94 kN (+0.38 = 2.32, carrier gives too far)
+Upper springs: preload 1.57 kN, 197 N/mm. At the fold peak the carrier may give 2.5 mm (plug 4.1 mm clear of the face); ring A springs 0.23 kN there
+5050  fold 0.20: 0.86 kN (+0.23 = 1.09, carrier gives 0.0 mm, OK)   0.22 T3: 1.25 kN (+0.23 = 1.48, gives 0.0 mm, OK)
+6363  fold 0.20: 1.09 kN (+0.23 = 1.32, carrier gives 0.0 mm, OK)   0.22 T3: 1.59 kN (+0.23 = 1.81, gives 1.2 mm, OK)
+5380  fold 0.20: 1.15 kN (+0.23 = 1.37, carrier gives 0.0 mm, OK)   0.22 T3: 1.66 kN (+0.23 = 1.89, gives 1.6 mm, OK)
+6590  fold 0.20: 1.34 kN (+0.23 = 1.56, carrier gives 0.0 mm, OK)   0.22 T3: 1.94 kN (+0.23 = 2.17, gives 3.0 mm, too far)
 Use 0.20 mm soft tinplate (T2) for the flat blanks. Round kits keep drawn round cups (a flat round blank cannot be folded).
-Hand force in stroke 1 near its end (travel 34, MA 12.2): about 156 N for 65 x 90 with 0.20 tin.
+Hand force at the fold peak (travel 30, MA 9.6): about 181 N for 65 x 90 with 0.20 tin.
 
 ================================================================================================
 3. HANDLE: REV A SCREWED BAR vs REV B/C ONE-PIECE LEVER

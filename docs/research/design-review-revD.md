@@ -24,8 +24,8 @@ None of this needs a new concept. It needs a revision before any metal is cut, a
 | # | Rev E |
 |---|---|
 | 1 | Fixed: Ø6 detent pin along X from the left end face (MP-201 L), studs K and K2 on its axis. |
-| 2 | Replaced: the roll channel is gone. The Rev E anvil folds the edge flat (cove R0.7 flush with ring B's bore, floor 0.4 under the back plate); the anvil block slides in ring B (X + 0.43 in X + 0.45). |
-| 3 | Fixed: photo and film cut 4.5 over the face (corners clipped 45°), so they end with the tin: no tails. |
+| 2 | Replaced on square kits: the Rev E anvil folds the edge twice, flat. Its cove R0.7, flush with ring B's bore, turns the edge inward under the back plate; the platform wall turns it back on itself; the floor presses the two-layer hem flat. The anvil block slides in ring B (X + 0.43 in X + 0.45). Round kits keep the Rev D roll channel. |
+| 3 | Fixed: photo and film cut the same size as the tin blank, X + 12 (corners clipped 45°), so they end with the tin inside the hem: no tails. |
 | 4 | Mostly fixed: shank Ø12 g6 spigot, pilot Ø10 g6 spigot, station bases set with a plug and doweled in place. No register counterbore on the rings. |
 | 5 | Fixed: countersinks Ø11.5. |
 | 6 | Fixed: MP-116 39 long. |
@@ -35,8 +35,8 @@ None of this needs a new concept. It needs a revision before any metal is cut, a
 | 10 | Partly: dog-point thumb screws take the load in shear; no carrier lip. |
 | 11 | Fixed: upper springs 8 × Ø12.5 × 44 red (1.57 → 2.54 kN) against 75 → 380 N lower, also needed to fold the tin. |
 | 12 | Open: set on the prototype with the shim pack. |
-| 13 | Square kits use flat tin blanks X + 8 (the consumable sold for these sizes); pedestal X − 1.0. Round kits still use drawn cups. |
-| 14 | Fixed: sharp R1 corners from a folded flat blank and a flat fold, with Ø1.2 corner reliefs for the gusset. |
+| 13 | Square kits use flat tin blanks X + 12 (the consumable sold for these sizes); pedestal X − 1.0, 23.0 high. Round kits still use drawn cups. |
+| 14 | Fixed: sharp R1 corners from a folded flat blank and a flat double fold, with Ø1.2 corner reliefs for the gusset. |
 | 15 | Calcs now count the springs at 0.84 efficiency: 210–268 N at the stop with the stronger Rev E springs. |
 | 16 | Fixed: six pads, two under the tongue; bolt it down. |
 | 17 | Partly: POM guide sleeves and the wider crown. |

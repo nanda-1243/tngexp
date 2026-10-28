@@ -36,10 +36,10 @@ ROUND_LABEL = {cd: 'Ø' + fmt(d) for (cd, d) in ROUND}
 SHOWN_R = ('D58', 58.0)
 PLUG_DOWEL_R = [(12, -12), (-12, -12)]
 STUD_R = (-13, PIN_Z - 6.8)
-# Rev E magnet: sharp corners (R1 at the face, like commercial photo magnets), flat-fold crimp, paper 4.5 past the face
+# Rev E magnet: sharp corners (R1 at the face, like commercial photo magnets), double flat fold on the back, photo 6.0 past the face
 FACE_R = 1.0
-BLEED = 4.5                                # paper overhang = shell depth: the paper ends with the tin on the back
-TIN_BLANK = 8.0                            # Rev E: flat tin blank X + 8 (4 a side), corners clipped on the paper's 45° line
+BLEED = 6.0                                # Rev E: photo and film 6 a side over the face; they end with the tin inside the double fold
+TIN_BLANK = 12.0                           # Rev E: flat tin blank X + 12 (6 a side), corners clipped on the photo's 45° line
 RELIEF_D = 1.2                             # corner reliefs in the upper ring and ring B: room for the paper folded at the corner
 
 KIT_MAT = 'A2 / 1.2363 tool steel; 7075-T6 for the prototype kit; PM cold-work steel for high volume'
@@ -148,8 +148,7 @@ def ring(X, Z, which):
         T = 14
     elif which == 'A':
         f = [feat(0, 0, 'rr', w=X + 0.6, h=Z + 0.6, r=FACE_R + 0.3, thru=True),
-             feat(0, 0, 'rr', w=X + 2 * BLEED + 0.5, h=Z + 2 * BLEED + 0.5, r=1.5, depth=0.35, side='top', label='G'),
-             feat(0, 0, 'rr', w=X + TIN_BLANK + 0.2, h=Z + TIN_BLANK + 0.2, r=1.0, depth=0.6, side='top', label='J')]   # Rev E: stepped
+             feat(0, 0, 'rr', w=X + 2 * BLEED + 0.5, h=Z + 2 * BLEED + 0.5, r=1.5, depth=0.6, side='top', label='G')]   # tin, photo and film
         T = 15
     else:
         f = [feat(0, 0, 'rr', w=X + 0.45, h=Z + 0.45, r=FACE_R + 0.2, thru=True)] + corner_reliefs(X + 0.45, Z + 0.45)
@@ -157,15 +156,19 @@ def ring(X, Z, which):
     return rr_notched(RX_, RZ_, 6, key_notches(which)), T, f
 
 
+PED_H = 23.0                               # Rev E square kits: 1.2 higher, so stroke 1 draws the whole 6 mm flange into the upper ring
+
+
 def pick_ped(X, Z):
     f = [feat(0, 0, 'tap', m='M5', depth=6, side='top'), feat(0, 0, 'hole', d=12, depth=8.5, side='bot'), feat(0, 20, 'hole', d=4, depth=6, side='bot')]
-    return rrect(0, 0, X - 1.0, Z - 1.0, 0.5), 21.8, f
+    return rrect(0, 0, X - 1.0, Z - 1.0, 0.5), PED_H, f
 
 
-# Rev E flat-fold anvil: block X + 0.43 slides in ring B (X + 0.45). Its top: platform 17.0 (X - 7.4) under the back plate, floor 16.6
-# round it, and a cove R0.7 rising to the block edge at 17.3, flush with ring B's bore. The skirt runs down the bore, meets the cove,
-# turns inward along the floor under the back plate, and the back plate presses it flat: a 2.8 mm border on the back.
-ANV = dict(block=0.43, r=FACE_R + 0.2, top=17.3, platform=17.0, floor=16.6, cove=0.7, plat_in=7.4)
+# Rev E double-fold anvil: block X + 0.43 slides in ring B (X + 0.45). Platform 17.0 (X - 6.6) under the back plate; floor 16.15
+# round it (0.85 below: room for two layers of tin, photo and film); cove R0.7 rising to the block edge at 16.85, flush with ring
+# B's bore. The skirt runs down the bore, the cove turns it inward along the floor, the platform wall turns it up and back outward
+# under the back plate: a flat two-layer hem, the photo outside (a 2.8 mm border on the back), the cut edge of the tin inside.
+ANV = dict(block=0.43, r=FACE_R + 0.2, top=16.85, platform=17.0, floor=16.15, cove=0.7, plat_in=6.6)
 
 
 def anvil(X, Z):
@@ -443,7 +446,7 @@ def mp206():
     X, Z = SHOWN[1], SHOWN[2]
     kit_sheet('MP-206', 'PICKUP PEDESTAL (SIZE KIT)', pick_ped,
               [('A', 'X − 1.0  (±0.01)', lambda x, z: x - 1.0), ('B', 'Z − 1.0  (±0.01)', lambda x, z: z - 1.0)],
-              ['Rev E: the flat tin blank, photo and film lie in ring A\'s recess, 3.6 above it. In stroke 1 ring A drops and the pedestal folds the blank\'s edges down into the upper ring (0.68 a side for 0.4 of tin, photo and film). Top face flat 0.01, Ra 0.2; top edge R0.8, the inside radius of the fold. Height 21.8 ±0.02.',
+              ['Rev E: the flat tin blank, photo and film lie in ring A\'s recess, 2.4 above it. In stroke 1 ring A drops and the pedestal folds the blank\'s edges down into the upper ring (0.68 a side for 0.4 of tin, photo and film). Top face flat 0.01, Ra 0.2; top edge R0.8, the inside radius of the fold. Height 23.0 ±0.02 (Rev E, was 21.8): the whole 6 mm flange is drawn into the upper ring.',
                'Rev C: drop-in. Press a Ø12 m6 × 15 dowel into C (7 protruding) and a Ø4 m6 × 10 pin into Q (4 protruding). Lift out with the M5 T-handle puller in hole H.'],
               [('h', -(X - 1) / 2, (X - 1) / 2, (Z - 1) / 2, (Z - 1) / 2 + 9, 'A'),
                ('v', (Z - 1) / 2, -(Z - 1) / 2, (X - 1) / 2, (X - 1) / 2 + 18, 'B'),
@@ -457,15 +460,13 @@ def mp207():
     X, Z = SHOWN[1], SHOWN[2]
     kit_sheet('MP-207', 'PICKUP RING A (SIZE KIT)', lambda x, z: ring(x, z, 'A'),
               [('C', 'X + 0.6  (opening)', lambda x, z: x + 0.6), ('D', 'Z + 0.6  (opening)', lambda x, z: z + 0.6),
-               ('G', 'X + 9.5  (photo recess, 0.35 deep)', lambda x, z: x + 2 * BLEED + 0.5), ('H', 'Z + 9.5  (photo recess)', lambda x, z: z + 2 * BLEED + 0.5),
-               ('J', 'X + 8.2  (tin recess, 0.6 deep)', lambda x, z: x + TIN_BLANK + 0.2), ('K', 'Z + 8.2  (tin recess)', lambda x, z: z + TIN_BLANK + 0.2)],
+               ('G', 'X + 12.5  (recess, 0.6 deep)', lambda x, z: x + 2 * BLEED + 0.5), ('H', 'Z + 12.5  (recess)', lambda x, z: z + 2 * BLEED + 0.5)],
               ['Outside 106 × 81 (−0.01/−0.02) for every size: drops into the lower carrier A pocket. Key slots KA fit only carrier A.',
-               'Opening C × D, R1.3, THRU, wire-EDM; top inner edge R0.5. Stepped recess, Ra 0.8 (Rev E): J × K, R1.0, 0.6 deep, centres the flat tin blank (X + 8, 0.20 thick); G × H, R1.5, 0.35 deep, centres the photo and film (X + 9). Both are cut with the corners clipped at 45°.',
+               'Opening C × D, R1.3, THRU, wire-EDM; top inner edge R0.5. Recess G × H, R1.5, 0.6 deep, Ra 0.8: it centres the flat tin blank, the photo and the film, all cut X + 12 with the corners clipped at 45° (Rev E), 0.4 thick together.',
                'Lift out by hand through the opening once the pedestal is out. Faces parallel 0.01.'],
               outer_dims(RX_, RZ_) + [('h', -(X + .6) / 2, (X + .6) / 2, 0, -RZ_ / 2 - 17, 'C'),
                                       ('v', (Z + .6) / 2, -(Z + .6) / 2, 0, -RX_ / 2 - 24, 'D'),
-                                      ('l', (X + 9.5) / 2, -20, 30, 34, 'photo recess G × H, R1.5, 0.35 deep', 0),
-                                      ('l', (X + 8.2) / 2, 28, 30, 50, 'tin recess J × K, R1.0, 0.6 deep', 0)],
+                                      ('l', (X + 12.5) / 2, -20, 30, 34, 'recess G × H, R1.5, 0.6 deep', 0)],
               [['KA', '(+54, −20), (−54, +20)', 'Key slot R2.1, centre 1.0 outside the face, full height, on the short faces']],
               dxfname='pickup_ring')
 
@@ -485,21 +486,23 @@ def anvil_detail(sh, title):
     a = ANV
     vd = View(sh, 330, 168, 0.1)
     e = a['block'] / 2
-    vd.segs([L(-4.6, a['platform'] - a['floor'], -3.7, a['platform'] - a['floor']), L(-3.7, a['platform'] - a['floor'], -3.7, 0),
-             L(-3.7, 0, e - a['cove'], 0), A(e - a['cove'], a['cove'], a['cove'], 270, 360), L(e, a['cove'], e, -1.6)])
+    w, hp = -(a['block'] + a['plat_in']) / 2 + e, a['platform'] - a['floor']        # wall x from the shell line, platform height
+    vd.segs([L(w - 0.9, hp, w, hp), L(w, hp, w, 0),
+             L(w, 0, e - a['cove'], 0), A(e - a['cove'], a['cove'], a['cove'], 270, 360), L(e, a['cove'], e, -1.6)])
     vd.line(e + 0.01, a['cove'], e + 0.01, 2.6, 'hid')
-    vd.text(-1.9, -1.6, title, 2.8, dy=11, weight='bold')
+    vd.text(-1.7, -1.6, title, 2.8, dy=11, weight='bold')
     vd.leader(e - 0.2, 0.2, 6, 14, 'cove R0.7, tangent to the\nring B bore (X/2 + 0.225)')
-    vd.leader(-2.0, 0, -12, -14, 'floor, 0.4 below the platform:\nthe folded border is pressed flat here')
-    vd.leader(-4.2, a['platform'] - a['floor'], -16, 12, 'platform X − 7.4 (back plate)')
+    vd.leader(-1.6, 0, -8, -16, 'floor, 0.85 below the platform: the edge runs\nin here, turns up at the wall and folds back')
+    vd.leader(w, hp / 2, -14, 8, 'wall X/2 − 3.3: the second fold')
+    vd.leader(w - 0.6, hp, -12, 18, 'platform X − 6.6 (back plate)')
 
 
 def mp208():
     X, Z = SHOWN[1], SHOWN[2]
     a = ANV
     sh = new('MP-208', 'CRIMP ANVIL (SIZE KIT)', scale='1:1 / 10:1', qty='1 per size kit (4)', material=KIT_MAT, finish=KIT_FIN,
-             notes=KIT_NOTES + ['Rev E: flat-fold crimp, as on commercial square magnets. The skirt runs down the ring B bore, meets the cove (Detail R), turns inward along the floor and is pressed flat under the back plate: a 2.8 mm paper border on the back.',
-                                'Block A × B (X + 0.43) slides in the crimp ring (X + 0.45). Platform E × F (X − 7.4) carries the back plate; the folding border slides under the plate onto the floor, 0.4 below the platform.',
+             notes=KIT_NOTES + ['Rev E: double flat fold, as on commercial square magnets. The skirt runs down the ring B bore; the cove (Detail R) turns it inward along the floor; the wall at the platform edge turns it up and back outward under the back plate. The edge ends in two flat layers with the photo outside: a 2.8 mm printed border on the back, the cut edge of the tin hidden inside.',
+                                'Block A × B (X + 0.43) slides in the crimp ring (X + 0.45). Platform E × F (X − 6.6) carries the back plate; the floor is 0.85 below it, room for the two layers.',
                                 'Profile is a start value: prove it on the prototype kit, then cut tool steel. Polish the cove and floor Ra 0.2.',
                                 'Drop-in: Ø12 m6 × 15 dowel in C (7 protruding), Ø4 m6 × 10 pin in Q. Lift out with the M5 puller in hole H.'] + GEN)
     o, T, fs = anvil(X, Z)
@@ -515,7 +518,7 @@ def mp208():
     v.vdim(bz / 2, bw / 2, -bz / 2, bw / 2, bw / 2 + 18, text='B')
     v.hdim(-pw / 2, -pz / 2, pw / 2, -pz / 2, -bz / 2 - 9, text='E')
     v.vdim(pz / 2, -pw / 2, -pz / 2, -pw / 2, -bw / 2 - 18, text='F')
-    v.leader(bw / 2 - 0.3, -bz / 2 + 4, 24, 26, 'cove R0.7 and floor all round (Detail R)')
+    v.leader(bw / 2 - 0.3, -bz / 2 + 4, 24, 26, 'cove, floor and wall all round (Detail R)')
     v.section_mark(-X / 2 - 12, 0, X / 2 + 12, 0, 'A', flip=True)
     vs = View(sh, 100, 175, 1.0)
     vs.poly(anvil_section(bw), 'sec')
@@ -523,9 +526,9 @@ def mp208():
     vs.vdim(0, bw / 2, a['top'], bw / 2, bw / 2 + 9, text=fmt(a['top']))
     vs.vdim(0, -bw / 2, a['platform'], -pw / 2, -bw / 2 - 9, text=fmt(a['platform']))
     vs.text(0, 0, 'SECTION A–A', 3.2, dy=8.5, weight='bold')
-    anvil_detail(sh, 'DETAIL R (10:1) cove and floor — X/2 = shell line')
+    anvil_detail(sh, 'DETAIL R (10:1) cove, floor and wall — X/2 = shell line')
     yy = size_table(sh, 212, 24, [('A', 'X + 0.43  (block, ±0.01)', lambda x, z: x + a['block']), ('B', 'Z + 0.43  (block, ±0.01)', lambda x, z: z + a['block']),
-                                  ('E', 'X − 7.4  (platform)', lambda x, z: x - a['plat_in']), ('F', 'Z − 7.4  (platform)', lambda x, z: z - a['plat_in'])])
+                                  ('E', 'X − 6.6  (platform)', lambda x, z: x - a['plat_in']), ('F', 'Z − 6.6  (platform)', lambda x, z: z - a['plat_in'])])
     feature_table(sh, 212, yy + 6, [['H', 'centre', 'M5 × 6 from the TOP (puller)'], ['C', 'centre', 'Ø12 H7 × 8.5 from the BOTTOM (spigot dowel)'],
                                     ['Q', '(0, +20)', 'Ø4 H7 × 6 from the BOTTOM (anti-rotation pin)']])
     for (cd, x, z) in SIZES:
@@ -604,7 +607,8 @@ def pick_ped_r(D):
 
 
 def anvil_r(D):
-    return circ(D + ANV['block']), ANV['top'], [feat(0, 0, 'tap', m='M5', depth=6, side='top'), feat(0, 0, 'hole', d=12, depth=8.5, side='bot')]
+    # Rev E keeps the Rev D roll channel for round kits: a round edge cannot be folded flat without wrinkling
+    return circ(D + 0.3), 17, [feat(0, 0, 'tap', m='M5', depth=6, side='top'), feat(0, 0, 'hole', d=12, depth=8.5, side='bot')]
 
 
 def size_table_r(sh, x, y, letters):
@@ -716,32 +720,36 @@ def mp227():
 
 def mp228():
     D = SHOWN_R[1]
-    a = ANV
     sh = new('MP-228', 'CRIMP ANVIL, ROUND (SIZE KIT)', scale='1:1 / 10:1', qty='1 per round kit (4)', material=KIT_MAT, finish=KIT_FIN_R,
-             notes=KIT_NOTES_R + ['Rev E: turned; flat-fold profile as MP-208 (Detail R): the skirt turns inward along the floor and is pressed flat under the back plate. On a round magnet the border gathers in fine pleats (it shrinks about 10 %).',
-                                  'Block D + 0.43 slides in the crimp ring (D + 0.45). Platform D − 7.4 carries the back plate.',
-                                  'Profile is a start value: prove it on the prototype kit. Polish the cove and floor Ra 0.2. Drop-in: Ø12 m6 × 15 dowel in C (7 protruding); no anti-rotation pin.'] + GEN)
+             notes=KIT_NOTES_R + ['Rev D, kept in Rev E: turned. The R1.0 roll channel runs round the full circle (Detail R): it rolls the shell edge inward under the back plate. Round kits do not get the Rev E double flat fold: a round edge cannot be folded flat without wrinkling.',
+                                  'Block D + 0.3 slides in the crimp ring (D + 0.45) and guides it. Platform (D − 4.5) carries the back plate.',
+                                  'Channel profile is a start value: prove it on the 7075 prototype kit. Polish the channel Ra 0.2. Drop-in: Ø12 m6 × 15 dowel in C (7 protruding); no anti-rotation pin.'] + GEN)
     o, T, fs = anvil_r(D)
-    bw, pw = D + a['block'], D - a['plat_in']
     v = View(sh, 100, 82, 1.0)
     v.segs(o)
-    v.segs(circ(pw))
-    v.segs(circ(bw - 2 * a['cove']), 'thin')
+    v.segs(circ(D - 4.5))
+    v.segs(circ(D), 'thin'); v.segs(circ(D - 4.0), 'thin')
     draw_plan_features(v, fs)
     v.cl_h(-D / 2 - 8, D / 2 + 8, 0); v.cl_v(D / 2 + 8, -D / 2 - 8, 0)
     sh.text(15, 18, 'PLAN (TOP)', 3.2, weight='bold')
-    v.hdim(-bw / 2, 0, bw / 2, 0, bw / 2 + 9, text='ØA')
-    v.hdim(-pw / 2, 0, pw / 2, 0, -bw / 2 - 9, text='ØE')
-    v.leader(bw / 2 * 0.7071, bw / 2 * 0.7071, 26, -20, 'cove R0.7 and floor all round (Detail R)')
+    v.hdim(-(D + .3) / 2, 0, (D + .3) / 2, 0, (D + .3) / 2 + 9, text='ØA')
+    v.hdim(-(D - 4.5) / 2, 0, (D - 4.5) / 2, 0, -(D + .3) / 2 - 9, text='ØE')
+    v.leader((D - 2) / 2 * 0.7071, (D - 2) / 2 * 0.7071, 26, -20, 'roll channel all round (Detail R)')
     v.section_mark(-D / 2 - 12, 0, D / 2 + 12, 0, 'A', flip=True)
     vs = View(sh, 100, 175, 1.0)
-    vs.poly(anvil_section(bw), 'sec')
+    hx, hp = (D + 0.3) / 2, (D - 4.5) / 2
+    chan = [(D / 2 - 1.0 + math.cos(math.radians(t)), 16 - math.sin(math.radians(t))) for t in range(0, 181, 15)]
+    prof = [(-hx, 0), (hx, 0), (hx, 16)] + chan + [(hp, 17), (-hp, 17)] + [(-x, y) for (x, y) in reversed(chan)] + [(-hx, 16)]
+    vs.poly(prof, 'sec')
     vs.rect(-6, 0, 6, 8.5, 'ko'); vs.line(-6, 0, -6, 8.5, 'hid'); vs.line(6, 0, 6, 8.5, 'hid'); vs.line(-6, 8.5, 6, 8.5, 'hid')
-    vs.vdim(0, bw / 2, a['top'], bw / 2, bw / 2 + 9, text=fmt(a['top']))
-    vs.vdim(0, -bw / 2, a['platform'], -pw / 2, -bw / 2 - 9, text=fmt(a['platform']))
+    vs.vdim(0, hx, 16, hx, hx + 9, text='16')
+    vs.vdim(0, -hx, 17, -hx, -hx - 9, text='17')
     vs.text(0, 0, 'SECTION A–A', 3.2, dy=8.5, weight='bold')
-    anvil_detail(sh, 'DETAIL R (10:1) cove and floor, as MP-208')
-    yy = size_table_r(sh, 212, 24, [('A', 'D + 0.43  (block, ±0.01)', lambda d: d + a['block']), ('E', 'D − 7.4  (platform)', lambda d: d - a['plat_in'])])
+    vd = View(sh, 330, 168, 0.1)
+    vd.segs([L(-3.5, -4, 0.15, -4), L(0.15, -4, 0.15, 0), L(0.15, 0, 0.0, 0), A(-1.0, 0, 1.0, 180, 360), L(-2.0, 0, -2.25, 1.0), L(-2.25, 1.0, -3.5, 1.0)])
+    vd.text(-1.75, -4, 'DETAIL R (10:1) roll channel (round kits only)', 2.8, dy=11, weight='bold')
+    vd.leader(-1.0, -1.0, -18, 10, 'R1.0, centre 1.0 inside the shell line D/2,\nlevel with the rim (1.0 below the platform)')
+    yy = size_table_r(sh, 212, 24, [('A', 'D + 0.3  (block, ±0.01)', lambda d: d + 0.3), ('E', 'D − 4.5  (platform)', lambda d: d - 4.5)])
     feature_table(sh, 212, yy + 6, [['H', 'centre', 'M5 × 6 from the TOP (puller)'], ['C', 'centre', 'Ø12 H7 × 8.5 from the BOTTOM (spigot dowel)']])
 
 
@@ -755,7 +763,7 @@ def mp229():
     round_sheet('MP-229', 'CRIMP RING B, ROUND (SIZE KIT)', lambda d: ring_r(d, 'B'),
                 [('C', 'D + 0.45  (bore, +0.01/0)', lambda d: d + 0.45)],
                 ['Outside 106 × 81 (−0.01/−0.02) for every size: drops into the lower carrier B pocket. Key slots KB fit only carrier B.',
-                 'Bore C THRU, honed Ra 0.2. Top lead-in 1.2 × 30°. The bore guides the skirt down onto the anvil cove; the anvil block slides in it (D + 0.43 in D + 0.45).'],
+                 'Bore C THRU, honed Ra 0.2. Top lead-in 1.2 × 30° folds the film under the shell edge and guides the shell onto the anvil\'s roll channel (round kits keep the Rev D rolled edge).'],
                 [('h', -RX_ / 2, RX_ / 2, RZ_ / 2, RZ_ / 2 + 9, fmt(RX_)), ('v', RZ_ / 2, -RZ_ / 2, RX_ / 2, RX_ / 2 + 16, fmt(RZ_)),
                  ('h', -(D + .45) / 2, (D + .45) / 2, 0, -RZ_ / 2 - 17, 'ØC')],
                 [['KB', '(+54, +30), (−54, −30)', 'Key slot R2.1, centre 1.0 outside the face, full height, on the short faces']],
@@ -895,7 +903,7 @@ def mp000(listing, img_b64=None, img2_b64=None):
                       'Column bores in base MP-101, crown MP-108 and ram MP-109 at 210.00 ±0.01: same datum scheme and CNC program.',
                       'Universal parts (MP-201, 202, 205, 210, 211) are made once per press. Square and rectangular kit parts (MP-203, 204, 206 to 209, 212) are tabulated for 5050, 6363, 5380, 6590; Rev D round kit parts (MP-223, 224, 226 to 229, with stud MP-212) for D44, D50, D56, D58.',
                       'DXF profiles are supplied for cutting and wire-EDM. If a DXF and a drawing disagree, the drawing governs. Bought parts are in the build pack BOM.',
-                      'Rev B: failure-mode review (lever, pin O, bushings, return springs, pilot, base, 16 kN). Rev C (2026-10-27): universal die + 6-part size kits changed by hand in about a minute; crimp anvil with roll channel; die springs re-rated to ISO 10243 limits. Rev C.1 (2026-10-27): fit fixes from the 3D interference check: ram link pockets (MP-109), crown reliefs for pins A and B (MP-108), push knobs on the table top (MP-105), flush column clamp (MP-101, MP-107), handle stop without jam nut, stop screw M6 × 0.75 × 40 (MP-104). Rev D (2026-10-27): four round size kits on the same universal die; MP-201 gains the inner plug pattern D2/K2. Rev E (2026-10-27), release: fixes from the independent review: sharp-cornered magnets from flat tin blanks folded in stroke 1, flat-fold crimp with a printed border on the back; die body 20 thick with Ø12.5 × 44 red upper springs; detent pin along X; spigots; crown 120; stop post MP-121.',
+                      'Rev B: failure-mode review (lever, pin O, bushings, return springs, pilot, base, 16 kN). Rev C (2026-10-27): universal die + 6-part size kits changed by hand in about a minute; crimp anvil with roll channel; die springs re-rated to ISO 10243 limits. Rev C.1 (2026-10-27): fit fixes from the 3D interference check: ram link pockets (MP-109), crown reliefs for pins A and B (MP-108), push knobs on the table top (MP-105), flush column clamp (MP-101, MP-107), handle stop without jam nut, stop screw M6 × 0.75 × 40 (MP-104). Rev D (2026-10-27): four round size kits on the same universal die; MP-201 gains the inner plug pattern D2/K2. Rev E (2026-10-27), release: fixes from the independent review: sharp-cornered magnets from flat tin blanks folded in stroke 1, double flat fold (hem) with a printed border on the back (round kits keep the rolled edge); die body 20 thick with Ø12.5 × 44 red upper springs; detent pin along X; spigots; crown 120; stop post MP-121.',
                       'Prove the die fits on a 7075 aluminium set before cutting tool steel.'])
     P.SHEETS.insert(0, sh)
     sh.text(20, 30, 'MagPress M4', 12, weight='bold')

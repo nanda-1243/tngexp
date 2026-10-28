@@ -115,8 +115,8 @@ input[type=range]{accent-color:var(--accent);width:100%}
             <label class="chk"><input type="checkbox" id="guides" checked> Guides on screen</label>
           </div>
           <div class="row"><label class="small" for="margin">Printer margin, mm</label><input type="number" id="margin" min="0" max="15" step="0.5" value="5" style="width:72px">
-            <label class="small" for="depth">Shell depth, mm</label><select id="depth"><option value="4.5">4.5</option><option value="5">5.0</option><option value="5.5">5.5</option><option value="6">6.0</option><option value="6.5">6.5</option></select></div>
-          <p class="small">Shell depth sets how far the paper reaches past the face: it wraps over the edge and lies on the back as a border. Measure the shells you buy; 4.5 is the press design's nominal.</p>
+            <label class="small" for="depth">Photo bleed, mm</label><select id="depth"><option value="5.5">5.5</option><option value="6">6.0</option><option value="6.5">6.5</option><option value="7">7.0</option></select></div>
+          <p class="small">How far the photo reaches past the face. On square and rectangular magnets it wraps over the edge, lies on the back as a printed border (2.8 mm at 6.0), then folds back on itself out of sight. 6.0 is the press design's value. Round magnets roll the edge under, so nothing shows on the back.</p>
         </div>
       </details>
 
@@ -395,7 +395,7 @@ const BACK_NAME = { 'back-bottom': 'Back: bottom edge', 'back-top': 'Back: top e
 function posOptions(sel, cur){
   sel.innerHTML = '';
   [['On the photo', MS.POS.map(p => [p, POS_NAME[p]])], ['On the back (folded border)', MS.BACK_POS.map(p => [p, BACK_NAME[p]])]].forEach(([label, items]) => {
-    const og = document.createElement('optgroup'); og.label = label;
+    const og = document.createElement('optgroup'); og.label = label; if(label.indexOf('back') > 0){ og.dataset.back = '1'; og.disabled = geom().round; }
     items.forEach(([v, t]) => { const o = document.createElement('option'); o.value = v; o.textContent = t; if(v === cur) o.selected = true; og.appendChild(o); });
     sel.appendChild(og); });
 }
@@ -448,10 +448,11 @@ function syncControls(){
 function updateInfo(){
   const L = layout(), g = L.g;
   $('#sheetInfo').textContent = L.n + ' per ' + S.paper;
+  document.querySelectorAll('optgroup[data-back]').forEach(o => { o.disabled = g.round; });
   $('#sheetHint').textContent = g.label + ' · ' + L.n + '/' + S.paper;
   $('#photoHint').textContent = S.photos.length ? S.photos.length + (S.photos.length === 1 ? ' photo' : ' photos') : 'none yet';
   const f = $('#facts'), row = (a, b) => '<dt>' + a + '</dt><dd>' + b + '</dd>', pair = (w, h) => g.round ? 'Ø' + w : w + ' × ' + h;
-  f.innerHTML = row('Face', pair(g.W, g.H) + ' mm') + row('Paper cut', pair(g.cutW, g.cutH) + ' mm' + (g.round ? '' : ', corners clipped')) + (g.round ? '' : row('Tin blank', pair(g.cutW - 1, g.cutH - 1) + ' mm flat, same 45° corners')) + row('Back border', '≈ ' + (g.bleed - g.fold).toFixed(1) + ' mm on the back') + row('Keep text in', pair(g.safeW, g.safeH) + ' mm')
+  f.innerHTML = row('Face', pair(g.W, g.H) + ' mm') + row('Paper cut', pair(g.cutW, g.cutH) + ' mm' + (g.round ? '' : ', corners clipped')) + (g.round ? '' : row('Tin blank', pair(g.cutW, g.cutH) + ' mm flat, same 45° corners')) + row('Back border', g.round ? 'none: the edge is rolled under' : '≈ ' + g.border.toFixed(1) + ' mm on the back, folded double') + row('Keep text in', pair(g.safeW, g.safeH) + ' mm')
     + row('Layout', L.cols + ' × ' + L.rows + ' on ' + S.paper + ', ' + GAP + ' mm apart') + row('Print', 'at 100 %; check the 50 mm bar');
 }
 
@@ -527,7 +528,8 @@ function outline(g, which){
   if(g.round) return { circle: which === 'cut' ? g.cutW / 2 : which === 'fold' ? g.W / 2 + g.fold : which === 'face' ? g.W / 2 : g.safeR };
   if(which === 'cut'){ const a = g.cutW / 2, b = g.cutH / 2, s = g.W / 2 + g.H / 2 + g.fold;
     return { poly: [[s - b, -b], [a, a - s], [a, s - a], [s - b, b], [b - s, b], [-a, s - a], [-a, a - s], [b - s, -b]] }; }
-  const w = which === 'fold' ? g.W + 2 * g.fold : which === 'face' ? g.W : g.safeW, h = which === 'fold' ? g.H + 2 * g.fold : which === 'face' ? g.H : g.safeH;
+  const e = which === 'fold' ? g.fold : which === 'hem' ? g.fold + g.border : 0;   // hem: beyond it the paper folds back out of sight
+  const w = e ? g.W + 2 * e : which === 'face' ? g.W : g.safeW, h = e ? g.H + 2 * e : which === 'face' ? g.H : g.safeH;
   return { rect: [w, h, which === 'face' ? g.r : 0] };
 }
 function pdfOutline(doc, g, cx, cy, which, dash){
@@ -545,7 +547,8 @@ function pdfFooter(doc, L, blank){
   doc.setDrawColor(91, 97, 104); doc.setLineWidth(0.25); ln(bx, 0, bx + 50, 0);
   for(let t = 0; t <= 50; t += 10){ const e = t % 50 ? 0.8 : 1.4; ln(bx + t, -e, bx + t, e); }
   txt('50 mm', bx - 1.5, 0.8, true);
-  if(blank){ const legend = 'grey: cut line · green: back border starts (text beyond it shows on the back) · blue dashed: face edge · pink dotted: keep text inside';
+  if(blank){ const legend = L.g.round ? 'grey: cut line · blue dashed: face edge · pink dotted: keep text inside (round magnets roll the edge under)'
+      : 'grey: cut line · green: back border (text between the two green lines shows on the back) · blue dashed: face edge · pink dotted: keep text inside';
     if(F.tight){ doc.text(legend, L.x0, Math.max(2.5, L.y0 - 1.4)); } else txt(legend, 0, 3.6); }
 }
 async function buildPDF(blank){
@@ -562,7 +565,7 @@ async function buildPDF(blank){
       if(i % 3 === 2) await new Promise(r => setTimeout(r, 0));
     }
     if(S.cutLines || blank){ doc.setDrawColor(138, 143, 150); doc.setLineWidth(0.2); pdfOutline(doc, g, cx, cy, 'cut'); }
-    if(blank){ doc.setLineWidth(0.2); doc.setDrawColor(47, 122, 68); pdfOutline(doc, g, cx, cy, 'fold', [1.6, 0.5, 0.3, 0.5]);
+    if(blank){ doc.setLineWidth(0.2); if(!g.round){ doc.setDrawColor(47, 122, 68); pdfOutline(doc, g, cx, cy, 'fold', [1.6, 0.5, 0.3, 0.5]); doc.setDrawColor(140, 190, 150); pdfOutline(doc, g, cx, cy, 'hem', [0.6, 0.6]); }
       doc.setDrawColor(30, 110, 220); pdfOutline(doc, g, cx, cy, 'face', [1.2, 0.8]); doc.setDrawColor(192, 48, 111); pdfOutline(doc, g, cx, cy, 'safe', [0.4, 0.6]); }
   }
   pdfFooter(doc, L, blank);
@@ -586,7 +589,8 @@ function guideSVG(){
   return '<svg xmlns="http://www.w3.org/2000/svg" width="' + f(w) + 'mm" height="' + f(h) + 'mm" viewBox="0 0 ' + f(w) + ' ' + f(h) + '">\n'
     + '<title>MagPress M4 ' + g.label + ' design guide: cut ' + (g.round ? 'Ø' + w : w + ' × ' + h) + ' mm</title>\n'
     + '<g id="cut-line">' + shape('cut', 'fill="none" stroke="#8a8f96" stroke-width="0.2"') + '</g>\n'
-    + '<g id="back-border-starts">' + shape('fold', 'fill="none" stroke="#2f7a44" stroke-width="0.2" stroke-dasharray="1.6 0.5 0.3 0.5"') + '</g>\n'
+    + (g.round ? '' : '<g id="back-border-starts">' + shape('fold', 'fill="none" stroke="#2f7a44" stroke-width="0.2" stroke-dasharray="1.6 0.5 0.3 0.5"') + '</g>\n'
+      + '<g id="back-border-ends-folds-back">' + shape('hem', 'fill="none" stroke="#8cbe96" stroke-width="0.2" stroke-dasharray="0.6 0.6"') + '</g>\n')
     + '<g id="face-edge">' + shape('face', 'fill="none" stroke="#1e6edc" stroke-width="0.2" stroke-dasharray="1.2 0.8"') + '</g>\n'
     + '<g id="keep-text-inside">' + shape('safe', 'fill="none" stroke="#c0306f" stroke-width="0.2" stroke-dasharray="0.4 0.6"') + '</g>\n</svg>\n';
 }

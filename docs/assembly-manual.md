@@ -13,11 +13,11 @@ How to build the MagPress M4 photo-magnet press from its parts, in 19 steps: fra
 - **Threadlocker.** Clean threads with solvent before Loctite. The torque table below lists every joint.
 - **Safety.** The press weighs about 48 kg: lift it with two people. The pinch points are between the dies and between the table and the stop blocks. Wear gloves when handling tin blanks: the cut edges are sharp.
 
-> ✅ **Rev E.** Rev E makes sharp-cornered magnets with the photo carried round onto the back as a flat printed border, like bought tin photo magnets, and fixes the points found in an independent design review. The 3D check was repeated for Rev E at six handle angles and with a round kit fitted: nothing clashes. The changes, and the steps they touch:
+> ✅ **Rev E.** Rev E makes sharp-cornered magnets with the photo carried round and folded twice, flat, onto the back (a two-layer hem: a printed border with the cut tin edge hidden), like bought tin photo magnets, and fixes the points found in an independent design review. The 3D check was repeated for Rev E at six handle angles and with a round kit fitted: nothing clashes. The changes, and the steps they touch:
 
 | Part | Change | Step |
 |---|---|---|
-| Size kits | Sharp R1 corners. Stroke 1 folds a flat tin blank (X + 8, corners clipped 45°) round the pedestal; ring A has a stepped recess for the blank and the photo. The crimp anvil folds the edge flat under the back plate. | 17 |
+| Size kits | Sharp R1 corners. Stroke 1 folds a flat tin blank (X + 12, corners clipped 45°) round a taller 23 mm pedestal; ring A has a 0.6 mm recess for the blank, photo and film. The crimp anvil folds the edge twice, flat, under the back plate: a two-layer hem with the cut tin edge hidden. Round kits keep the Rev D rolled edge. | 17 |
 | Upper die MP-201, springs | Die body 20 thick with a Ø54 counterbore for the holder; 8 red Ø12.5 × 44 springs (1.6 kN) hold the upper ring while the tin folds. | 15 |
 | Plug locking pin | A Ø6 detent pin along the die body from the left end (the Rev D cross pin was blocked by the front column). | 18 |
 | Crown MP-108, handle stop | Crown 120 wide (was 80). The handle stop is on its own post MP-121 on the crown, not in the column top. | 12 |
@@ -478,7 +478,7 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 2. Put the press on a flat bench (two people: it weighs about 48 kg). For all-day use bolt it down through the Ø9 holes.
 3. Set the depth: make a magnet, then add shims (0.1 / 0.2 / 0.5) until the crimp finishes with the handle about 5 to 10° above horizontal. Write the shim value on the frame label.
 4. Run the tests in the table below, then make two test magnets per kit and check the corners and the crimp.
-5. Consumables for a square kit: flat tin blanks X + 8 cut from 0.20 mm soft tinplate, photo and film X + 9, all with the corners clipped on the 45° line printed by the Magnet Studio (`web/magnet-studio.html`); 1.2 mm back plates X − 1.4; magnet sheet X − 8. Round kits use drawn round cups.
+5. Consumables for a square kit: flat tin blanks X + 12 cut from 0.20 mm soft tinplate, photo and film X + 12, all with the corners clipped on the 45° line printed by the Magnet Studio (`web/magnet-studio.html`); 1.2 mm back plates X − 1.4; magnet sheet X − 8. Round kits use drawn round cups.
 
 > ✅ **Check.** Every test in the table below passes.
 
@@ -491,8 +491,8 @@ Values marked * are standard values for property class 8.8 screws; the others ar
 | Depth | Shims so the crimp finishes with the handle 5 to 10° above horizontal (step 19). | Full crimp with a firm push, no hard knock |
 | Force | 10 kN load cell on station B with a dummy block; 200 N on the grip with a hanging scale. | ≥ 5.5 kN |
 | Ring alignment | Marker blue on the lower ring tops, slow stroke on each station. | Even contact all round; the upper ring never touches a lower ring edge |
-| Stroke 1 fold | Slow stroke 1 at station A with a flat tin blank only; lift the ram and look at the shell in the upper ring. | Four straight walls about 4 mm deep, square corners with a small flat gusset, nothing left in the recess |
-| Magnet quality | Make 20 of each size. | No white paper at the edges, no torn film, sharp corners with neat mitres on the back, back border flat all round |
+| Stroke 1 fold | Slow stroke 1 at station A with a flat tin blank only; lift the ram and look at the shell in the upper ring. | Four straight walls about 5.6 mm deep, square corners with a small flat gusset, nothing left in the recess |
+| Magnet quality | Make 20 of each size. | No white paper at the edges, no torn film, sharp corners with neat mitres on the back, a flat two-layer border about 2.8 mm wide all round, no cut tin edge in sight |
 | Size-kit change | Change the kit, timing it; try each wrong ring in each carrier. | Under 2 minutes; no wrong ring seats |
 | Reference height | Handle on its closed stop: die-holder face to table top. Write it on the frame label. | Re-check after any service; within 0.1 mm |
 | Proof load (prototype only) | 20 kN cell on station B, push the grip to 16 kN; dial indicator before and after. | No permanent set; stroke still 38.9 ±0.3 |

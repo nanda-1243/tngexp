@@ -428,7 +428,7 @@ def mp207(X, Z):
 
 
 def mp208(X, Z):
-    """Rev E flat-fold anvil: block to the edge top, floor round the platform, cove R0.7 at the edge (cad/parts2.ANV)"""
+    """Rev E double-fold anvil: block to the edge top, floor round the platform (wall at its edge), cove R0.7 at the edge (cad/parts2.ANV)"""
     o, T, fs = P2.anvil(X, Z)
     a = P2.ANV
     bw, bz, ci = X + a['block'], Z + a['block'], 2 * a['cove']
@@ -476,13 +476,12 @@ def mp227(D):
 
 
 def mp228(D):
+    """round kits keep the Rev D roll channel (a round edge cannot be folded flat)"""
     o, T, fs = P2.anvil_r(D)
-    a = P2.ANV
-    bw = D + a['block']
-    s = cyl(bw, a['top']).cut(cyl(bw - 2 * a['cove'], a['top'] - a['floor'] + E, z0=a['floor']))
-    s = s.cut(cq.Solid.makeTorus(bw / 2 - a['cove'], a['cove'], V(0, 0, a['top']), V(0, 0, 1)))
-    s = s.fuse(cyl(D - a['plat_in'], a['platform'] - a['floor'], z0=a['floor'])).clean()
-    return cut_all(s, feat_tools(T, fs))
+    s = cyl(D + 0.3, 16)
+    plat = cq.Solid.makeLoft([cq.Wire.makeCircle((D - 4.0) / 2, V(0, 0, 16), V(0, 0, 1)), cq.Wire.makeCircle((D - 4.5) / 2, V(0, 0, 17), V(0, 0, 1))], True)
+    s = s.fuse(plat).clean()
+    return cut_all(s.cut(cq.Solid.makeTorus((D - 2.0) / 2, 1.0, V(0, 0, 16), V(0, 0, 1))), feat_tools(T, fs))
 
 
 def mp229(D):

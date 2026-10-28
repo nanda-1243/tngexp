@@ -1,6 +1,6 @@
 # Market check: how square tin photo magnets are folded
 
-Date: 2026-10-27. Question: does the Rev E flat fold match the sharp-cornered tin photo magnets that are sold, and what happens at the corners?
+Date: 2026-10-27. Question: does the Rev E fold match the sharp-cornered tin photo magnets that are sold, and what happens at the corners?
 
 ## What the products show
 
@@ -15,15 +15,15 @@ Date: 2026-10-27. Question: does the Rev E flat fold match the sharp-cornered ti
 
 ## What it changed in Rev E
 
-- **Confirmed as designed:** the flat-fold crimp anvil (cove R0.7, floor 0.4 below the back-plate platform), the photo cut 4.5 mm over the face with its corners clipped at 45°, and the mitred back border.
-- **Tin.** Changed from a drawn 4.5 mm tray to a flat blank X + 8 cut from 0.20 mm soft tinplate, with its corners clipped on the photo's 45° line. It is 1 mm smaller than the photo because the tin folds on a tighter radius.
-- **Stroke 1 now folds the tin.** It folds round the pickup pedestal (top edge R0.8) together with the photo and film. Pickup ring A gets a stepped recess:
-  - 0.6 mm deep at X + 8.2, which centres the tin;
-  - 0.35 mm deep at X + 9.5, which centres the photo and film.
+- **The back edge is a two-layer hem.** After it turns inward under the back, the edge folds back on itself and both layers are pressed flat (the Rev D curl, made flat). That is the "folds twice" on the back of a bought magnet, and it is what the back length and the tin size give: 6 mm of tin past each face edge is the 2.4 mm side wall plus two layers of about 1.5–2 mm under the back. The photo stays outside, so the back shows a 2.8 mm printed border with mitred corners and the cut tin edge is hidden inside the fold.
+- **Crimp anvil:** cove R0.7 flush with ring B's bore turns the edge inward; the back-plate platform's side wall (X − 6.6) turns it back on itself; the floor 0.85 below the platform presses the two layers flat. The magnet is about 2.4 mm thick.
+- **Tin.** Changed from a drawn 4.5 mm tray to a flat blank cut from 0.20 mm soft tinplate, X + 12 (6 mm a side), with its corners clipped on the photo's 45° line. The photo and film are cut the same size, X + 12.
+- **Stroke 1 now folds the tin.** It folds round the pickup pedestal (top edge R0.8) together with the photo and film, into walls about 5.6 mm deep. The pedestal is 23.0 high (was 21.8) so the whole 6 mm flange is drawn into the upper ring. Pickup ring A has a 0.6 mm recess at X + 12.5 that centres the blank, photo and film.
 - **Folding force:** about 0.9–1.3 kN for 0.20 mm soft tin (`calc/results.txt`, section 2). The Rev D upper springs (0.68–1.3 kN) could not hold the upper ring against that.
 - **New upper springs:** 8 × ISO 10243 Ø12.5 × 44 red, giving 1.57 kN preload and 2.54 kN at full travel. They sit in a 20 mm die body, which has a Ø54 counterbore for the holder.
 - **Hand force at the end of stroke 2:** rises by about 50 N, to 210–268 N for the square kits.
-- **Round kits:** keep drawn round cups, because a flat round blank cannot be folded. Their flat-fold border has to shrink about 10 % as it turns in. Test that on the prototype; if the tin wrinkles, use the Rev D roll-channel anvil for the round sizes.
+- **Round kits keep the Rev D rolled edge** and drawn round cups. A flat round blank cannot be folded, and a round edge folded flat would have to shrink about 10 % as it turns in, so it would wrinkle.
+- **To prove on the prototype:** that the edge, pushed round the cove and back along the floor, lies flat in two layers without buckling; the real hem width (adjust the blank between X + 11 and X + 13 to suit).
 
 ## Sources
 

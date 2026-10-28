@@ -1,7 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="99mm" height="74mm" viewBox="0 0 99 74">
-<title>MagPress M4 65 × 90 design guide: cut 99 × 74 mm</title>
-<g id="cut-line"><polygon points="91.7,0 99,7.3 99,66.7 91.7,74 7.3,74 0,66.7 0,7.3 7.3,0" fill="none" stroke="#8a8f96" stroke-width="0.2"/></g>
-<g id="back-border-starts"><rect x="2.8" y="2.8" width="93.4" height="68.4" rx="0" fill="none" stroke="#2f7a44" stroke-width="0.2" stroke-dasharray="1.6 0.5 0.3 0.5"/></g>
-<g id="face-edge"><rect x="4.5" y="4.5" width="90" height="65" rx="1" fill="none" stroke="#1e6edc" stroke-width="0.2" stroke-dasharray="1.2 0.8"/></g>
-<g id="keep-text-inside"><rect x="7.5" y="7.5" width="84" height="59" rx="0" fill="none" stroke="#c0306f" stroke-width="0.2" stroke-dasharray="0.4 0.6"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" width="102mm" height="77mm" viewBox="0 0 102 77">
+<title>MagPress M4 65 × 90 design guide: cut 102 × 77 mm</title>
+<g id="cut-line"><polygon points="91.7,0 102,10.3 102,66.7 91.7,77 10.3,77 0,66.7 0,10.3 10.3,0" fill="none" stroke="#8a8f96" stroke-width="0.2"/></g>
+<g id="back-border-starts"><rect x="4.3" y="4.3" width="93.4" height="68.4" rx="0" fill="none" stroke="#2f7a44" stroke-width="0.2" stroke-dasharray="1.6 0.5 0.3 0.5"/></g>
+<g id="back-border-ends-folds-back"><rect x="1.5" y="1.5" width="99" height="74" rx="0" fill="none" stroke="#8cbe96" stroke-width="0.2" stroke-dasharray="0.6 0.6"/></g>
+<g id="face-edge"><rect x="6" y="6" width="90" height="65" rx="1" fill="none" stroke="#1e6edc" stroke-width="0.2" stroke-dasharray="1.2 0.8"/></g>
+<g id="keep-text-inside"><rect x="9" y="9" width="84" height="59" rx="0" fill="none" stroke="#c0306f" stroke-width="0.2" stroke-dasharray="0.4 0.6"/></g>
 </svg>

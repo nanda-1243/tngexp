@@ -1,8 +1,8 @@
 # MagPress M4 — manual photo fridge-magnet press
 
-Design pack for a hand-lever toggle press that makes square, rectangular and round photo fridge magnets in eight sizes, with sharp corners and the photo carried round onto the back as a printed border, like bought tin photo magnets: 50 × 50, 63.5 × 63.5, 53 × 80 and 65 × 90 mm, and Ø44, Ø50, Ø56 and Ø58 mm. It has one universal die that stays on the press and a six-part size kit for each size.
+Design pack for a hand-lever toggle press that makes square, rectangular and round photo fridge magnets in eight sizes. The square and rectangular ones have sharp corners and the photo folded twice, flat, onto the back, so it shows as a printed border with the cut tin edge hidden, like bought tin photo magnets; the round ones have a rolled edge. Sizes: 50 × 50, 63.5 × 63.5, 53 × 80 and 65 × 90 mm, and Ø44, Ø50, Ø56 and Ø58 mm. It has one universal die that stays on the press and a six-part size kit for each size.
 
-**Status: Rev E, final design (sharp corners, flat-fold back border, flat tin blanks, and the fixes from an independent review of Rev D). Build and test a prototype before production.**
+**Status: Rev E, final design (sharp corners, double-fold back border, flat tin blanks, and the fixes from an independent review of Rev D). Build and test a prototype before production.**
 
 Interactive build pack (3D model, how the magnet is formed, force chart, dimensions, BOM, assembly, tests, failure review): https://claude.ai/artifact/C4NaemzVJD5yDM3Ks2FCBi. The same page is [`web/magpress-m4.html`](web/magpress-m4.html).
 
@@ -51,8 +51,8 @@ python3 docs/assembly/manual.py                                 # assembly manua
 - **Rev C:** universal die and size kits, crimp anvil with roll channel, re-rated springs, final consistency check.
 - **Rev C.1:** seven fit fixes from the 3D interference check, checked at six handle angles with no clashes left. Files kept in [`release/RevC1/`](release/RevC1/).
 - **Rev D:** four round size kits (Ø44, Ø50, Ø56, Ø58) for the same press and universal die; the upper die body gets a second, inner plug pattern. Files kept in [`release/RevD/`](release/RevD/).
-- **Rev E:** sharp-cornered magnets like bought ones: R1 kit corners; the tin starts as a flat blank with clipped corners and stroke 1 folds it with the photo; the crimp folds the edge flat under the back plate, so the photo shows as a 2.8 mm border on the back (mitred corners), where the Magnet Studio can print a date, name or brand. Stronger upper die springs in a 20 mm die body. Fixes from the independent review: detent pin along the die body, shank and pilot spigots, F7 drop-in fits, 120 wide crown, handle stop on a post on the crown, screw lengths, plungers, sleeves, six pads. 0 overlaps in the 3D check.
+- **Rev E:** sharp-cornered magnets like bought ones: R1 kit corners; the tin starts as a flat blank with clipped corners (tin, photo and film all X + 12) and stroke 1 folds it with the photo; the crimp folds the edge twice, flat, under the back plate (a two-layer hem, the cut tin edge hidden), so the photo shows as a 2.8 mm border on the back (mitred corners), where the Magnet Studio can print a date, name or brand. Round kits keep the Rev D rolled edge. Stronger upper die springs in a 20 mm die body. Fixes from the independent review: detent pin along the die body, shank and pilot spigots, F7 drop-in fits, 120 wide crown, handle stop on a post on the crown, screw lengths, plungers, sleeves, six pads. 0 overlaps in the 3D check.
 
 Each revision is a separate commit, so `git log` and `git diff` show what changed. The details are in [`docs/design-notes.md`](docs/design-notes.md#revision-history).
 
-The figures are hand calculations and starting values. Have a mechanical engineer review them, and prove the die fits, the stroke-1 fold of the tin blank, the flat fold and the spring forces on a 7075 aluminium prototype kit before cutting tool steel.
+The figures are hand calculations and starting values. Have a mechanical engineer review them, and prove the die fits, the stroke-1 fold of the tin blank, the double fold and the spring forces on a 7075 aluminium prototype kit before cutting tool steel.

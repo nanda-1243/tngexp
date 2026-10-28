@@ -70,12 +70,12 @@ print('dy/dphi at 8 / 20 / 70 deg          %.2f / %.2f / %.2f mm/rad' % (dyd(8),
 for L, tag in ((L_REV_A, 'Rev A (L 290)'), (L_REV_BC, 'Rev B/C (L 320)')):
     print('%-16s MA open %.1f, MA end %.1f; force at 200 N %.2f kN; at 500 N lean %.1f kN'
           % (tag, MA(PHI_OPEN, L), MA(PHI_END, L), 200 * ETA * MA(PHI_END, L) / 1000, 500 * ETA * MA(PHI_END, L) / 1000))
-print('Pickup stops at travel 35.5 -> handle angle %.1f deg' % (phi_for_travel(35.5) - OFF))
+print('Pickup stops at travel 34.2 (Rev E: pedestal 23.0, the plug meets the face as ring A reaches its stop) -> handle angle %.1f deg' % (phi_for_travel(34.2) - OFF))
 print('Station pilot (tip 84 below the ram, table top at 30, ram bottom at 134 open): enters the table at travel %.1f mm'
       % (134 - 84 - 30))
 print()
 print(' travel mm   handle deg     MA    force kN @200 N')
-for t in (0, 10, 20, 26, 30, 35.5, 38, STROKE):
+for t in (0, 10, 20, 26, 30, 34.2, 38, STROKE):
     ph = phi_for_travel(t) if t > 0 else PHI_OPEN
     print('   %6.2f       %5.1f     %5.1f      %5.2f' % (t, ph - OFF, MA(ph, L_REV_BC), 200 * ETA * MA(ph, L_REV_BC) / 1000))
 
@@ -106,28 +106,34 @@ for cd, Dm in ROUND:
     peak = 2.2 * 7 * perim
     print('%s  edge %.0f mm  crimp %.2f kN  hand force at the stop %.0f N' % (cd, perim, peak / 1000, hand_end(peak)))
 
-# Rev E: the tin is a flat blank (X + 9, corners clipped 45 deg, as sold for square photo magnets). Stroke 1 folds its edges
+# Rev E: the tin is a flat blank (X + 12, corners clipped 45 deg, as sold for square photo magnets). Stroke 1 folds its edges
 # down round the pickup pedestal (top edge R0.8) into the upper ring (0.3 x 30 deg lead-in, about R0.3): a wiping bend. Two
 # plastic hinges, M = sy t^2 / 4 per mm, over an arm of r_punch + r_die + stack (0.8 + 0.3 + 0.4), x 1.3 for friction and the
 # corner gussets.
-# The upper ring must take this plus the ring A springs (0.38 kN at its stop) without the carrier giving more than about
-# 1.3 mm (the plug meets the face at travel 35.3, ring A needs travel 34 + give to reach its stop).
+# The bend force peaks about 1.5 mm after the blank meets the pedestal (ram travel about 30, ring A 4 mm down, its springs
+# about 0.23 kN). The plug is then still 4.1 mm clear of the face (it meets the face at travel 34.1), so the upper carrier may
+# give up to about 2.5 mm there. Once the walls stand, only wall friction and the ring A springs (0.38 kN at its stop) are
+# left, under the preload: the carrier comes back and ring A reaches its stop before the pickup stop at 34.2.
 print()
 print('Stroke 1, flat tin blank: fold force (wiping bend round the pedestal, tin 0.20 soft T2, sy 250 MPa; 0.22 T3, sy 300 MPa)')
 FOLD_ARM = 0.8 + 0.3 + 0.4
 def fold_force(perim, t, sy):
     return 1.3 * 2 * (sy * t * t / 4) / FOLD_ARM * perim
-UP_HOLD = UP_PRE + UP_N * UP_K * 1.3
-print('Upper springs: preload %.2f kN, %.2f kN after 1.3 mm of give (the most stroke 1 allows); ring A springs 0.38 kN at the stop' % (UP_PRE / 1000, UP_HOLD / 1000))
+GIVE_OK, RINGA_PEAK, UP_RATE = 2.5, 75 + (380 - 75) * 4 / 8, UP_N * UP_K
+def give(f):
+    return max(0.0, (f + RINGA_PEAK - UP_PRE) / UP_RATE)
+print('Upper springs: preload %.2f kN, %.0f N/mm. At the fold peak the carrier may give %.1f mm (plug 4.1 mm clear of the face); ring A springs %.2f kN there'
+      % (UP_PRE / 1000, UP_RATE, GIVE_OK, RINGA_PEAK / 1000))
 for cd, X, Z in SIZES:
     perim = 2 * (X + Z) - 8 + 2 * math.pi
     f20, f22 = fold_force(perim, 0.20, 250), fold_force(perim, 0.22, 300)
-    print('%s  fold 0.20: %.2f kN (+0.38 = %.2f, %s)   0.22 T3: %.2f kN (+0.38 = %.2f, %s)'
-          % (cd, f20 / 1000, (f20 + 380) / 1000, 'OK' if f20 + 380 <= UP_HOLD else 'carrier gives too far',
-             f22 / 1000, (f22 + 380) / 1000, 'OK' if f22 + 380 <= UP_HOLD else 'carrier gives too far'))
+    g20, g22 = give(f20), give(f22)
+    print('%s  fold 0.20: %.2f kN (+%.2f = %.2f, carrier gives %.1f mm, %s)   0.22 T3: %.2f kN (+%.2f = %.2f, gives %.1f mm, %s)'
+          % (cd, f20 / 1000, RINGA_PEAK / 1000, (f20 + RINGA_PEAK) / 1000, g20, 'OK' if g20 <= GIVE_OK else 'too far',
+             f22 / 1000, RINGA_PEAK / 1000, (f22 + RINGA_PEAK) / 1000, g22, 'OK' if g22 <= GIVE_OK else 'too far'))
 print('Use 0.20 mm soft tinplate (T2) for the flat blanks. Round kits keep drawn round cups (a flat round blank cannot be folded).')
-print('Hand force in stroke 1 near its end (travel 34, MA %.1f): about %.0f N for 65 x 90 with 0.20 tin.'
-      % (MA(phi_for_travel(34.0), L_REV_BC), (fold_force(2 * 155 - 8 + 2 * math.pi, 0.20, 250) + 380) / (ETA * MA(phi_for_travel(34.0), L_REV_BC))))
+print('Hand force at the fold peak (travel 30, MA %.1f): about %.0f N for 65 x 90 with 0.20 tin.'
+      % (MA(phi_for_travel(30.0), L_REV_BC), (fold_force(2 * 155 - 8 + 2 * math.pi, 0.20, 250) + RINGA_PEAK) / (ETA * MA(phi_for_travel(30.0), L_REV_BC))))
 
 # ----------------------------------------------------------------------------------------------
 # 3. Handle joint

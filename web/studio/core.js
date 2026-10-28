@@ -23,22 +23,23 @@
     {id:'c50', label:'Ø50',         shape:'round', W:50,   H:50},
     {id:'c56', label:'Ø56',         shape:'round', W:56,   H:56},
     {id:'c58', label:'Ø58',         shape:'round', W:58,   H:58}];
-  // Rev E (flat-fold crimp): the paper reaches `bleed` = the shell depth beyond the face edge (4.5 by default) and ends with the
-  // tin. Beyond FOLD (1.7) it lies on the back as a flat border, so text printed there is read on the back of the magnet.
-  // Square and rectangular magnets have sharp corners (R1 at the face); their paper corners are clipped at 45° on the line
-  // |x| + |y| = W/2 + H/2 + FOLD, which gives the mitred corners on the back.
-  const DEPTH = 4.5, FOLD = 1.7, SAFE_IN = 3, R_FACE = 1;
+  // Rev E (double flat fold): the paper reaches `bleed` beyond the face edge (6 by default) and ends with the tin. Beyond FOLD
+  // (1.7) it lies on the back as a flat `border` (2.8), so text printed there is read on the back of the magnet; the last HIDDEN
+  // (1.5) folds back on itself under the back plate, out of sight. Square and rectangular magnets have sharp corners (R1 at
+  // the face); their paper corners are clipped at 45° on the line |x| + |y| = W/2 + H/2 + FOLD: mitred corners on the back.
+  // Round magnets keep the Rev D rolled edge: nothing of the print shows on the back.
+  const DEPTH = 6, FOLD = 1.7, HIDDEN = 1.5, SAFE_IN = 3, R_FACE = 1;
   const POS = ['tl', 'tc', 'tr', 'ml', 'mc', 'mr', 'bl', 'bc', 'br', 'arc-top', 'arc-bottom'];
   const BACK_POS = ['back-bottom', 'back-top', 'back-left', 'back-right', 'back-around'];   // as seen on the back
 
-  // geometry of one magnet; rectangles are portrait unless landscape is set; depth = shell depth (sets the bleed)
+  // geometry of one magnet; rectangles are portrait unless landscape is set; depth = the photo bleed past the face
   function geom(size, landscape, depth){
     let W = size.W, H = size.H;
     if(size.shape === 'rect' && W !== H && !!landscape === (W < H)){ const t = W; W = H; H = t; }
     const round = size.shape === 'round', B = depth || DEPTH;
     return { id: size.id, label: size.label, shape: size.shape, round, W, H,
       r: round ? W / 2 : R_FACE,                       // face corner radius (round: the radius)
-      bleed: B, fold: FOLD, cutW: W + 2 * B, cutH: H + 2 * B, cutR: round ? W / 2 + B : 0,
+      bleed: B, fold: FOLD, border: round ? 0 : Math.max(1, B - FOLD - HIDDEN), cutW: W + 2 * B, cutH: H + 2 * B, cutR: round ? W / 2 + B : 0,
       safeW: W - 2 * SAFE_IN, safeH: H - 2 * SAFE_IN, safeR: round ? W / 2 - SAFE_IN : 0,
       min: Math.min(W, H), max: Math.max(W, H), k: Math.min(W, H) / 63.5 };   // k: size factor, 1 at 63.5
   }
@@ -199,7 +200,7 @@
     'back-left': [[0, 'bottom'], [Math.PI, 'top']], 'back-right': [[Math.PI, 'bottom'], [0, 'top']] };
   function backText(ctx, g, m, color, view){
     const f = BACK_FONT[m.cat] || BACK_FONT.caption, txt = f[2] ? m.text.toUpperCase() : m.text;
-    const d1 = g.fold + 0.3, d2 = g.bleed - 0.25, hb = d2 - d1, dm = (d1 + d2) / 2, t = view ? dm - g.fold : dm;
+    const d1 = g.fold + 0.3, d2 = g.fold + g.border - 0.25, hb = d2 - d1, dm = (d1 + d2) / 2, t = view ? dm - g.fold : dm;
     if(hb <= 0.6 || !txt) return;
     const size0 = Math.min(hb * 0.78, 3) * Math.min(1.3, m.size || 1), sp = f[3];
     const list = m.pos === 'back-around' ? ['back-bottom', 'back-top', 'back-left', 'back-right'] : [m.pos];
@@ -219,13 +220,17 @@
       if('letterSpacing' in ctx) ctx.letterSpacing = (sp * size).toFixed(3) + 'px';
       ctx.fillText(txt, 0, 0); ctx.restore(); });
   }
-  const backMarks = s => (s.marks || []).filter(m => isBack(m.pos) && (m.text || m.cat === 'date'));
+  const backMarks = (s, g) => g && g.round ? [] : (s.marks || []).filter(m => isBack(m.pos) && (m.text || m.cat === 'date'));
   const textColor = (c, band) => c && ratio(c, band) >= 3 ? c : contrast(band);
 
   // the back of the magnet as you see it after pressing: the folded border, the back plate and the magnet sheet
   function renderBack(ctx, g, s){
     const c = Object.assign({ ink: '#1f1f1f', accent: '#c2410c', paper: '#ffffff' }, s.colors || {}), p = { ink: c.ink, accent: c.accent, paper: c.paper };
-    const fw = g.bleed - g.fold, outer = face(g), inner = face(g, fw), back = backMarks(s), solid = back.length || (s.backBorder && s.backBorder !== 'photo');
+    const fw = g.border, outer = face(g), inner = face(g, fw), back = backMarks(s, g), solid = back.length || (s.backBorder && s.backBorder !== 'photo');
+    if(g.round){                                               // Rev D rolled edge: tin curl, back plate and magnet sheet only
+      ctx.save(); ctx.fillStyle = '#c3c9cf'; ctx.fill(outer); ctx.fillStyle = '#3a3e44'; ctx.fill(face(g, 1.3)); ctx.fillStyle = '#4a3b2c'; ctx.fill(face(g, 2.5));
+      ctx.lineWidth = 0.3; ctx.strokeStyle = 'rgba(0,0,0,.5)'; ctx.stroke(outer); ctx.lineWidth = 0.15; ctx.stroke(face(g, 1.3)); ctx.restore(); return;
+    }
     ctx.save(); ctx.clip(outer);
     if(solid){ ctx.fillStyle = BAND(s, p); ctx.fill(outer); }
     else {                                                     // the photo carries on round the edge: remap the print's border
@@ -270,18 +275,19 @@
     if(s.frame && styles[s.frame]) guarded(ctx, s.frame, () => styles[s.frame].draw(ctx, g, p, H));
     (s.marks || []).forEach(m => { const st = styles[m.style]; if(isBack(m.pos) || !st || !(m.text || m.cat === 'brand' && p.logo || m.cat === 'date')) return;
       guarded(ctx, m.style, () => st.draw(ctx, g, p, H, { text: m.text || '', date: m.date || new Date(), pos: m.pos || st.pos || 'bc', color: m.color || p.ink, size: m.size || 1 })); });
-    const back = backMarks(s);
-    if(back.length || (s.backBorder && s.backBorder !== 'photo')){
+    const back = backMarks(s, g);
+    if(back.length || (!g.round && s.backBorder && s.backBorder !== 'photo')){
       const band = BAND(s, p); ctx.fillStyle = band; ctx.fill(backBand(g), 'evenodd');
       back.forEach(m => guarded(ctx, 'back text', () => backText(ctx, g, m, textColor(m.color, band), false)));
     }
     ctx.restore();
-    if(s.guides){ ctx.save(); ctx.lineWidth = 0.25; ctx.strokeStyle = 'rgba(30,140,90,.9)'; ctx.setLineDash([1.6, 0.5, 0.3, 0.5]); ctx.stroke(face(g, -g.fold));
+    if(s.guides){ ctx.save(); ctx.lineWidth = 0.25; ctx.strokeStyle = 'rgba(30,140,90,.9)'; ctx.setLineDash([1.6, 0.5, 0.3, 0.5]); if(!g.round){ ctx.stroke(face(g, -g.fold));
+      ctx.strokeStyle = 'rgba(30,140,90,.45)'; ctx.setLineDash([0.6, 0.6]); ctx.stroke(face(g, -(g.fold + g.border))); }
       ctx.strokeStyle = 'rgba(30,110,220,.9)'; ctx.setLineDash([1.2, 0.8]); ctx.stroke(face(g));
       ctx.strokeStyle = 'rgba(220,40,120,.85)'; ctx.setLineDash([0.4, 0.6]); ctx.stroke(safe(g)); ctx.restore(); }
     if(s.cutLine){ ctx.save(); ctx.lineWidth = 0.2; ctx.strokeStyle = '#555'; ctx.stroke(CUT); ctx.restore(); }
   }
 
-  window.MS = { SIZES, POS, BACK_POS, DEPTH, FOLD, SAFE_IN, geom, register, list, styles, errors, renderCell, renderBack, samplePhoto, loadFonts, FONTS, FONT_CSS,
+  window.MS = { SIZES, POS, BACK_POS, DEPTH, FOLD, HIDDEN, SAFE_IN, geom, register, list, styles, errors, renderCell, renderBack, samplePhoto, loadFonts, FONTS, FONT_CSS,
     h: { face, safe, cut, backBand, shapePath, alongEdge, placeBox, font, fit, arcText, rgba, mix, lum, contrast, rng, star, heart, shadow, FONTS } };
 })();
