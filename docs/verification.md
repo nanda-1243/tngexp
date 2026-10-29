@@ -66,7 +66,43 @@ station (the hand calculation said 0.26 mm); lever 0.5 mm at the grip.
 
 ## 4. Forming
 
-_(results pending)_
+No ready-made open-source tool simulates a thin layered strip folded between moving rigid dies (CalculiX contact
+diverged on this problem; OpenRadioss could not be installed here), so `verify/xform.py` is a purpose-written explicit
+solver: the tin, photo and film as one strip of 15 fibres through the thickness (each with its own elastic-plastic law),
+large rotations, penalty contact against the moving die outlines, self-contact and friction. It matches beam theory to
+0.4 % and the plastic collapse load to 0.5 % (`verify/val1.py`).
+
+What it can and cannot say:
+
+- It is a 2D cut across one side of the magnet (plane strain). That is right for the straight sides of a square
+  magnet, which are 50–90 mm long, but it says nothing about the corners, and nothing about round magnets, whose edge is
+  stiffened by its own ring shape.
+- The three layers are bonded together, while the real photo and film can slip on the tin, so the model is a little
+  stiffer than the real stack.
+- Friction 0.15 stands for a clean, lightly lubricated die and 0.25 for the film on dry steel. Every result was run at
+  both.
+
+### Stroke 1: the flat blank folded into the upper ring
+
+![Stroke 1](verification/stroke1.png)
+
+| Tooling | Force on the upper ring | 65 × 90 kit (worst case, friction 0.25) |
+|---|---|---|
+| **As drawn:** 0.3 × 30° lead-in, blank lying on ring A's recess floor | 14.5–16.8 N per mm of edge, rising to the end: the flange is **drawn** over the ring, not folded | ≈ 4.5–5 kN against 1.57 kN of spring preload: the upper ring gives way and the plug lands on the face half way through the fold. **Fails** |
+| Ring A opening X + 10.5 (the blank rests on a 0.5 ledge after an R0.5 edge), mouth R1.5 | peak 6.5–7.0 N/mm early in the fold, 1.1–1.6 at the end | plug −0.55 mm from the face: **fails** |
+| Same, mouth R2.0 | peak 6.1–6.2 N/mm | plug 0.34 mm clear: too little |
+| **Same, mouth R2.5** | **peak 5.8 N/mm, 1.2 at the end** | **plug ≥ 1.05 mm clear** (6363: 2.7, 5380: 2.3, 5050: the ring does not give) |
+
+With the wider ring A opening, the flange slides off the ledge once the fold starts and is wiped down instead of being
+pulled through. At the end of the fold every kit's force is below the spring preload, so the upper ring is back on its
+seat when the plug sets the face. After release the walls stand 0.2–0.3 mm inside the upper ring's bore, so friction
+does not hold the shell; the four M3 ball plungers must be set 0.4–0.5 mm proud (they are moved to 3.0 mm above the
+ring's bottom face, clear of the R2.5 mouth). A shorter flange (blank X + 10) does not reduce the peak, which comes from
+the bend at the mouth.
+
+### Stroke 2: the edge folded under the back
+
+_(being written)_
 
 ## 5. Manufacturability and materials in India
 
