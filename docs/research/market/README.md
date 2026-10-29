@@ -19,10 +19,25 @@ two flap lengths. A commercial 65 × 90 set (grawerton.pl, set 1116) fits: sheet
 Pressing, as the listings describe it: side A presses the sheet, photo and film together; side B presses them onto the
 acrylic card (with the magnet).
 
+## Figures from the owner (29 Oct 2026, general, not measured on the dissected piece)
+
+- Round 2.5-inch (63.5 mm) magnet: photo and film cut Ø74.2 mm (2.92 in), tinplate shell Ø63 mm (2.48 in): about
+  5.4 mm of photo and film per side beyond the finished face. Round magnets use a pre-formed shell, so this does not
+  carry over to the square fold (the square 65 x 90 set has 9.5 mm of film per side).
+- Typical thicknesses: acrylic card 2.0 mm (snap-in kits) or 3.0 mm (premium, UV face printing); magnet sheet 1.0 mm
+  anisotropic rubber with self-adhesive backing; finished magnet 3.0-4.1 mm. (3 mm acrylic + 1 mm magnet + tin, photo
+  and film is about 4.4 mm, above the 4.1 quoted: the real set must differ somewhere.)
+- The three white dots on the dark square in the product photo are holes for safety pins in that acrylic design: not
+  relevant.
+
+Flap angle from these (65 x 90, flap about 4 mm): about 45 deg from the face with 2 mm acrylic (total about 3.4 mm, side
+slopes in about 2.9 mm, flat back about 59 x 84), about 60 deg with 3 mm acrylic (about 4 mm thick, slopes in about 2 mm,
+flat back about 61 x 86).
+
 ## Still to measure
 
 - Flap angle: width of the sloped side seen from the edge, or the flat back size against the face size.
 - Thickness of the acrylic card, the magnet sheet and the whole magnet.
-- Which of the two dark squares in the product photo is the acrylic card and which the magnet; whether the three white
-  dots are adhesive pads.
-- Which size the dissected piece is.
+- Face size of the dissected piece (50 x 50, 63.5 x 63.5, 53 x 80 or 65 x 90).
+- For the first size, one pre-cut set from the chosen seller: tin size and thickness, film size and corners, acrylic
+  card size and thickness, magnet sheet size and thickness.
