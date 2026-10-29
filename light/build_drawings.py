@@ -100,7 +100,7 @@ def dxf_for(p, extra=()):
         dx.segs(segs, layer)
     x0, x1, y0, y1 = extent(p['outline'])
     dx.text(x0, y0 - 8, 3.5, '%s %s  t=%s  qty %s  (%s)' % (p['id'], p['name'], fmt(p['T']), p['qty'], G.REV))
-    DXFS['%s_%s.dxf' % (p['id'], p['name'].lower().replace(' ', '-').replace('/', '-').replace('(', '').replace(')', ''))] = dx
+    DXFS['%s_%s.dxf' % (p['id'], p['name'].lower().replace(' + ', '-and-').replace(' ', '-').replace('/', '-').replace('(', '').replace(')', ''))] = dx
 
 
 def plate_sheet(p, details=None, section=True, extra_dxf=(), dims=None):
