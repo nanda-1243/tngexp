@@ -8,7 +8,8 @@ underside at the stop (58.205), thickness t_i, edge x_e = x_b - land - h_c just 
 that edge: the wall runs down between insert and bore, turns 90 deg in the cove and runs inward under the insert in an
 h_c channel (one layer of tin, photo and film). Only ~2 mm of wall is unsupported when the curl starts.
 
-python stroke2y.py src job mu t_i land r_i h_c x_rb leadB leadA R_c step
+python stroke2y.py src job mu t_i land r_i h_c x_rb leadB leadA R_c step d
+(d: the floor channel is h_c + d deep; the cove centre sits d below the insert edge's centre, so the bend widens downward)
 (R_c: cove radius, default r_i + h_c, concentric with the insert's bottom edge; step: 0 = chamfered insert top edge, else the
 insert is two laser-cut layers, the top one `step` thick and X - 2.7, clear of the R0.8 inside of the face fold)
 """
@@ -34,6 +35,7 @@ leadB = float(a[9]) if len(a) > 9 else 2.0
 leadA = float(a[10]) if len(a) > 10 else 30.0
 R_c = float(a[11]) if len(a) > 11 and float(a[11]) > 0 else r_i + h_c
 step = float(a[12]) if len(a) > 12 else 0.0
+d = float(a[13]) if len(a) > 13 else 0.0
 tstop, T0 = 38.9, 24.0
 
 S1 = pickle.load(open(src + '.pkl', 'rb'))
@@ -61,7 +63,7 @@ y_it = 97.5 - tstop - T          # insert top = face underside at the stop
 y_ib = y_it - t_i
 x_b = x_rb - 0.01
 x_e = x_b - land - h_c
-y_f = y_ib - h_c
+y_f = y_ib - h_c - d
 x_c, y_rim = x_b - land - R_c, y_f + R_c   # cove centre (rim at the cove's top)
 x_p = x_c - 3.5
 anv = dedup([(x_b, 30.0), (x_b, y_rim), (x_b - land, y_rim)] + arc(x_c, y_rim, R_c, 0.0, -math.pi / 2) + [(x_p, y_f), (x_p, y_ib), (-9.0, y_ib)])
@@ -112,7 +114,7 @@ recT, recX, recF = XF.run_fast(sim, TF + TR + 0.05, ttabs, fixes, dt=dt, rec_eve
 print('%s: dt %.2e, %.0f s wall' % (job, dt, time.time() - t0))
 pickle.dump(dict(recT=recT, recX=recX, recF=recF, tools={t.name: t.pts for t in tools}, ttabs=ttabs, X=sim.X, ep=sim.ep, alpha=sim.alpha,
                  taus=taus, trav=trav, TF=TF, layers=[(L.name, L.t) for L in layers], T=T, mu=mu, t_i=t_i, land=land, r_i=r_i, h_c=h_c,
-                 x_rb=x_rb, leadB=leadB, leadA=leadA, R_c=R_c, step=step, x_e=x_e, y_ib=y_ib, y_it=y_it, y_f=y_f, x_c=x_c, tstop=tstop, T0=T0), open(job + '.pkl', 'wb'))
+                 x_rb=x_rb, leadB=leadB, leadA=leadA, R_c=R_c, step=step, d=d, x_e=x_e, y_ib=y_ib, y_it=y_it, y_f=y_f, x_c=x_c, tstop=tstop, T0=T0), open(job + '.pkl', 'wb'))
 Fp = np.abs(recF[:, 4, 1])
 print('peak plug force %.1f N/mm; final cut edge at (%.3f, %.3f); min y %.3f; max plastic strain %.2f'
       % (Fp.max(), sim.X[-1, 0], sim.X[-1, 1], sim.X[:, 1].min(), sim.alpha.max()))

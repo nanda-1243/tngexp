@@ -36,7 +36,7 @@ ax.plot(pp, allow, 'k--', lw=1.2, label='limit, 65 × 90 kit: plug stays 0.3 cle
 ax.plot(pp, (1574.4 - ra) / per, 'k:', lw=1.0, label='65 × 90: upper carrier starts to give')
 ax.set_xlabel('pedestal travel into the upper ring, mm (ram travel ≈ 28.4 + this)')
 ax.set_ylabel('force on the upper ring, N per mm of edge')
-ax.set_ylim(0, 20); ax.set_xlim(0, 5.6); ax.grid(alpha=0.3); ax.legend(fontsize=8.5, loc='upper right')
+ax.set_ylim(0, 20); ax.set_xlim(0, 5.6); ax.grid(alpha=0.3); ax.legend(fontsize=8.5, loc='center right', bbox_to_anchor=(1.0, 0.47))
 ax.set_title('Stroke 1: folding the flat blank (explicit model, tin 0.20 + photo 0.12 + film 0.075)', fontsize=10)
 R = pickle.load(open('s1_m25_mu25.pkl', 'rb'))
 for n, tt in enumerate([0.08, 0.16, 0.26, 0.40, 0.55]):
