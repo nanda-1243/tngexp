@@ -42,10 +42,11 @@ is always supplied as a plain flat sheet: the press folds it. No scale in this p
 Owner's decisions: build our own press (not a market machine); use the seller's pre-cut material (tin, photo size, film,
 acrylic card, magnet sheet).
 
+The dissected piece is the 2.5 inch size (63.5 x 63.5).
+
 ## Still to measure
 
 - Flap angle: width of the sloped side seen from the edge, or the flat back size against the face size.
 - Thickness of the acrylic card, the magnet sheet and the whole magnet.
-- Face size of the dissected piece (50 x 50, 63.5 x 63.5, 53 x 80 or 65 x 90).
 - For the first size, one pre-cut set from the chosen seller: tin size and thickness, film size and corners, acrylic
   card size and thickness, magnet sheet size and thickness.
