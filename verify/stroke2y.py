@@ -73,8 +73,9 @@ ins = dedup([(-9.0, y_ib), (x_e - r_i, y_ib)] + arc(x_e - r_i, y_ib + r_i, r_i, 
 li = leadB * math.tan(math.radians(leadA))
 ringB = [(7.5, 58.0), (x_rb + li, 58.0), (x_rb, 58.0 - leadB), (x_rb, 40.0)]
 mouth_r = S1.get('mouth_r', 0.0)
-upr = dedup([(0.175, 72.0)] + arc(0.175 + mouth_r, 58.0 + mouth_r, mouth_r, math.pi, 1.5 * math.pi) + [(7.5, 58.0)])
-plug = dedup([(-6.0, 0.0), (-0.85, 0.0)] + arc(-0.85, 1.0, 1.0, -math.pi / 2, 0) + [(0.15, 6.0)])
+x_u, plug_x = S1.get('x_u', 0.175), S1.get('plug_x', 0.15)   # upper ring bore and plug edge, as in stroke 1
+upr = dedup([(x_u, 72.0)] + arc(x_u + mouth_r, 58.0 + mouth_r, mouth_r, math.pi, 1.5 * math.pi) + [(7.5, 58.0)])
+plug = dedup([(-6.0, 0.0), (plug_x - 1.0, 0.0)] + arc(plug_x - 1.0, 1.0, 1.0, -math.pi / 2, 0) + [(plug_x, 6.0)])
 
 TF = 0.8
 sm = lambda u: u * u * (3 - 2 * u)

@@ -12,8 +12,14 @@ CadQuery/OpenCASCADE, NumPy, Numba and Matplotlib. Run from this folder.
 | `xform.py` | Explicit 2D (plane-strain) strip-forming solver: layered tin/paper/film with fibre plasticity, penalty contact with moving rigid tools, self-contact, friction | – |
 | `val1.py` | Validates `xform.py` against beam theory (elastic) and the plastic collapse load with large rotation | printed |
 | `stroke1x.py` | Stroke 1: the flat blank folded round the pickup pedestal into the upper ring, plug press, springback | `<job>.pkl` |
-| `stroke2x.py` | Stroke 2: the shell pushed over the back plate into the anvil cove; the double flat fold | `<job>.pkl` |
-| `xplot.py` | Frames of a forming run | PNG |
+| `stroke2x.py` | Stroke 2 as drawn: the shell pushed over the back plate into the anvil cove; the double flat fold | `<job>.pkl` |
+| `stroke2y.py` | Stroke 2 with a back insert that fills the shell, in the Rev E die layout | `<job>.pkl` |
+| `stroke2c.py` | Reference: a commercial-style crimp (pre-formed shell, tight rings, back insert) | `<job>.pkl` |
+| `s1check.py` | Upper-carrier give and plug clearance along the stroke-1 force curve, per square kit | printed |
+| `tsize.py` | Insert thickness for a target hem length from a stroke-1 shell | printed |
+| `xplot.py`, `fplot1.py`, `fplot2.py` | Frames of a forming run; the report figures | PNG |
+| `fea_plot.py` | Stress maps of the frame runs | PNG |
+| `findings-log.md` | Running log of every finding, in order | – |
 
 ```sh
 python fitcheck.py && python sweep.py                  # needs CadQuery (models/build_models.py)
@@ -21,5 +27,8 @@ python fea_crown.py && python fea_base.py && python fea_lever.py
 python val1.py
 python stroke1x.py x1 0.15 0.8 5.6 6.0                 # job, friction, pedestal edge radius, travel, blank edge (X/2 + 6)
 python stroke2x.py x1 x2 0.15 0.10                     # from x1, job, friction, anvil rim land
+python stroke1x.py s1_m25 0.15 0.8 5.6 6.0 2.5 0.10 5.25    # ... mouth radius, plug press, ring A opening (verified fix)
+python s1check.py s1_m25                                # plug clearance per kit
+python stroke2c.py c_ref 0.25 4.0 4.74                   # reference crimp: job, friction, insert, skirt
 python xplot.py x2 x2.png 0.1 0.25 0.4 0.6 --lim -4.5 1.5 55.5 60
 ```

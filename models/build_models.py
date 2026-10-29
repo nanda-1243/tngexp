@@ -407,21 +407,11 @@ def mp203(X, Z):
     return plate(o, T, fs)
 
 
-def mouth(cx, cz, r, m):
-    """cutter for a radius m on the bottom inner edge of an opening cx x cz (corner radius r): a frame m x m round the edge
-    less the quarter torus left by a circle swept along the opening offset by m."""
-    w, h, rp = cx + 2 * m, cz + 2 * m, r + m
-    path = wire(DR.rrect(0, 0, w, h, rp), m)
-    start = V(-w / 2 + rp, -h / 2, m)
-    tor = cq.Solid.sweep(cq.Wire.makeCircle(m, start, V(1, 0, 0)), [], path, transitionMode='round')
-    return rr(w, h, rp, m - E, z0=-E).cut(tor)
-
-
 def mp204(X, Z):
     o, T, fs = P2.ring(X, Z, 'U')
-    extra = [mouth(X + 0.35, Z + 0.35, P2.FACE_R + 0.2, P2.UR_MOUTH)]                # verification fix: R1.5 mouth
+    extra = []
     for x in (-X / 4, X / 4):
-        extra.append(cyl(3, 81 + 2, x, -40.5 - 1, P2.UR_N, axis=(0, 1, 0)))        # N: M3 radial, both long faces
+        extra.append(cyl(3, 81 + 2, x, -40.5 - 1, 1.8, axis=(0, 1, 0)))           # N: M3 radial, both long faces
     for sx in (-1, 1):
         extra.append(cyl(3.6, 3.5 + E, sx * (53 + E), 0, 7, axis=(-sx, 0, 0)))    # M: dog-point holes
     return plate(o, T, fs, extra)
@@ -740,8 +730,8 @@ def build():
 
     # ---------------- bought parts: size kit ----------------
     part('BUY-45', 'Ball plunger M3 (upper ring)', 'buy', 'Size kit', plunger(), 'stain',
-         [Tr(*(TO_BACK if sy > 0 else TO_FRONT), at=(x, sy * (31.925 + 0.75 - 0.45), 92 + P2.UR_N)) for x in (-63.5 / 4, 63.5 / 4) for sy in (-1, 1)],
-         spec='4 per kit; set the ball 0.4-0.5 proud of the opening, 2.5 above the ring bottom')
+         [Tr(*(TO_BACK if sy > 0 else TO_FRONT), at=(x, sy * (31.925 + 0.75 - 0.25), 93.8)) for x in (-63.5 / 4, 63.5 / 4) for sy in (-1, 1)],
+         spec='4 per kit; ball protrudes 0.2-0.3 into the opening, 1.8 above the ring bottom')
     part('BUY-46', 'Dowel pin Ø5 × 14 (plug)', 'buy', 'Size kit', dowel(5, 14), 'steel', [at(x, -z, 104) for (x, z) in P2.PLUG_DOWEL])
     part('BUY-47', 'Dowel pin Ø12 × 15 (pedestal and anvil spigot)', 'buy', 'Size kit', dowel(12, 15), 'steel', [at(STA, 0, 33), at(STB, 0, 33)])
     part('BUY-48', 'Pin Ø4 × 10 (pedestal and anvil anti-rotation)', 'buy', 'Size kit', dowel(4, 10), 'steel', [at(STA, -20, 36), at(STB, -20, 36)])

@@ -3,10 +3,12 @@
 What was checked, with which open-source tools, and what came out. The scripts are in [`verify/`](../verify/README.md).
 
 **Can anyone guarantee zero changes after building? No.** The frame, drive and fits can be proven on paper, and they
-are below. The forming of 0.20 mm tin with paper and film is a different matter: springback, friction, paper thickness
-and the corners always need a little setting on the first parts, in every press tool made. What the checks below do is
-find the problems that would otherwise need re-machining, and make sure what is left can be set with adjustments and
-consumables (shim pack, handle stop, blank size) rather than new steel.
+are below: they pass. Forming 0.20 mm tin with paper and film always needs some setting on the first parts. This
+verification set out to find anything that would mean re-machining hardened steel, and it found one: **the square size
+kits do not form as drawn**. Stroke 1 needed a fix, which is found and checked. Stroke 2, the double flat fold on the
+back, fails in simulation, and no change within the Rev E die layout fixes it. A commercial-style crimp passes in the
+same model, which shows what the square kits must change to (section 4). Do not make the square kits until that rework
+has been done and verified (section 5).
 
 ## Summary
 
@@ -19,10 +21,10 @@ consumables (shim pack, handle stop, blank size) rather than new steel.
 | Handle lever, 500 N lean at the stop | CalculiX | **Pass** — 127 MPa in the lug, SF ≈ 2.7 |
 | Lateral alignment, upper die to lower dies | Tolerance stack | **Pass** — worst case ±0.14 mm against 0.28 mm of room |
 | Forming solver | Validation | Elastic bending within 0.4 % of beam theory, plastic collapse within 0.5 % |
-| Stroke 1: flat blank folded into the upper ring | Explicit forming model | _see section 4_ |
-| Stroke 2: the double flat fold | Explicit forming model | _see section 4_ |
+| Stroke 1: flat blank folded into the upper ring | Explicit forming model (own solver, validated) | **Fails as drawn**: the flange is drawn at 15–17 N/mm, more than the springs hold. **Fix found:** ring A opening X + 10.5, upper-ring mouth R2.5 (5.8 N/mm; 65 × 90 plug ≥ 1.05 mm clear) |
+| Stroke 2: the double flat fold (square kits) | Explicit forming model | **Fails**: the wall buckles. Every variant in the Rev E layout fails; a commercial-style crimp passes in the same model. **Square kits on hold** (section 5) |
 | Corners | Geometry | Clip line leaves the edge covered to the corner and a 1.5 mm² gusset; mitre on the back as intended |
-| Manufacturability, Indian materials | Review | Two fixes (anvil rim, orientation pin), process notes |
+| Manufacturability, Indian materials | Review | Orientation pin fixed in the sources; anvil-rim land noted for the reworked anvil; material equivalents and process notes |
 
 ## 1. Fit: interference through the stroke
 
@@ -100,11 +102,78 @@ does not hold the shell; the four M3 ball plungers must be set 0.4–0.5 mm prou
 ring's bottom face, clear of the R2.5 mouth). A shorter flange (blank X + 10) does not reduce the peak, which comes from
 the bend at the mouth.
 
-### Stroke 2: the edge folded under the back
+### Stroke 2: the edge folded under the back (square kits)
 
-_(being written)_
+![Stroke 2](verification/stroke2.png)
 
-## 5. Manufacturability and materials in India
+**A. As drawn, the double flat fold does not form.** When the end of the 5.6 mm wall meets the anvil's cove, the cove
+pushes it inward. On a round shell the ring of metal resists that. On a straight side nothing does: the back plate's
+edge is 0.5 mm inside the wall. So the whole lower wall moves inward, the end lands flat on the floor and the curl never
+starts. The plug then compresses a wall that is free for 4.5 mm above the 1.2 mm back plate, and it buckles into an S.
+The result is the same with and without the 0.1 mm rim land, at friction 0.15 and 0.25, and from either stroke-1 shape.
+Ring B's lead-in also had to stay above the rim: a 2.0 mm lead-in lets the end slip outward past the rim.
+
+**B. A back insert that fills the shell is necessary, but in the Rev E die layout it is not enough.** With a 3.5–4.7 mm
+insert just inside the wall, the cove does curl the edge under the insert. But stroke 1 leaves the walls flared out
+below the upper ring, so ring B needs a wide entry cone to catch them. Stroke 1 also needs the large R1.5–R2.5 mouth on
+the upper ring. Together they leave a pocket with no outside support exactly where the wall has to carry the folding
+force, and the wall bulges into it. Tried and failed:
+- insert 3.5, 4.0 and 4.7–5.3 mm thick;
+- cove R0.7–1.05;
+- tight and wider channels;
+- anvil land 0.05 and 0.10;
+- friction 0.15 and 0.25.
+
+**C. Reference: a commercial-style crimp forms cleanly in the same model.** The shell is pre-formed with a 4.7 mm skirt.
+Both the upper ring and ring B are 0.03 mm off the wall, with only 0.3 mm lead-ins, and a 3.5–4.0 mm insert fills the
+shell. The edge turns in the cove and runs 1.4–2.2 mm inward under the insert, and the face seats on the insert, with no
+buckling. This held at friction 0.15 and 0.25 and with a 0.1 mm land, at a plug force of 34–41 N/mm (about 10–12 kN for
+65 × 90, inside the press's rating). This is the check that the model is not simply pessimistic: it forms the kind of
+crimp that commercial machines use, and fails the Rev E one.
+
+**What a working square crimp needs:**
+- the wall held from the outside right up to the face, so no large mouth radius or entry cone at the joint between the
+  upper ring and ring B;
+- a short skirt;
+- a back that fills the shell.
+
+Commercial 65 × 90 kits match this. They use a flat sheet 73 × 98 (4 mm over the face, not 6), pressed with the photo
+and film on one side of the machine, then pressed over a thick card back with a magnet sheet on the other. In the Rev E
+layout the upper ring needs its large mouth for stroke 1, which is what opens the pocket. A shorter flange (X + 8 or
+X + 10) does not lower the stroke-1 peak, and with X + 8 the 65 × 90 kit's upper ring gives too far (plug −0.7 to
+−1.2 mm). Getting there therefore means reworking the square kits and probably the universal die's upper springs. That
+needs a decision first (section 5).
+
+**Round kits** use the standard button-machine process (a drawn round cup rolled over the back). The 2D model cannot
+simulate them, because a round edge is held by its own ring stiffness, which is exactly what the straight sides lack.
+They carry the ordinary risk of any new button die: the roll channel may need polishing or a small adjustment on the
+first parts.
+
+## 5. What this means for building
+
+| Part of the press | Status | Advice |
+|---|---|---|
+| Frame, drive, handle, table (MP-101 to MP-121) | Verified: fit, strength, fasteners, motion | Unaffected by the forming findings, but wait for the decision below before ordering, in case the die heights change |
+| Universal die (die body, carriers, springs) | Fit and strength verified | Hold: a working square crimp probably needs stronger upper springs |
+| Round size kits (Rev D) | Standard button process, not simulated | Lowest risk of the kits |
+| Square size kits (Rev E) | **Stroke 1 fails as drawn (fix found); stroke 2 fails, and no fix yet within this layout** | **Do not make** |
+
+The options for square magnets:
+1. **Rework the square kits to the commercial recipe.** Short flange, thick card-and-magnet back, single fold, tight
+   rings, stronger upper springs. Then re-run this verification before any steel is cut. This is design work only: no
+   cost to you until the build.
+2. **Build round kits first,** and decide on square later.
+3. **Buy a ready-made square press** for the square sizes (₹10,000–46,000, see the sourcing guide), and use the MagPress
+   for round magnets.
+
+Whichever is chosen, a ₹300–500 pack of commercial square-magnet consumables (sheet, film, card back, magnet), measured
+with calipers, settles the exact sizes before anything is machined.
+
+The forming scripts: `verify/stroke1x.py` (stroke 1), `stroke2x.py` (Rev E double fold), `stroke2y.py` (back insert),
+`stroke2c.py` (reference crimp), `s1check.py` (upper-carrier give and plug clearance per kit), `fplot1.py`,
+`fplot2.py` (figures). The run log is [`verify/findings-log.md`](../verify/findings-log.md).
+
+## 6. Manufacturability and materials in India
 
 - **Fix: the crimp anvil's rim.** The cove R0.7 is tangent to the anvil side at the rim, which leaves a knife edge of
   zero thickness. In hardened tool steel it would chip on the first parts. A 0.10 mm flat land at the rim (cove moved

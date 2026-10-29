@@ -23,6 +23,8 @@ blank_edge = float(sys.argv[5]) if len(sys.argv) > 5 else 6.0
 mouth_r = float(sys.argv[6]) if len(sys.argv) > 6 else 0.0     # upper-ring mouth radius (0 = the drawn 0.3 x 30 deg lead-in)
 plug_press = float(sys.argv[7]) if len(sys.argv) > 7 else 0.10  # plug travel at the end (0.105 = touching the film)
 ra_open = float(sys.argv[8]) if len(sys.argv) > 8 else 0.3     # ring A opening half-width beyond the face edge (drawn: X + 0.6 -> 0.3)
+x_u = float(sys.argv[9]) if len(sys.argv) > 9 else 0.175      # upper ring bore (X + 0.35 -> 0.175; tight X - 0.08 -> -0.04)
+plug_x = float(sys.argv[10]) if len(sys.argv) > 10 else 0.15  # plug edge
 
 layers = [XF.TIN(10), XF.PAPER(3), XF.FILM(2)]
 T = sum(L.t for L in layers)
@@ -50,11 +52,12 @@ cx, cy = -0.5 - ped_r, y0 - ped_r
 ped = dedup([(-0.5, y0 - 9)] + arc(cx, cy, ped_r, 0, math.pi / 2) + [(-5.0, y0)])
 li = 0.3 * math.tan(math.radians(30))
 if mouth_r > 0:
-    upr = dedup([(0.175, 9.0)] + arc(0.175 + mouth_r, mouth_r, mouth_r, math.pi, 1.5 * math.pi) + [(7.5, 0.0)])
+    upr = dedup([(x_u, 9.0)] + arc(x_u + mouth_r, mouth_r, mouth_r, math.pi, 1.5 * math.pi) + [(7.5, 0.0)])
 else:
-    upr = [(0.175, 9.0), (0.175, 0.3), (0.175 + li, 0.0), (7.5, 0.0)]
-ra = dedup([(6.25, 0.0), (6.25, -0.6), (ra_open + 0.5, -0.6)] + arc(ra_open + 0.5, -1.1, 0.5, math.pi / 2, math.pi) + [(ra_open, -9.0)])
-plug = dedup([(-5.0, 5.5), (-0.85, 5.5)] + arc(-0.85, 6.5, 1.0, -math.pi / 2, 0) + [(0.15, 10.0)])
+    upr = [(x_u, 9.0), (x_u, 0.3), (x_u + li, 0.0), (7.5, 0.0)]
+rec = blank_edge + 0.25               # ring A recess wall: blank + 0.5 overall
+ra = dedup([(rec, 0.0), (rec, -0.6), (ra_open + 0.5, -0.6)] + arc(ra_open + 0.5, -1.1, 0.5, math.pi / 2, math.pi) + [(ra_open, -9.0)])
+plug = dedup([(-5.0, 5.5), (plug_x - 1.0, 5.5)] + arc(plug_x - 1.0, 6.5, 1.0, -math.pi / 2, 0) + [(plug_x, 10.0)])
 
 T1, T2, T3 = 0.40, 0.05, 0.10          # fold, plug press, release
 s = lambda u: u * u * (3 - 2 * u)
@@ -72,7 +75,7 @@ t0 = time.time()
 recT, recX, recF = XF.run_fast(sim, T1 + T2 + T3 + 0.05, ttabs, fixes, dt=dt, rec_every=max(1, int(0.002 / dt)))
 print('%s: %d nodes, dt %.2e s, %d steps, %.0f s wall' % (job, len(xs), dt, int((T1 + T2 + T3 + 0.05) / dt), time.time() - t0))
 pickle.dump(dict(recT=recT, recX=recX, recF=recF, tools=tools and {t.name: t.pts for t in tools}, ttabs=ttabs, X=sim.X, V=sim.V,
-                 ep=sim.ep, alpha=sim.alpha, layers=[(L.name, L.t) for L in layers], T=T, mu=mu, ped_r=ped_r, travel=travel, mouth_r=mouth_r, ra_open=ra_open, blank_edge=blank_edge,
+                 ep=sim.ep, alpha=sim.alpha, layers=[(L.name, L.t) for L in layers], T=T, mu=mu, ped_r=ped_r, travel=travel, mouth_r=mouth_r, ra_open=ra_open, x_u=x_u, plug_x=plug_x, blank_edge=blank_edge,
                  L0=sim.L0, eprev=sim.eprev, kprev=sim.kprev, times=(T1, T2, T3)), open(job + '.pkl', 'wb'))
 # summary: peak pedestal force (N per mm of edge), wall depth, final shape
 Fp = -recF[:, 0, 1]

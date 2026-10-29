@@ -5,13 +5,21 @@ cards. Prices are what sellers advertise, mostly before GST (18 %) and transport
 two or three written quotes against the drawings before ordering. Andhra Pradesh and Delhi NCR come first in every row;
 the "best option" column names the place that is best on price, capability or delivery wherever it is.
 
+> **Status after verification (29 Oct 2026, [verification.md](verification.md)):** the frame, drive and fits pass. The
+> **square size kits do not form as drawn** (the double fold on the back fails in simulation) and are on hold until they
+> are reworked to the commercial recipe: a short flange and a thick card-and-magnet back. Do not order kit steel or
+> machining for square sizes yet. The prices below stay valid for the frame, the universal die and the round kits; the
+> square-kit rework will change the consumables (a thick back instead of the 1.2 mm plate) and may change the upper die
+> springs.
+
 ## 1. Read this first: buying versus building
 
 | Option | Approximate cost | Notes |
 |---|---|---|
 | Ready-made Indian square magnet press, one size | ₹10,000 (50 × 50, plastic body, cutter and 100 material sets) to ₹30,000 (50 × 50, metal body); ₹46,000 for 80 × 53 with cutter | [Copier Bazar](https://copierbazar.com/fridge-magnet-machines/) (+91 88899 15080); IndiaMART listings at ₹16,500 and ₹25,000 for 50 × 50 ([1](https://www.indiamart.com/proddetail/fridge-magnet-making-machine-50x-50-mm-sqaure-2855464652830.html), [2](https://www.indiamart.com/proddetail/50mm-square-fridge-magnet-badge-machine-kit-2857606458055.html)). Material sets ₹25–27 per magnet. |
 | MagPress M4, press with one size kit | **₹0.85 – 1.45 lakh** (up to ≈ ₹1.7 lakh at tool-room rates) | Section 4. One frame takes all eight size kits; each extra kit ₹20,000–40,000. |
-| A forming trial before the full build (recommended) | ₹15,000 – 25,000 | One size's six forming parts in 7075 aluminium or soft (unhardened) D2, pressed in a 1–2 t bench arbor press. Proves the fold and the double fold on real tin, paper and film before ₹1 lakh is spent. See section 5. |
+| A forming trial before the full build (recommended) | ₹15,000 – 25,000 | One size's six forming parts in 7075 aluminium or soft (unhardened) D2, pressed in a 1–2 t bench arbor press. Proves the fold and the back fold on real tin, paper and film before ₹1 lakh is spent. After the square-kit rework this is the one test the simulation cannot replace. |
+| Commercial consumables to measure | ₹300 – 500 | One pack of square-magnet sets (sheet, film, card back, magnet) in 50 × 50 or 65 × 90, measured with calipers, fixes the reworked kit's sizes. |
 
 For one or two sizes, a bought press is cheaper. The MagPress pays off only if you want several sizes on one frame, the
 heavier build, or the printed back border it is designed around.
@@ -70,7 +78,7 @@ Typical rates to check quotes against:
 | Tin blank | 0.20 mm soft (T2) electrolytic tinplate, X + 12 with clipped corners | Optimum Steels, New Delhi, ETP sheet ₹72 per kg ([listing](https://m.indiamart.com/optimum-steels)); Diamond Tin & Metal, Kolkata, 0.20 mm ₹97 per kg ([listing](https://m.indiamart.com/diamond-tin-metal)). Cut with a hand guillotine to the print template, or have a local press shop make a ₹5,000–15,000 blanking die per size | ≈ ₹1 |
 | Photo | 90–120 g/m² inkjet matte paper, printed from the Magnet Studio | Any stationer | ≈ ₹1 |
 | Film | 0.075 mm PET (Mylar) | Polyester film rolls ₹100–180 per kg ([listings](https://m.indiamart.com/impcat/polyester-film.html)); Sudershan Paper Mart, Delhi | < ₹1 |
-| Back plate | ABS or acrylic 1.2 mm, X − 1.4, laser cut | Laser cutters | ₹2–5 |
+| Back | Rev E: ABS or acrylic 1.2 mm, X − 1.4, laser cut (₹2–5). After the square-kit rework: a thick back that fills the shell, as in commercial sets (card about 2–4 mm + magnet sheet), or a laser-cut 3.5–4 mm MDF/acrylic insert | Laser cutters; card and board from paper merchants (Chawri Bazar, Delhi, is the main paper market) | ₹2–6 |
 | Magnet sheet | Self-adhesive flexible magnet 0.5 mm, A4 | IndiaMART sellers, ₹15–64 per A4 sheet (self-adhesive ₹64 in Greater Noida) ([listings](https://m.indiamart.com/impcat/magnetic-sheets.html)) | ₹4–7 |
 | **Total** | | | **≈ ₹10–15**, against ₹25–27 for bought material sets |
 
