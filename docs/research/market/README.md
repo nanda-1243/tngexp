@@ -36,16 +36,16 @@ flat back about 61 x 86).
 
 ## Material set photo (29 Oct 2026)
 
-`set-tin-and-film.jpg`: the tin in a bought set appears to come already formed, as a shallow tray with sloping sides
-(as in the product photo), with octagonal films (corners clipped at 45 deg). To confirm with the owner: whether the tin
-is supplied pre-formed. If so, the press only wraps the photo and film over a ready shell and then folds its sloping
-sides further in over the acrylic card. No scale in this photo, so no sizes taken from it.
+`set-tin-and-film.jpg`: tins after pressing, with octagonal films (corners clipped at 45 deg). The owner confirms the tin
+is always supplied as a plain flat sheet: the press folds it. No scale in this photo, so no sizes taken from it.
+
+Owner's decisions: build our own press (not a market machine); use the seller's pre-cut material (tin, photo size, film,
+acrylic card, magnet sheet).
 
 ## Still to measure
 
 - Flap angle: width of the sloped side seen from the edge, or the flat back size against the face size.
 - Thickness of the acrylic card, the magnet sheet and the whole magnet.
-- Whether the tin comes pre-formed; its wall depth and slope (side photo on the grid mat).
 - Face size of the dissected piece (50 x 50, 63.5 x 63.5, 53 x 80 or 65 x 90).
 - For the first size, one pre-cut set from the chosen seller: tin size and thickness, film size and corners, acrylic
   card size and thickness, magnet sheet size and thickness.
