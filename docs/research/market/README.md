@@ -34,10 +34,18 @@ Flap angle from these (65 x 90, flap about 4 mm): about 45 deg from the face wit
 slopes in about 2.9 mm, flat back about 59 x 84), about 60 deg with 3 mm acrylic (about 4 mm thick, slopes in about 2 mm,
 flat back about 61 x 86).
 
+## Material set photo (29 Oct 2026)
+
+`set-tin-and-film.jpg`: the tin in a bought set appears to come already formed, as a shallow tray with sloping sides
+(as in the product photo), with octagonal films (corners clipped at 45 deg). To confirm with the owner: whether the tin
+is supplied pre-formed. If so, the press only wraps the photo and film over a ready shell and then folds its sloping
+sides further in over the acrylic card. No scale in this photo, so no sizes taken from it.
+
 ## Still to measure
 
 - Flap angle: width of the sloped side seen from the edge, or the flat back size against the face size.
 - Thickness of the acrylic card, the magnet sheet and the whole magnet.
+- Whether the tin comes pre-formed; its wall depth and slope (side photo on the grid mat).
 - Face size of the dissected piece (50 x 50, 63.5 x 63.5, 53 x 80 or 65 x 90).
 - For the first size, one pre-cut set from the chosen seller: tin size and thickness, film size and corners, acrylic
   card size and thickness, magnet sheet size and thickness.
