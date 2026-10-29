@@ -1,0 +1,49 @@
+item,name,qty,make / buy,material or spec,finish,mass kg each,dxf
+L-101,BASE PLATE,1,make,S275 (IS 2062 E250/E350) steel plate 12,"Black powder coat; slide area X +-170 x Y +-50 left bare, ground or surface-finished Ra 1.6, oiled",7.393,yes
+L-102,TABLE RAIL,2,make,Bright mild steel flat 12 x 9 (EN8 / C45 bright bar),Black oxide or zinc; inner face oiled,0.296,yes
+L-103,SLIDING TABLE,1,make,6061-T6 aluminium plate 10,Hard anodise (or clear anodise),0.836,yes
+L-104,COLUMN,2,make,CK45 / C45 induction-hardened hard-chrome bar D20 h6,Hard chrome (as bought); threads turned after cutting,0.517,no (turned)
+L-105,HEAD,1,make,S275 (IS 2062 E250/E350) steel plate 30,"Black powder coat, holes masked",3.635,yes
+L-106,RAM,1,make,S275 (IS 2062 E250/E350) steel plate 25,Black oxide; bores masked,1.991,yes
+L-107,PIVOT CHEEK,2,make,"S275 (IS 2062 E250/E350) steel plate 20, faced to 18 (or C45)",Black oxide,0.183,yes
+L-108,RAM CLEVIS,1,make,C45 / EN8 block 35 x 35 x 45,Black oxide,0.147,yes
+L-109,LEVER PLATE,2,make,S275 (IS 2062 E250/E350) steel plate 8,Black powder coat; grip end bare,0.900,yes
+L-110,TOGGLE LINK,1,make,"S355 (IS 2062 E350) plate 16, faced to 15",Black oxide,0.206,yes
+L-111,PIN O (STUB),2,make,EN8 / C45 bright bar (or EN19 for longer life),Ground D16 m6; chamfer 1 x 45 both ends,0.044,no (turned)
+L-112,PIN A / PIN B,2,make,EN8 / C45 bright bar (or EN19),Ground D16 m6; chamfer 1 x 45 both ends,0.051,no (turned)
+L-113,LEVER SPACER TUBE,2,make,EN8 / mild steel round bar D22,Zinc or black oxide,0.041,no (turned)
+L-114,GRIP SPACER,1,make,S275 (IS 2062 E250/E350) steel plate 16,Black powder coat,0.398,yes
+L-201,STATION A BASE BLOCK,1,make,"6061-T6 aluminium plate 16, faced to 21",Clear anodise,0.637,yes
+L-202,PEDESTAL,1,make,D2 / 1.2379 tool steel (prototype: 1.2312 P20 prehardened 30 HRC),Harden and temper 58-60 HRC (D2); prototype in P20: no heat treatment; top face and edge polished Ra 0.2,0.444,yes
+L-203,RING A (BLANK HOLDER),1,make,D2 / 1.2379 tool steel (prototype: 1.2312 P20 prehardened 30 HRC),Harden and temper 58-60 HRC (D2); prototype in P20: no heat treatment; opening edge polished,0.428,yes
+L-204,STATION B RISER,1,make,"6061-T6 aluminium plate 25, faced to 31.675",Hard anodise (the magnet sits on the top face),1.027,yes
+L-205,CUP RING (TAPER + NOSE),1,make,D2 / 1.2379 tool steel (prototype: 1.2312 P20 prehardened 30 HRC),Harden and temper 58-60 HRC (D2); prototype in P20: no heat treatment; taper and nose polished Ra 0.2,0.274,yes
+L-206,UPPER DIE BODY,1,make,"6061-T6 aluminium plate 40, faced to 54",Clear anodise,1.464,yes
+L-207,UPPER RING,1,make,D2 / 1.2379 tool steel (prototype: 1.2312 P20 prehardened 30 HRC),Harden and temper 58-60 HRC (D2); prototype in P20: no heat treatment; bore and mouth polished Ra 0.2,0.760,yes
+L-208,PLUG,1,make,D2 / 1.2379 tool steel (prototype: 1.2312 P20 prehardened 30 HRC),Harden and temper 58-60 HRC (D2); prototype in P20: no heat treatment; face lapped Ra 0.1 (it presses the film side),0.459,yes
+L-209,PLUG SHIM,"2 x 0.1, 1 x 0.2",make,Stainless shim stock 0.1 / 0.2 (AISI 301 / 304),Deburr; flat,0.006,yes
+B-01,"Bronze plain bush D20 x D28 x 25 (or sintered bronze, oil-impregnated)",2,buy,,,,Ram on the columns
+B-02,Hex nut M12 + washer M12,2 + 2,buy,,,,Columns over the head
+B-03,Shaft collar DIN 705 A 20 (D32 x 14) with set screw,4,buy,,,,"2 return-spring seats at Z 57.1, 2 up-stops at Z 166.6"
+B-04,"Compression spring ID 21, wire 3.6, L0 80, 8 active coils, about 14 N/mm",2,buy,,,,"Ram return, on the columns"
+B-06,Cap screw ISO 4762 M8 x 35 / M8 x 25,4 + 2,buy,,,,Head to cheeks; ram to clevis
+B-07,Cap screw ISO 4762 M8 x 30,4,buy,,,,Ram to die body
+B-08,Hex bolt M8 x 45 + hex nut M8,2,buy,,,,"Handle stops in the head (one under each lever plate), jam nuts underneath"
+B-08a,Hex bolt M8 x 35 + nyloc nut M8,4,buy,,,,Lever plates through the spacer tubes and the grip spacer
+B-09,Dowel pin ISO 8734 D6 m6 x 16,15,buy,,,,"Head/cheeks 4, ram/clevis 2, ram/die body 2, die body/plug 2, table/stations 4, +1 spare"
+B-10,Dowel pin ISO 8734 D5 m6 x 12 / x 10,2 + 2,buy,,,,Pedestal; cup ring
+B-11,Dowel pin ISO 8734 D10 m6 x 16,1,buy,,,,Table stop pin in the base
+B-12,"Ball plunger M10 (spring, ball D6, end force 30-60 N)",1,buy,,,,Table detent
+B-13,Knob DIN 319 D32 M8,2,buy,,,,Table
+B-14,Cap screw ISO 4762 M4 x 10,8,buy,,,,Rails
+B-15,Cap screw ISO 4762 M6 x 12,8,buy,,,,Stations to table
+B-16,Cap screw ISO 4762 M5 x 16,4,buy,,,,Pedestal
+B-17,"Shoulder screw ISO 7379 D6 x 16, M5 (thread cut to 7.5)",4,buy,,,,Ring A
+B-18,Die spring ISO 10243 green D10 x 38,4,buy,,,,Ring A
+B-19,Countersunk screw ISO 10642 M5 x 12,4,buy,,,,Cup ring
+B-20,"Shoulder screw ISO 7379 D10 x 40, M8",4,buy,,,,Upper ring
+B-21,Die spring ISO 10243 red D20 x 76,4,buy,,,,Upper ring
+B-22,Cap screw ISO 4762 M6 x 55,4,buy,,,,Plug through the die body and shims
+B-23,Ball plunger M4 x 12 + set screw M4 x 6,4 + 4,buy,,,,Upper ring: hold the shell between strokes
+B-24,Handle grip: rubber sleeve over the 32 x 30 grip end (or cloth tape),1,buy,,,,Lever
+B-25,Rubber feet / bench bolts M8,4,buy,,,,Base

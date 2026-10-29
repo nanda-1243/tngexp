@@ -116,6 +116,7 @@ text{font-family:%s;fill:#000}
 
 class Sheet:
     W, H = 420.0, 297.0
+    PROJECT, REV, DATE = 'MagPress M4 · manual photo-magnet press', 'E', '2026-10-27'
 
     def __init__(self, no, title, scale='1:1', material='', finish='', qty='', notes=(), sub=''):
         self.no, self.title, self.scale, self.material, self.finish, self.qty = no, title, scale, material, finish, qty
@@ -210,8 +211,8 @@ class Sheet:
             self.text(x + 1.2, y + 2.6, label, 1.9)
             if val != '':
                 self.text(x + 1.5, y + h - 1.6, val, size, weight=weight)
-        cell(x0, y0, 110, 8, 'PROJECT', 'MagPress M4 · manual photo-magnet press', 3.0)
-        cell(x0 + 110, y0, 30, 8, 'REVISION', 'E', 3.2, 'bold')
+        cell(x0, y0, 110, 8, 'PROJECT', self.PROJECT, 3.0)
+        cell(x0 + 110, y0, 30, 8, 'REVISION', self.REV, 3.2, 'bold')
         cell(x0 + 140, y0, 40, 8, 'SHEET', '%d / %d' % (self.index, self.total), 3.2)
         self.rect(x0, y0 + 8, 180, 14, 'box')
         self.text(x0 + 1.2, y0 + 10.6, 'TITLE', 1.9)
@@ -236,7 +237,7 @@ class Sheet:
         self.circle(px + 16, py, 1.5, 'vis')
         self.line(px + 12.5, py, px + 19.5, py, 'ctr')
         self.text(x0 + 89.5, y0 + 55, '1st', 1.9, 'end')
-        cell(x0 + 92, y0 + 48, 30, 8, 'DATE', '2026-10-27', 2.6)
+        cell(x0 + 92, y0 + 48, 30, 8, 'DATE', self.DATE, 2.6)
         cell(x0 + 122, y0 + 48, 29, 8, 'DRAWN', '', 2.6)
         cell(x0 + 151, y0 + 48, 29, 8, 'CHECKED', '', 2.6)
 

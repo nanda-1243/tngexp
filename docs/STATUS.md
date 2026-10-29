@@ -1,4 +1,4 @@
-# Project status and decisions (as of 29 Oct 2026)
+# Project status and decisions (as of 29 Oct 2026, evening)
 
 Read this first when resuming work. Branch `ccr-c817b2d6-3lgnb4`; build pack page `web/magpress-m4.html` (artifact
 https://claude.ai/artifact/C4NaemzVJD5yDM3Ks2FCBi).
@@ -23,6 +23,20 @@ See `docs/research/market/README.md` and `edge-section.png`:
 - Magnet sheet on the back of the acrylic; the flap ends level with it.
 - Pressing: side A presses the tin, photo and film; side B presses them onto the acrylic card with the magnet.
 
+## Light design: MagPress L1, rev L1-A (done 29 Oct 2026)
+
+- Read `light/README.md` first.
+- Single source: `light/l1.py`. Release: `light/release/L1-A/` (PDF, DXF zip, BOM CSV, STEP zip).
+- One die set, 63.5 × 63.5. 25.9 kg. Two stations on a sliding table.
+- Toggle: lever fork (two 8 mm plates) on 16 mm stub pins, one central link, a clevis on the ram.
+- Upper ring: R2.5 mouth, 7.1 mm plug recess. Cup ring: 18° taper with a 1 mm nose.
+- 3D: no clashes. Strength at 15 kN: passes. Peak hand force about 190 N.
+- Forming (2D): both strokes pass with the 7.1 recess and the nose. They fail without them (`docs/verification.md` section 7).
+- Material sizes are ASSUMED. When the owner measures a set, update `light/l1.py` (TIN, PHOTO, ACR, T_ACR, MAG, T_MAG,
+  T_TIN) and rebuild. The MAT parts follow.
+- Next: fabricator quotes (light and heavy). Then make the first die set in P20 and prove it with real material.
+  Tune the tin blank (about 71.0) or the cup depth so the flap ends level with the magnet.
+
 ## Waiting for from the owner
 
 For 63.5 × 63.5, from the seller's pre-cut set (ruler accuracy is enough):
@@ -34,7 +48,8 @@ tin sheet L × W; photo/film L × W; acrylic card L × W and 2 or 3 mm; magnet s
 Vaishnavi Engineering Industries asked for, for cost estimates of **both** the heavy and the light design:
 - 2D AutoCAD drawings: unfolded / flat patterns for cutting and bending (DXF);
 - an assembly PDF of the individual parts (they subcontract dies and parts).
-Heavy design: drawings PDF, DXF zip and assembly manual exist in `release/RevE/`. Light design: to be produced.
+Package prepared 29 Oct 2026 for the owner to send: light L1-A (PDF, DXF, BOM, STEP) and heavy Rev E (PDF, DXF, manual, STEP, parts list),
+with `docs/fabricator/README_for_quote.md`. Then wait for their quotes.
 
 ## Verification findings to carry into the light design
 

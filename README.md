@@ -10,6 +10,8 @@ Interactive build pack (3D model, how the magnet is formed, force chart, dimensi
 
 | Path | Contents |
 |---|---|
+| [`light/`](light/README.md) | **MagPress L1, the light press (rev L1-A, 29 Oct 2026):** one die set for 63.5 × 63.5 with the market edge, 26 kg. Drawings (28 A3 sheets), DXF cutting profiles, BOM and STEP in [`light/release/L1-A/`](light/release/L1-A/). Material sizes assumed until a seller's set is measured. |
+| [`docs/STATUS.md`](docs/STATUS.md) | Where the project stands and the owner's decisions: read first. |
 | [`release/RevE/`](release/RevE/) | The current release: machine-shop drawing set (40 A3 sheets, PDF), DXF profiles for cutting and wire-EDM, the assembly manual (PDF) and the print packs. If a DXF and a drawing disagree, the drawing governs. |
 | [`release/RevD/`](release/RevD/), [`release/RevC1/`](release/RevC1/) | Earlier releases, kept unchanged: Rev D (round corners, rolled edge, round kits added) and Rev C.1 (square and rectangular kits only). |
 | [`docs/forming/`](docs/forming/README.md) | How a magnet is formed: stills of the finished magnet (front, back, edge cut open) and of each stage of both strokes, from the animated section in the build pack. |

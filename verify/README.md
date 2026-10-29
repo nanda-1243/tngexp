@@ -15,6 +15,7 @@ CadQuery/OpenCASCADE, NumPy, Numba and Matplotlib. Run from this folder.
 | `stroke2x.py` | Stroke 2 as drawn: the shell pushed over the back plate into the anvil cove; the double flat fold | `<job>.pkl` |
 | `stroke2y.py` | Stroke 2 with a back insert that fills the shell, in the Rev E die layout | `<job>.pkl` |
 | `stroke2c.py` | Reference: a commercial-style crimp (pre-formed shell, tight rings, back insert) | `<job>.pkl` |
+| `stroke2L.py` | Light press L1, stroke 2: shell pushed from the upper ring into the 18° taper cup onto the acrylic card and magnet; optional nose on the cup ring | `<job>.pkl` |
 | `s1check.py` | Upper-carrier give and plug clearance along the stroke-1 force curve, per square kit | printed |
 | `tsize.py` | Insert thickness for a target hem length from a stroke-1 shell | printed |
 | `xplot.py`, `fplot1.py`, `fplot2.py` | Frames of a forming run; the report figures | PNG |
@@ -30,5 +31,7 @@ python stroke2x.py x1 x2 0.15 0.10                     # from x1, job, friction,
 python stroke1x.py s1_m25 0.15 0.8 5.6 6.0 2.5 0.10 5.25    # ... mouth radius, plug press, ring A opening (verified fix)
 python s1check.py s1_m25                                # plug clearance per kit
 python stroke2c.py c_ref 0.25 4.0 4.74                   # reference crimp: job, friction, insert, skirt
+python stroke1x.py L1d_s1 0.15 0.3 7.275 4.0 2.5 0.10 3.25 0.175 -0.05 7.175 0.2   # light L1 stroke 1, 7.1 recess
+python stroke2L.py L1d_s1 L1d_s2n 0.15 18 0.05 3.0 1.5 1.0 3.25 1.0 -0.05          # light L1 stroke 2 with the 1 mm nose
 python xplot.py x2 x2.png 0.1 0.25 0.4 0.6 --lim -4.5 1.5 55.5 60
 ```

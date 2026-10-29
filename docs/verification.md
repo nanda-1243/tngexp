@@ -188,3 +188,23 @@ The forming scripts: `verify/stroke1x.py` (stroke 1), `stroke2x.py` (Rev E doubl
 - Columns can be induction-hardened chrome bar ground to Ø25 h6 (hydraulic rod is usually f7).
 
 Where to buy everything and what it costs: [sourcing-india.md](sourcing-india.md).
+
+## 7. Light design MagPress L1 (29 Oct 2026)
+
+The light press (`light/`, drawings L1-A) was checked with the same tools.
+
+![Light forming](verification/light_forming.png)
+
+| Check | Result |
+|---|---|
+| Interference, 3D, every part | **Pass.** No overlap at 6 handle positions at each station or while the table slides (131 placed parts; springs excluded). |
+| Strength at the 15 kN abuse load (hand calculation, `light/results.txt`) | **Pass.** Head 95 MPa; stub pins O 145 MPa and pins A/B 154 MPa bending (EN8); cheek screws 102 MPa; columns 89 MPa in the thread; base about 82 MPa. An earlier single-plate lever with a 12 mm pin O was 1100 MPa in the pin, so the lever became a fork of two plates on 16 mm stub pins. |
+| Stroke 1, flat 71.5 tin, R2.5 mouth, 7.1 recess | **Pass.** 7.8–8.3 N/mm (about 2.1 kN), held by 2.87 kN of spring preload. The wall ends straight in the bore. With a 4.6 recess the wall ended in the mouth and flared 0.9 mm. |
+| Stroke 2, market edge (flap turned in 18° onto the acrylic card) | **Pass, with the 7.1 recess and a 1 mm nose on the cup ring that fills the mouth.** Checked at µ 0.15 and 0.25. Every variant without the nose, and the 4.6 recess with the nose, fails: the wall buckles or the flare is pinched. |
+| Not modelled | The photo and film tuck round the tin's cut edge; the plan-view corners; the real acrylic stiffness. The flap reaches the cup floor about 0.2 mm early in the model, so tune the blank or the cup depth with real material. |
+
+Before ordering the hardened die set:
+- measure the seller's pre-cut set;
+- adjust the MAT parts;
+- make the first die set in P20;
+- press real magnets.

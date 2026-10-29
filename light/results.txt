@@ -1,0 +1,73 @@
+
+====================================================================================================
+1. TOGGLE AND STROKE
+====================================================================================================
+Crank O-A 18, link A-B 55, pivot O at Z 251.1. Crank angle on the stop 10.51 deg, handle up 70 deg.
+Ram stroke 14.11 mm. Handle from +57.0 deg (up) to -2.5 deg (on the stop), grip centre 400 mm from O.
+Handle stop: 2 x M8 bolts in the head at X 38, Y +-12, tip at Z 234.26 (3.16 above the head). 1 deg of stop = 0.076 mm of plug height.
+
+ crank deg   ram down mm   dB/dtheta mm/rad   ram force kN per 100 N on the grip
+    70.0         0.00           18.90                1.80
+    60.0         3.25           18.25                1.86
+    50.0         6.32           16.79                2.03
+    40.0         9.07           14.54                2.34
+    35.0        10.28           13.14                2.59
+    30.0        11.36           11.59                2.93
+    25.0        12.29            9.89                3.44
+    20.0        13.08            8.06                4.22
+    15.0        13.70            6.14                5.54
+    10.5        14.11            4.34                7.83
+
+====================================================================================================
+2. FORCES AND HAND FORCE
+====================================================================================================
+Upper ring springs: 4 x ISO 10243 red D20 x 76, about 62.3 N/mm each; installed 64.5, preload 11.5 mm = 2.87 kN;
+  at stroke 2 (ring retracted 7.1): 18.6 mm = 24.5% of free length (red: 25% max), 4.64 kN.
+Ring A springs: 4 x ISO 10243 green D10 x 38, about 6.6 N/mm; preload 2.9 mm, 11.4 mm = 30% at the stop (green: 40% max).
+
+Stroke 1 fold (2D model, peak 8.3 N/mm x 254 mm of edge): 2.11 kN; plus ring A springs up to 0.30 kN.
+  The upper ring must not lift: preload 2.87 kN against 2.41 kN -> margin 19%.
+Stroke 2 (2D model): the turn-in takes little force until the face meets the card; allowance 4.0 N/mm = 1.02 kN on top of the upper springs.
+
+ station  ram above the bottom  crank deg  force at the die kN  hand force N (grip at 400, 85% efficiency)
+   A           8.50              52.4         0.50                25
+   A           6.38              45.0         1.77                82
+   A           4.25              36.8         2.83               114
+   A           2.12              26.7         2.38                73
+   A           0.00              10.5         1.55                20
+   B           7.10              47.6         3.32               160
+   B           5.32              41.1         4.22               184
+   B           3.55              33.7         5.12               192
+   B           1.77              24.8         5.82               168
+   B           0.00              10.5         6.31                81
+Highest hand force about 192 N (20 kg on the grip).
+Includes the two return springs; the weight of the ram and lever (which helps) is ignored. Stroke-1 force shape over the
+travel from the 2D run: rises to the peak in the first 40%, falls to about 25% at the end.
+
+====================================================================================================
+3. RETURN SPRINGS AND WEIGHT ON THE HANDLE
+====================================================================================================
+2 x compression springs ID 21, wire 3.6, L0 80, rate about 13.9 N/mm on the columns, seated on collars (top at Z 71.1).
+Installed 70.5 (handle up) -> 56.4 (stop): 132 N -> 328 N each.
+Ram side about 5.2 kg (51 N); lever about 2.4 kg, CG about 210 from O: 139 N at the ram with the handle up.
+Spring lift with the handle up 264 N against 191 N: margin 38% (the handle stays up by itself).
+
+====================================================================================================
+4. STRENGTH AT THE 15 kN ABUSE LOAD (200 N leaning on the grip at the stop)
+====================================================================================================
+Head: S275 90x30, window 48 long -> 42 net, M = F L / 4 = 600 N.m, 95 MPa (yield 275).
+Stub pins O (2 x D16, single shear): bending about 145 MPa, shear 37 MPa (EN8 Re 430).
+Pins A, B (D16, double shear, link 15 between two 8 plates): bending 154 MPa, shear 37 MPa.
+Link (S355, 15 thick, eyes R14): tension beside the eye 83 MPa; bearing 62 MPa.
+Lever plates at pin A (2 x 8): bearing 59 MPa. Cheeks (2 x 18) at pin O: bearing 26 MPa.
+Cheek screws: 4 x M8 8.8 carry the 15 kN lift-off: 102 MPa in the thread (proof 580).
+Columns D20 in tension, 7.5 kN each: 24 MPa in the body, 89 MPa in the M12 thread (8.8 equivalent).
+Base plate S275 12 (200 wide effective under the station), span 160: about 82 MPa.
+Lever plates at the hub under 200 N x 400: 33 MPa.
+
+====================================================================================================
+5. STATION HEIGHTS (bottom of the stroke)
+====================================================================================================
+Table top 22. Station A: base block 22-43, pedestal top 57.675, ring A on its stop 43-51, face top 58.100.
+Station B: riser 22-53.675, cup ring 53.675-58.1. Plug face at 58.1 in both; upper ring bottom 51 (A) / 58.1 (B).
+Handle up: upper ring bottom at 65.11, 5.6 above ring A and 7.0 above the cup ring: the table slides under it.
